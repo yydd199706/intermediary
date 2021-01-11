@@ -41,18 +41,29 @@
   "appid": "touristappid",
   "projectname": "intermediary",
   "condition": {
-    "search": {
-      "list": []
-    },
-    "conversation": {
+    "plugin": {
       "list": []
     },
     "game": {
-      "currentL": -1,
+      "list": []
+    },
+    "gamePlugin": {
       "list": []
     },
     "miniprogram": {
-      "list": []
+      "list": [
+        {
+          "name": "pages/newhouse/main",
+          "pathName": "pages/newhouse/main",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "新房",
+          "pathName": "pages/newhouse/main",
+          "scene": null
+        }
+      ]
     }
   }
 }
