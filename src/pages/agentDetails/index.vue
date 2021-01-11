@@ -1,6 +1,6 @@
 <template>
   <div class="indexstyle">
-    <div>444</div>
+    <div>555555555555555</div>
     <!-- 经纪人介绍开始 -->
     <div class="jjr">
       <div class="jjr_kuang">
