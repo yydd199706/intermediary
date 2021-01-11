@@ -1,6 +1,7 @@
 <template>
   <div class="indexstyle">
     <!-- 轮播图开始 -->
+    <div>hhhhh</div>
     <div class="bannar">
       <swiper class="swiper" indicator-dots="true" autoplay="true" interval="3000" duration="1000" easing-function="easeInOutCubic">
         <block v-for="(item, index) in movies" :key="index">
