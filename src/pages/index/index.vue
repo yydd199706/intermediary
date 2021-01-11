@@ -1,6 +1,6 @@
 <template>
   <div class="indexstyle">
-    <div>pppp</div>
+    <div>eeeeeeeeeeeeee</div>
     <!-- 轮播图开始 -->
     <div class="bannar">
       <swiper class="swiper" indicator-dots="true" autoplay="true" interval="3000" duration="1000" easing-function="easeInOutCubic">
