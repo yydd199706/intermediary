@@ -13,7 +13,7 @@
     <!-- 轮播图结束 -->
     <!-- 搜索开始 -->
     <div class="search">
-      <input type="text" placeholder="您想住在哪？" placeholder-style="font-size:14px; padding-left:35px;">
+      <input type="text" placeholder="您想住在哪里？" placeholder-style="font-size:14px; padding-left:35px;">
       <image :src="img2" mode="scaleToFill"/>
     </div>
     <!-- 搜索结束 -->
