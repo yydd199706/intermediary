@@ -23,7 +23,10 @@
     "pages/agentDetails/main",
     "pages/userService/main",
     "pages/buildingzixun/main",
-    "pages/communityDetails/main"
+    "pages/communityDetails/main",
+    "pages/search/main",
+    "pages/commissioned/main",
+    "pages/zxcommissioned/main"
     
   ],
   "window": {
@@ -44,7 +47,7 @@
       "selectedIconPath": "static/tabs/img1.png"
     }, {
       "text": "新闻",
-      "pagePath": "pages/user/main",
+      "pagePath": "pages/articlelist/main",
       "iconPath": "static/tabs/img3.png",
       "selectedIconPath": "static/tabs/img4.png"
       

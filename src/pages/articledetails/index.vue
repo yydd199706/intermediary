@@ -185,7 +185,7 @@ export default {
 
 
 /* 底部按钮 */
-.footer{ width:94%;  padding-left: 3%; padding-right: 3%; height: 120rpx; background: #fff;position: fixed;bottom: 0; overflow: hidden;}
+.footer{ width:94%;  padding-left: 3%; padding-right: 3%; padding-top: 3%; height: 120rpx; background: #fff;position: fixed;bottom: 0; overflow: hidden;}
 .left_foot{ float: left; width:44%;height: 120rpx; margin-left: 3%; margin-right: 3%;}
 .Report{width:100%; background: #3dc28e; font-size: 28rpx; height:90rpx; line-height:90rpx; text-align: center; border-radius: 5px; color: #fff; margin-right: 5%;}
 

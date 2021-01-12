@@ -309,7 +309,7 @@ export default {
           typess: '别墅',
           housetype: '3居',
           structure: '板楼',
-          img1: "/static/images/jt1.png",
+          img1: "/static/images/jt1.jpg",
           address:"",
           img2: "/static/images/bj.png",
           img3: "/static/images/kp.png",

@@ -1,8 +1,5 @@
 <template>
   <div class="indexstyle">
-    <div>0000</div>
-    <div>----hhhh------</div>
-    <div>ddddddddddddd</div>
     <!-- 轮播图开始 -->
     <div class="bannar">
       <swiper class="swiper" indicator-dots="true" autoplay="true" interval="3000" duration="1000" easing-function="easeInOutCubic">
@@ -351,15 +348,15 @@ export default {
 
 
 /* 搜索 */
-.search{ width: 90%; position: absolute; z-index: 9999; top:20px; margin: 0 auto; margin-left: 5%; }
+.search{ width: 90%; position: absolute; z-index: 9999; top:40rpx; margin: 0 auto; margin-left: 5%; }
 .search input{background:  rgba(255,255,255,0.9); height:42px; line-height:42px; width:100%; border-radius:5px; margin: 0 auto;  }
-.search image{ width: 20px; height: 20px; position: absolute; top:15px; left: 10px; }
+.search image{ width:40rpx; height: 40rpx; position: absolute; top:25rpx; left:20rpx; }
 
 /* 导航 */
-.nav{width:100%; margin-top:3%; padding-bottom:3%;  border-bottom: 10px #f8f8fa solid; overflow: hidden;}
+.nav{width:100%; margin-top:5%; padding-bottom:5%; border-bottom:20rpx #efefef solid; overflow: hidden;}
 .navigation{ float: left; width: 24%; margin: 0 auto; }
-.navigation image{ width:110rpx; height:110rpx; text-align: center; margin: 0 auto; margin-left:20px;}
-.navigation .biaoti{ font-size:30rpx; text-align: center;}
+.navigation image{ width:90rpx; height:90rpx; text-align: center; margin: 0 auto; display: block;}
+.navigation .biaoti{ font-size:30rpx; text-align: center; margin-top: 5%;}
 
 
 
@@ -369,10 +366,10 @@ export default {
   white-space: nowrap;
   margin-top:10rpx;
 }
-.news-s{width:94%; padding-left: 3%; padding-right: 3%; margin-top:3%; padding-bottom:3%;  border-bottom: 10px #f8f8fa solid; }
+.news-s{width:94%; padding-left: 3%; padding-right: 3%; margin-top:5%; padding-bottom:3%; border-bottom:20rpx #efefef solid;}
 .biaoti-new{ width: 94%; margin-left: 3%; margin-right: 3%;margin-top:2%; overflow: hidden; line-height:33rpx; }
-.biaoti-new .wz-bt{ float: left; border-left:5px #0a8de4 solid; padding-left:10px;}
-.biaoti-new .more{ float: right; font-size:25rpx; color: #ccc;}
+.biaoti-new .wz-bt{ float: left; border-left:5px #0a8de4 solid; padding-left:10px; font-weight: bold;}
+.biaoti-new .more{ float: right; font-size:25rpx; color: rgb(167, 167, 167);}
 
 .swiper-news{ width: 94%; margin-left: 3%; margin-right: 3%; margin-top:3%; height:170rpx; overflow: hidden;  }
 .swiper-news p{ width:65%; float: left; margin-top:5px; line-height:28px; font-size: 28rpx; }
@@ -380,17 +377,17 @@ export default {
  
 
 /* 热门楼盘 */
-.hot-s{width:94%; padding-left: 3%; padding-right: 3%; margin-top:3%; padding-bottom:3%;  border-bottom: 10px #f8f8fa solid; }
+.hot-s{width:94%; padding-left: 3%; padding-right: 3%; margin-top:5%; padding-bottom:3%; border-bottom:20rpx #efefef solid;}
 .hot-nr{ width:96%; margin-top: 10px; margin-left: 2%; margin-right: 2%;}
 .hot-nr .loupanlist{height:290rpx;display: inline-block; width: 31.3%; margin-left: 1%; margin-right: 1%;}
 .hot-nr .loupanlist image{ width: 100%; height:200rpx; border-radius:5px;}
-.hot-nr .loupanlist .location{ width:50rpx; height:32rpx; line-height: 32rpx; border-radius:3px; background: rgba(255, 255, 255, 0.76); position: relative; top: -60rpx; left:140rpx; font-size:22rpx; text-align: center;}
+.hot-nr .loupanlist .location{ width:60rpx; height: 35rpx;  border-radius:3px; background: rgba(255, 255, 255, 0.76); position: relative; top: -60rpx; left:140rpx; font-size:22rpx; text-align: center;}
 .hot-nr .loupanlist h2{ position: relative; top: -30rpx; font-size:29rpx; font-weight: bold; }
 .hot-nr .loupanlist p{ font-size: 22rpx; color: #ccc; position: relative; top: -25rpx;}
 .hot-nr .loupanlist h3{ font-size: 25rpx;font-weight: 900;  color: rgb(204, 0, 0); position: relative; top: -20rpx;}
 
 /* 想住靓房 */
-.house-s{ width:94%; padding-left: 3%; padding-right: 3%; margin-top:3%; padding-bottom:3%;  border-bottom: 10px #f8f8fa solid;}
+.house-s{ width:94%; padding-left: 3%; padding-right: 3%; margin-top:5%; padding-bottom:5%; border-bottom:20rpx #efefef solid;}
 .nr-house{ width: 94%; margin-left: 3%; margin-right: 3%; margin-top:15px;}
 .h-mt{ overflow: hidden;}
 .nr-house image{ float: left; width: 40%; height: 200rpx;}
@@ -402,11 +399,11 @@ export default {
 .m-x p{ float: left;}
 .m-x p.money{ font-size: 32rpx; color:#fa5741; font-weight: 900; margin-right: 5rpx;}
 .m-x p.money1{ font-size:26rpx; color:#ccc; margin-top: 10rpx; }
-.more-house{ width: 94%; height:60rpx; background: #f4f8fe; border-radius:5px; text-align: center; line-height:60rpx; font-size: 24rpx; margin-left: 3%; margin-right: 3%; margin-top: 30rpx; color: #3072f6;}
+.more-house{ width: 94%; height:70rpx; background: #e8edf3; border-radius:5px; text-align: center; line-height:70rpx; font-size: 28rpx; font-weight: bold; margin-left: 3%; margin-right: 3%; margin-top: 30rpx; color: #3072f6;}
 
 
 /* 猜你意向的新房 */
-.intention-house{ width:94%; padding-left: 3%; padding-right: 3%; margin-top:3%; padding-bottom:3%;  border-bottom: 10px #f8f8fa solid;}
+.intention-house{ width:94%; padding-left: 3%; padding-right: 3%; margin-top:5%; padding-bottom:5%; border-bottom:20rpx #efefef solid;}
 .intention-nr{ width: 94%; margin-left: 3%; margin-right: 3%; margin-top:15px;}
 .intention-mt{ overflow: hidden;}
 .intention-nr image{ float: left; width: 40%; height: 190rpx;}
@@ -414,7 +411,7 @@ export default {
 .intention-nr .intention-right .bt_ri{ overflow: hidden;}
 .intention-nr .intention-right .bt_ri h1{ float: left; font-size: 34rpx; font-weight: bold; margin-right:4rpx;}
 .intention-nr .intention-right .bt_ri p{ float: right; width:60rpx; height:30rpx; line-height: 30rpx; background: #0a8de4; text-align: center; font-size: 20rpx;  margin-right:10rpx; color: #fff; border-radius: 3px;}
- .youshi2{ float: left; padding-left:10rpx; padding-right:10rpx; height:40rpx; line-height: 40rpx; border-radius:3px; border: 1px #f0f0f0 solid; color:#6b7072; font-size: 25rpx; text-align: center; margin-top:15rpx; margin-right: 10rpx;}
+ .youshi2{ float: left; padding-left:10rpx; padding-right:10rpx; height:40rpx; line-height: 40rpx; border-radius:3px; border:1rpx #efefef solid; color:#6b7072; font-size: 25rpx; text-align: center; margin-top:15rpx; margin-right: 10rpx;}
  .m-x image{ float: right; width: 14px; height: 8px; margin-top: 5rpx;}
 
  

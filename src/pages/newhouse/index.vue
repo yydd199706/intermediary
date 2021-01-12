@@ -16,8 +16,6 @@
     </div>
     <!-- 二级导航结束 -->
 
-    <!-- 灰色线  -->
-    <div class="hsxian"></div>
 
 
     <!-- 筛选开始 -->
@@ -243,10 +241,10 @@ export default {
     return {
       img2: "/static/images/ss.png",
       navs: [
-        { img3:'/static/images/n1.png', title:'全部项目'},
-        { img3:'/static/images/n2.png', title:'在售项目'},
-        { img3:'/static/images/n3.png', title:'优惠项目'},
-        { img3:'/static/images/n4.png', title:'最新开盘'}
+        { img3:'/static/images/qbxm1.png', title:'全部项目'},
+        { img3:'/static/images/qbxm2.png', title:'在售项目'},
+        { img3:'/static/images/qbxm3.png', title:'优惠项目'},
+        { img3:'/static/images/qbxm4.png', title:'最新开盘'}
       ],
       newslist: [
         { 
@@ -320,27 +318,26 @@ export default {
   clear: both;
   height: 0;
   display: block;}
-.hsxian{ width: 100%; height:10px; background: #f8f8fa;}
 .indexstyle{width: 100%; margin: 0 auto; background: #fff;}
  
 
 /* 搜索 */
 .search{ width: 90%;  margin: 0 auto; margin-left: 5%; }
-.search input{ height:40px; line-height:40px; width:100%; border-radius:30px; margin: 0 auto; background: #f8f8fa;  }
+.search input{ height:40px; line-height:40px; width:100%; border-radius:30px; margin: 0 auto; background: #f2f2f2;  }
 .search image{ width: 20px; height: 20px; position: absolute; top:2%; left:7%; }
 
 /* 导航 */
-.nav{ width: 94%; margin-left: 3%; margin-right: 3%; background: #fff; margin: 0 auto; height:110px; }
+.nav{ width: 94%; padding-left: 3%; padding-right: 3%; background: #fff; margin: 0 auto; height:200rpx; border-bottom:20rpx #efefef solid;  }
 .navigation{ float: left; width:25%; margin: 0 auto; padding-top:15px;}
-.navigation image{ width:110rpx; height:110rpx; text-align: center; margin: 0 auto; margin-left:20px;}
-.navigation .biaoti{ font-size:29rpx; text-align: center;}
+.navigation image{ width:90rpx; height:90rpx; text-align: center; margin: 0 auto; display: block;}
+.navigation .biaoti{ font-size:29rpx; text-align: center; margin-top: 3%;}
 
 
 
 
 
 /* 猜你意向的新房 */
-.intention-house{ width: 94%; margin-left: 3%; margin-right: 3%; background: #fff; margin: 0 auto; height:190px; padding-top:10px; margin-bottom:10px;}
+.intention-house{ width: 94%; margin-left: 3%; margin-right: 3%; background: #fff; margin: 0 auto; height:190px; padding-top:3%; margin-bottom:5%;}
 .intention-nr{ width: 94%; margin-left: 3%; margin-right: 3%; margin-top:15px;}
 
 .intention-mt{ padding-bottom:15px; border-bottom: 1px rgb(236, 236, 236) solid; margin-top: 15px;}
@@ -351,13 +348,13 @@ export default {
 .youshi2{ float: left; padding-left:10rpx; padding-right:10rpx; height:40rpx; line-height: 40rpx; border-radius:3px; border: 1px #f0f0f0 solid; color:#6b7072; font-size: 22rpx; text-align: center; margin-top:15rpx; margin-right: 10rpx;}
 .m-x{ margin-top: 15rpx; }
 .m-x p{ float: left;}
-.m-x p.money{ font-size: 34rpx; color: rgb(192, 0, 0); font-weight: 900; margin-right: 5rpx;}
-.m-x p.money1{ font-size:26rpx; color:#ccc; margin-top: 10rpx; }
+.m-x p.money{ font-size: 34rpx; color:#fa5741; font-weight: 900; margin-right: 5rpx;}
+.m-x p.money1{ font-size:26rpx; color:rgb(180, 180, 180); margin-top: 10rpx; }
 
 /* 筛选 */
 .shaixuan{ width: 100%; position: sticky; top: 0; height: 40px; background: #fff; }
 .shang_sx{ width: 100%; clear: both;}
-.s_lanmu{ width: 100%; border-bottom: 1px rgb(241, 241, 241) solid; height:30px; padding-top: 10px;}
+.s_lanmu{ width: 100%; border-bottom: 1px rgb(241, 241, 241) solid; height:30px; padding-top:5%;}
 .region_bt{ float: left; width: 25%; font-size: 14px; text-align: center;}
 .region_xl{ width: 100%; background: #fff;}
 .l_mingzi{ float: left; width:25%; background: #fff; border-left: 1px #ccc solid; margin-top: 10px;}
