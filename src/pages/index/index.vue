@@ -5,7 +5,7 @@
       <swiper class="swiper" indicator-dots="true" autoplay="true" interval="3000" duration="1000" easing-function="easeInOutCubic">
         <block v-for="(item, index) in movies" :key="index">
           <swiper-item>
-              <image :src="item.img1" class="slide-image" mode="scaleToFill"/>
+              <image :src="item.imgurl" class="slide-image" mode="scaleToFill"/>
           </swiper-item>
       </block>
       </swiper>
@@ -258,13 +258,12 @@
 </template>
 
 <script>
+const app = getApp()
+const common = require("@/utils/index")
 export default {
   data () {
     return {
-      movies: [
-        {img1: 'http://vip.yijienet.com/tt/img1.jpg'},
-        {img1: 'http://vip.yijienet.com/tt/img1.jpg'}
-      ],
+      movies: [],
       img2: "/static/images/ss.png",
       navs: [
         { img3:'/static/images/n1.png', title:'二手房', path:'new house/main'},
@@ -327,6 +326,26 @@ export default {
 
 
     }
+  },
+  onLoad(){
+  common.checkSession();
+  const that = this;
+  //获取轮播图
+  wx.request({
+    url: app.globalData.url+'Index/BandBanner',
+    data: {
+      sessionKey:wx.getStorageSync('sessionKey')
+    },
+    method: 'POST',
+    success: function(res) {
+      console.log('res',res);
+      //app.globalData.sessionKey = res.data;
+     that.movies=res.data.Context;
+    },fail: function (res) {
+    }
+  })
+    
+
   }
 
 

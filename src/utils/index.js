@@ -37,7 +37,7 @@ function checkSession() {
               },
               method: 'POST',
               success: function(res) {
-                //app.globalData.sessionKey = res.data;
+                app.globalData.sessionKey = res.data;
                 wx.setStorage({
                   key: 'sessionKey',
                   data: res.data,
