@@ -18,9 +18,8 @@
     "checkSiteMap": true,
     "uploadWithSourceMap": true,
     "compileHotReLoad": false,
-    "useMultiFrameRuntime": true,
+    "useMultiFrameRuntime": false,
     "useApiHook": true,
-    "useApiHostProcess": false,
     "babelSetting": {
       "ignore": [],
       "disablePlugins": [],
@@ -40,6 +39,8 @@
   "compileType": "miniprogram",
   "appid": "touristappid",
   "projectname": "intermediary",
+  "simulatorType": "wechat",
+  "simulatorPluginLibVersion": {},
   "condition": {
     "plugin": {
       "list": []
@@ -53,14 +54,159 @@
     "miniprogram": {
       "list": [
         {
-          "name": "pages/newhouse/main",
+          "name": "新房",
           "pathName": "pages/newhouse/main",
           "query": "",
           "scene": null
         },
         {
-          "name": "新房",
-          "pathName": "pages/newhouse/main",
+          "name": "新房详情",
+          "pathName": "pages/newhousedetails/main",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "二手房",
+          "pathName": "pages/oldhouse/main",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "二手房详情",
+          "pathName": "pages/oldhousedetails/main",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "租房详情",
+          "pathName": "pages/Rentaldetails/main",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "个人中心",
+          "pathName": "pages/user/main",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "新闻列表",
+          "pathName": "pages/articlelist/main",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "新闻文章",
+          "pathName": "pages/articledetails/main",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "计算器",
+          "pathName": "pages/syloans/main",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "组件",
+          "pathName": "pages/zujian/main",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "组件1",
+          "pathName": "pages/zj1/main",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "相册",
+          "pathName": "pages/photo/main",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "单页",
+          "pathName": "pages/danye/main",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "关注",
+          "pathName": "pages/userguanzhu/main",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "浏览记录",
+          "pathName": "pages/userbrowsing/main",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "楼盘信息详情",
+          "pathName": "pages/buildingdetails/main",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "瞄点",
+          "pathName": "pages/miaodian/main",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "计算结果页",
+          "pathName": "pages/syloansResults/main",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "帮助",
+          "pathName": "pages/syloansHelp/main",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "经纪人详情",
+          "pathName": "pages/agentDetails/main",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "关注服务号",
+          "pathName": "pages/userService/main",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "楼盘资讯",
+          "pathName": "pages/buildingzixun/main",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "小区信息详情页面",
+          "pathName": "pages/communityDetails/main",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "搜索",
+          "pathName": "pages/search/main",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "房屋委托",
+          "pathName": "pages/commissioned/main",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "在线委托",
+          "pathName": "pages/zxcommissioned/main",
+          "query": "",
           "scene": null
         }
       ]
