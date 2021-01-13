@@ -3,9 +3,10 @@
     <!-- 轮播图开始 -->
     <div class="bannar">
       <swiper class="swiper" indicator-dots="true" autoplay="true" interval="3000" duration="1000" easing-function="easeInOutCubic">
-        <block v-for="(item, index) in movies" :key="index">
+        <block v-for="(item, index) in movies" :key="index" >
           <swiper-item>
-              <image :src="item.imgurl" class="slide-image" mode="scaleToFill"/>
+              <image :src="item.imgurl" class="slide-image" mode="scaleToFill" @click="bannerClick(index,$event)"
+              :data-linkurl="item.linkurl"/>
           </swiper-item>
       </block>
       </swiper>
@@ -346,6 +347,12 @@ export default {
   })
     
 
+  },
+  methods:{
+    //点击跳转banner
+    bannerClick:function(index,e){
+      console.log('e==',e.mp)
+    }
   }
 
 
@@ -361,8 +368,9 @@ export default {
 
 .indexstyle{width: 100%; margin: 0 auto; background: #fff;}
 .slide-image{ width: 100%; height:500rpx;}
-.bannar{ width: 100%; margin: 0 auto;}
-.banner image{ width: 100%; height:500rpx;}
+.bannar{ width: 100%; margin: 0 auto;height: 500rpx;}
+.bannar>swiper{height: 100%;}
+.banner image{ width: 100%; height:100rpx;}
   
 
 
