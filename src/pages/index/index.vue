@@ -29,15 +29,15 @@
     <!-- 二级导航结束 -->
 
     <!-- 楼盘动态开始 -->
-    <div class="news-s">
+    <div class="news-s" v-if="news.length>0?true:false">
       <div class="biaoti-new">
         <div class="wz-bt">楼盘动态</div>
         <div class="more">查看更多</div>
       </div>
-      <swiper class="swiper-news" autoplay="true" interval="6000" vertical="false" >
-        <block v-for="(item, index) in news" :key="index">
+      <swiper class="swiper-news" autoplay="true" interval="6000" vertical="false">
+        <block v-for="(item, index) in news" :key="index" >
           <swiper-item>
-              <p>{{item.title}}</p>
+              <p @click="clicktab(index,$event)">{{item.title}}</p>
               <image :src="item.img4" class="new-image" mode="scaleToFill"/>
           </swiper-item>
         </block>
@@ -267,7 +267,7 @@ export default {
       movies: [],
       img2: "/static/images/ss.png",
       navs: [
-        { img3:'/static/images/n1.png', title:'二手房', path:'new house/main'},
+        { img3:app.globalData.imgurl +'n1.png', title:'二手房', path:'new house/main'},
         { img3:'/static/images/n2.png', title:'新房'},
         { img3:'/static/images/n3.png', title:'租房'},
         { img3:'/static/images/n4.png', title:'房贷计算器'}
@@ -345,6 +345,19 @@ export default {
      that.movies=res.data.Context;
     },fail: function (res) {
     }
+  });
+  wx.request({
+    url: app.globalData.url+'Index/BandDT',
+    data: {
+      sessionKey:wx.getStorageSync('sessionKey')
+    },
+    method: 'POST',
+    success: function(res) {
+      console.log('楼盘动态',res);
+      //app.globalData.sessionKey = res.data;
+    //  that.movies=res.data.Context;
+    },fail: function (res) {
+    }
   })
   })
     
@@ -354,8 +367,14 @@ export default {
     //点击跳转banner
     bannerClick:function(index,e){
       console.log('e==',e.mp)
-    }
+        
+    },
+    clicktab:function(){
+    wx.navigateTo({url: '/pages/newhousedetails/main?id='+id});
   }
+  },
+  
+
 
 
 
