@@ -328,9 +328,10 @@ export default {
 
     }
   },
-  onLoad(){
-  common.checkSession();
-  const that = this;
+  onShow(){
+    const that = this;
+  common.checkSession(function(userInfo) {
+  console.log('res');
   //获取轮播图
   wx.request({
     url: app.globalData.url+'Index/BandBanner',
@@ -339,11 +340,12 @@ export default {
     },
     method: 'POST',
     success: function(res) {
-      console.log('res',res);
+      
       //app.globalData.sessionKey = res.data;
      that.movies=res.data.Context;
     },fail: function (res) {
     }
+  })
   })
     
 
@@ -367,10 +369,10 @@ export default {
   display: block;}
 
 .indexstyle{width: 100%; margin: 0 auto; background: #fff;}
-.slide-image{ width: 100%; height:500rpx;}
-.bannar{ width: 100%; margin: 0 auto;height: 500rpx;}
+.slide-image{ width: 100%; height:100%;}
+.bannar{ width: 100%; margin: 0 auto;height: 300rpx;}
 .bannar>swiper{height: 100%;}
-.banner image{ width: 100%; height:100rpx;}
+.banner image{ width: 100%; height:100%;}
   
 
 

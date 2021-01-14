@@ -18,11 +18,12 @@ const formatNumber = n => {
 
 
 
-function checkSession() {
+function checkSession(needUserInfo) {
   wx.checkSession({
-    success: function() {
+    success: function(res) {
       //session_key 未过期，并且在本生命周期一直有效
       console.log('session_key 未过期！')
+       typeof needUserInfo == "function" && needUserInfo(res);
     },
     fail: function() {
       // session_key 已经失效，需要重新执行登录流程
@@ -42,6 +43,8 @@ function checkSession() {
                   key: 'sessionKey',
                   data: res.data,
                 })
+                //callback
+               typeof needUserInfo == "function" && needUserInfo(res);
               },fail: function (res) {
                 console.log("失败："+JSON.stringify(res));
               }
