@@ -11,14 +11,11 @@
           <li v-for="(item, xwlb) in newlist" :key="xwlb">
             <div class="xw_lelf">
               <h2>{{item.title}}<p></p></h2>
+              <div class="zhaiyao">{{item.article}}</div>
               <p><span class="m1">{{item.name}}</span><span class="m2">{{item.time}}</span></p>
             </div>
             <div class="xw_right">
-              <image :src="item.img2" class="slide-image" mode="scaleToFill" />
-              <div class="remen">
-                <image :src="item.img3" class="slide-image" mode="scaleToFill" />
-                <p>{{item.num}}</p>
-              </div>
+              <image :src="item.img2" class="slide-image" mode="scaleToFill" />             
             </div>
           </li>
         </ul>
@@ -40,7 +37,8 @@ export default {
       img1:"/static/images/ss.png",
       newlist:[
         {
-          title:'小程序实现样式绑定小程序实现样式绑定点击切换样式',
+          title:'小程序实现样式绑定小程',
+          article:'小程序实现样式绑定小程序实现样式绑定点击切换样式',
           name:'家居严选师',
           time:'2020-12-4',
           img2:'http://vip.yijienet.com/tt/img1.jpg',
@@ -76,18 +74,15 @@ export default {
 .top_s h1{ float: left; font-size: 36rpx; font-weight: bold; padding-bottom: 3%;}
 .top_s image{ float: right; width: 23px; height: 23px;}
 .news_list{ width: 100%; }
-.news_list ul li{overflow: hidden; padding-top: 5%; border-bottom: 1px rgb(240, 240, 240) solid; }
+.news_list ul li{overflow: hidden; padding-top: 5%; padding-bottom: 3%; border-bottom: 1px rgb(240, 240, 240) solid; }
 .news_list ul li .xw_lelf{ float: left; width: 65%;}
-.news_list ul li .xw_lelf h2{ font-size: 34rpx; font-weight: bold; height: 130rpx; margin-top: 2%;}
+.news_list ul li .xw_lelf h2{ font-size: 34rpx; font-weight: bold; margin-top: 2%;}
+.news_list ul li .xw_lelf .zhaiyao{ font-size: 28rpx; margin-top:20rpx;}
 .news_list ul li .xw_lelf h2 p{ width:15px; height: 4px; border-radius: 10px; background: rgb(18, 168, 255); position:absolute; left: 8%; top:5%;}
-.news_list ul li .xw_lelf p{  margin-top:3%; color: rgb(104, 104, 104); font-size:27rpx;}
+.news_list ul li .xw_lelf p{  margin-top:20rpx; color: rgb(104, 104, 104); font-size:27rpx;}
 .news_list ul li .xw_lelf p span.m1{ margin-right: 3%;}
 .news_list ul li .xw_right{ float: right; width: 33%;}
 .news_list ul li .xw_right image{ width: 100%; height:200rpx; border-radius:3px;}
-.news_list ul li .xw_right .remen{ width:100rpx; height:35rpx;  background: rgba(110, 110, 110, 0.904); position: relative; left: 50%; top: -27px; border-radius: 10px;}
-.news_list ul li .xw_right .remen image{ width:14px; height:14px; margin-top: 3px; margin-left:5px;}
-.news_list ul li .xw_right .remen p{font-size: 20rpx; color: rgb(255, 255, 255);position: relative; top: -18px; left:20px; } 
-
 
 
 </style>

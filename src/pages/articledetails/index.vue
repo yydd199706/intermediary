@@ -6,11 +6,7 @@
       <div class="bt_title">{{title}}</div>
 
       <div class="fabu">
-        <image :src="img1" class="slide-image" />
-        <div class="ri_nr">
-          <h1>{{name}}</h1>
-          <p>{{pub_time}}</p>
-        </div>
+          <h1>{{name}}</h1><span>{{pub_time}}</span>
       </div>
 
      
@@ -153,11 +149,10 @@ export default {
  
 .wenzhang{width:90%; margin-top: 5%;  padding-left: 5%; padding-right: 5%;padding-bottom: 5%; border-bottom: 10px #efefef solid;}
 .bt_title{ font-size: 38rpx; font-weight: bold;}
-.fabu{margin-top: 3%; overflow: hidden;}
-.fabu image{ width: 90rpx; height: 90rpx; float: left; border-radius: 50%; margin-right:4%;}
-.fabu .ri_nr{ float: left;}
-.fabu .ri_nr h1{ font-size:30rpx; font-weight: bold;margin-top:5%;}
-.fabu .ri_nr p{ font-size: 22rpx; color: rgb(165, 165, 165);margin-top:4%;}
+
+.fabu{margin-top:1%; width: 100%; display: flex; flex-direction: row;}
+.fabu h1{ font-size:32rpx; margin-top:16rpx; margin-right:1%;}
+.fabu span{ font-size:28rpx; color: rgb(165, 165, 165);margin-top:20rpx;}
 
 .more_list{width:90%; margin-top: 5%;  padding-left: 5%; padding-right: 5%; padding-bottom: 5%; border-bottom: 10px #efefef solid; }
 .more_list h2{ font-size:38rpx; font-weight: bold;}

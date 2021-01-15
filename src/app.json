@@ -26,7 +26,9 @@
     "pages/communityDetails/main",
     "pages/search/main",
     "pages/commissioned/main",
-    "pages/zxcommissioned/main"
+    "pages/zxcommissioned/main",
+    "pages/zyconsultant/main",
+    "pages/aboutUs/main"
     
   ],
   "window": {

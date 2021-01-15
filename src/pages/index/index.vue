@@ -32,12 +32,12 @@
     <div class="news-s" v-if="news.length>0?true:false">
       <div class="biaoti-new">
         <div class="wz-bt">楼盘动态</div>
-        <div class="more">查看更多</div>
+        <div class="more" @click="lpdongtai">查看更多</div>
       </div>
       <swiper class="swiper-news" autoplay="true" interval="6000" vertical="false">
-        <block v-for="(item, index) in news" :key="index" >
+        <block v-for="(item, index) in news" :key="index" @click="lpclicktab(index,$event)">
           <swiper-item>
-              <p @click="clicktab(index,$event)">{{item.title}}</p>
+              <p>{{item.title}}</p>
               <image :src="item.imgurl" class="new-image" mode="scaleToFill"/>
           </swiper-item>
         </block>
@@ -45,8 +45,8 @@
      </div>
     <!-- 楼盘动态结束 -->
 
-    <!-- 楼盘动态开始 -->
-    <div class="news-s">
+    <!-- 楼盘活动开始 -->
+    <div class="news-s" v-if="activity.length>0?true:false">
       <div class="biaoti-new">
         <div class="wz-bt">楼盘活动</div>
         <div class="more">查看更多</div>
@@ -55,7 +55,7 @@
         <block v-for="(item, index) in activity" :key="index">
           <swiper-item>
               <p>{{item.title}}</p>
-              <image :src="item.img5" class="new-image" mode="scaleToFill"/>
+              <image :src="item.imgurl" class="new-image" mode="scaleToFill"/>
           </swiper-item>
         </block>
       </swiper>
@@ -272,18 +272,8 @@ export default {
         { img3:'/static/images/n3.png', title:'租房'},
         { img3:'/static/images/n4.png', title:'房贷计算器'}
       ],
-      news: [
-        { img4:'http://vip.yijienet.com/tt/img1.jpg', title:'11动态动态动态动态动态动态动态动态动态动态'},
-        { img4:'http://vip.yijienet.com/tt/img1.jpg', title:'22动态动态动态动态动态动态动态动态动态动态'},
-        { img4:'http://vip.yijienet.com/tt/img1.jpg', title:'33动态动态动态动态动态动态动态动态动态动态'},
-        { img4:'http://vip.yijienet.com/tt/img1.jpg', title:'44动态动态动态动态动态动态动态动态动态动态'}
-      ],
-      activity: [
-        { img5:'http://vip.yijienet.com/tt/img1.jpg', title:'11活动活动活动活动活动活动活动活动活动活动'},
-        { img5:'http://vip.yijienet.com/tt/img1.jpg', title:'22活动活动活动活动活动活动活动活动活动活动'},
-        { img5:'http://vip.yijienet.com/tt/img1.jpg', title:'33活动活动活动活动活动活动活动活动活动活动'},
-        { img5:'http://vip.yijienet.com/tt/img1.jpg', title:'44活动活动活动活动活动活动活动活动活动活动'}
-      ],
+      news: [], 
+      activity: [],
       hot: [
         { img6:'http://vip.yijienet.com/tt/img1.jpg', name:'安康', title:'城投佳境', area:'90-120', price:6200},
         { img6:'http://vip.yijienet.com/tt/img1.jpg', name:'安康', title:'城投佳境', area:'90-120', price:6200},
@@ -340,12 +330,13 @@ export default {
     },
     method: 'POST',
     success: function(res) {
-      
       //app.globalData.sessionKey = res.data;
      that.movies=res.data.Context;
-    },fail: function (res) {
+    },
+    fail: function (res) {
     }
   });
+  //获取楼盘动态
   wx.request({
     url: app.globalData.url+'Index/BandDT',
     data: {
@@ -353,12 +344,29 @@ export default {
     },
     method: 'POST',
     success: function(res) {
-      console.log('楼盘动态',res);
-      //app.globalData.sessionKey = res.data;
-      that.news=res.data.Context;
-    },fail: function (res) {
+      //console.log('楼盘动态',res);
+       that.news=res.data.Context;
+    },
+    fail: function (res) {
     }
-  })
+  });
+  //获取楼盘活动
+  wx.request({
+    url: app.globalData.url+'Index/BandHD',
+    data: {
+      sessionKey:wx.getStorageSync('sessionKey')
+    },
+    method: 'POST',
+    success: function(res) {
+      //console.log('楼盘活动',res);
+      that.activity=res.data.Context;
+    },
+    fail: function (res) {
+    }
+  });
+
+
+
   })
     
 
@@ -369,9 +377,14 @@ export default {
       console.log('e==',e.mp)
         
     },
-    clicktab:function(){
-    wx.navigateTo({url: '/pages/newhousedetails/main?id='+id});
-  }
+    //点击查看更多楼盘动态
+    bannerClick:function(){
+      wx.switchtab({url:'/pages/articlelist/main'})
+    },
+    //跳转楼盘动态详情
+    lpclicktab:function(){
+      wx.navigateTo({url: '/pages/newhousedetails/main?id='+id})
+    }
   },
   
 
