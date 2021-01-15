@@ -38,7 +38,7 @@
         <block v-for="(item, index) in news" :key="index" >
           <swiper-item>
               <p @click="clicktab(index,$event)">{{item.title}}</p>
-              <image :src="item.img4" class="new-image" mode="scaleToFill"/>
+              <image :src="item.imgurl" class="new-image" mode="scaleToFill"/>
           </swiper-item>
         </block>
       </swiper>
@@ -355,7 +355,7 @@ export default {
     success: function(res) {
       console.log('楼盘动态',res);
       //app.globalData.sessionKey = res.data;
-    //  that.movies=res.data.Context;
+      that.news=res.data.Context;
     },fail: function (res) {
     }
   })
