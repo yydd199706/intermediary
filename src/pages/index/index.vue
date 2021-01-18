@@ -2,23 +2,10 @@
   <div class="indexstyle">
     <!-- 轮播图开始 -->
     <div class="bannar">
-      <swiper
-        class="swiper"
-        indicator-dots="true"
-        autoplay="true"
-        interval="3000"
-        duration="1000"
-        easing-function="easeInOutCubic"
-      >
+      <swiper class="swiper" indicator-dots="true" autoplay="true" interval="3000" duration="1000" easing-function="easeInOutCubic">
         <block v-for="(item, index) in movies" :key="index">
           <swiper-item>
-            <image
-              :src="item.imgurl"
-              class="slide-image"
-              mode="scaleToFill"
-              @click="bannerClick(index, $event)"
-              :data-linkurl="item.linkurl"
-            />
+            <image :src="item.imgurl" class="slide-image" mode="scaleToFill" @click="bannerClick(index, $event)" :data-linkurl="item.linkurl"/>
           </swiper-item>
         </block>
       </swiper>
@@ -26,11 +13,7 @@
     <!-- 轮播图结束 -->
     <!-- 搜索开始 -->
     <div class="search">
-      <input
-        type="text"
-        placeholder="您想住在哪里？"
-        placeholder-style="font-size:14px; padding-left:35px;"
-      />
+      <input type="text" placeholder="您想住在哪里？" placeholder-style="font-size:14px; padding-left:35px;"/>
       <image :src="img2" mode="scaleToFill" />
     </div>
     <!-- 搜索结束 -->
@@ -39,7 +22,7 @@
     <div class="nav">
       <div class="navigation" v-for="(item, index) in navs" :key="index">
         <image :src="item.img3" mode="scaleToFill" />
-        <div class="biaoti">{{ item.title }}</div>
+        <div class="biaoti">{{item.title}}</div>
       </div>
     </div>
     <!-- 二级导航结束 -->
@@ -50,19 +33,10 @@
         <div class="wz-bt">楼盘动态</div>
         <div class="more" @click="lpdongtai">查看更多</div>
       </div>
-      <swiper
-        class="swiper-news"
-        autoplay="true"
-        interval="6000"
-        vertical="false"
-      >
-        <block
-          v-for="(item, index) in news"
-          :key="index"
-          @click="lpclicktab(index, $event)"
-        >
+      <swiper class="swiper-news" autoplay="true" interval="6000" vertical="false">
+        <block v-for="(item, index) in news" :key="index" @click="lpclicktab(index, $event)">
           <swiper-item>
-            <p>{{ item.title }}</p>
+            <p>{{item.title}}</p>
             <image :src="item.imgurl" class="new-image" mode="scaleToFill" />
           </swiper-item>
         </block>
@@ -76,15 +50,10 @@
         <div class="wz-bt">楼盘活动</div>
         <div class="more">查看更多</div>
       </div>
-      <swiper
-        class="swiper-news"
-        autoplay="true"
-        interval="7000"
-        vertical="false"
-      >
+      <swiper class="swiper-news" autoplay="true" interval="7000" vertical="false">
         <block v-for="(item, index) in activity" :key="index">
           <swiper-item>
-            <p>{{ item.title }}</p>
+            <p>{{item.title }}</p>
             <image :src="item.imgurl" class="new-image" mode="scaleToFill" />
           </swiper-item>
         </block>
@@ -95,7 +64,7 @@
     <!-- 热门楼盘开始 -->
     <div class="hot-s">
       <div class="biaoti-new">
-        <div class="wz-bt">热门楼盘</div>
+        <div class="wz-bt">2222热门楼盘</div>
         <div class="more">查看更多</div>
       </div>
       <div class="hot-nr">
@@ -150,9 +119,9 @@
           <div class="r_wz">
             <div class="bt_s">{{ item.title }}</div>
             <div class="jieshao" v-for="(w, ind) in item.area" :key="ind">
-              <span>{{ w.model }}</span
-              >/ <span>{{ w.size }}m²</span>/ <span>{{ w.direction }}</span
-              >/
+              <span>{{ w.model }}</span>/ 
+              <span>{{ w.size }}m²</span>/ 
+              <span>{{ w.direction }}</span>/
               <span>{{ w.name }}</span>
             </div>
             <div class="youshi" v-for="(f, inds) in item.advantage" :key="inds">
@@ -189,9 +158,7 @@
 
             <div
               class="youshi"
-              v-for="(f, inds) in item.advantage1"
-              :key="inds"
-            >
+              v-for="(f, inds) in item.advantage1" :key="inds">
               <div class="youshi2" v-if="inds < 3">{{ f.id }}</div>
             </div>
             <div class="clear"></div>
