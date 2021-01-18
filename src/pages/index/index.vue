@@ -30,7 +30,7 @@
     <!-- 楼盘动态开始 -->
     <div class="news-s" v-if="news.length > 0 ? true : false">
       <div class="biaoti-new">
-        <div class="wz-bt">楼盘动态2222</div>
+        <div class="wz-bt">楼盘动态</div>
         <div class="more" @click="lpdongtai">查看更多</div>
       </div>
       <swiper class="swiper-news" autoplay="true" interval="6000" vertical="false">
@@ -64,19 +64,19 @@
     <!-- 热门楼盘开始 -->
     <div class="hot-s">
       <div class="biaoti-new">
-        <div class="wz-bt">2222热门楼盘</div>
+        <div class="wz-bt">热门楼盘</div>
         <div class="more">查看更多</div>
       </div>
       <div class="hot-nr">
         <scroll-view scroll-x="true" style="width: 100%" class="image-group">
           <div class="loupanlist" v-for="(item, index) in hot" :key="index">
             <div class="loupanlist_top">
-              <image :src="item.img6" class="hot-image" mode="scaleToFill" />
-              <div class="location">{{ item.name }}</div>
+              <image :src="item.ImgUrl" class="hot-image" mode="scaleToFill" />
+              <div class="location">{{ item.zonename }}</div>
             </div>
-            <h2>{{ item.title }}</h2>
-            <p>{{ item.area }}m²</p>
-            <h3>{{ item.price }}元/m²</h3>
+            <h2>{{ item.name }}</h2>
+            <p>{{item.arearange==""||item.arearange==null?'面积：暂无':item.arearange}}</p>
+            <h3>{{ item.averageprice }}元/m²</h3>
           </div>  
         </scroll-view>
       </div>
@@ -91,15 +91,15 @@
       </div>
       <div class="hot-nr">
         <scroll-view scroll-x="true" style="width: 100%" class="image-group">
-          <div class="loupanlist" v-for="(item, index) in hot" :key="index">
+          <div class="loupanlist" v-for="(item, index) in goodroom" :key="index">
             <div class="loupanlist_top"> 
-              <image :src="item.img6" class="hot-image" mode="scaleToFill" />
-              <div class="location">{{ item.name }}</div>
+              <image :src="item.ImgUrl" class="hot-image" mode="scaleToFill" />
+              <div class="location">{{ item.zonename }}</div>
             </div>
             
-            <h2>{{ item.title }}</h2>
-            <p>{{ item.area }}m²</p>
-            <h3>{{ item.price }}元/m²</h3>
+            <h2>{{ item.name }}</h2>
+            <p>{{item.arearange==""||item.arearange==null?'面积：暂无':item.arearange}}</p>
+            <h3>{{ item.averageprice }}元/m²</h3>
           </div>
         </scroll-view>
       </div>
@@ -276,50 +276,8 @@ export default {
       ],
       news: [],
       activity: [],
-      hot: [
-        {
-          img6: "http://vip.yijienet.com/tt/img1.jpg",
-          name: "安康",
-          title: "城投佳境",
-          area: "90-120",
-          price: 6200,
-        },
-        {
-          img6: "http://vip.yijienet.com/tt/img1.jpg",
-          name: "安康",
-          title: "城投佳境",
-          area: "90-120",
-          price: 6200,
-        },
-        {
-          img6: "http://vip.yijienet.com/tt/img1.jpg",
-          name: "安康",
-          title: "城投佳境",
-          area: "90-120",
-          price: 6200,
-        },
-        {
-          img6: "http://vip.yijienet.com/tt/img1.jpg",
-          name: "安康",
-          title: "城投佳境",
-          area: "90-120",
-          price: 6200,
-        },
-        {
-          img6: "http://vip.yijienet.com/tt/img1.jpg",
-          name: "安康",
-          title: "城投佳境",
-          area: "90-120",
-          price: 6200,
-        },
-        {
-          img6: "http://vip.yijienet.com/tt/img1.jpg",
-          name: "安康",
-          title: "城投佳境",
-          area: "90-120",
-          price: 6200,
-        },
-      ],
+      hot: [],
+      goodroom: [],
       house: [
         {
           img6: "http://vip.yijienet.com/tt/img1.jpg",
@@ -381,6 +339,7 @@ export default {
           app.globalData.sessionKey,
         success: function (res) {
           that.hot = res.data.Context.hot;
+          that.goodroom = res.data.Context.goodroom;
         },
         fail: function (res) {},
       });
@@ -564,12 +523,12 @@ export default {
 .loupanlist_top{position: relative;}
 .hot-nr .loupanlist image {
   width: 100%;
-  height: 200rpx;
+  height:170rpx;
   border-radius: 5px;
 }
 .hot-nr .loupanlist .location {
   width: 65rpx;
-  height: 35rpx;
+  height: 35rpx; padding:0 6rpx;
   border-radius: 3px;
   background: rgba(255, 255, 255, 0.76);
   position: absolute;
@@ -587,14 +546,14 @@ export default {
 }
 .hot-nr .loupanlist p {
   font-size: 22rpx;
-  color: #ccc;
+  color: #a2a2a2; margin-top: 5rpx;
   /* position: relative;
   top: -25rpx; */
 }
 .hot-nr .loupanlist h3 {
   font-size: 25rpx;
   font-weight: 900;
-  color: rgb(204, 0, 0);
+  color:#fa5741; margin-top: 5rpx;
   /* position: relative;
   top: -20rpx; */
 }
