@@ -101,12 +101,14 @@
       <div class="hot-nr">
         <scroll-view scroll-x="true" style="width: 100%" class="image-group">
           <div class="loupanlist" v-for="(item, index) in hot" :key="index">
-            <image :src="item.img6" class="hot-image" mode="scaleToFill" />
-            <div class="location">{{ item.name }}</div>
+            <div class="loupanlist_top">
+              <image :src="item.img6" class="hot-image" mode="scaleToFill" />
+              <div class="location">{{ item.name }}</div>
+            </div>
             <h2>{{ item.title }}</h2>
             <p>{{ item.area }}m²</p>
             <h3>{{ item.price }}元/m²</h3>
-          </div>
+          </div>  
         </scroll-view>
       </div>
     </div>
@@ -121,8 +123,11 @@
       <div class="hot-nr">
         <scroll-view scroll-x="true" style="width: 100%" class="image-group">
           <div class="loupanlist" v-for="(item, index) in hot" :key="index">
-            <image :src="item.img6" class="hot-image" mode="scaleToFill" />
-            <div class="location">{{ item.name }}</div>
+            <div class="loupanlist_top"> 
+              <image :src="item.img6" class="hot-image" mode="scaleToFill" />
+              <div class="location">{{ item.name }}</div>
+            </div>
+            
             <h2>{{ item.title }}</h2>
             <p>{{ item.area }}m²</p>
             <h3>{{ item.price }}元/m²</h3>
@@ -589,40 +594,42 @@ export default {
   margin-left: 1%;
   margin-right: 1%;
 }
+.loupanlist_top{position: relative;}
 .hot-nr .loupanlist image {
   width: 100%;
   height: 200rpx;
   border-radius: 5px;
 }
 .hot-nr .loupanlist .location {
-  width: 60rpx;
+  width: 65rpx;
   height: 35rpx;
   border-radius: 3px;
   background: rgba(255, 255, 255, 0.76);
-  position: relative;
-  top: -60rpx;
-  left: 140rpx;
+  position: absolute;
+  bottom: 25rpx;
+  right: 10rpx;
   font-size: 22rpx;
+  line-height: 35rpx;
   text-align: center;
 }
 .hot-nr .loupanlist h2 {
-  position: relative;
-  top: -30rpx;
+  /* position: relative;
+  top: -30rpx; */
   font-size: 29rpx;
   font-weight: bold;
 }
 .hot-nr .loupanlist p {
   font-size: 22rpx;
   color: #ccc;
-  position: relative;
-  top: -25rpx;
+  /* position: relative;
+  top: -25rpx; */
 }
 .hot-nr .loupanlist h3 {
   font-size: 25rpx;
   font-weight: 900;
   color: rgb(204, 0, 0);
-  position: relative;
-  top: -20rpx;
+  /* position: relative;
+  top: -20rpx; */
 }
 
 /* 想住靓房 */
