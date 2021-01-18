@@ -1,9 +1,9 @@
 <script>
 App({
   globalData: {
-    domain: 'http://ltj.1fangtong.cn/',
-    url: 'http://ltj.1fangtong.cn/api/',
-    imgurl: 'http://ltj.1fangtong.cn/wximg/',
+    domain: 'https://ltj.1fangtong.cn:451/',
+    url: 'https://ltj.1fangtong.cn:451/api/',
+    imgurl: 'https://ltj.1fangtong.cn:451/wximg/',
     sessionKey: ''
   },
   onLaunch: function() {
