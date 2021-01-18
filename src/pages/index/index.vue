@@ -31,7 +31,7 @@
     <!-- 楼盘动态开始 -->
     <div class="news-s" v-if="news.length>0?true:false">
       <div class="biaoti-new">
-        <div class="wz-bt">楼盘动态</div>
+        <div class="wz-bt">楼盘动态</div
         <div class="more" @click="lpdongtai">查看更多</div>
       </div>
       <swiper class="swiper-news" autoplay="true" interval="6000" vertical="false">
