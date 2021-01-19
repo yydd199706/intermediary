@@ -462,12 +462,12 @@ export default {
   margin-right: 3%;
   margin-top: 2%;
   overflow: hidden;
-  line-height: 33rpx;
+  /* line-height: 33rpx; */
 }
 .biaoti-new .wz-bt {
   float: left;
   border-left: 5px #0a8de4 solid;
-  padding-left: 10px;
+  padding-left: 10px; font-size: 34rpx; line-height:38rpx;
   font-weight: bold;
 }
 .biaoti-new .more {
