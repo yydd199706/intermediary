@@ -1,4 +1,5 @@
 {
+  "setting": {},
   "condition": {
     "plugin": {
       "list": []
@@ -170,6 +171,13 @@
         {
           "name": "关于我们",
           "pathName": "pages/aboutUs/main",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "带看报备",
+          "pathName": "pages/Report/main",
+          "query": "",
           "scene": null
         }
       ]
