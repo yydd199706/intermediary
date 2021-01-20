@@ -13,8 +13,10 @@
     <!-- 轮播图结束 -->
     <!-- 搜索开始 -->
     <div class="search">
-      <input type="text" placeholder="您想住在哪里？" placeholder-style="font-size:14px; padding-left:35px;"/>
-      <image :src="img2" mode="scaleToFill" />
+      <div class="searchCon">
+        <input type="text" placeholder="您想住在哪里？" placeholder-style="font-size:14px; padding-left:10%;"/>
+        <image :src="img2" mode="scaleToFill" />
+      </div>
     </div>
     <!-- 搜索结束 -->
 
@@ -30,7 +32,7 @@
     <!-- 楼盘动态开始 -->
     <div class="news-s" v-if="news.length > 0 ? true : false">
       <div class="biaoti-new">
-        <div class="wz-bt">1楼盘动态</div>
+        <div class="wz-bt">楼盘动态</div>
         <div class="more" @click="lpdongtai">查看更多</div>
       </div>
       <swiper class="swiper-news" autoplay="true" interval="6000" vertical="false">
@@ -304,7 +306,7 @@ export default {
   onLoad() {
     const that = this;
     common.checkSession(function (userInfo) {
-      console.log("res");
+      //console.log("res");
       //获取轮播图
       wx.request({
         url:
@@ -391,7 +393,8 @@ export default {
   height: 100%;
 }
 
-/* 搜索 */
+ 
+/* 搜索框开始 */
 .search {
   width: 90%;
   position: absolute;
@@ -400,21 +403,29 @@ export default {
   margin: 0 auto;
   margin-left: 5%;
 }
-.search input {
-  background: rgba(255, 255, 255, 0.9);
-  height: 42px;
-  line-height: 42px;
-  width: 100%;
-  border-radius: 5px;
-  margin: 0 auto;
+.searchCon {
+  /* overflow: hidden; */
+  position: relative;
 }
-.search image {
-  width: 40rpx;
-  height: 40rpx;
-  position: absolute;
-  top: 25rpx;
-  left: 20rpx;
+.searchCon>div{position: absolute;top: 53rpx; width: 100%;text-align: center;}
+.searchCon > input {
+  float: left;background: rgba(255, 255, 255, 0.9);
+  width: 600rpx;
+  border-radius:20px;
+  height:70rpx;
+  line-height:70rpx;
+  padding-left: 71rpx;
+  font-size: 13px;
 }
+ .searchCon > image {
+  position: absolute;top: 17rpx;left: 25rpx;
+  float: left;
+  width: 35rpx;
+  height: 35rpx;
+}
+/* 搜索框结束 */
+
+
 
 /* 导航 */
 .nav {
@@ -466,13 +477,13 @@ export default {
 }
 .biaoti-new .wz-bt {
   float: left;
-  border-left: 5px #0a8de4 solid;
+  border-left: 5px #0a8de4 solid; border-top-left-radius:2px; border-top-right-radius:2px; border-bottom-left-radius:2px; border-bottom-right-radius: 2px;
   padding-left: 10px; font-size: 34rpx; line-height:38rpx;
   font-weight: bold;
 }
 .biaoti-new .more {
   float: right;
-  font-size: 25rpx;
+  font-size: 28rpx;
   color: rgb(167, 167, 167);
 }
 
@@ -488,8 +499,8 @@ export default {
   width: 65%;
   float: left;
   margin-top: 5px;
-  line-height: 28px;
-  font-size: 28rpx;
+  line-height:27px;
+  font-size:30rpx;
 }
 .swiper-news image {
   width: 32%;

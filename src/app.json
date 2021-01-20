@@ -28,7 +28,8 @@
     "pages/commissioned/main",
     "pages/zxcommissioned/main",
     "pages/zyconsultant/main",
-    "pages/aboutUs/main"
+    "pages/aboutUs/main",
+    "pages/Report/main"
     
   ],
   "window": {
