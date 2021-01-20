@@ -55,7 +55,7 @@
       <swiper class="swiper-news" autoplay="true" interval="7000" vertical="false">
         <block v-for="(item, index) in activity" :key="index">
           <swiper-item>
-            <p>{{item.title }}</p>
+            <p>{{item.title}}</p>
             <image :src="item.imgurl" class="new-image" mode="scaleToFill" />
           </swiper-item>
         </block>
@@ -111,28 +111,27 @@
     <!-- 想住靓房开始 -->
     <div class="house-s">
       <div class="biaoti-new">
-        <div class="wz-bt">想住靓房</div>
+        <div class="wz-bt">想住靓房</div>     
         <div class="more">查看更多</div>
       </div>
 
       <div class="nr-house">
         <div class="h-mt" v-for="(item, index) in house" :key="index">
-          <image :src="item.img6" class="new-image" mode="scaleToFill" />
+          <image :src="item.Imgurl" class="new-image" mode="scaleToFill" />
           <div class="r_wz">
-            <div class="bt_s">{{ item.title }}</div>
-            <div class="jieshao" v-for="(w, ind) in item.area" :key="ind">
-              <span>{{ w.model }}</span>/ 
-              <span>{{ w.size }}m²</span>/ 
-              <span>{{ w.direction }}</span>/
-              <span>{{ w.name }}</span>
+            <div class="bt_s">{{ item.projectname }}{{ item.apirlroom }}室{{ item.apirloffice }}厅{{ item.apirltoilet }}卫</div>
+            <div class="jieshao">
+              <span>{{ item.apirlroom }}室{{ item.apirloffice }}厅{{ item.apirltoilet }}卫</span>|
+              <span>{{ item.Towardname }}</span>|
+              <span>{{ item.area }}m²</span>
             </div>
-            <div class="youshi" v-for="(f, inds) in item.advantage" :key="inds">
-              <div class="youshi1" v-if="inds < 3">{{ f.id }}</div>
+            <div class="youshi">
+              <div class="youshi1" v-if="item.Furnishingsname==''?false:true">{{ item.Furnishingsname }}</div>
+              <div class="youshi1" v-if="item.Termname==''?false:true">{{ item.Termname }}</div>
             </div>
             <div class="clear"></div>
             <div class="m-x">
-              <p class="money">{{ item.price }}万</p>
-              <p class="money1">{{ item.price1 }}元/平</p>
+              <div class="money1">{{ item.rent }}元/月</div>
             </div>
           </div>
         </div>
@@ -150,12 +149,12 @@
       </div>
 
       <div class="intention-nr">
-        <div class="intention-mt" v-for="(item, index) in house1" :key="index">
-          <image :src="item.img7" class="new-image" mode="scaleToFill" />
+        <div class="intention-mt" v-for="(item, index) in newHouse" :key="index">
+          <image :src="item.ImgUrl" class="new-image" mode="scaleToFill" />
           <div class="intention-right">
             <div class="bt_ri">
-              <h1>{{ item.title }}</h1>
-              <p>在售</p>
+              <h1>{{ item.name }}</h1>
+              <div class="salestatename">{{item.salestatename}} </div>
             </div>
 
             <div
@@ -166,7 +165,7 @@
             <div class="clear"></div>
 
             <div class="m-x">
-              <p class="money">均价{{ item.price }}元/m²</p>
+              <p class="money">均价{{ item.averageprice }}元/m²</p>
               <image
                 :src="item.img8"
                 class="intention-image"
@@ -228,7 +227,7 @@
           <div class="intention-right">
             <div class="bt_ri">
               <h1>{{ item.title }}</h1>
-              <p>在售</p>
+              <div class="salestatename">在售</div>
               <div class="clear"></div>
             </div>
             <div
@@ -265,21 +264,22 @@ export default {
   data() {
     return {
       movies: [],
-      img2: "/static/images/ss.png",
+      img2: app.globalData.imgurl + "ss.png",
       navs: [
         {
           img3: app.globalData.imgurl + "n1.png",
           title: "二手房",
           path: "new house/main",
         },
-        { img3: "/static/images/n2.png", title: "新房" },
-        { img3: "/static/images/n3.png", title: "租房" },
-        { img3: "/static/images/n4.png", title: "房贷计算器" },
+        { img3: app.globalData.imgurl +"n2.png", title: "新房" },
+        { img3: app.globalData.imgurl +"n3.png", title: "租房" },
+        { img3: app.globalData.imgurl +"n4.png", title: "房贷计算器" },
       ],
       news: [],
       activity: [],
       hot: [],
       goodroom: [],
+      newHouse:[],
       house: [
         {
           img6: "http://vip.yijienet.com/tt/img1.jpg",
@@ -332,16 +332,53 @@ export default {
         },
         fail: function (res) {},
       });
-      //获取热门楼盘和比看好房
+      //获取热门楼盘
       wx.request({
         url:
           app.globalData.url +
-          "Index/BandHot_Good" +
+          "Index/BandHotProject" +
           "?sessionKey=" +
           app.globalData.sessionKey,
         success: function (res) {
           that.hot = res.data.Context.hot;
+        },
+        fail: function (res) {},
+      });
+      //获取必看好房
+      wx.request({
+        url:
+          app.globalData.url +
+          "Index/BandGoodRoom" +
+          "?sessionKey=" +
+          app.globalData.sessionKey,
+        success: function (res) {
           that.goodroom = res.data.Context.goodroom;
+        },
+        fail: function (res) {},
+      });
+      //获取想住靓房
+      wx.request({
+        url:
+          app.globalData.url +
+          "Index/BandBeautiful_Room" +
+          "?sessionKey=" +
+          app.globalData.sessionKey,
+        success: function (res) {
+          console.log('想住靓房',res);
+          that.house=res.data.Context.beautiful;
+        },
+        fail: function (res) {},
+      });
+      //获取猜你意向的新房
+      wx.request({
+        url:
+          app.globalData.url +
+          "Index/BandNewHouse" +
+          "?sessionKey=" +
+          app.globalData.sessionKey,
+        success: function (res) {
+          console.log('猜你意向的新房',res);
+          that.newHouse=res.data.Context.newhouse;
         },
         fail: function (res) {},
       });
@@ -596,14 +633,17 @@ export default {
   float: right;
   width: 57%;
 }
-.nr-house .r_wz .bt_s {
-  font-size: 34rpx;
+.bt_s {
+  font-size: 30rpx;
   font-weight: bold;
   margin-right: 10rpx;
+  white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis;
 }
 .jieshao {
-  font-size: 26rpx;
-  color: #000;
+  font-size: 25rpx;
+  color: #333;
   margin-top: 10rpx;
 }
 .youshi1 {
@@ -632,10 +672,10 @@ export default {
   font-weight: 900;
   margin-right: 5rpx;
 }
-.m-x p.money1 {
+.money1 {
   font-size: 26rpx;
-  color: #ccc;
-  margin-top: 10rpx;
+  color: #fa5741;
+  font-weight: 900;
 }
 .more-house {
   width: 94%;
@@ -689,14 +729,14 @@ export default {
   font-weight: bold;
   margin-right: 4rpx;
 }
-.intention-nr .intention-right .bt_ri p {
+.salestatename {
   float: right;
-  width: 60rpx;
-  height: 30rpx;
-  line-height: 30rpx;
+  width: 115rpx;
+  height: 40rpx;
+  line-height: 40rpx;
   background: #0a8de4;
   text-align: center;
-  font-size: 20rpx;
+  font-size: 25rpx;
   margin-right: 10rpx;
   color: #fff;
   border-radius: 3px;
