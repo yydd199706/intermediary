@@ -35,7 +35,7 @@
         <div class="wz-bt">楼盘动态</div>
         <div class="more" @click="lpdongtai">查看更多</div>
       </div>
-      <swiper class="swiper-news" autoplay="true" interval="6000" vertical="false">
+      <swiper class="swiper-news" autoplay="true" interval="3000" duration="2000" easing-function="linear" circular="circular">
         <block v-for="(item, index) in news" :key="index" @click="lpclicktab(index, $event)">
           <swiper-item>
             <p>{{item.title}}</p>
@@ -52,7 +52,7 @@
         <div class="wz-bt">楼盘活动</div>
         <div class="more">查看更多</div>
       </div>
-      <swiper class="swiper-news" autoplay="true" interval="7000" vertical="false">
+      <swiper class="swiper-news" autoplay="true" interval="4000" duration="2000" easing-function="easeInOutCubic" circular="circular">
         <block v-for="(item, index) in activity" :key="index">
           <swiper-item>
             <p>{{item.title}}</p>
@@ -119,15 +119,17 @@
         <div class="h-mt" v-for="(item, index) in house" :key="index">
           <image :src="domain+item.Imgurl" class="new-image" mode="scaleToFill" />
           <div class="r_wz">
-            <div class="bt_s">{{ item.apirlroom }}室{{ item.apirloffice }}厅{{ item.apirltoilet }}卫</div>
+            <div class="bt_s">{{ item.title }}</div>
             <div class="jieshao">
-              <span>{{ item.apirlroom }}室{{ item.apirloffice }}厅{{ item.apirltoilet }}卫</span>|
-              <span>{{ item.Towardname }}</span>|
-              <span>{{ item.area }}m²</span>
+              <span>{{ item.apirlroom }}室{{ item.apirloffice }}厅{{ item.apirltoilet }}卫</span>/
+              <span>{{ item.area }}m²</span>/
+              <span>{{ item.Towardname }}</span>
             </div>
             <div class="youshi">
               <div class="youshi1" v-if="item.Furnishingsname==''?false:true">{{ item.Furnishingsname }}</div>
               <div class="youshi1" v-if="item.Termname==''?false:true">{{ item.Termname }}</div>
+              <div class="youshi1" v-if="item.companyname==''?false:true">{{ item.companyname }}</div>
+               
             </div>
             <!-- <div class="clear"></div> -->
             <div class="m-x">
@@ -169,11 +171,11 @@
 
             <div class="m-x">
               <p class="money">{{item.averageprice==""||item.averageprice==null?'价格待定':'均价'+item.averageprice+'元/m²'}}</p>
-              <image
+              <!-- <image
                 :src="item.img8"
                 class="intention-image"
                 mode="scaleToFill"
-              />
+              /> -->
             </div>
           </div>
         </div>
@@ -196,7 +198,7 @@
           <div class="r_wz">
             <div class="bt_s">{{ item.title}}</div>
             <div class="jieshao">
-              <span>{{item.apirlroom}}室{{item.apirloffice}}厅{{item.apirloffice}}卫</span>/<span>{{item.area}}m²</span>/ <span>{{ w.direction }}</span>/
+              <span>{{item.apirlroom}}室{{item.apirloffice}}厅{{item.apirloffice}}卫</span>/<span>{{item.area}}m²</span>/
               <span>{{item.Towardname}}</span>
             </div>
             <div class="youshi">
@@ -205,8 +207,8 @@
             </div>
             <!-- <div class="clear"></div> -->
             <div class="m-x">
-              <p class="money">{{ item.price }}万</p>
-              <p class="money1">{{ item.price1 }}元/平</p>
+              <p class="money">{{item.price==""||item.price==null?'总价：暂无':item.price+'万'}}</p>
+              <p class="average">{{item.averageprice==""||item.averageprice==null?'价格待定':item.averageprice+'元/平'}}</p>
             </div>
           </div>
         </div>
@@ -224,29 +226,30 @@
       </div>
 
       <div class="intention-nr">
-        <div class="intention-mt" v-for="(item, index) in house1" :key="index">
-          <image :src="item.img7" class="new-image" mode="scaleToFill" />
+        <div class="intention-mt" v-for="(item, index) in renting" :key="index">
+          <image :src="domain+item.Imgurl" class="new-image" mode="scaleToFill" />
           <div class="intention-right">
-            <div class="bt_ri">
-              <h1>{{ item.title }}</h1>
-              <div class="salestatename">在售</div>
-              <!-- <div class="clear"></div> -->
+            <div class="bt_s">
+              {{ item.title }}
             </div>
-            <div
-              class="youshi"
-              v-for="(f, inds) in item.advantage1"
-              :key="inds"
-            >
-              <div class="youshi2" v-if="inds < 3">{{ f.id }}</div>
+            <div class="jieshao">
+              <span>{{ item.apirlroom }}室{{ item.apirloffice }}厅{{ item.apirltoilet }}卫</span>/
+              <span>{{ item.area }}m²</span>/
+              <span>{{ item.Towardname }}</span>
+              
             </div>
-            <!-- <div class="clear"></div> -->
+            <div class="youshi">
+              <div class="youshi1" v-if="item.Decorationname==''?false:true">{{item.Decorationname}}</div>
+              <div class="youshi1" v-if="item.looktime==''?false:true">{{item.looktime}}</div>
+              <div class="youshi1" v-if="item.companyname==''?false:true">{{ item.companyname }}</div>
+            </div>
             <div class="m-x">
-              <p class="money">均价{{ item.price }}元/m²</p>
-              <image
+              <p class="money">{{ item.rent }}元/月</p>
+              <!-- <image
                 :src="item.img8"
                 class="intention-image"
                 mode="scaleToFill"
-              />
+              /> -->
               <!-- <div class="clear"></div> -->
             </div>
           </div>
@@ -283,6 +286,8 @@ export default {
       hot: [],
       goodroom: [],
       newHouse:[],
+      esf:[],
+      renting:[],
       house: [
         {
           img6: "http://vip.yijienet.com/tt/img1.jpg",
@@ -309,7 +314,7 @@ export default {
   onLoad() {
     const that = this;
     that.domain=app.globalData.domain;
-    common.checkSession(function (userInfo) {
+    common.initApp(function (userInfo) {
       //console.log("res");
       //获取轮播图
       wx.request({
@@ -395,7 +400,20 @@ export default {
           app.globalData.sessionKey,
         success: function (res) {
           console.log('猜你意向的二手房',res);
-          // that.newHouse=res.data.Context.newhouse;
+          that.esf=res.data.Context.esf;
+        },
+        fail: function (res) {},
+      });
+      //获取猜你想租的房源
+      wx.request({
+        url:
+          app.globalData.url +
+          "Index/BandRenting" +
+          "?sessionKey=" +
+          app.globalData.sessionKey,
+        success: function (res) {
+          console.log('猜你想租的房源',res);
+          that.renting=res.data.Context.esf;
         },
         fail: function (res) {},
       });
@@ -477,6 +495,7 @@ export default {
   width: 35rpx;
   height: 35rpx;
 }
+
 /* 搜索框结束 */
 
 
@@ -665,8 +684,7 @@ text-overflow:ellipsis;
   margin-top: 10rpx;
 }
 .youshi1 {
-  float: left;
-  width: 90rpx;
+  float: left;padding: 0 10rpx;
   height: 40rpx;
   line-height: 40rpx;
   border-radius: 3px;
@@ -784,4 +802,5 @@ text-overflow:ellipsis;
 }
 .newHouse_name{float: left;}
 .zonename{color: #333;font-size: 25rpx;margin-top: 10rpx;}
+.average{color: #A1A1A1;margin-left: 20rpx;font-size: 28rpx;}
 </style>
