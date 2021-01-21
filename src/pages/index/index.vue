@@ -35,14 +35,18 @@
         <div class="wz-bt">楼盘动态</div>
         <div class="more" @click="lpdongtai">查看更多</div>
       </div>
-      <swiper class="swiper-news" autoplay="true" interval="3000" duration="2000" easing-function="linear" circular="circular">
+      <!-- <swiper class="swiper-news" autoplay="true" interval="3000" duration="2000" easing-function="linear" circular="circular">
         <block v-for="(item, index) in news" :key="index" @click="lpclicktab(index, $event)">
           <swiper-item>
             <p>{{item.title}}</p>
             <image :src="domain+item.imgurl" class="new-image" mode="scaleToFill" />
           </swiper-item>
         </block>
-      </swiper>
+      </swiper> -->
+      <div v-for="(item, index) in news" :key="index" @click="lpclicktab(index, $event)" class="proNew">
+        <image :src="domain+item.imgurl" class="new-image" mode="scaleToFill" />
+        <div>{{item.title}}</div>
+      </div>
     </div>
     <!-- 楼盘动态结束 -->
 
@@ -803,4 +807,7 @@ text-overflow:ellipsis;
 .newHouse_name{float: left;}
 .zonename{color: #333;font-size: 25rpx;margin-top: 10rpx;}
 .average{color: #A1A1A1;margin-left: 20rpx;font-size: 28rpx;}
+.proNew{overflow: hidden;margin-left: 3%;margin-right: 3%;margin-top: 15rpx;}
+.proNew>div{float: left;width: 66%;}
+.proNew>image{float: left;width: 32%;height: 160rpx;margin-right: 2%;}
 </style>
