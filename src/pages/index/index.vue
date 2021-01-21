@@ -5,7 +5,7 @@
       <swiper class="swiper" indicator-dots="true" autoplay="true" interval="3000" duration="1000" easing-function="easeInOutCubic">
         <block v-for="(item, index) in movies" :key="index">
           <swiper-item>
-            <image :src="item.imgurl" class="slide-image" mode="scaleToFill" @click="bannerClick(index, $event)" :data-linkurl="item.linkurl"/>
+            <image :src="domain+item.imgurl" class="slide-image" mode="scaleToFill" @click="bannerClick(index, $event)" :data-linkurl="item.linkurl"/>
           </swiper-item>
         </block>
       </swiper>
@@ -39,7 +39,7 @@
         <block v-for="(item, index) in news" :key="index" @click="lpclicktab(index, $event)">
           <swiper-item>
             <p>{{item.title}}</p>
-            <image :src="item.imgurl" class="new-image" mode="scaleToFill" />
+            <image :src="domain+item.imgurl" class="new-image" mode="scaleToFill" />
           </swiper-item>
         </block>
       </swiper>
@@ -56,7 +56,7 @@
         <block v-for="(item, index) in activity" :key="index">
           <swiper-item>
             <p>{{item.title}}</p>
-            <image :src="item.imgurl" class="new-image" mode="scaleToFill" />
+            <image :src="domain+item.imgurl" class="new-image" mode="scaleToFill" />
           </swiper-item>
         </block>
       </swiper>
@@ -64,7 +64,7 @@
     <!-- 楼盘动态结束 -->
 
     <!-- 热门楼盘开始 -->
-    <div class="hot-s">
+    <div class="hot-s" v-if="hot.length > 0 ? true : false">
       <div class="biaoti-new">
         <div class="wz-bt">热门楼盘</div>
         <div class="more">查看更多</div>
@@ -73,7 +73,7 @@
         <scroll-view scroll-x="true" style="width: 100%" class="image-group">
           <div class="loupanlist" v-for="(item, index) in hot" :key="index">
             <div class="loupanlist_top">
-              <image :src="item.ImgUrl" class="hot-image" mode="scaleToFill" />
+              <image :src="domain+item.ImgUrl" class="hot-image" mode="scaleToFill" />
               <div class="location">{{ item.zonename }}</div>
             </div>
             <h2>{{ item.name }}</h2>
@@ -86,7 +86,7 @@
     <!-- 热门楼盘结束 -->
 
     <!-- 必看好房开始 -->
-    <div class="hot-s">
+    <div class="hot-s" v-if="goodroom.length > 0 ? true : false">
       <div class="biaoti-new">
         <div class="wz-bt">必看好房</div>
         <div class="more">查看更多</div>
@@ -95,7 +95,7 @@
         <scroll-view scroll-x="true" style="width: 100%" class="image-group">
           <div class="loupanlist" v-for="(item, index) in goodroom" :key="index">
             <div class="loupanlist_top"> 
-              <image :src="item.ImgUrl" class="hot-image" mode="scaleToFill" />
+              <image :src="domain+item.ImgUrl" class="hot-image" mode="scaleToFill" />
               <div class="location">{{ item.zonename }}</div>
             </div>
             
@@ -109,7 +109,7 @@
     <!-- 必看好房结束 -->
 
     <!-- 想住靓房开始 -->
-    <div class="house-s">
+    <div class="house-s" v-if="house.length > 0 ? true : false">
       <div class="biaoti-new">
         <div class="wz-bt">想住靓房</div>     
         <div class="more">查看更多</div>
@@ -117,9 +117,9 @@
 
       <div class="nr-house">
         <div class="h-mt" v-for="(item, index) in house" :key="index">
-          <image :src="item.Imgurl" class="new-image" mode="scaleToFill" />
+          <image :src="domain+item.Imgurl" class="new-image" mode="scaleToFill" />
           <div class="r_wz">
-            <div class="bt_s">{{ item.projectname }}{{ item.apirlroom }}室{{ item.apirloffice }}厅{{ item.apirltoilet }}卫</div>
+            <div class="bt_s">{{ item.apirlroom }}室{{ item.apirloffice }}厅{{ item.apirltoilet }}卫</div>
             <div class="jieshao">
               <span>{{ item.apirlroom }}室{{ item.apirloffice }}厅{{ item.apirltoilet }}卫</span>|
               <span>{{ item.Towardname }}</span>|
@@ -142,7 +142,7 @@
     <!-- 想住靓房结束 -->
 
     <!-- 猜你意向的新房开始 -->
-    <div class="intention-house">
+    <div class="intention-house" v-if="newHouse.length > 0 ? true : false">
       <div class="biaoti-new">
         <div class="wz-bt">猜你意向的新房</div>
         <div class="more">查看更多</div>
@@ -150,17 +150,20 @@
 
       <div class="intention-nr">
         <div class="intention-mt" v-for="(item, index) in newHouse" :key="index">
-          <image :src="item.ImgUrl" class="new-image" mode="scaleToFill" />
+          <image :src="domain+item.ImgUrl" class="new-image" mode="scaleToFill" />
           <div class="intention-right">
             <div class="bt_ri">
-              <h1>{{ item.name }}</h1>
+              <div class="bt_s newHouse_name">{{ item.name }}</div>
               <div class="salestatename">{{item.salestatename}} </div>
             </div>
-
-            <div
-              class="youshi"
-              v-for="(f, inds) in item.advantage1" :key="inds">
-              <div class="youshi2" v-if="inds < 3">{{ f.id }}</div>
+             <div class="zonename">
+              {{item.zonename}}
+            </div>
+            <div class="youshi">
+              <div class="youshi2">{{item.BuildingTypeName}}</div>
+              <div class="youshi2">{{item.SpecialName}}</div>
+              <div class="youshi2">{{item.ExistingTypeName}}</div>
+              <div class="youshi2">{{item.ContainApirlName}}</div>
             </div>
             <div class="clear"></div>
 
@@ -189,7 +192,7 @@
 
       <div class="nr-house">
         <div class="h-mt" v-for="(item, index) in house" :key="index">
-          <image :src="item.img6" class="new-image" mode="scaleToFill" />
+          <image :src="domain+item.img6" class="new-image" mode="scaleToFill" />
           <div class="r_wz">
             <div class="bt_s">{{ item.title }}</div>
             <div class="jieshao" v-for="(w, ind) in item.area" :key="ind">
@@ -263,6 +266,7 @@ const common = require("@/utils/index");
 export default {
   data() {
     return {
+      domain:null,
       movies: [],
       img2: app.globalData.imgurl + "ss.png",
       navs: [
@@ -305,6 +309,7 @@ export default {
   },
   onLoad() {
     const that = this;
+    that.domain=app.globalData.domain;
     common.checkSession(function (userInfo) {
       //console.log("res");
       //获取轮播图
@@ -622,7 +627,7 @@ export default {
   margin-top: 15px;
 }
 .h-mt {
-  overflow: hidden;
+  overflow: hidden;margin-bottom:15rpx;
 }
 .nr-house image {
   float: left;
@@ -761,4 +766,6 @@ text-overflow:ellipsis;
   height: 8px;
   margin-top: 5rpx;
 }
+.newHouse_name{float: left;}
+.zonename{color: #333;font-size: 25rpx;margin-top: 10rpx;}
 </style>
