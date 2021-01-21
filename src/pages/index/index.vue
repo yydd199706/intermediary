@@ -78,7 +78,7 @@
             </div>
             <h2>{{ item.name }}</h2>
             <p>{{item.arearange==""||item.arearange==null?'面积：暂无':item.arearange}}</p>
-            <h3>{{ item.averageprice }}元/m²</h3>
+            <h3>{{item.averageprice==""||item.averageprice==null?'价格待定':'均价'+item.averageprice+'元/m²'}}</h3>
           </div>  
         </scroll-view>
       </div>
@@ -101,7 +101,7 @@
             
             <h2>{{ item.name }}</h2>
             <p>{{item.arearange==""||item.arearange==null?'面积：暂无':item.arearange}}</p>
-            <h3>{{ item.averageprice }}元/m²</h3>
+            <h3>{{item.averageprice==""||item.averageprice==null?'价格待定':'均价'+item.averageprice+'元/m²'}}</h3>
           </div>
         </scroll-view>
       </div>
@@ -129,9 +129,9 @@
               <div class="youshi1" v-if="item.Furnishingsname==''?false:true">{{ item.Furnishingsname }}</div>
               <div class="youshi1" v-if="item.Termname==''?false:true">{{ item.Termname }}</div>
             </div>
-            <div class="clear"></div>
+            <!-- <div class="clear"></div> -->
             <div class="m-x">
-              <div class="money1">{{ item.rent }}元/月</div>
+              <div class="money1">{{item.rent==""||item.rent==null?'价格待定':item.rent+'元/月'}}</div>
             </div>
           </div>
         </div>
@@ -160,15 +160,15 @@
               {{item.zonename}}
             </div>
             <div class="youshi">
-              <div class="youshi2">{{item.BuildingTypeName}}</div>
-              <div class="youshi2">{{item.SpecialName}}</div>
-              <div class="youshi2">{{item.ExistingTypeName}}</div>
-              <div class="youshi2">{{item.ContainApirlName}}</div>
+              <div class="youshi2">{{item.PropertyTypeName}}</div>
+              <div class="youshi2">{{item.Decorationname}}</div>
+              <div class="youshi2">{{item.existingname}}</div>
+              <!-- <div class="youshi2">{{item.ContainApirlName}}</div> -->
             </div>
-            <div class="clear"></div>
+            <!-- <div class="clear"></div> -->
 
             <div class="m-x">
-              <p class="money">均价{{ item.averageprice }}元/m²</p>
+              <p class="money">{{item.averageprice==""||item.averageprice==null?'价格待定':'均价'+item.averageprice+'元/m²'}}</p>
               <image
                 :src="item.img8"
                 class="intention-image"
@@ -191,20 +191,19 @@
       </div>
 
       <div class="nr-house">
-        <div class="h-mt" v-for="(item, index) in house" :key="index">
-          <image :src="domain+item.img6" class="new-image" mode="scaleToFill" />
+        <div class="h-mt" v-for="(item, index) in esf" :key="index">
+          <image :src="domain+item.Imgurl" class="new-image" mode="scaleToFill" />
           <div class="r_wz">
-            <div class="bt_s">{{ item.title }}</div>
-            <div class="jieshao" v-for="(w, ind) in item.area" :key="ind">
-              <span>{{ w.model }}</span
-              >/ <span>{{ w.size }}m²</span>/ <span>{{ w.direction }}</span
-              >/
-              <span>{{ w.name }}</span>
+            <div class="bt_s">{{ item.title}}</div>
+            <div class="jieshao">
+              <span>{{item.apirlroom}}室{{item.apirloffice}}厅{{item.apirloffice}}卫</span>/<span>{{item.area}}m²</span>/ <span>{{ w.direction }}</span>/
+              <span>{{item.Towardname}}</span>
             </div>
-            <div class="youshi" v-for="(f, inds) in item.advantage" :key="inds">
-              <div class="youshi1" v-if="inds < 3">{{ f.id }}</div>
+            <div class="youshi">
+              <div class="youshi1">{{item.Decorationname}}</div>
+              <div class="youshi1">{{item.looktime}}</div>
             </div>
-            <div class="clear"></div>
+            <!-- <div class="clear"></div> -->
             <div class="m-x">
               <p class="money">{{ item.price }}万</p>
               <p class="money1">{{ item.price1 }}元/平</p>
@@ -231,7 +230,7 @@
             <div class="bt_ri">
               <h1>{{ item.title }}</h1>
               <div class="salestatename">在售</div>
-              <div class="clear"></div>
+              <!-- <div class="clear"></div> -->
             </div>
             <div
               class="youshi"
@@ -240,7 +239,7 @@
             >
               <div class="youshi2" v-if="inds < 3">{{ f.id }}</div>
             </div>
-            <div class="clear"></div>
+            <!-- <div class="clear"></div> -->
             <div class="m-x">
               <p class="money">均价{{ item.price }}元/m²</p>
               <image
@@ -248,7 +247,7 @@
                 class="intention-image"
                 mode="scaleToFill"
               />
-              <div class="clear"></div>
+              <!-- <div class="clear"></div> -->
             </div>
           </div>
         </div>
@@ -365,7 +364,7 @@ export default {
       wx.request({
         url:
           app.globalData.url +
-          "Index/BandBeautiful_Room" +
+          "Index/BandBeautifulRoom" +
           "?sessionKey=" +
           app.globalData.sessionKey,
         success: function (res) {
@@ -384,6 +383,19 @@ export default {
         success: function (res) {
           console.log('猜你意向的新房',res);
           that.newHouse=res.data.Context.newhouse;
+        },
+        fail: function (res) {},
+      });
+      //获取猜你想买的二手房
+      wx.request({
+        url:
+          app.globalData.url +
+          "Index/BandEsf" +
+          "?sessionKey=" +
+          app.globalData.sessionKey,
+        success: function (res) {
+          console.log('猜你意向的二手房',res);
+          // that.newHouse=res.data.Context.newhouse;
         },
         fail: function (res) {},
       });
@@ -633,6 +645,7 @@ export default {
   float: left;
   width: 40%;
   height: 200rpx;
+  border-radius: 10rpx;
 }
 .nr-house .r_wz {
   float: right;
@@ -665,20 +678,20 @@ text-overflow:ellipsis;
   margin-right: 10rpx;
 }
 .m-x {
-  margin-top: 15rpx;
+  margin-top: 10rpx;
   overflow: hidden;
 }
 .m-x p {
   float: left;
 }
 .m-x p.money {
-  font-size: 32rpx;
+  font-size: 30rpx;
   color: #fa5741;
   font-weight: 900;
   margin-right: 5rpx;
 }
 .money1 {
-  font-size: 26rpx;
+  font-size:30rpx;
   color: #fa5741;
   font-weight: 900;
 }
@@ -714,16 +727,18 @@ text-overflow:ellipsis;
 }
 .intention-mt {
   overflow: hidden;
+  margin-bottom: 15rpx;
 }
 .intention-nr image {
   float: left;
   width: 40%;
   height: 190rpx;
+  border-radius: 10rpx;
 }
 .intention-nr .intention-right {
   float: right;
   width: 57%;
-  margin-top: 20rpx;
+  /* margin-top: 20rpx; */
 }
 .intention-nr .intention-right .bt_ri {
   overflow: hidden;
@@ -746,6 +761,7 @@ text-overflow:ellipsis;
   color: #fff;
   border-radius: 3px;
 }
+.youshi{overflow:hidden;}
 .youshi2 {
   float: left;
   padding-left: 10rpx;
