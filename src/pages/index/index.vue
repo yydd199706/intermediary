@@ -33,7 +33,7 @@
     <!-- 楼盘动态开始 -->
     <div class="news-s" v-if="news.length > 0 ? true : false">
       <div class="biaoti-new">
-        <div class="wz-bt">楼盘动态</div>
+        <div class="wz-bt"><span></span>楼盘动态</div>
         <div class="more" @click="lpdongtai">查看更多</div>
       </div>
       <div v-for="(item, index) in news" :key="index" @click="lpclicktab(index, $event)" class="proNew">
@@ -46,7 +46,7 @@
     <!-- 楼盘活动开始 -->
     <div class="news-s" v-if="activity.length > 0 ? true : false">
       <div class="biaoti-new">
-        <div class="wz-bt">楼盘活动</div>
+        <div class="wz-bt"><span></span>楼盘活动</div>
         <div class="more">查看更多</div>
       </div>
       <div v-for="(item, index) in activity" :key="index" @click="lpclicktab(index, $event)" class="proNew">
@@ -59,7 +59,7 @@
     <!-- 热门楼盘开始 -->
     <div class="hot-s" v-if="hot.length > 0 ? true : false">
       <div class="biaoti-new">
-        <div class="wz-bt">热门楼盘</div>
+        <div class="wz-bt"><span></span>热门楼盘</div>
         <div class="more">查看更多</div>
       </div>
       <div class="hot-nr">
@@ -81,7 +81,7 @@
     <!-- 必看好房开始 -->
     <div class="hot-s" v-if="goodroom.length > 0 ? true : false">
       <div class="biaoti-new">
-        <div class="wz-bt">必看好房</div>
+        <div class="wz-bt"><span></span>必看好房</div>
         <div class="more">查看更多</div>
       </div>
       <div class="hot-nr">
@@ -104,7 +104,7 @@
     <!-- 想住靓房开始 -->
     <div class="house-s" v-if="house.length > 0 ? true : false">
       <div class="biaoti-new">
-        <div class="wz-bt">想住靓房</div>     
+        <div class="wz-bt"><span></span>想住靓房</div>     
         <div class="more">查看更多</div>
       </div>
 
@@ -139,7 +139,7 @@
     <!-- 猜你意向的新房开始 -->
     <div class="intention-house" v-if="newHouse.length > 0 ? true : false">
       <div class="biaoti-new">
-        <div class="wz-bt">猜你意向的新房</div>
+        <div class="wz-bt"><span></span>猜你意向的新房</div>
         <div class="more">查看更多</div>
       </div>
 
@@ -174,14 +174,14 @@
         </div>
       </div>
 
-      <div class="more-house">查看更多</div>
+      <div class="more-house"><span></span>查看更多</div>
     </div>
     <!-- 猜你意向的新房结束 -->
 
     <!-- 猜你想买的二手房开始 -->
     <div class="house-s">
       <div class="biaoti-new">
-        <div class="wz-bt">猜你想买的二手房</div>
+        <div class="wz-bt"><span></span>猜你想买的二手房</div>
         <div class="more">查看更多</div>
       </div>
 
@@ -214,7 +214,7 @@
     <!-- 猜你想租的房源开始 -->
     <div class="intention-house">
       <div class="biaoti-new">
-        <div class="wz-bt">猜你想租的房源</div>
+        <div class="wz-bt"><span></span>猜你想租的房源</div>
         <div class="more">查看更多</div>
       </div>
 
@@ -477,7 +477,7 @@ export default {
 .nav {
   width: 100%;
   margin-top: 5%;
-  padding-bottom: 5%;
+  padding-bottom:3%;
   border-bottom: 20rpx #efefef solid;
   overflow: hidden;
 }
@@ -487,8 +487,8 @@ export default {
   margin: 0 auto;
 }
 .navigation image {
-  width: 90rpx;
-  height: 90rpx;
+  width: 95rpx;
+  height: 95rpx;
   text-align: center;
   margin: 0 auto;
   display: block;
@@ -523,10 +523,13 @@ export default {
 }
 .biaoti-new .wz-bt {
   float: left;
-  border-left: 5px #0a8de4 solid; border-top-left-radius:2px; border-top-right-radius:2px; border-bottom-left-radius:2px; border-bottom-right-radius: 2px;
-  padding-left: 10px; font-size: 34rpx; line-height:38rpx;
+  /*padding-left: 10px; border-left: 5px #0a8de4 solid; border-top-left-radius:8rpx; border-top-right-radius:8rpx; border-bottom-left-radius:8rpx; border-bottom-right-radius: 8rpx; */
+   font-size: 34rpx; line-height:38rpx;
   font-weight: bold;
 }
+
+.biaoti-new .wz-bt span{float: left; width: 10rpx; height: 30rpx; background:#0a8de4; border-radius: 10rpx; display: block; margin-top:4rpx; margin-right: 15rpx;}
+
 .biaoti-new .more {
   float: right;
   font-size: 28rpx;
