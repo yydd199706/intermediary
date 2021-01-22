@@ -1,25 +1,69 @@
 <template>
   <div class="indexstyle">
 
-    <div class="xinwenlist">
-      <div class="top_s">
-        <h1>发现</h1>
-        <image :src="img1" class="slide-image" mode="scaleToFill" />
+    <div class="newslist">
+      <!-- 栏目切换开始 -->
+      <div class="lanmunews">
+        <div :class="{'selected':tab === 1,'title':true}" class="newxw" @click="changTab(1)">新闻资讯</div>
+        <div :class="{'selected':tab === 2,'title':true}" class="newxw" @click="changTab(2)">项目活动</div>
+        <div :class="{'selected':tab === 3,'title':true}" class="newxw" @click="changTab(3)">楼盘动态</div>
+        
       </div>
-      <div class="news_list">
-        <ul>
-          <li v-for="(item, xwlb) in newlist" :key="xwlb">
-            <div class="xw_lelf">
-              <h2>{{item.title}}<p></p></h2>
-              <div class="zhaiyao">{{item.article}}</div>
-              <p><span class="m1">{{item.name}}</span><span class="m2">{{item.time}}</span></p>
-            </div>
-            <div class="xw_right">
-              <image :src="item.img2" class="slide-image" mode="scaleToFill" />             
-            </div>
-          </li>
-        </ul>
+      <!-- 列表内容开始 -->
+      <div class="xinwennr">
+        <!-- 新闻资讯开始 -->
+        <div class="xwzxs" v-if="tab===1">
+          <div class="news_list">
+            <ul>
+              <li v-for="(item, xwlb) in newlist" :key="xwlb">
+                <div class="xw_lelf">
+                  <h2>{{item.title}}</h2>
+                  <div class="zhaiyao">{{item.article}}</div>
+                  <p><span class="m1">{{item.name}}</span><span class="m2">{{item.time}}</span></p>
+                </div>
+                <div class="xw_right">
+                  <image :src="item.img2" class="slide-image" mode="scaleToFill" />             
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <!-- 项目活动开始 -->
+        <div class="xwzxs" v-else-if="tab===2">
+          <div class="news_list">
+            <ul>
+              <li v-for="(item, xwlb) in xmhd" :key="xwlb">
+                <div class="xw_lelf">
+                  <h2>{{item.title}}</h2>
+                  <div class="zhaiyao">{{item.article}}</div>
+                  <p><span class="m1">{{item.name}}</span><span class="m2">{{item.time}}</span></p>
+                </div>
+                <div class="xw_right">
+                  <image :src="item.img2" class="slide-image" mode="scaleToFill" />             
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <!-- 楼盘动态开始 -->
+        <div class="xwzxs" v-else>
+          <div class="news_list">
+            <ul>
+              <li v-for="(item, xwlb) in lpdt" :key="xwlb">
+                <div class="xw_lelf">
+                  <h2>{{item.title}}</h2>
+                  <div class="zhaiyao">{{item.article}}</div>
+                  <p><span class="m1">{{item.name}}</span><span class="m2">{{item.time}}</span></p>
+                </div>
+                <div class="xw_right">
+                  <image :src="item.img2" class="slide-image" mode="scaleToFill" />             
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
+
 
 
     </div>
@@ -34,10 +78,32 @@ export default {
   data () {
     xianshi:false;
     return {
-      img1:"/static/images/ss.png",
+      tab: 1,
       newlist:[
         {
           title:'小程序实现样式绑定小程',
+          article:'小程序实现样式绑定小程序实现样式绑定点击切换样式',
+          name:'家居严选师',
+          time:'2020-12-4',
+          img2:'http://vip.yijienet.com/tt/img1.jpg',
+          img3:'/static/images/an1.png',
+          num:1130
+        }
+      ],
+      xmhd:[
+        {
+          title:'22小程序实现样式绑定小程',
+          article:'小程序实现样式绑定小程序实现样式绑定点击切换样式',
+          name:'家居严选师',
+          time:'2020-12-4',
+          img2:'http://vip.yijienet.com/tt/img1.jpg',
+          img3:'/static/images/an1.png',
+          num:1130
+        }
+      ],
+      lpdt:[
+        {
+          title:'33小程序实现样式绑定小程',
           article:'小程序实现样式绑定小程序实现样式绑定点击切换样式',
           name:'家居严选师',
           time:'2020-12-4',
@@ -51,6 +117,11 @@ export default {
 
     }
   },
+  methods: {
+      changTab(index) {
+        this.tab = index;
+      },
+  }
 
 
  
@@ -69,10 +140,13 @@ export default {
 .indexstyle{width: 100%; margin: 0 auto; background: #fff;}
  
 
-.xinwenlist{width: 90%; padding-left: 5%; padding-right: 5%; padding-bottom: 8%;;}
-.top_s{ width: 100%; overflow: hidden; padding-top:3%; }
-.top_s h1{ float: left; font-size: 36rpx; font-weight: bold; padding-bottom: 3%;}
-.top_s image{ float: right; width: 23px; height: 23px;}
+.newslist{ width:90%; margin-left: 5%; margin-right: 5%;}
+.lanmunews{ display: flex; flex-direction: row; margin-top: 20rpx;}
+.newxw{ margin-right:40rpx; font-size: 32rpx;}
+.selected { border-bottom:3px rgb(15, 142, 228) solid; padding-bottom:20rpx; font-size: 35rpx; font-weight: bold;}
+
+
+.xinwennr{ margin-top:10rpx;}
 .news_list{ width: 100%; }
 .news_list ul li{overflow: hidden; padding-top: 5%; padding-bottom: 3%; border-bottom: 1px rgb(240, 240, 240) solid; }
 .news_list ul li .xw_lelf{ float: left; width: 65%;}
@@ -84,5 +158,6 @@ export default {
 .news_list ul li .xw_right{ float: right; width: 33%;}
 .news_list ul li .xw_right image{ width: 100%; height:200rpx; border-radius:3px;}
 
+ 
 
 </style>

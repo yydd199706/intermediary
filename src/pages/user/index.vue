@@ -119,16 +119,18 @@ export default {
 .indexstyle{width: 100%; margin: 0 auto; background: #fff;}
  
 
-.user{width:100%;margin: 0 auto;overflow: hidden; box-sizing: border-box;}
-.kehuxx{ width:100%; padding-left: 5%; padding-right: 5%; height:210rpx; background: #0696f7;overflow: hidden; padding-top:6%; }
+.user{width:100%;margin: 0 auto;overflow: hidden; box-sizing: border-box;height:310rpx;background-image: linear-gradient(to right, #14affd, #016dfe); }
+.kehuxx{ width:100%; padding-left: 5%; padding-right: 5%; overflow: hidden; padding-top:6%; }
 .kehuxx image{ float: left; width: 120rpx; height: 120rpx; border-radius: 50%; margin-right: 5%;} 
 .kehuxx span{ float: left; font-size:42rpx; margin-top:2%; color: #fff;}
-.user button{ color: #fff;border-radius:0; font-size: 28rpx;}
+.user button{ color: #fff;border-radius:0; font-size: 28rpx; background: none;}
 .user button::after{border: none;}
 
 
  
-.anniu_h{width: 92%; padding-left:3%; padding-right: 5%; margin-top:7%; padding-bottom:6%;  border-bottom: 10px #ececec solid; overflow: hidden;  }
+/* .anniu_h{width:82%; margin-left: 5%; margin-right: 5%; padding-left:3%; padding-right: 5%; margin-top:7%; padding-bottom:6%;  border-bottom: 10px #ececec solid; overflow: hidden; position: relative; top: -30rpx;  } */
+.anniu_h{ width: 90%; margin-left: 5%; margin-right: 5%; padding-top: 30rpx; padding-bottom: 30rpx; position: absolute; top:220rpx; z-index: 999; background: #fff !important; border-radius: 30rpx;}
+
 .anniu_h .l_xiaoxi{ float: left; width:33.3%;  }
 .anniu_h .l_xiaoxi image{ width: 60rpx; height: 60rpx; margin: 0 auto; display: block;}
 .anniu_h .l_xiaoxi p{ font-size: 28rpx; text-align: center; margin-top:5%;}
@@ -136,7 +138,7 @@ export default {
 .anniu_h button::after{border: none;}
 
 
-.anniu2{width: 90%; padding-left: 5%; padding-right: 5%; margin-top:2%; padding-bottom: 8%; overflow: hidden;}
+.anniu2{width: 90%; padding-left: 5%; padding-right: 5%; margin-top:100rpx; padding-bottom: 8%; overflow: hidden;}
 .liulan1{ border-bottom: 1px rgb(241, 241, 241) solid; overflow: hidden; height:120rpx; line-height: 80rpx; padding-top: 5%; padding-right: 5%;}
 .liulan1 .wzan_lelf{ float: left; width: 70%;} 
 .liulan1 .wzan_lelf image{float: left; width:48rpx; height:48rpx; margin-top:5%; margin-right: 5%; display: block;}
