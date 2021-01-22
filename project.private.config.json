@@ -179,6 +179,12 @@
           "pathName": "pages/Report/main",
           "query": "",
           "scene": null
+        },
+        {
+          "name": "收藏页",
+          "pathName": "pages/collection/main",
+          "query": "",
+          "scene": null
         }
       ]
     }

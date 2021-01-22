@@ -3,7 +3,7 @@
 
     <!-- 客户信息开始 -->
     <div class="user">
-      <button class="kehuxx">
+      <button class="kehuxx" open-type="getUserInfo" @getUserInfo="authSetUser">
         <image :src="img1" />
         <span>{{title}}</span>
       </button>
@@ -93,6 +93,14 @@ export default {
 
     }
   },
+
+  methods:{
+    authSetUser(res){
+      console.log(res);
+
+    }
+
+  }
 
 
  
