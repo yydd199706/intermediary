@@ -22,7 +22,8 @@
 
     <!-- 二级导航开始 -->
     <div class="nav">
-      <div class="navigation" v-for="(item, index) in navs" :key="index">
+      <div class="navigation" v-for="(item, index) in navs" :key="index" @click="navList(index,$event)"
+      :data-url="item.url">
         <image :src="item.img3" mode="scaleToFill" />
         <div class="biaoti">{{item.title}}</div>
       </div>
@@ -35,14 +36,6 @@
         <div class="wz-bt">楼盘动态</div>
         <div class="more" @click="lpdongtai">查看更多</div>
       </div>
-      <!-- <swiper class="swiper-news" autoplay="true" interval="3000" duration="2000" easing-function="linear" circular="circular">
-        <block v-for="(item, index) in news" :key="index" @click="lpclicktab(index, $event)">
-          <swiper-item>
-            <p>{{item.title}}</p>
-            <image :src="domain+item.imgurl" class="new-image" mode="scaleToFill" />
-          </swiper-item>
-        </block>
-      </swiper> -->
       <div v-for="(item, index) in news" :key="index" @click="lpclicktab(index, $event)" class="proNew">
         <image :src="domain+item.imgurl" class="new-image" mode="scaleToFill" />
         <div>{{item.title}}</div>
@@ -56,14 +49,10 @@
         <div class="wz-bt">楼盘活动</div>
         <div class="more">查看更多</div>
       </div>
-      <swiper class="swiper-news" autoplay="true" interval="4000" duration="2000" easing-function="easeInOutCubic" circular="circular">
-        <block v-for="(item, index) in activity" :key="index">
-          <swiper-item>
-            <p>{{item.title}}</p>
-            <image :src="domain+item.imgurl" class="new-image" mode="scaleToFill" />
-          </swiper-item>
-        </block>
-      </swiper>
+      <div v-for="(item, index) in activity" :key="index" @click="lpclicktab(index, $event)" class="proNew">
+        <image :src="domain+item.imgurl" class="new-image" mode="scaleToFill" />
+        <div>{{item.title}}</div>
+      </div>
     </div>
     <!-- 楼盘动态结束 -->
 
@@ -279,11 +268,11 @@ export default {
         {
           img3: app.globalData.imgurl + "n1.png",
           title: "二手房",
-          path: "new house/main",
+          url: "/pages/oldhouse/main"
         },
-        { img3: app.globalData.imgurl +"n2.png", title: "新房" },
-        { img3: app.globalData.imgurl +"n3.png", title: "租房" },
-        { img3: app.globalData.imgurl +"n4.png", title: "房贷计算器" },
+        { img3: app.globalData.imgurl +"n2.png", title: "新房" ,url: "/pages/newhouse/main"},
+        { img3: app.globalData.imgurl +"n3.png", title: "租房" ,url: "/pages/oldhouse/main"},
+        { img3: app.globalData.imgurl +"n4.png", title: "房贷计算器",url: "/pages/syloans/main" },
       ],
       news: [],
       activity: [],
@@ -292,27 +281,8 @@ export default {
       newHouse:[],
       esf:[],
       renting:[],
-      house: [
-        {
-          img6: "http://vip.yijienet.com/tt/img1.jpg",
-          title: "城投佳境",
-          area: [
-            { model: "2室1厅", size: 90, direction: "西北", name: "城投佳境" },
-          ],
-          advantage: [{ id: "满五年" }, { id: "满五年" }, { id: "满五年" }],
-          price: 555,
-          price1: 6500,
-        },
-      ],
-      house1: [
-        {
-          img7: "http://vip.yijienet.com/tt/img1.jpg",
-          title: "城投佳境",
-          advantage1: [{ id: "住宅" }, { id: "小户型" }, { id: "公交直达" }],
-          price: 5820,
-          img8: "/static/images/jt.jpg",
-        },
-      ],
+      house: [],
+      house1: [],
     };
   },
   onLoad() {
@@ -377,7 +347,6 @@ export default {
           "?sessionKey=" +
           app.globalData.sessionKey,
         success: function (res) {
-          console.log('想住靓房',res);
           that.house=res.data.Context.beautiful;
         },
         fail: function (res) {},
@@ -390,7 +359,6 @@ export default {
           "?sessionKey=" +
           app.globalData.sessionKey,
         success: function (res) {
-          console.log('猜你意向的新房',res);
           that.newHouse=res.data.Context.newhouse;
         },
         fail: function (res) {},
@@ -403,7 +371,6 @@ export default {
           "?sessionKey=" +
           app.globalData.sessionKey,
         success: function (res) {
-          console.log('猜你意向的二手房',res);
           that.esf=res.data.Context.esf;
         },
         fail: function (res) {},
@@ -416,7 +383,6 @@ export default {
           "?sessionKey=" +
           app.globalData.sessionKey,
         success: function (res) {
-          console.log('猜你想租的房源',res);
           that.renting=res.data.Context.esf;
         },
         fail: function (res) {},
@@ -436,6 +402,9 @@ export default {
     lpclicktab: function () {
       wx.navigateTo({ url: "/pages/newhousedetails/main?id=" + id });
     },
+    navList:function(index,e){
+      wx.navigateTo({ url: e.mp.currentTarget.dataset.url });
+    }
   },
 };
 </script>
@@ -807,7 +776,7 @@ text-overflow:ellipsis;
 .newHouse_name{float: left;}
 .zonename{color: #333;font-size: 25rpx;margin-top: 10rpx;}
 .average{color: #A1A1A1;margin-left: 20rpx;font-size: 28rpx;}
-.proNew{overflow: hidden;margin-left: 3%;margin-right: 3%;margin-top: 15rpx;}
-.proNew>div{float: left;width: 66%;}
-.proNew>image{float: left;width: 32%;height: 160rpx;margin-right: 2%;}
+.proNew{overflow: hidden;margin-left: 3%;margin-right: 3%;margin-top: 20rpx;}
+.proNew>div{float: left;width: 66%;font-size: 30rpx;margin-top: 10rpx;}
+.proNew>image{float: left;width: 32%;height: 160rpx;margin-right: 2%;border-radius: 10rpx;}
 </style>
