@@ -177,7 +177,7 @@ export default {
   clear: both;
   height: 0;
   display: block;}
-.hsxian{ width: 100%; height:10px; background: #f8f8fa;}
+.hsxian{ width: 100%; height:20rpx; background: #f8f8fa;}
 .indexstyle{width: 100%; margin: 0 auto; background: #fff;}
 
 /* 图片轮播 */
@@ -199,7 +199,7 @@ export default {
 }
 
 /* 小区名称开始 */
-.community{ width: 90%; padding-left: 5%; padding-right: 5%; overflow: hidden; padding-top: 5%;border-bottom: 10px #efefef solid; height:140rpx;}
+.community{ width: 90%; padding-left: 5%; padding-right: 5%; overflow: hidden; padding-top: 5%;border-bottom:20rpx #efefef solid; height:140rpx;}
 .lelf_c{ float: left;}
 .lelf_c h1{ font-size: 36rpx; font-weight: bold; margin-bottom: 5%;}
 .lelf_c p{ font-size: 26rpx; color: #999999;}
@@ -217,8 +217,8 @@ export default {
 .ygz{ position: relative; }
 
 /* 小区简介开始 */
-.jianjie{ width: 90%; padding-left: 5%; padding-right: 5%; margin-top: 5%; padding-bottom:7%;border-bottom: 10px #efefef solid; }
-.jianjie h3{ font-size:40rpx; font-weight: bold; padding-bottom:3%; border-bottom: 1px rgb(233, 233, 233) solid;}
+.jianjie{ width: 90%; padding-left: 5%; padding-right: 5%; margin-top: 5%; padding-bottom:7%;border-bottom:20rpx #efefef solid; }
+.jianjie h3{ font-size:40rpx; font-weight: bold; padding-bottom:3%; border-bottom:2rpx rgb(233, 233, 233) solid;}
 .jianjie div{ margin-top: 4%;}
 .jianjie div p{ line-height:65rpx; color: #999999;}
 .jianjie div p span{ color: #000;}

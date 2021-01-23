@@ -99,7 +99,7 @@ export default {
   clear: both;
   height: 0;
   display: block;}
-.hsxian{ width: 100%; height:10px; background: #f8f8fa;}
+.hsxian{ width: 100%; height:20rpx; background: #f8f8fa;}
 .indexstyle{width: 100%; margin: 0 auto; background: #fff;}
 
 .tank_js{ width:84%; margin-left:8%; margin-right:8%; margin-top: 5%;}
@@ -109,9 +109,9 @@ export default {
 .tank_js div h2{ font-size: 30rpx; font-weight: bold; margin-top: 1%; margin-bottom: 1%;}
 .tank_js div p span{ font-weight: bold;}
 
-.bgdk{ border: 1px #e7e7e7 solid; width: 100%; border-right: none; margin-top: 2%; border-bottom: none;  }
-.bgdk ul{ border-bottom: 1px #e7e7e7 solid; overflow: hidden;}
-.bgdk ul li{ float: left; padding-left: 5%; width:44.6%; border-right: 1px #e7e7e7 solid; font-size:28rpx; height:70rpx; line-height: 70rpx;}
+.bgdk{ border:2rpx #e7e7e7 solid; width: 100%; border-right: none; margin-top: 2%; border-bottom: none;  }
+.bgdk ul{ border-bottom: 2rpx #e7e7e7 solid; overflow: hidden;}
+.bgdk ul li{ float: left; padding-left: 5%; width:44.6%; border-right: 2rpx #e7e7e7 solid; font-size:28rpx; height:70rpx; line-height: 70rpx;}
 .bgdk ul.ny_bt{ background:#f7f7f7;}
 
 </style>

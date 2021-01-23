@@ -126,12 +126,12 @@ export default {
   clear: both;
   height: 0;
   display: block;}
-.hsxian{ width: 100%; height:10px; background: #f8f8fa;}
+.hsxian{ width: 100%; height:20rpx; background: #f8f8fa;}
 .indexstyle{width: 100%; margin: 0 auto; background: #fff;}
 
 /* 栏目切换 */
 .dt_lm{ width:96%; display: flex; flex-direction: row; height:60rpx; line-height: 60rpx; margin-left: 2%; margin-right: 2%; margin-top:5%;}
-.dt_lm .dongtai{ width: 31.3%; text-align: center;background: #eff0f0; margin-left: 1%; margin-right: 1%; font-size:30rpx; border-radius: 40px;}
+.dt_lm .dongtai{ width: 31.3%; text-align: center;background: #eff0f0; margin-left: 1%; margin-right: 1%; font-size:30rpx; border-radius: 80rpx;}
 .zixun{ color: #4681f7; background: #eaf1fe !important;}
 
 /* 楼盘资讯负责声明开始 */
@@ -150,7 +150,7 @@ export default {
 .zixunlist{ width: 100%; margin-bottom:7%;}
 .time{font-size:28rpx; color: #5680a6;}
 
-.kuang{ margin-top:3%; border-left: 1px #e4e4e4 solid; margin-left:2%; }
+.kuang{ margin-top:3%; border-left:2rpx #e4e4e4 solid; margin-left:2%; }
 .zxunnr{ width:100%; overflow: hidden; position: relative; left: -2%; top: -15%; }
 .lelf_zx{  width:8%; float: left;}
 .lelf_zx image{ width:25rpx; height:25rpx;}

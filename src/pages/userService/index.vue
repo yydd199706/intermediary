@@ -59,7 +59,7 @@ export default {
   clear: both;
   height: 0;
   display: block;}
-.hsxian{ width: 100%; height:10px; background: #f8f8fa;}
+.hsxian{ width: 100%; height:20rpx; background: #f8f8fa;}
 .indexstyle{width: 100%; margin: 0 auto; background: #fff;}
 
 .beijing image{width: 140%; height:450rpx; position: absolute; left: -20%; top: 0; z-index: -1; content: ''; border-radius: 0 0 50% 50%; }
@@ -69,7 +69,7 @@ export default {
 .ewm h2 span{ color: rgb(40, 158, 255);}
 .ewm p{ font-size: 28rpx; margin-top: 5%; margin-left:68%; width: 100%;}
 
-.liucheng{ width:86%; margin-left:7%; height:15rpx; margin-right:7%; border-bottom: 1px dashed #ccdbff; position: absolute; top:60%; margin-bottom: 10%;}
+.liucheng{ width:86%; margin-left:7%; height:15rpx; margin-right:7%; border-bottom:2rpx dashed #ccdbff; position: absolute; top:60%; margin-bottom: 10%;}
 .liucheng div{ width:207rpx; padding-left:3%; padding-right:3%; margin: 0 auto; display: flex; flex-direction: row; background: #fff; position: absolute; top:-30%; left:30%;} 
 .liucheng div h3{ font-size: 32rpx; margin-left: 5%; margin-right: 5%; font-weight: bold; }
 .liucheng div span{ font-size: 20rpx; margin-top:3%; color: #98b7fc; font-weight: bold; }

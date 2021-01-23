@@ -144,35 +144,35 @@ export default {
   clear: both;
   height: 0;
   display: block;}
-.hsxian{ width: 100%; height:10px; background: #f8f8fa;}
+.hsxian{ width: 100%; height:20rpx; background: #f8f8fa;}
 .indexstyle{width: 100%; margin: 0 auto; background: #fff;}
  
-.wenzhang{width:90%; margin-top: 5%;  padding-left: 5%; padding-right: 5%;padding-bottom: 5%; border-bottom: 10px #efefef solid;}
+.wenzhang{width:90%; margin-top: 5%;  padding-left: 5%; padding-right: 5%;padding-bottom: 5%; border-bottom:20rpx #efefef solid;}
 .bt_title{ font-size: 38rpx; font-weight: bold;}
 
 .fabu{margin-top:1%; width: 100%; display: flex; flex-direction: row;}
 .fabu h1{ font-size:32rpx; margin-top:16rpx; margin-right:1%;}
 .fabu span{ font-size:28rpx; color: rgb(165, 165, 165);margin-top:20rpx;}
 
-.more_list{width:90%; margin-top: 5%;  padding-left: 5%; padding-right: 5%; padding-bottom: 5%; border-bottom: 10px #efefef solid; }
+.more_list{width:90%; margin-top: 5%;  padding-left: 5%; padding-right: 5%; padding-bottom: 5%; border-bottom: 20rpx #efefef solid; }
 .more_list h2{ font-size:38rpx; font-weight: bold;}
-.moretj{ margin-top:5%; overflow: hidden; padding-bottom:3%; border-bottom: 1px rgb(240, 240, 240)solid;}
+.moretj{ margin-top:5%; overflow: hidden; padding-bottom:3%; border-bottom:2rpx rgb(240, 240, 240)solid;}
 .moretj .tj_lelf{ float: left; width: 60%;}
 .moretj .tj_lelf .sjmz{ font-size: 26rpx; color: #63411d; width: 100%;}
 .moretj .tj_lelf h3{ font-size: 33rpx;color: #000; font-weight: bold; margin-top: 3%; }
 .moretj .tj_lelf p{ font-size: 26rpx;color: #000; margin-top: 3%; }
 .moretj .tj_right{ float: right; width:35%;}
-.moretj .tj_right image{ width:100%; height:210rpx; border-radius: 3px;}
+.moretj .tj_right image{ width:100%; height:210rpx; border-radius:6rpx;}
 .moretj .tj_right .redu{ color: #b4b4b4; font-size: 26rpx; text-align: right; margin-top: 2%;}
 
 
 
-.nr-house{ width:100%;  margin-top:15px; overflow: hidden;}
+.nr-house{ width:100%;  margin-top:30rpx; overflow: hidden;}
 .nr-house image{ float: left; width: 40%; height: 180rpx;}
 .nr-house .r_wz{ float:right; width: 57%;}
 .nr-house .r_wz .bt_s{font-size: 34rpx; font-weight: bold; margin-right:10rpx;}
 .jieshao{ font-size: 26rpx; color: #000; margin-top:10rpx;}
-.youshi1{ float: left; width:90rpx; height:40rpx; line-height: 40rpx; border-radius:3px; background: #edf0f3; color:#849aae; font-size: 25rpx; text-align: center; margin-top:10rpx; margin-right: 10rpx;}
+.youshi1{ float: left; width:90rpx; height:40rpx; line-height: 40rpx; border-radius:6rpx; background: #edf0f3; color:#849aae; font-size: 25rpx; text-align: center; margin-top:10rpx; margin-right: 10rpx;}
 .m-x{ margin-top: 10rpx; }
 .m-x p{ float: left;}
 .m-x p.money{ font-size: 34rpx; color: rgb(192, 0, 0); font-weight: 900; margin-right: 5rpx;}
@@ -182,10 +182,10 @@ export default {
 /* 底部按钮 */
 .footer{ width:94%;  padding-left: 3%; padding-right: 3%; padding-top: 3%; height: 120rpx; background: #fff;position: fixed;bottom: 0; overflow: hidden;}
 .left_foot{ float: left; width:44%;height: 120rpx; margin-left: 3%; margin-right: 3%;}
-.Report{width:100%; background: #3dc28e; font-size: 28rpx; height:90rpx; line-height:90rpx; text-align: center; border-radius: 5px; color: #fff; margin-right: 5%;}
+.Report{width:100%; background: #3dc28e; font-size: 28rpx; height:90rpx; line-height:90rpx; text-align: center; border-radius:10rpx; color: #fff; margin-right: 5%;}
 
 .right_foot{ float: right; width:44%;height: 120rpx; margin-left: 3%; margin-right: 3%;}
-.Telephone{width:100%; background: #2e72f1; font-size: 28rpx; height:90rpx; line-height:90rpx; text-align: center; border-radius: 5px; color: #fff; margin-right: 5%;}
+.Telephone{width:100%; background: #2e72f1; font-size: 28rpx; height:90rpx; line-height:90rpx; text-align: center; border-radius:10rpx; color: #fff; margin-right: 5%;}
 
 
 

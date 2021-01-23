@@ -136,27 +136,27 @@ export default {
   clear: both;
   height: 0;
   display: block;}
-.hsxian{ width: 100%; height:10px; background: #f8f8fa;}
+.hsxian{ width: 100%; height:20rpx; background: #f8f8fa;}
 .indexstyle{width: 100%; margin: 0 auto; background: #fff;}
  
 
 .newslist{ width:90%; margin-left: 5%; margin-right: 5%;}
 .lanmunews{ display: flex; flex-direction: row; margin-top: 20rpx;}
 .newxw{ margin-right:40rpx; font-size: 32rpx;}
-.selected { border-bottom:3px rgb(15, 142, 228) solid; padding-bottom:20rpx; font-size: 35rpx; font-weight: bold;}
+.selected { border-bottom:6rpx rgb(15, 142, 228) solid; padding-bottom:20rpx; font-size: 35rpx; font-weight: bold;}
 
 
 .xinwennr{ margin-top:10rpx;}
 .news_list{ width: 100%; }
-.news_list ul li{overflow: hidden; padding-top: 5%; padding-bottom: 3%; border-bottom: 1px rgb(240, 240, 240) solid; }
+.news_list ul li{overflow: hidden; padding-top: 5%; padding-bottom: 3%; border-bottom:2rpx rgb(240, 240, 240) solid; }
 .news_list ul li .xw_lelf{ float: left; width: 65%;}
 .news_list ul li .xw_lelf h2{ font-size: 34rpx; font-weight: bold; margin-top: 2%;}
 .news_list ul li .xw_lelf .zhaiyao{ font-size: 28rpx; margin-top:20rpx;}
-.news_list ul li .xw_lelf h2 p{ width:15px; height: 4px; border-radius: 10px; background: rgb(18, 168, 255); position:absolute; left: 8%; top:5%;}
+.news_list ul li .xw_lelf h2 p{ width:30rpx; height:8rpx; border-radius:20rpx; background: rgb(18, 168, 255); position:absolute; left: 8%; top:5%;}
 .news_list ul li .xw_lelf p{  margin-top:20rpx; color: rgb(104, 104, 104); font-size:27rpx;}
 .news_list ul li .xw_lelf p span.m1{ margin-right: 3%;}
 .news_list ul li .xw_right{ float: right; width: 33%;}
-.news_list ul li .xw_right image{ width: 100%; height:200rpx; border-radius:3px;}
+.news_list ul li .xw_right image{ width: 100%; height:200rpx; border-radius:6rpx;}
 
  
 

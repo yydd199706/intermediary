@@ -175,7 +175,7 @@ export default {
   clear: both;
   height: 0;
   display: block;}
-.hsxian{ width: 100%; height:10px; background: #f8f8fa;}
+.hsxian{ width: 100%; height:20rpx; background: #f8f8fa;}
 .indexstyle{width: 100%; margin: 0 auto; background: #fff;}
 
 /* 置业顾问开始 */
@@ -211,7 +211,7 @@ export default {
 
 /* 楼盘点评开始 */
 .lpdianping{ width:90%; margin-left:5%; margin-right: 5%; margin-top:60rpx; margin-bottom:30rpx; }
-.lp_nei{ width: 100%; margin-top: 20rpx; border-bottom: 1px rgb(236, 236, 236) solid;}
+.lp_nei{ width: 100%; margin-top: 20rpx; border-bottom:2rpx rgb(236, 236, 236) solid;}
 .dianping{ font-size:30rpx; line-height:45rpx;}
 .loupan{ margin-top: 20rpx; width:95%; overflow: hidden; background: #eef4fa; padding-top: 20rpx; padding-left:3%; padding-bottom: 20rpx;}
 .l_loupan1{ float: left; width:30%;}
@@ -225,12 +225,12 @@ export default {
 
 /* 精选楼盘开始 */
 .jxloupan{ width:90%; margin-left:5%; margin-right: 5%; margin-top:60rpx;}
-.intention-mt{ padding-bottom:15px; border-bottom: 1px rgb(236, 236, 236) solid; margin-top: 15px;}
-.intention-mt image{ float: left; width: 40%; height:160rpx; border-radius: 5px;}
+.intention-mt{ padding-bottom:30rpx; border-bottom:2rpx rgb(236, 236, 236) solid; margin-top:30rpx;}
+.intention-mt image{ float: left; width: 40%; height:160rpx; border-radius:10rpx;}
 .intention-mt .intention-right{ float:right; width: 57%; }
 .intention-mt .intention-right .bt_ri h1{ float: left; font-size: 34rpx; font-weight: bold; margin-right:4rpx;}
-.intention-mt .intention-right .bt_ri p{ float: right; width:60rpx; height:30rpx; line-height: 30rpx; background: #0a8de4; text-align: center; font-size: 20rpx;  margin-right:10rpx; color: #fff; border-radius: 3px;}
-.youshi2{ float: left; padding-left:10rpx; padding-right:10rpx; height:40rpx; line-height: 40rpx; border-radius:3px; border: 1px #f0f0f0 solid; color:#6b7072; font-size: 22rpx; text-align: center; margin-top:15rpx; margin-right: 10rpx;}
+.intention-mt .intention-right .bt_ri p{ float: right; width:60rpx; height:30rpx; line-height: 30rpx; background: #0a8de4; text-align: center; font-size: 20rpx;  margin-right:10rpx; color: #fff; border-radius:6rpx;}
+.youshi2{ float: left; padding-left:10rpx; padding-right:10rpx; height:40rpx; line-height: 40rpx; border-radius:6rpx; border:2rpx #f0f0f0 solid; color:#6b7072; font-size: 22rpx; text-align: center; margin-top:15rpx; margin-right: 10rpx;}
 .m-x{ margin-top: 15rpx; }
 .m-x p{ float: left;}
 .m-x p.money{ font-size: 34rpx; color:#fa5741; font-weight: 900; margin-right: 5rpx;}

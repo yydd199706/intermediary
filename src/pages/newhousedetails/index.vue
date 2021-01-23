@@ -425,26 +425,26 @@ export default {
   display: block;}
 .fl{ float: left;}
 .fr{ float: right;}
-.hsxian{ width: 100%; height:10px; background: #f8f8fa;}
+.hsxian{ width: 100%; height:20rpx; background: #f8f8fa;}
 .indexstyle{width: 100%; margin: 0 auto; background: #fff;}
 
 /* vr图片 */
 .top {
-   width:80px; height:20px; border-radius: 20px; background: rgba(255, 255, 255, 0.404);
+   width:160rpx; height:40rpx; border-radius:40rpx; background: rgba(255, 255, 255, 0.404);
    text-align: center;
-   line-height:20px; margin: 0 auto;
+   line-height:40rpx; margin: 0 auto;
    white-space: nowrap;
    position: absolute;
-   background: rgba(255, 255, 255, 0.596); top:210px; z-index: 99999999999; left: 40%;
+   background: rgba(255, 255, 255, 0.596); top:420rpx; z-index: 99999999999; left: 40%;
  }
  .tabbar {
-   width:40px;
-   font-size:12px;
-   height:20px;
+   width:80rpx;
+   font-size:26rpx;
+   height:40rpx;
    display: inline-block;
    color: #000;
  }
- .tabbar-bottom { width:40px; height:20px; line-height:20px; text-align: center; background: #2196f3; color: #fff; border-radius: 20px; }
+ .tabbar-bottom { width:80rpx; height:40rpx; line-height:40rpx; text-align: center; background: #2196f3; color: #fff; border-radius:40rpx; }
 .swiper{ height:480rpx;}
 .vrdajia{ height: 1200rpx;}
 .vrda{ width: 100%; height: 1200rpx;}
@@ -453,12 +453,12 @@ export default {
 
 
 
-.newhousedetails{width: 90%; padding-left: 5%; padding-right: 5%; margin-top: 5%; padding-bottom: 8%;  border-bottom: 10px #efefef solid;}
+.newhousedetails{width: 90%; padding-left: 5%; padding-right: 5%; margin-top: 5%; padding-bottom: 8%;  border-bottom:20rpx #efefef solid;}
 .housedetails_name{ margin-top: 30rpx; clear: both; }
 .housedetails_name h1{ font-size: 36rpx; font-weight: bold; float: left; margin-right: 10rpx;} 
-.housedetails_name p{ font-size: 20rpx; padding:3rpx 8rpx; background: rgb(30, 129, 241); float: left; border-radius: 3px; color: #fff; margin-top: 5px;}
+.housedetails_name p{ font-size: 20rpx; padding:3rpx 8rpx; background: rgb(30, 129, 241); float: left; border-radius:6rpx; color: #fff; margin-top:10rpx;}
 .advantage{ clear: both; margin-top:20rpx;}
-.advantage div{ float: left; padding: 5rpx 10rpx; font-size: 20rpx; border: 1px #ccc solid; color: #b8b8b8; border-radius: 3px; margin-right:10rpx; margin-top:20rpx; }
+.advantage div{ float: left; padding: 5rpx 10rpx; font-size: 20rpx; border:2rpx #ccc solid; color: #b8b8b8; border-radius:6rpx; margin-right:10rpx; margin-top:20rpx; }
 
 .price{ width: 100%; clear: both;}
 .lelf_p{ float: left; width:40%; margin-top:20rpx; margin-bottom: 20rpx;}
@@ -477,24 +477,24 @@ export default {
 .information .fr span{ color: #000;}
 .information .bfb{ width: 100%; color: #8d8c8c; font-size: 28rpx; margin-top: 15rpx; margin-bottom: 15rpx;}
 .information .bfb span{ color: #000;}
-.information div p{ float: right; width:9px; height: 15px;}
+.information div p{ float: right; width:18rpx; height:30rpx;}
 
 .anniu{ width: 100%; margin-top: 30rpx; }
-.bjtz{ float: left; width: 45%; margin-right: 5%; background: #36a5f0; height: 80rpx; border-radius:3px; text-align: center; line-height: 80rpx;}
-.bjtz image{ width:25px; height:22px; margin-top:8px; margin-right:6px;}
-.bjtz span{ color: #fff; position: relative; top:-4px; }
+.bjtz{ float: left; width: 45%; margin-right: 5%; background: #36a5f0; height: 80rpx; border-radius:6rpx; text-align: center; line-height: 80rpx;}
+.bjtz image{ width:50rpx; height:44rpx; margin-top:16rpx; margin-right:12rpx;}
+.bjtz span{ color: #fff; position: relative; top:-8rpx; }
 
-.kptx{ float: right; width: 45%; margin-left: 5%; background: #f09936; height: 80rpx; border-radius:3px; text-align: center; line-height: 80rpx;}
-.kptx image{ width:21px; height:25px; margin-top:8px; margin-right:6px;}
-.kptx span{ color: #fff; position: relative; top:-8px;}
+.kptx{ float: right; width: 45%; margin-left: 5%; background: #f09936; height: 80rpx; border-radius:6rpx; text-align: center; line-height: 80rpx;}
+.kptx image{ width:42rpx; height:50rpx; margin-top:16rpx; margin-right:12rpx;}
+.kptx span{ color: #fff; position: relative; top:-16rpx;}
 
 
 
-.Discount{width: 90%; padding-left: 5%; padding-right: 5%; margin-top: 5%; padding-bottom:5%;  border-bottom: 10px #efefef solid;;}
+.Discount{width: 90%; padding-left: 5%; padding-right: 5%; margin-top: 5%; padding-bottom:5%;  border-bottom:20rpx #efefef solid;;}
 .Discount p{ font-size:35rpx; font-weight: bold; }
-.Discount image{ width:100%; height:60px; margin-top: 3%;}
+.Discount image{ width:100%; height:120rpx; margin-top: 3%;}
 
-.huxingda{width: 90%; padding-left: 5%; padding-right: 5%; margin-top: 5%; padding-bottom: 8%;  border-bottom: 10px #efefef solid;}
+.huxingda{width: 90%; padding-left: 5%; padding-right: 5%; margin-top: 5%; padding-bottom: 8%;  border-bottom:20rpx #efefef solid;}
 .hx_bt{ width:100%; clear: both;}
 .hx_bt p{ float: left; font-size:35rpx; font-weight: bold;}
 .hx_bt span{ float: right; font-size:25rpx;}
@@ -510,9 +510,9 @@ export default {
 .dg_hx image{ width:100%;height:300rpx;}
 .dg_hx .bt_s{ clear: both; margin-top: 3%;}
 .dg_hx .bt_s h1{ float: left; font-size: 30rpx; font-weight: 900; margin-right: 2%;}
-.dg_hx .bt_s h2{ float: left; font-size: 22rpx; color: #fff; background: #2196f3; padding: 3rpx 5rpx; border-radius: 2px; margin-right: 3%;margin-top: 1%;}
+.dg_hx .bt_s h2{ float: left; font-size: 22rpx; color: #fff; background: #2196f3; padding: 3rpx 5rpx; border-radius:4rpx; margin-right: 3%;margin-top: 1%;}
 .dg_hx .bt_s h3{ float: left;margin-top: 1%; }
-.dg_hx .bt_s h3 p{ float: left; font-size: 22rpx; border-radius: 2px; border: 1px #ccc solid; width:50rpx; margin-right:1%; text-align: center;}
+.dg_hx .bt_s h3 p{ float: left; font-size: 22rpx; border-radius:4rpx; border:2rpx #ccc solid; width:50rpx; margin-right:1%; text-align: center;}
 .dg_hx .jm{ font-size: 27rpx; margin-top:2%;} 
 .dg_hx .price_s{ color: #f16160; font-size:28rpx; margin-top: 2%; font-weight: 800;}
 
@@ -531,14 +531,14 @@ export default {
 .guwen{ width:100%; margin-top:5%;}
 .guwen_list{ width: 100%; margin-top:2%; overflow: hidden;}
 .left_g{ float: left; width:85%;}
-.left_g image{ float: left; width:60px; height:60px; border-radius: 50%; margin-right: 2%;}
+.left_g image{ float: left; width:120rpx; height:120rpx; border-radius: 50%; margin-right: 2%;}
 .neirong{ float: left; width:70%; margin-top:3%; }
-.neirong div h1{float: left; font-size:36rpx; font-weight: bold; margin-right: 5px; }
-.neirong div span{ float: left; font-size:26rpx; padding:1rpx 2rpx; border: 1px #f86577 solid; color: #f86577; text-align: center; border-radius: 3px;}
+.neirong div h1{float: left; font-size:36rpx; font-weight: bold; margin-right:10rpx; }
+.neirong div span{ float: left; font-size:26rpx; padding:1rpx 2rpx; border:2rpx #f86577 solid; color: #f86577; text-align: center; border-radius:6rpx;}
 .neirong p{ font-size:28rpx; color: #969ca8; margin-top: 2%;}
 
 .pingjia{ margin-top:1%; font-size:24rpx; margin-top: 5%; margin-left:18%;}
-.pingjia p{ float: left; padding: 3rpx 6rpx 3rpx 6rpx; border-radius: 2px; margin-right: 2%; background: #f1f1f1; color: #969ca8;}
+.pingjia p{ float: left; padding: 3rpx 6rpx 3rpx 6rpx; border-radius:4rpx; margin-right: 2%; background: #f1f1f1; color: #969ca8;}
 
 .right_g{ float: right; margin-top:8%;}
 .right_g image{ width:50rpx; height:50rpx;}
@@ -552,14 +552,14 @@ export default {
 
 
 
-.intention-nr{ width:100%; margin-top:15px;}
+.intention-nr{ width:100%; margin-top:30rpx;}
 
-.intention-mt{ padding-bottom:15px; border-bottom: 1px rgb(236, 236, 236) solid; margin-top: 15px;}
-.intention-nr image{ float: left; width:30%; height:150rpx; border-radius: 5px;}
+.intention-mt{ padding-bottom:30rpx; border-bottom:2rpx rgb(236, 236, 236) solid; margin-top:30rpx;}
+.intention-nr image{ float: left; width:30%; height:150rpx; border-radius:10rpx;}
 .intention-nr .intention-right{ float:right; width:67%; }
 .intention-nr .intention-right .bt_ri h1{ float: left; font-size: 30rpx; font-weight: bold; margin-right:4rpx;}
 .intention-nr .intention-right .bt_ri p{ float: right; width:60rpx; height:30rpx; line-height: 30rpx; background: #0a8de4; text-align: center; font-size: 20rpx;  margin-right:10rpx; color: #fff; border-radius: 3px;}
-.youshi2{ float: left; padding: 3rpx 8rpx 3rpx 8rpx; border-radius:3px; border: 1px #f4f4f4 solid; color:#979799; font-size: 22rpx; text-align: center; margin-top:15rpx; margin-right: 10rpx;}
+.youshi2{ float: left; padding: 3rpx 8rpx 3rpx 8rpx; border-radius:6rpx; border:2rpx #f4f4f4 solid; color:#979799; font-size: 22rpx; text-align: center; margin-top:15rpx; margin-right: 10rpx;}
 .m-x{ margin-top: 15rpx; }
 .m-x p{ float: left;}
 .m-x p.money{ font-size: 30rpx; color:#df573d; font-weight: 900; margin-right: 5rpx;}
@@ -570,18 +570,18 @@ export default {
 .left_foot{ float: left; width:27%;height: 120rpx;}
 
 .left_foot .guanzhus{ float: left; width:50%; margin: 0 auto; background: #fff;overflow: inherit;border: none; padding: 0 !important;}
-.left_foot .guanzhus image{ width:18px; height:18px;}
-.left_foot .guanzhus p{ font-size: 26rpx; color: #000; position: relative; top:-12px; left:22%;}
+.left_foot .guanzhus image{ width:36rpx; height:36rpx;}
+.left_foot .guanzhus p{ font-size: 26rpx; color: #000; position: relative; top:-24rpx; left:22%;}
  
 
 
-.left_foot .fenxiangs{ float: left; width:50%; height: 25px; margin: 0 auto; background: #fff;overflow: inherit;border: none; padding: 0 !important;}
+.left_foot .fenxiangs{ float: left; width:50%; height:50rpx; margin: 0 auto; background: #fff;overflow: inherit;border: none; padding: 0 !important;}
 .left_foot button{border: none; padding: 0 !important; padding-left: 0 !important; padding-right: 0 !important;}
 .left_foot button::after{border: none; padding: 0 !important;}
-.left_foot .fenxiangs image{ width:18px; height:18px;}
-.left_foot .fenxiangs p{ font-size: 26rpx; color: #000; position: relative; top: -20px;}
+.left_foot .fenxiangs image{ width:36rpx; height:36rpx;}
+.left_foot .fenxiangs p{ font-size: 26rpx; color: #000; position: relative; top: -40rpx;}
 
-.right_foot{ float: right; width:70%; margin-top:7px;}
+.right_foot{ float: right; width:70%; margin-top:14rpx;}
 .Report{ float: left; width: 45%; background: #3dc28e; font-size: 28rpx; height:90rpx; line-height:90rpx; text-align: center; border-radius: 5px; color: #fff; margin-right: 5%;}
-.Telephone{ float: right; width: 45%; background: #2e72f1; font-size: 28rpx; height:90rpx; line-height:90rpx; text-align: center; border-radius: 5px; color: #fff; margin-right: 5%;}
+.Telephone{ float: right; width: 45%; background: #2e72f1; font-size: 28rpx; height:90rpx; line-height:90rpx; text-align: center; border-radius:10rpx; color: #fff; margin-right: 5%;}
 </style>

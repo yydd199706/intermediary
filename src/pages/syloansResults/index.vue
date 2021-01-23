@@ -174,7 +174,7 @@ export default {
   clear: both;
   height: 0;
   display: block;}
-.hsxian{ width: 100%; height:10px; background: #f8f8fa;}
+.hsxian{ width: 100%; height:20rpx; background: #f8f8fa;}
 .indexstyle{width: 100%; margin: 0 auto; background: #fff;}
  
 .jisuanqi{ width: 100%;} 
@@ -192,7 +192,7 @@ export default {
 .s_yingh .jine .dw_r p{ font-size: 30rpx; color: #fff;}
 .s_yingh h2{font-size: 30rpx; text-align: center; color: #fff; padding-top:1%;}
 .daikuan{ width: 100%; display: flex; flex-direction: row; color: #fff;}
-.daikuan div{ width: 33.3%; margin-top:10%; margin-bottom:8%; text-align: center; border-right: 1px #6d9bf8 solid;}
+.daikuan div{ width: 33.3%; margin-top:10%; margin-bottom:8%; text-align: center; border-right:2rpx #6d9bf8 solid;}
 .daikuan div h2{ color: #acc6fb; margin-bottom:8%; font-size: 28rpx;}
 .my_wenzi{ width:94%; margin-top: 5%; line-height:45rpx; font-size: 28rpx; margin-left: 3%; margin-right: 3%;}
 .my_wenzi span{ color: #3072f6; font-weight: bold;} 

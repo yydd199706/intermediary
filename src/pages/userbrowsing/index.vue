@@ -203,23 +203,23 @@ export default {
   clear: both;
   height: 0;
   display: block;}
-.hsxian{ width: 100%; height:10px; background: #f8f8fa;}
+.hsxian{ width: 100%; height:20rpx; background: #f8f8fa;}
 .indexstyle{width: 100%; margin: 0 auto; background: #fff;}
  
 
-.liulan{ display: flex; flex-direction: row; width:90%; padding-left: 5%; padding-right: 5%; padding-bottom: 3%; border-bottom: 1px #f0f0f0 solid;}
+.liulan{ display: flex; flex-direction: row; width:90%; padding-left: 5%; padding-right: 5%; padding-bottom: 3%; border-bottom:2rpx #f0f0f0 solid;}
 .liulan .ll_top{ font-size: 35rpx; line-height:65rpx; width:15.3%; margin-left:9%; margin-right:9%; text-align: center;}
 .houses1{ border-bottom:4rpx #3072f6 solid; color:#3072f6; font-weight: bold; }
 
 /* 二手房开始 */
 .secondary{ width:100%; }
 .sjd{width:90%; padding-left: 5%; padding-right: 5%; height: 80rpx; background: #f4f4f7; line-height: 80rpx;}
-.h-mt{ margin-top:5%; width: 100%; border-bottom: 1px #f0f0f0 solid; padding-bottom: 5%;}
+.h-mt{ margin-top:5%; width: 100%; border-bottom: 2rpx #f0f0f0 solid; padding-bottom: 5%;}
 .h-mt image{ float: left; width: 40%; height:200rpx; border-radius:3%;}
 .h-mt .r_wz{ float:right; width: 57%;}
 .h-mt .r_wz .bt_s{font-size: 34rpx; font-weight: bold; margin-right:10rpx; line-height:50rpx;}
 .jieshao{ font-size: 26rpx; color: #000; margin-top:10rpx; line-height:40rpx;}
-.youshi1{ float: left; width:90rpx; height:40rpx; line-height: 40rpx; border-radius:3px; background: #edf0f3; color:#849aae; font-size: 25rpx; text-align: center; margin-top:10rpx; margin-right: 10rpx;}
+.youshi1{ float: left; width:90rpx; height:40rpx; line-height: 40rpx; border-radius:6rpx; background: #edf0f3; color:#849aae; font-size: 25rpx; text-align: center; margin-top:10rpx; margin-right: 10rpx;}
 .m-x{ margin-top:5rpx; line-height:40rpx; }
 .m-x p{ float: left;}
 .m-x p.money{ font-size: 34rpx; color:#fa5741; font-weight: 900; margin-right: 5rpx;}
@@ -227,27 +227,27 @@ export default {
  
 /* 新房开始 */
 .newroom{ width:90%; padding-left: 5%; padding-right: 5%;}
-.intention-mt{ padding-bottom:15px; border-bottom: 1px rgb(236, 236, 236) solid; margin-top: 15px; overflow: hidden;}
+.intention-mt{ padding-bottom:30rpx; border-bottom: 2rpx rgb(236, 236, 236) solid; margin-top:30rpx; overflow: hidden;}
 .intention-mt image{ float: left; width:35%; height:230rpx; border-radius:3%;}
 .intention-mt .intention-right{ float:right; width:62%; }
 .intention-mt .intention-right .bt_ri h1{ float: left; font-size: 34rpx; font-weight: bold; margin-right:4rpx;}
-.intention-mt .intention-right .bt_ri p{ float: right; width:70rpx; height:30rpx; line-height: 30rpx; background: #5f94ff; text-align: center; font-size:26rpx;  margin-right:10rpx; color: #fff; border-radius: 3px;}
+.intention-mt .intention-right .bt_ri p{ float: right; width:70rpx; height:30rpx; line-height: 30rpx; background: #5f94ff; text-align: center; font-size:26rpx;  margin-right:10rpx; color: #fff; border-radius:6rpx;}
 .jieshao1{ font-size: 24rpx; color:#999999; margin-top:5rpx; line-height:40rpx;}
-.youshi2{ float: left; padding: 3rpx 8rpx 3rpx 8rpx; border-radius:6rpx; border: 1px #f0eded solid; color:#979799; font-size: 24rpx; text-align: center; margin-top:5rpx; margin-right:5rpx;}
+.youshi2{ float: left; padding: 3rpx 8rpx 3rpx 8rpx; border-radius:6rpx; border: 2rpx #f0eded solid; color:#979799; font-size: 24rpx; text-align: center; margin-top:5rpx; margin-right:5rpx;}
 .m-x1{ margin-top:5rpx; }
 .m-x1 p.money{ font-size: 34rpx; color:#df573d; font-weight: 900; margin-right: 5rpx;}
 /* 未关注 */
 .wgz{ margin-top:2%; }
 .wgz image{ width:26rpx; height:26rpx; margin-right: 3%; margin-left:13%; margin-top:8%;}
 .wgz span{ font-size:28rpx; color: #999999; position: relative; left: -5%; top: -7%;}
-.wgz button{ padding:0; width:150rpx; height:50rpx; line-height:50rpx; border: 1px #f0eded solid; color:#979799; border-radius:50rpx; display: inline-block;}
+.wgz button{ padding:0; width:150rpx; height:50rpx; line-height:50rpx; border: 2rpx #f0eded solid; color:#979799; border-radius:50rpx; display: inline-block;}
 .wgz button::after{border: none;}
 
 /* 已关注 */
 .ygz{ margin-top: 2%;}
 .ygz image{ width:26rpx; height:26rpx; margin-right: 3%; margin-left:6%; margin-top:8%;}
 .ygz span{ font-size:26rpx; color: #999999; position: relative; left: -5%; top: -7%;}
-.ygz button{ padding:0; width:150rpx; height:50rpx; line-height:50rpx; border: 1px #f0eded solid; color:#979799; border-radius:50rpx;display: inline-block;}
+.ygz button{ padding:0; width:150rpx; height:50rpx; line-height:50rpx; border: 2rpx #f0eded solid; color:#979799; border-radius:50rpx;display: inline-block;}
 .ygz button::after{border: none;}
 
 

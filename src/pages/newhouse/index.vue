@@ -323,12 +323,12 @@ export default {
 
 /* 搜索 */
 .search{ width: 90%;  margin: 0 auto; margin-left: 5%; }
-.search input{ height:40px; line-height:40px; width:100%; border-radius:30px; margin: 0 auto; background: #f2f2f2;  }
-.search image{ width: 20px; height: 20px; position: absolute; top:2%; left:7%; }
+.search input{ height:80rpx; line-height:80rpx; width:100%; border-radius:60rpx; margin: 0 auto; background: #f2f2f2;  }
+.search image{ width:40rpx; height:40rpx; position: absolute; top:2%; left:7%; }
 
 /* 导航 */
 .nav{ width: 94%; padding-left: 3%; padding-right: 3%; background: #fff; margin: 0 auto; height:200rpx; border-bottom:20rpx #efefef solid;  }
-.navigation{ float: left; width:25%; margin: 0 auto; padding-top:15px;}
+.navigation{ float: left; width:25%; margin: 0 auto; padding-top:30rpx;}
 .navigation image{ width:90rpx; height:90rpx; text-align: center; margin: 0 auto; display: block;}
 .navigation .biaoti{ font-size:29rpx; text-align: center; margin-top: 3%;}
 
@@ -337,38 +337,38 @@ export default {
 
 
 /* 猜你意向的新房 */
-.intention-house{ width: 94%; margin-left: 3%; margin-right: 3%; background: #fff; margin: 0 auto; height:190px; padding-top:3%; margin-bottom:5%;}
-.intention-nr{ width: 94%; margin-left: 3%; margin-right: 3%; margin-top:15px;}
+.intention-house{ width: 94%; margin-left: 3%; margin-right: 3%; background: #fff; margin: 0 auto; height:380rpx; padding-top:3%; margin-bottom:5%;}
+.intention-nr{ width: 94%; margin-left: 3%; margin-right: 3%; margin-top:30rpx;}
 
-.intention-mt{ padding-bottom:15px; border-bottom: 1px rgb(236, 236, 236) solid; margin-top: 15px;}
-.intention-nr image{ float: left; width: 40%; height:160rpx; border-radius: 5px;}
+.intention-mt{ padding-bottom:30rpx; border-bottom: 1px rgb(236, 236, 236) solid; margin-top:30rpx;}
+.intention-nr image{ float: left; width: 40%; height:160rpx; border-radius:10rpx;}
 .intention-nr .intention-right{ float:right; width: 57%; }
 .intention-nr .intention-right .bt_ri h1{ float: left; font-size: 34rpx; font-weight: bold; margin-right:4rpx;}
-.intention-nr .intention-right .bt_ri p{ float: right; width:60rpx; height:30rpx; line-height: 30rpx; background: #0a8de4; text-align: center; font-size: 20rpx;  margin-right:10rpx; color: #fff; border-radius: 3px;}
-.youshi2{ float: left; padding-left:10rpx; padding-right:10rpx; height:40rpx; line-height: 40rpx; border-radius:3px; border: 1px #f0f0f0 solid; color:#6b7072; font-size: 22rpx; text-align: center; margin-top:15rpx; margin-right: 10rpx;}
+.intention-nr .intention-right .bt_ri p{ float: right; width:60rpx; height:30rpx; line-height: 30rpx; background: #0a8de4; text-align: center; font-size: 20rpx;  margin-right:10rpx; color: #fff; border-radius:6rpx;}
+.youshi2{ float: left; padding-left:10rpx; padding-right:10rpx; height:40rpx; line-height: 40rpx; border-radius:6rpx; border:2rpx #f0f0f0 solid; color:#6b7072; font-size: 22rpx; text-align: center; margin-top:15rpx; margin-right: 10rpx;}
 .m-x{ margin-top: 15rpx; }
 .m-x p{ float: left;}
 .m-x p.money{ font-size: 34rpx; color:#fa5741; font-weight: 900; margin-right: 5rpx;}
 .m-x p.money1{ font-size:26rpx; color:rgb(180, 180, 180); margin-top: 10rpx; }
 
 /* 筛选 */
-.shaixuan{ width: 100%; position: sticky; top: 0; height: 40px; background: #fff; }
+.shaixuan{ width: 100%; position: sticky; top: 0; height:80rpx; background: #fff; }
 .shang_sx{ width: 100%; clear: both;}
-.s_lanmu{ width: 100%; border-bottom: 1px rgb(241, 241, 241) solid; height:30px; padding-top:5%;}
-.region_bt{ float: left; width: 25%; font-size: 14px; text-align: center;}
+.s_lanmu{ width: 100%; border-bottom:2rpx rgb(241, 241, 241) solid; height:60rpx; padding-top:5%;}
+.region_bt{ float: left; width: 25%; font-size:28rpx; text-align: center;}
 .region_xl{ width: 100%; background: #fff;}
-.l_mingzi{ float: left; width:25%; background: #fff; border-left: 1px #ccc solid; margin-top: 10px;}
-.l_mingzi p{ font-size: 14px; text-align: center; height:40px; line-height:40px;}
-.r_neirong{ float: right; width:68%; background: #f8f8fa; padding-top:10px; padding-left:6%; padding-bottom: 10px;}
-.r_neirong p{ font-size: 14px;  height:40px; line-height:40px; }
+.l_mingzi{ float: left; width:25%; background: #fff; border-left:2rpx #ccc solid; margin-top:20rpx;}
+.l_mingzi p{ font-size:28rpx; text-align: center; height:80rpx; line-height:80rpx;}
+.r_neirong{ float: right; width:68%; background: #f8f8fa; padding-top:20rpx; padding-left:6%; padding-bottom:20rpx;}
+.r_neirong p{ font-size:28rpx;  height:80rpx; line-height:80rpx; }
 
-.x_dibu{ width:90%; border-top: 1px rgb(241, 241, 241) solid;  height: 60px; clear: both; padding-left:5%; padding-right: 5%;}
-.z_buxian{ float: left; width:50%; margin-right:6%; height:80rpx; font-size: 14px; line-height:80rpx; border-radius: 5px; background:#f8f8fa; margin-top: 10px; text-align: center;}
-.y_quding{ float: right; width:44%; height: 80rpx; line-height: 80rpx; font-size: 14px; border-radius: 5px; background: #2e72f1; text-align: center; margin-top: 10px; color: #fff;}
+.x_dibu{ width:90%; border-top:2rpx rgb(241, 241, 241) solid;  height:120rpx; clear: both; padding-left:5%; padding-right: 5%;}
+.z_buxian{ float: left; width:50%; margin-right:6%; height:80rpx; font-size:28rpx; line-height:80rpx; border-radius:10rpx; background:#f8f8fa; margin-top:20rpx; text-align: center;}
+.y_quding{ float: right; width:44%; height: 80rpx; line-height: 80rpx; font-size:28rpx; border-radius:10rpx; background: #2e72f1; text-align: center; margin-top:20rpx; color: #fff;}
 
 /* 户型 */
-.huxing{ width:90%; padding-left: 5%; padding-right: 5%; padding-top: 10px; margin-bottom:10px; clear: both;}
-.huxing p{ float: left; width: 21%; margin-left: 2%; margin-right: 2%; height: 50rpx; line-height: 50rpx; text-align: center;background: #f8f8fa; margin-top: 5px; margin-bottom: 5px; font-size: 12px;}
-.huxing h1{ margin-top: 5px; margin-bottom: 10px; font-size: 14px; font-weight: bold;}
+.huxing{ width:90%; padding-left: 5%; padding-right: 5%; padding-top:20rpx; margin-bottom:20rpx; clear: both;}
+.huxing p{ float: left; width: 21%; margin-left: 2%; margin-right: 2%; height: 50rpx; line-height: 50rpx; text-align: center;background: #f8f8fa; margin-top:10rpx; margin-bottom:10rpx; font-size:26rpx;}
+.huxing h1{ margin-top:10rpx; margin-bottom:20rpx; font-size:28rpx; font-weight: bold;}
 
 </style>

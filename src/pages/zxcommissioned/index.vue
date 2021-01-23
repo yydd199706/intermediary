@@ -62,7 +62,7 @@ export default {
   clear: both;
   height: 0;
   display: block;}
-.hsxian{ width: 100%; height:10px; background: #f8f8fa;}
+.hsxian{ width: 100%; height:20rpx; background: #f8f8fa;}
 .indexstyle{width: 100%; margin: 0 auto; background: #fff;}
 
 .zxwt{ width: 90%; margin-left: 5%; margin-right: 5%; display: flex; flex-direction: row; margin-top: 5%; padding-bottom:3%; border-bottom: 1rpx rgb(233, 233, 233) solid;}

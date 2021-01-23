@@ -981,19 +981,19 @@ import fund4Picker from "@/../static/components/mpvue-picker/mpvuePicker.vue";//
   display: block;}
 .fl{ float: left;}
 .fr{ float: right;}
-.hsxian{ width: 100%; height:10px; background: #f8f8fa;}
+.hsxian{ width: 100%; height:20rpx; background: #f8f8fa;}
 .indexstyle{width: 100%; margin: 0 auto; background: #fff;}
 
 
 /* 头部切换 */
 .jisuanqi{ width: 90%; margin-left: 5%; margin-right: 5%; }
-.lanmu{ border-bottom: 1px solid #e6e6e6; overflow: hidden; width: 100%; display: flex; flex-direction: row; margin-top:3%;  }
+.lanmu{ border-bottom:2rpx solid #e6e6e6; overflow: hidden; width: 100%; display: flex; flex-direction: row; margin-top:3%;  }
 .lanmu .default{width:33.3%; font-size:35rpx; font-weight: bold; }
 .title { flex: 1; text-align: center;}
-.selected { border-bottom:2px  rgb(15, 142, 228) solid; color: rgb(15, 142, 228); width:10px !important; border-radius:2px; padding-bottom:4%;}
+.selected { border-bottom:4rpx  rgb(15, 142, 228) solid; color: rgb(15, 142, 228); width:20rpx !important; border-radius:4rpx; padding-bottom:4%;}
 
 /* 商业贷款 */
-.syloans .jisuan{ display: flex; flex-direction: row; margin-top:5%; padding-bottom:5%; border-bottom: 1px solid #e7e7e7; width: 94%; margin-left: 3%; margin-right: 3%; }
+.syloans .jisuan{ display: flex; flex-direction: row; margin-top:5%; padding-bottom:5%; border-bottom:2rpx solid #e7e7e7; width: 94%; margin-left: 3%; margin-right: 3%; }
 .jisuan .biaots{ width:28.3%; margin-left: 1%; font-weight: bold;}
 .radio-group{ width:70.6%;}
 .radio-group .radio{transform: scale(.8); }
@@ -1002,52 +1002,52 @@ import fund4Picker from "@/../static/components/mpvue-picker/mpvuePicker.vue";//
 
 
 
-.sdjine{display: flex; flex-direction: row; margin-top:5%; padding-bottom:5%; border-bottom: 1px solid #e7e7e7; width: 94%; margin-left: 3%; margin-right: 3%; }
+.sdjine{display: flex; flex-direction: row; margin-top:5%; padding-bottom:5%; border-bottom:2rpx solid #e7e7e7; width: 94%; margin-left: 3%; margin-right: 3%; }
 .sdjine h1{width: 28.3%; margin-left: 1%; font-weight: bold;}
 .sdjine .shuru{ width:70.6%; text-align: left;}
 .sdjine .shuru input{ float: left; width: 80%;}
 .sdjine .shuru span{ float: right;  width:10%;}
-.sdjine .shuru span image{ width: 9px; height: 15px;}
+.sdjine .shuru span image{ width:18rpx; height:30rpx;}
 
 .sdjine .shuru1{ width:66.6%; }
-.sdjine h1 span.sdlltu image{ width:15px; height:15px; margin-left: 5px; position: relative; top:3px;}
+.sdjine h1 span.sdlltu image{ width:30rpx; height:30rpx; margin-left:10rpx; position: relative; top:6rpx;}
 
 .sdjine .shuru1 p{ float: left; width:78%;}
 .sdjine .shuru1 span{ float: right;  width:10%;}
-.sdjine .shuru1 span image{ width: 9px; height: 15px;}
+.sdjine .shuru1 span image{ width:18rpx; height:30rpx;}
 .sdjine .shuru1 input{ float: left; width:78%;}
 .kaishi{ margin-top:10%; margin-left: 3%; margin-right: 3%; width: 94%; background: rgb(52, 140, 240); color: #fff;}
 
 /* 中间利率弹框 */
 .zhedc{position:fixed;top:0;bottom:0;right:0;left:0;background-color:#333333d1;display:flex;align-items:flex-end;align-content:center; z-index: 999999;}
-.llxianshi{ width:80%; margin-left:5%; margin-right:5%; background: #fff; border-radius:5px; padding: 5%; position: relative; bottom:20%;}
+.llxianshi{ width:80%; margin-left:5%; margin-right:5%; background: #fff; border-radius:10rpx; padding: 5%; position: relative; bottom:20%;}
 .llxianshi h2{ font-size: 32rpx; font-weight: bold; margin-bottom: 5%; margin-top: 5%;}
 .llxianshi p{ font-size: 28rpx; margin-bottom:2%;}
 .llxianshi p span{ font-weight: bold;}
-.know{ width: 100%; height:80rpx; line-height: 80rpx; color:#3072f6; border: 1px #3072f6 solid; font-size: 32rpx; margin-top: 7%; margin-bottom: 5%; }
+.know{ width: 100%; height:80rpx; line-height: 80rpx; color:#3072f6; border:2rpx #3072f6 solid; font-size: 32rpx; margin-top: 7%; margin-bottom: 5%; }
 
 
 /* 历史LPR */
-.lskuang{ width: 100%; height:80rpx; line-height: 80rpx; background: #d7e8f2; border-radius: 5px;}
+.lskuang{ width: 100%; height:80rpx; line-height: 80rpx; background: #d7e8f2; border-radius:10rpx;}
 .lskuang .lishilpr{ margin-left: 3%; margin-right: 3%; display: flex; flex-direction: row; font-size: 26rpx;}
 .sz_ls{ padding:1rpx 5rpx; background: #3072f6; border-radius: 5px; height: 30rpx; line-height: 30rpx; margin-top:4%; font-size: 24rpx; color: #fff;}
 .mingzi{ margin-left: 3%; color: rgb(156, 156, 156); font-size: 24rpx;}
 .djlishi{ color: #3072f6; font-size: 26rpx; font-weight: bold; margin-left:10%;}
 /* 历史LPR中间弹框开始 */
 .LPRtankuang{position:fixed;top:0;bottom:0;right:0;left:0;background-color:#333333d1;display:flex;align-items:flex-end;align-content:center; z-index: 999999;}
-.lilvzz_z{ width:80%; margin-left:5%; margin-right:5%; background: #fff; border-radius:5px; padding: 5%; position: relative; bottom:15%; height: 500px;}
+.lilvzz_z{ width:80%; margin-left:5%; margin-right:5%; background: #fff; border-radius:10rpx; padding: 5%; position: relative; bottom:15%; height:1000rpx;}
 .lilvzz_z h3{ font-size:34rpx; font-weight: bold;}
 .lilvzz_z p{ line-height:45rpx; font-size: 28rpx; margin-bottom:1%;}
 .lilvzz_z p span{ font-weight: bold;}
 .llbiaoge{ width: 100%; border: 1px rgb(209, 209, 209) solid; border-right:none}
 .llbiaoge ul{ display: flex; flex-direction: row; border-bottom: 1px rgb(209, 209, 209) solid;}
-.llbiaoge ul li{ width: 33.3%; font-size:28rpx; text-align: center; border-right: 1px rgb(209, 209, 209) solid;}
+.llbiaoge ul li{ width: 33.3%; font-size:28rpx; text-align: center; border-right:2rpx rgb(209, 209, 209) solid;}
 
 /* 组合贷款 */
-.portfolio .jisuan{ display: flex; flex-direction: row; margin-top:5%; padding-bottom:5%; border-bottom: 1px solid #e7e7e7; width: 94%; margin-left: 3%; margin-right: 3%; }
+.portfolio .jisuan{ display: flex; flex-direction: row; margin-top:5%; padding-bottom:5%; border-bottom:2rpx solid #e7e7e7; width: 94%; margin-left: 3%; margin-right: 3%; }
 
 /* 公积金贷款 */
-.gongjijinloan .jisuan{ display: flex; flex-direction: row; margin-top:5%; padding-bottom:5%; border-bottom: 1px solid #e7e7e7; width: 94%; margin-left: 3%; margin-right: 3%; }
+.gongjijinloan .jisuan{ display: flex; flex-direction: row; margin-top:5%; padding-bottom:5%; border-bottom:2rpx solid #e7e7e7; width: 94%; margin-left: 3%; margin-right: 3%; }
 
 
 

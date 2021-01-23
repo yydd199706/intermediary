@@ -210,16 +210,16 @@ export default {
   clear: both;
   height: 0;
   display: block;}
-.hsxian{ width: 100%; height:10px; background: #f8f8fa;}
+.hsxian{ width: 100%; height:20rpx; background: #f8f8fa;}
 .indexstyle{width: 100%; margin: 0 auto; background: #fff;}
  
  
 .building{ width: 100%;}
-.bd_lanmu{width:98%; line-height: 42px; position: relative; overflow: hidden; white-space: nowrap; margin-right:1%; margin-left:1%; padding-top:4%;} 
+.bd_lanmu{width:98%; line-height:84rpx; position: relative; overflow: hidden; white-space: nowrap; margin-right:1%; margin-left:1%; padding-top:4%;} 
 .lm_xx{color:#9399a5; display: inline-block; margin-right:4%; margin-left:4%; font-size: 30rpx;}
 
 .bd_neirong{ width:100%;}
-.basic{ width: 90%; padding-left: 5%; padding-right: 5%; padding-bottom: 5%; border-bottom: 10px #efefef solid; margin-top: 3%;}
+.basic{ width: 90%; padding-left: 5%; padding-right: 5%; padding-bottom: 5%; border-bottom:20rpx #efefef solid; margin-top: 3%;}
 .basic h1{ font-size: 36rpx; color: #000; font-weight: bold;}
 .b_js div{ margin-top:4%; font-size: 30rpx; line-height: 55rpx;}
 .b_js div span{ color: #9399a5; margin-right: 3%;}
@@ -227,10 +227,10 @@ export default {
 .b_js div p.youzj{ position: relative; top: -7%; font-size: 26rpx; width:30%;}
 .youzj image{ width:32rpx; height:32rpx; margin-right:4%; margin-top:2%;}
 
-.sales{ width: 90%; padding-left: 5%; padding-right: 5%; padding-bottom: 5%; border-bottom: 10px #efefef solid; margin-top: 3%;}
+.sales{ width: 90%; padding-left: 5%; padding-right: 5%; padding-bottom: 5%; border-bottom:20rpx #efefef solid; margin-top: 3%;}
 .sales h1{ font-size: 36rpx; color: #000; font-weight: bold;}
 
-.community{ width: 90%; padding-left: 5%; padding-right: 5%; padding-bottom: 5%; border-bottom: 10px #efefef solid; margin-top: 3%;}
+.community{ width: 90%; padding-left: 5%; padding-right: 5%; padding-bottom: 5%; border-bottom:20rpx #efefef solid; margin-top: 3%;}
 .community h1{ font-size: 36rpx; color: #000; font-weight: bold;}
 .community .b_js div image{ width: 30rpx; height: 30rpx; margin-left:2%;}
 /* 中间弹框 */
@@ -241,7 +241,7 @@ export default {
 .rj_kuang button{ width: 90%; background: #07c160; color: #fff;}
 
 
-.license{ width: 90%; padding-left: 5%; padding-right: 5%; padding-bottom: 5%; border-bottom: 10px #efefef solid; margin-top: 3%;}
+.license{ width: 90%; padding-left: 5%; padding-right: 5%; padding-bottom: 5%; border-bottom:20rpx #efefef solid; margin-top: 3%;}
 .license h1{ font-size: 36rpx; color: #000; font-weight: bold;}
 
 

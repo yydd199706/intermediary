@@ -61,13 +61,13 @@
   display: block;}
 .fl{ float: left;}
 .fr{ float: right;}
-.hsxian{ width: 100%; height:10px; background: #f8f8fa;}
+.hsxian{ width: 100%; height:20rpx; background: #f8f8fa;}
 .indexstyle{width: 100%; margin: 0 auto; background: #fff;}
 
 /* 搜索 */
 .sousuo{ width: 90%;  margin: 0 auto; margin-left: 5%; }
-.sousuo input{ height:40px; line-height:40px; width:100%; border-radius:30px; margin: 0 auto; background: #f2f2f2;  }
-.sousuo image{ width: 20px; height: 20px; position: absolute; top:1.5%; left:8%; }
+.sousuo input{ height:80rpx; line-height:80rpx; width:100%; border-radius:60rpx; margin: 0 auto; background: #f2f2f2;  }
+.sousuo image{ width:40rpx; height:40rpx; position: absolute; top:1.5%; left:8%; }
  
 .hotsousuo{ width: 90%; margin-left: 5%; margin-right: 5%; margin-top:6%; }
 .hotsousuo h1{ font-size: 40rpx; font-weight: bold;}

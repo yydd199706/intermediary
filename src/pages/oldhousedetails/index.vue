@@ -459,7 +459,7 @@ export default {
   display: block;}
 .fl{ float: left;}
 .fr{ float: right;}
-.hsxian{ width: 100%; height:10px; background: #f8f8fa;}
+.hsxian{ width: 100%; height:20rpx; background: #f8f8fa;}
 .indexstyle{width: 100%; margin: 0 auto; background: #fff;}
 
 
@@ -486,10 +486,10 @@ export default {
 
 
 
-.ershou{ width: 90%; padding-left: 5%; padding-right: 5%; margin-top: 5%; border-bottom: 10px #efefef solid;}
+.ershou{ width: 90%; padding-left: 5%; padding-right: 5%; margin-top: 5%; border-bottom:20rpx #efefef solid;}
 .ershou div{overflow: hidden;}
 .features{ float: left;}
-.features p{float: left; font-size: 24rpx; padding: 2rpx 10rpx 2rpx 10rpx; background: #edf0f3; color: #849aae; margin-right: 3px; border-radius: 3px;}
+.features p{float: left; font-size: 24rpx; padding: 2rpx 10rpx 2rpx 10rpx; background: #edf0f3; color: #849aae; margin-right:6rpx; border-radius:6rpx;}
 .moredj{float: right;font-size: 24rpx;}
 .biaoti{ font-size:43rpx; font-weight: bold; margin-top: 3%; }
 .mianji{ overflow: hidden; margin-top:3%; }
@@ -506,30 +506,30 @@ export default {
 .xinxi div{ font-size:30rpx; color: rgb(160, 160, 160); line-height:40rpx; width: 100% !important; overflow: hidden;}
 .xinxi div P{ float: left; width: 70%;}
 .xinxi div span{ color: #000;}
-.xinxi div image{ float: right; width: 9px; height: 15px; position: relative; top: -18px;}
+.xinxi div image{ float: right; width:18rpx; height:30rpx; position: relative; top: -36rpx;}
 
 
-.pingjia{width: 90%; padding-left: 5%; padding-right: 5%; margin-top: 5%; padding-bottom: 5%; border-bottom: 10px #efefef solid;}
+.pingjia{width: 90%; padding-left: 5%; padding-right: 5%; margin-top: 5%; padding-bottom: 5%; border-bottom:20rpx #efefef solid;}
 .hx_bt{ width:100%; overflow: hidden;}
 .hx_bt p{ float: left; font-size:35rpx; font-weight: bold;}
 .hx_bt span{ float: right; font-size:25rpx;}
 
 
 
-.jingjiren{width: 90%; padding-left: 5%; padding-right: 5%; margin-top: 5%; padding-bottom: 5%; border-bottom: 10px #efefef solid;}
+.jingjiren{width: 90%; padding-left: 5%; padding-right: 5%; margin-top: 5%; padding-bottom: 5%; border-bottom:20rpx #efefef solid;}
 .guwen{ width:100%; margin-top:5%;}
 .guwen_list{ width: 100%; margin-top:2%; overflow: hidden;}
 
 .left_g{ float: left; width:75%;}
-.left_g image{ float: left; width:55px; height:55px; border-radius: 50%; margin-right: 2%;}
+.left_g image{ float: left; width:110rpx; height:110rpx; border-radius: 50%; margin-right: 2%;}
 .neirong{ float: left; width:70%; margin-top: 2%; }
-.neirong div h1{float: left; font-size:32rpx; font-weight: bold; margin-right: 5px; }
-.neirong div span{ float: left; font-size: 22rpx; padding:1rpx 2rpx 1rpx 2rpx; border: 1px #f86577 solid; color: #f86577; text-align: center; border-radius: 3px; }
+.neirong div h1{float: left; font-size:32rpx; font-weight: bold; margin-right:10rpx; }
+.neirong div span{ float: left; font-size: 22rpx; padding:1rpx 2rpx 1rpx 2rpx; border:2rpx #f86577 solid; color: #f86577; text-align: center; border-radius:6rpx; }
 .neirong p{ font-size: 27rpx; color: #969ca8; margin-top:2%;}
 
-.right_g{ float: right; margin-top:10px; width: 25%; }
+.right_g{ float: right; margin-top:20rpx; width: 25%; }
 .right_g p{ float: left;margin-left:10%;}
-.right_g image{ width:30px; height:30px;}
+.right_g image{ width:60rpx; height:60rpx;}
 
 
 
@@ -539,16 +539,16 @@ export default {
   white-space: nowrap;
   margin-top:10rpx;
 }
-.likelist{ overflow: hidden; margin-top: 5%;margin-right:6%; width:80%; height:80px;display: inline-block;}
+.likelist{ overflow: hidden; margin-top: 5%;margin-right:6%; width:80%; height:160rpx;display: inline-block;}
 .tupian_l{ float: left;width:30%;}
 .tupian_l image{ width:100%; height: 150rpx;}
-.tupian_l .guanzhu{ width: 100%; height:40rpx; background:rgba(20, 20, 20, 0.616); text-align: center; line-height:40rpx; position: relative; top: -20px; color: #fff; font-size: 24rpx;}
+.tupian_l .guanzhu{ width: 100%; height:40rpx; background:rgba(20, 20, 20, 0.616); text-align: center; line-height:40rpx; position: relative; top: -40rpx; color: #fff; font-size: 24rpx;}
 .wenzi_r{ float: right; width: 65%;}
 .wenzi_r h1{ font-size:32rpx; font-weight: bold;}
 .ys_kuai{ width:100%; margin-top: 3%; }
-.ys_kuai p{font-size: 24rpx; padding: 2rpx 5rpx 2rpx 5rpx;  background: #edf0f3; color: #849aae; margin-right: 3px; border-radius: 3px; margin-right: 3px; float: left;}
+.ys_kuai p{font-size: 24rpx; padding: 2rpx 5rpx 2rpx 5rpx;  background: #edf0f3; color: #849aae; margin-right:6rpx; border-radius:6rpx; margin-right:6rpx; float: left;}
 .wenzi_r .jiaqian{ margin-top: 3%;}
-.wenzi_r .jiaqian span.jq1{ font-size: 32rpx; color: #fa5741; margin-right: 10px; font-weight: bold;}
+.wenzi_r .jiaqian span.jq1{ font-size: 32rpx; color: #fa5741; margin-right:20rpx; font-weight: bold;}
 .wenzi_r .jiaqian span.jq2{ font-size:26rpx; color: #9e9e9e; }
 
 
@@ -560,27 +560,27 @@ export default {
 
 
 
-.anniu{ width: 100%; margin-top: 10px;}
-.top {width: 100%; line-height: 42px;white-space: nowrap;position: relative;background: #fff; overflow: hidden; }
-.an_qh{ width:90px; height: 80px; background: rgb(231, 231, 231);color: #000; display: inline-block; margin-right: 10px; border-radius:5px;}
-.an_qh image{width:25px; height:25px; margin: 0 auto; display: block; margin-top:18%;}
-.an_qh p{font-size:26rpx; line-height: 30px; text-align: center;}
-.tabbar-bottom { width:90px; height:80px; background:#2e72f1;color: #fff;}
-.neir{ font-size: 26rpx; margin-top: 10px; height: 150px; overflow: hidden;}
+.anniu{ width: 100%; margin-top:20rpx;}
+.top {width: 100%; line-height:84rpx;white-space: nowrap;position: relative;background: #fff; overflow: hidden; }
+.an_qh{ width:180rpx; height:160rpx; background: rgb(231, 231, 231);color: #000; display: inline-block; margin-right:20rpx; border-radius:10rpx;}
+.an_qh image{width:50rpx; height:50rpx; margin: 0 auto; display: block; margin-top:18%;}
+.an_qh p{font-size:26rpx; line-height:60rpx; text-align: center;}
+.tabbar-bottom { width:180rpx; height:160rpx; background:#2e72f1;color: #fff;}
+.neir{ font-size: 26rpx; margin-top:20rpx; height:300rpx; overflow: hidden;}
 .anniu swiper{ height:80rpx !important;} 
 
 
-.Projectks{width: 90%; padding-left: 5%; padding-right: 5%; margin-top: 5%; padding-bottom: 5%; border-bottom: 10px #efefef solid;}
-.k1{padding-bottom: 15px; border-bottom: 1px rgb(235, 235, 235) solid; }
+.Projectks{width: 90%; padding-left: 5%; padding-right: 5%; margin-top: 5%; padding-bottom: 5%; border-bottom:20rpx #efefef solid;}
+.k1{padding-bottom:30rpx; border-bottom: 1px rgb(235, 235, 235) solid; }
 .xiangmu{ margin-top:5%; overflow: hidden; }
 .l_xiangmu{ float: left; width:60%;}
 .l_xiangmu h1{ font-size: 32rpx; font-weight: bold; margin-bottom: 5%;}
 .l_xiangmu h1 span{ color: rgb(218, 0, 0);}
-.l_xiangmu p{ line-height:20px; color: rgb(124, 124, 124); font-size: 26rpx;}
+.l_xiangmu p{ line-height:40rpx; color: rgb(124, 124, 124); font-size: 26rpx;}
 .r_xiangmu{ width: 40%; float: right;}
 .r_xiangmu image{ width: 100%; height:200rpx;}
 
-.k2{padding-bottom: 15px;margin-top: 5%; border-bottom: 1px rgb(235, 235, 235) solid; }
+.k2{padding-bottom:30rpx;margin-top: 5%; border-bottom: 1px rgb(235, 235, 235) solid; }
 .hx_bt1{ width:100%; overflow: hidden;}
 .hx_bt1 p{ float: left; font-size:32rpx; }
 .hx_bt1 span{ float: right; font-size:24rpx;}
@@ -604,13 +604,13 @@ export default {
 
 
 /* 推荐房源 */
-.house-s{width:100%; background: #fff; margin: 0 auto; height:190px; padding-top: 20px; margin-bottom:10px;}
-.nr-house{ width:100%;  margin-top:15px;}
+.house-s{width:100%; background: #fff; margin: 0 auto; height:380rpx; padding-top:40rpx; margin-bottom:20rpx;}
+.nr-house{ width:100%;  margin-top:30rpx;}
 .nr-house image{ float: left; width: 40%; height: 180rpx;}
 .nr-house .r_wz{ float:right; width: 57%;}
 .nr-house .r_wz .bt_s{font-size: 34rpx; font-weight: bold; margin-right:10rpx;}
 .jieshao{ font-size: 26rpx; color: #000; margin-top:10rpx;}
-.youshi1{ float: left; width:90rpx; height:40rpx; line-height: 40rpx; border-radius:3px; background: #edf0f3; color:#849aae; font-size: 25rpx; text-align: center; margin-top:10rpx; margin-right: 10rpx;}
+.youshi1{ float: left; width:90rpx; height:40rpx; line-height: 40rpx; border-radius:6rpx; background: #edf0f3; color:#849aae; font-size: 25rpx; text-align: center; margin-top:10rpx; margin-right: 10rpx;}
 .m-x{ margin-top: 10rpx; }
 .m-x p{ float: left;}
 .m-x p.money{ font-size: 34rpx; color: rgb(192, 0, 0); font-weight: 900; margin-right: 5rpx;}
@@ -622,23 +622,23 @@ export default {
 .left_foot{ float: left; width:39%;height: 120rpx; margin-right:3%; margin-left: 3%;}
 
 .left_foot .guanzhus{ float: left; width:33.3%; margin: 0 auto; background: #fff;overflow: inherit;border: none; padding: 0 !important;}
-.left_foot .guanzhus image{ width:18px; height:18px;}
-.left_foot .guanzhus p{ font-size: 26rpx; color: #000; position: relative; top:-12px; left:22%;}
+.left_foot .guanzhus image{ width:36rpx; height:36rpx;}
+.left_foot .guanzhus p{ font-size: 26rpx; color: #000; position: relative; top:-24rpx; left:22%;}
  
 
 
-.left_foot .fenxiangs{ float: left; width:33.3%; height: 25px; margin: 0 auto; background: #fff;overflow: inherit;border: none; padding: 0 !important;}
+.left_foot .fenxiangs{ float: left; width:33.3%; height:50rpx; margin: 0 auto; background: #fff;overflow: inherit;border: none; padding: 0 !important;}
 .left_foot button{border: none; padding: 0 !important; padding-left: 0 !important; padding-right: 0 !important;}
 .left_foot button::after{border: none; padding: 0 !important;}
-.left_foot .fenxiangs image{ width:18px; height:18px;}
-.left_foot .fenxiangs p{ font-size: 26rpx; color: #000; position: relative; top: -20px;}
+.left_foot .fenxiangs image{ width:36rpx; height:36rpx;}
+.left_foot .fenxiangs p{ font-size: 26rpx; color: #000; position: relative; top: -40rpx;}
 
 
 
 
-.right_foot{ float: right; width:55%; margin-top:7px;}
-.Report{ float: left; width: 45%; background: #3dc28e; font-size: 28rpx; height:90rpx; line-height:90rpx; text-align: center; border-radius: 5px; color: #fff; margin-right: 5%;}
-.Telephone{ float: right; width: 45%; background: #2e72f1; font-size: 28rpx; height:90rpx; line-height:90rpx; text-align: center; border-radius: 5px; color: #fff; margin-right: 5%;}
+.right_foot{ float: right; width:55%; margin-top:14rpx;}
+.Report{ float: left; width: 45%; background: #3dc28e; font-size: 28rpx; height:90rpx; line-height:90rpx; text-align: center; border-radius: 10rpx; color: #fff; margin-right: 5%;}
+.Telephone{ float: right; width: 45%; background: #2e72f1; font-size: 28rpx; height:90rpx; line-height:90rpx; text-align: center; border-radius:10rpx; color: #fff; margin-right: 5%;}
 
 
 

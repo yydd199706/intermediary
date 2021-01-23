@@ -222,7 +222,7 @@ export default {
   clear: both;
   height: 0;
   display: block;}
-.hsxian{ width: 100%; height:10px; background: #f8f8fa;}
+.hsxian{ width: 100%; height:20rpx; background: #f8f8fa;}
 .indexstyle{width: 100%; margin: 0 auto; background: #fff;}
  
 /* 经纪人开始 */
@@ -235,10 +235,10 @@ export default {
 
 .right_jj{ float: right; position: relative;   }
 .right_jj image{ width: 150rpx; height: 150rpx; border-radius: 50%;}
-.right_jj p{ padding:3rpx 3rpx 3rpx 3rpx; text-align: center; background: linear-gradient(#fff4d9, #ffe7b1); border: 1px #deca99 solid; color: #91783d; font-size: 20rpx;border-radius:150rpx; position: absolute; top:75%; left:7%;}
+.right_jj p{ padding:3rpx 3rpx 3rpx 3rpx; text-align: center; background: linear-gradient(#fff4d9, #ffe7b1); border:2rpx #deca99 solid; color: #91783d; font-size: 20rpx;border-radius:150rpx; position: absolute; top:75%; left:7%;}
 
 .youshis{ width:86%; margin-left:7%; margin-right:7%;}
-.youshis span{ font-size: 27rpx;padding:3rpx 7rpx 3rpx 7rpx; border: 1px #eadabd solid; color: #6d5c3c; }
+.youshis span{ font-size: 27rpx;padding:3rpx 7rpx 3rpx 7rpx; border: 2rpx #eadabd solid; color: #6d5c3c; }
 
 .pingjia{ width:92%; margin-left:5%; margin-right:3%; margin-top:7%;}
 .pingjia ul{ overflow: hidden;}
@@ -259,24 +259,24 @@ export default {
 .nr_list{ width: 100%;}
 /* 二手房 */
 .secondary{ width: 100%;}
-.h-mt{ width:100%;  margin-top:30rpx; padding-bottom: 5%; border-bottom: 1px #e9e9e9 solid;}
+.h-mt{ width:100%;  margin-top:30rpx; padding-bottom: 5%; border-bottom: 2rpx #e9e9e9 solid;}
 .h-mt image{ float: left; width: 40%; height: 180rpx; border-radius: 10rpx;}
 .h-mt .r_wz{ float:right; width: 57%;}
 .h-mt .r_wz .bt_s{font-size: 34rpx; font-weight: bold; margin-right:10rpx;}
 .jieshao{ font-size: 26rpx; color: #000; margin-top:10rpx;}
-.youshiesf1{ float: left; width:90rpx; height:40rpx; line-height: 40rpx; border-radius:3px; background: #edf0f3; color:#849aae; font-size: 25rpx; text-align: center; margin-top:10rpx; margin-right: 10rpx;}
+.youshiesf1{ float: left; width:90rpx; height:40rpx; line-height: 40rpx; border-radius:6rpx; background: #edf0f3; color:#849aae; font-size: 25rpx; text-align: center; margin-top:10rpx; margin-right: 10rpx;}
 .m-x{ margin-top: 10rpx; }
 .m-x p{ float: left;}
 .m-x p.money{ font-size: 34rpx; color: #fa5741; font-weight: 900; margin-right: 5rpx;}
 .m-x p.money1{ font-size:26rpx; color:#a4a4a4; margin-top: 10rpx; }
 
 /* 新房 */
-.intention-mt{ padding-bottom:15px; border-bottom: 1px rgb(236, 236, 236) solid; margin-top: 15px;}
-.intention-mt image{ float: left; width:30%; height:150rpx; border-radius: 5px;}
+.intention-mt{ padding-bottom:30rpx; border-bottom:2rpx rgb(236, 236, 236) solid; margin-top:30rpx;}
+.intention-mt image{ float: left; width:30%; height:150rpx; border-radius:10rpx;}
 .intention-mt .intention-right{ float:right; width:67%; }
 .intention-mt .intention-right .bt_ri h1{ float: left; font-size: 34rpx; font-weight: bold; margin-right:4rpx;}
-.intention-mt .intention-right .bt_ri p{ float: right; width:60rpx; height:35rpx; line-height: 35rpx; background: #0a8de4; text-align: center; font-size: 24rpx;  margin-right:10rpx; color: #fff; border-radius: 3px; margin-top:1%;}
-.youshi2{ float: left; padding: 3rpx 8rpx 3rpx 8rpx; border-radius:3px; border: 1px #dbdbdb solid; color:#8b8b8b; font-size: 22rpx; text-align: center; margin-top:15rpx; margin-right: 10rpx;}
+.intention-mt .intention-right .bt_ri p{ float: right; width:60rpx; height:35rpx; line-height: 35rpx; background: #0a8de4; text-align: center; font-size: 24rpx;  margin-right:10rpx; color: #fff; border-radius:6rpx; margin-top:1%;}
+.youshi2{ float: left; padding: 3rpx 8rpx 3rpx 8rpx; border-radius:6rpx; border:2rpx #dbdbdb solid; color:#8b8b8b; font-size: 22rpx; text-align: center; margin-top:15rpx; margin-right: 10rpx;}
 .m-x{ margin-top: 15rpx; }
 .m-x p{ float: left;}
 .m-x p.money{ font-size: 30rpx; color:#df573d; font-weight: 900; margin-right: 5rpx;}

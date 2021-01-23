@@ -346,7 +346,7 @@ export default {
   display: block;}
 .fl{ float: left;}
 .fr{ float: right;}
-.hsxian{ width: 100%; height:10px; background: #f8f8fa;}
+.hsxian{ width: 100%; height:20rpx; background: #f8f8fa;}
 .indexstyle{width: 100%; margin: 0 auto; background: #fff;}
 
 
@@ -369,33 +369,33 @@ export default {
 
 
 /* 租房信息  */
-.zfdetails{width: 90%; padding-left: 5%; padding-right: 5%; margin-top: 5%; padding-bottom: 8%;  border-bottom: 10px #f8f8fa solid;}
+.zfdetails{width: 90%; padding-left: 5%; padding-right: 5%; margin-top: 5%; padding-bottom: 8%;  border-bottom:20rpx #f8f8fa solid;}
 .btjq{ width: 100%; overflow: hidden;}
 .btjq h1{ float: left; font-size:32rpx; color: rgb(255, 58, 58);}
 .btjq h1 span{ font-size: 38rpx;}
 .btjq p{ float: right; font-size: 28rpx; color: rgb(26, 154, 228);}
-.zfdetails h2{ font-size: 34rpx; font-weight: bold; margin-top: 5px;}
-.jieshao{ margin-top:3%; width: 100%; overflow: hidden; padding-top:2%; padding-bottom:2%; border-top: 1px rgb(236, 236, 236) solid; border-bottom: 1px rgb(236, 236, 236) solid; }
+.zfdetails h2{ font-size: 34rpx; font-weight: bold; margin-top:10rpx;}
+.jieshao{ margin-top:3%; width: 100%; overflow: hidden; padding-top:2%; padding-bottom:2%; border-top:2rpx rgb(236, 236, 236) solid; border-bottom:2rpx rgb(236, 236, 236) solid; }
 .jieshao ul li{ float: left; width: 25%; text-align: center;}
-.jieshao ul li h3{ font-size: 32rpx; margin-bottom: 5px;}
+.jieshao ul li h3{ font-size: 32rpx; margin-bottom:10rpx;}
 .jieshao ul li p{ font-size: 28rpx; color: rgb(121, 121, 121); }
 .zf_ys{ width: 100%; margin-top: 3%; }
-.zf_ys p{ float: left; font-size: 26rpx; padding: 2rpx 10rpx 2rpx 10rpx; background: #edf0f3; color: #849aae; margin-right: 3px; border-radius: 3px;}
+.zf_ys p{ float: left; font-size: 26rpx; padding: 2rpx 10rpx 2rpx 10rpx; background: #edf0f3; color: #849aae; margin-right:6rpx; border-radius:6rpx;}
 
 /* 房源简介 */
-.introduction{width: 90%; padding-left: 5%; padding-right: 5%; margin-top: 5%; padding-bottom: 5%; border-bottom: 10px #efefef solid;}
+.introduction{width: 90%; padding-left: 5%; padding-right: 5%; margin-top: 5%; padding-bottom: 5%; border-bottom:20rpx #efefef solid;}
 .hx_bt{ width:100%; overflow: hidden;}
 .hx_bt p{ float: left; font-size:35rpx; font-weight: bold;}
 .hx_bt span{ float: right; font-size:25rpx; color: #2e72f1; margin-top: 2%;}
 .fyjieshao{ width: 100%; margin-top: 5%;}
 .fyjieshao ul{ overflow: hidden;}
 .fyjieshao ul li{  display: inline-block; width: 20%; margin-bottom: 5%;}
-.fyjieshao ul li image{ width: 30px; height: 30px; display: block; margin: 0 auto;}
-.fyjieshao ul li p{ font-size: 28rpx; margin-top: 5px; text-align: center;}
+.fyjieshao ul li image{ width:60rpx; height:60rpx; display: block; margin: 0 auto;}
+.fyjieshao ul li p{ font-size: 28rpx; margin-top:10rpx; text-align: center;}
 .yajin_tk button{ width: 50%; background: #07c160; color: #fff; height:70rpx; line-height: 70rpx;}
 
 /* 费用详情 */
-.cost{width: 90%; padding-left: 5%; padding-right: 5%; margin-top: 5%; padding-bottom:5%; border-bottom: 10px #efefef solid;}
+.cost{width: 90%; padding-left: 5%; padding-right: 5%; margin-top: 5%; padding-bottom:5%; border-bottom:20rpx #efefef solid;}
 .feiyong{ width: 100%; margin-top:5%;}
 .feiyong h2{ font-size: 26rpx; margin-bottom: 5%;}
 .feiyong ul{ display: flex; flex-direction: row; margin-top:2%;}
@@ -410,23 +410,23 @@ export default {
 
 
 /* 推荐经纪人 */
-.agent{width: 90%; padding-left: 5%; padding-right: 5%; margin-top: 5%; padding-bottom: 5%; border-bottom: 10px #efefef solid;}
+.agent{width: 90%; padding-left: 5%; padding-right: 5%; margin-top: 5%; padding-bottom: 5%; border-bottom:20rpx #efefef solid;}
 .guwen{ width:100%; margin-top:5%;}
 .guwen_list{ width: 100%; margin-top:2%; overflow: hidden;}
 .left_g{ float: left; width:75%;}
-.left_g image{ float: left; width:55px; height:55px; border-radius: 50%; margin-right: 2%;}
+.left_g image{ float: left; width:110rpx; height:110rpx; border-radius: 50%; margin-right: 2%;}
 .neirong{ float: left; width:70%; margin-top: 2%; }
-.neirong div h1{float: left; font-size:32rpx; font-weight: bold; margin-right: 5px; }
-.neirong div span{ float: left; font-size: 22rpx; padding:1rpx 2rpx 1rpx 2rpx; border: 1px #f86577 solid; color: #f86577; text-align: center; border-radius: 3px; }
+.neirong div h1{float: left; font-size:32rpx; font-weight: bold; margin-right:10rpx; }
+.neirong div span{ float: left; font-size: 22rpx; padding:1rpx 2rpx 1rpx 2rpx; border:2rpx #f86577 solid; color: #f86577; text-align: center; border-radius:6rpx; }
 .neirong p{ font-size: 27rpx; color: #969ca8; margin-top:2%;}
 
-.right_g{ float: right; margin-top:10px; width: 25%; }
+.right_g{ float: right; margin-top:20rpx; width: 25%; }
 .right_g p{ float: left;margin-left:10%;}
-.right_g image{ width:30px; height:30px;}
+.right_g image{ width:60rpx; height:60rpx;}
 
 
 /* 位置及周边地图 */
-.ditu{width: 90%; padding-left: 5%; padding-right: 5%; margin-top: 5%; padding-bottom: 5%; border-bottom: 10px #efefef solid;}
+.ditu{width: 90%; padding-left: 5%; padding-right: 5%; margin-top: 5%; padding-bottom: 5%; border-bottom:20rpx #efefef solid;}
 .map{background: rgba(255,255,255,0.8);padding: 20rpx;margin-top: 25rpx;
     box-sizing: border-box;border-radius: 10rpx;position: relative;top: -50rpx;}
 .map_img{width:100%; margin-bottom: 50rpx; margin-top: 3%;}
@@ -451,13 +451,13 @@ export default {
 
 
 /* 推荐房源 */
-.recommendfy{width: 90%; padding-left: 5%; padding-right: 5%; margin-top: 5%; padding-bottom: 5%; border-bottom: 10px #f8f8fa solid;}
-.nr-house{ width:100%;  margin-top:15px;}
+.recommendfy{width: 90%; padding-left: 5%; padding-right: 5%; margin-top: 5%; padding-bottom: 5%; border-bottom:20rpx #f8f8fa solid;}
+.nr-house{ width:100%;  margin-top:30rpx;}
 .nr-house image{ float: left; width: 40%; height: 180rpx;}
 .nr-house .r_wz{ float:right; width: 57%;}
 .nr-house .r_wz .bt_s{font-size: 34rpx; font-weight: bold; margin-right:10rpx;}
 .jieshao{ font-size: 26rpx; color: #000; margin-top:10rpx;}
-.youshi1{ float: left; width:90rpx; height:40rpx; line-height: 40rpx; border-radius:3px; background: #edf0f3; color:#849aae; font-size: 25rpx; text-align: center; margin-top:10rpx; margin-right: 10rpx;}
+.youshi1{ float: left; width:90rpx; height:40rpx; line-height: 40rpx; border-radius:6rpx; background: #edf0f3; color:#849aae; font-size: 25rpx; text-align: center; margin-top:10rpx; margin-right: 10rpx;}
 .m-x{ margin-top: 10rpx; }
 .m-x p{ float: left;}
 .m-x p.money{ font-size: 34rpx; color: rgb(192, 0, 0); font-weight: 900; margin-right: 5rpx;}
@@ -470,18 +470,18 @@ export default {
 .footer{ width: 100%; height: 120rpx; background: #fff;position: fixed;bottom: 0;}
 .left_foot{ float: left; width:39%;height: 120rpx; margin-right:3%; margin-left: 3%;}
 .left_foot .guanzhus{ float: left; width:33.3%; margin: 0 auto; background: #fff;overflow: inherit;border: none; padding: 0 !important;}
-.left_foot .guanzhus image{ width:18px; height:18px;}
-.left_foot .guanzhus p{ font-size: 26rpx; color: #000; position: relative; top:-12px; left:22%;}
+.left_foot .guanzhus image{ width:36rpx; height:36rpx;}
+.left_foot .guanzhus p{ font-size: 26rpx; color: #000; position: relative; top:-24rpx; left:22%;}
 
-.left_foot .fenxiangs{ float: left; width:33.3%; height: 25px; margin: 0 auto; background: #fff;overflow: inherit;border: none; padding: 0 !important;}
+.left_foot .fenxiangs{ float: left; width:33.3%; height:50rpx; margin: 0 auto; background: #fff;overflow: inherit;border: none; padding: 0 !important;}
 .left_foot button{border: none; padding: 0 !important; padding-left: 0 !important; padding-right: 0 !important;}
 .left_foot button::after{border: none; padding: 0 !important;}
-.left_foot .fenxiangs image{ width:18px; height:18px;}
-.left_foot .fenxiangs p{ font-size: 26rpx; color: #000; position: relative; top: -20px;}
+.left_foot .fenxiangs image{ width:36rpx; height:36rpx;}
+.left_foot .fenxiangs p{ font-size: 26rpx; color: #000; position: relative; top: -40rpx;}
 
-.right_foot{ float: right; width:55%; margin-top:7px;}
-.Report{ float: left; width: 45%; background: #3dc28e; font-size: 28rpx; height:90rpx; line-height:90rpx; text-align: center; border-radius: 5px; color: #fff; margin-right: 5%;}
-.Telephone{ float: right; width: 45%; background: #2e72f1; font-size: 28rpx; height:90rpx; line-height:90rpx; text-align: center; border-radius: 5px; color: #fff; margin-right: 5%;}
+.right_foot{ float: right; width:55%; margin-top:14rpx;}
+.Report{ float: left; width: 45%; background: #3dc28e; font-size: 28rpx; height:90rpx; line-height:90rpx; text-align: center; border-radius: 10rpx; color: #fff; margin-right: 5%;}
+.Telephone{ float: right; width: 45%; background: #2e72f1; font-size: 28rpx; height:90rpx; line-height:90rpx; text-align: center; border-radius:10rpx; color: #fff; margin-right: 5%;}
 
 
 
