@@ -186,7 +186,7 @@
       </div>
 
       <div class="nr-house">
-        <div class="h-mt" v-for="(item, index) in esf" :key="index">
+        <div class="h-mt" v-for="(item, index) in esf" :key="index" :data-id="item.id" @click="esfDetail(index,$event)">
           <image :src="domain+item.Imgurl" class="new-image" mode="scaleToFill" />
           <div class="r_wz">
             <div class="bt_s">{{ item.title}}</div>
@@ -404,6 +404,11 @@ export default {
     },
     navList:function(index,e){
       wx.navigateTo({ url: e.mp.currentTarget.dataset.url });
+    },
+    //点击跳转二手房详情页
+    esfDetail:function(index,e){
+      console.log('e',e.mp.currentTarget.dataset.id);
+      wx.navigateTo({ url: "/pages/oldhousedetails/main?id=" + e.mp.currentTarget.dataset.id });
     }
   },
 };

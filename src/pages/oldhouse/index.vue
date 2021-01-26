@@ -23,7 +23,7 @@
         </div>
         <!-- 区域开始 -->
         <div class="region_xl" v-if="xianshi_qy">
-          <div class="l_mingzi">
+          <!-- <div class="l_mingzi">
             <p @click="dianji_dq">地区</p>
           </div>
           <div class="r_neirong">
@@ -32,6 +32,16 @@
               <p v-for="(item, index) in regionType" :key="index" :data-id="item.Id"
               @click="quClick(index,$event)" :data-name="item.Name">{{item.Name}}</p>
             </div>
+          </div>
+          <div class="x_dibu">
+            <div class="z_buxian">不限条件</div>
+            <div class="y_quding">确定</div>
+          </div> -->
+          <div class="huxing">
+            <p>不限</p>
+            <p v-for="(item, index) in regionType" :key="index" :data-id="item.Id"
+              @click="quClick(index,$event)" :data-name="item.Name">{{item.Name}}</p>
+            <div class="clear"></div>
           </div>
           <div class="x_dibu">
             <div class="z_buxian">不限条件</div>
@@ -503,23 +513,23 @@ export default {
         'content-type': 'application/json' // 默认值
       },
       success (res) {
-        console.log('点击区域筛选',res.data);
-         if (res.data.Context.esf.length > 0) {
-          for (var i = 0; i < res.data.Context.esf.length; i++) {
-           that.esf.push(res.data.Context.esf[i]);
-          }
-          // that.waperHid=true;
-          // that.noneHid = false;
-        } else {
-          // that.waperHid=false;
-          // that.noneHid = true;
-        }
-        if (res.data.Context.recordCount == 0) {
-          // that.noneHid = true;
-        } else {
-          // that.noneHid = false;
-          that.allPage = res.data.Context.recordCount;
-        }
+        // console.log('点击区域筛选',res.data);
+        //  if (res.data.Context.esf.length > 0) {
+        //   for (var i = 0; i < res.data.Context.esf.length; i++) {
+        //    that.esf.push(res.data.Context.esf[i]);
+        //   }
+        //   // that.waperHid=true;
+        //   // that.noneHid = false;
+        // } else {
+        //   // that.waperHid=false;
+        //   // that.noneHid = true;
+        // }
+        // if (res.data.Context.recordCount == 0) {
+        //   // that.noneHid = true;
+        // } else {
+        //   // that.noneHid = false;
+        //   that.allPage = res.data.Context.recordCount;
+        // }
         // that.esf=res.data.Context.esf;
       }
     })
