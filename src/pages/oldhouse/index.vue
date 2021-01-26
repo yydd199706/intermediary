@@ -367,7 +367,7 @@ export default {
       that.isJg=true;
       that.jgName=e.mp.currentTarget.dataset.name;
       that.priceId=e.mp.currentTarget.dataset.id;
-      that.typeFun();
+      // that.typeFun();
     },
     //点击户型分类
     hxClick:function(index,e){
