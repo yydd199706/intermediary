@@ -25,14 +25,15 @@
         <div class="region_xl" v-if="xianshi_qy">
           <div class="huxing">
             <p>不限</p>
-            <p v-for="(item, index) in regionType" :key="index" :data-id="item.Id"
-              @click="quClick(index,$event)" :data-name="item.Name" :class="[isQytype?'type':'']">
+            <p v-for="(item, index) in regionType" :key="index" :data-id="item.Id"  :data-isQytype="item.isQytype"
+              @click="quClick(index,$event)" :data-name="item.Name" :class="[item.isQytype==true?'type':'none']"
+              :data-show="show">
               {{item.Name}}</p>
             <div class="clear"></div>
           </div>
           <div class="x_dibu">
             <div class="z_buxian">不限条件</div>
-            <div class="y_quding">确定</div>
+            <div class="y_quding">确定</div> 
           </div>
         </div>
         <!-- 区域开始 -->
@@ -56,7 +57,7 @@
             <p>不限</p>
             <p v-for="(item, index) in apirlroomType" :key="index" :data-id="item.Id"
               @click="hxClick(index,$event)" :data-name="item.Name">{{item.Name}}</p>
-            <div class="clear"></div>
+          <div class="clear"></div>
           </div>
           <div class="x_dibu">
             <div class="z_buxian">不限条件</div>
@@ -188,7 +189,6 @@ export default {
       isHx:false,
       isGd:false,
       isPx:false,
-      isQytype:false,
       zoneArr:[],
       apirlroomArr:[],
       priceArr:[],
@@ -216,6 +216,8 @@ export default {
       xianshi_dj:false,
       xianshi_hx:false,
       xianshi_sx:false,
+      show: false,
+      dqval: 0
     }
   },
   onLoad(){
@@ -231,9 +233,12 @@ export default {
         success: function (res) {
           console.log('筛选条件',res);
           that.regionType = res.data.Context.zone;
+          for(var i=0;i<that.regionType.length;i++){
+            that.regionType[i].isQytype=false;
+          }
           that.priceType = res.data.Context.price;
           that.apirlroomType = res.data.Context.apirlroom;
-          that.areaType = res.data.Context.area;
+          that.areaType = res.data.Context.area;  
           that.buildyearType = res.data.Context.buildyear;
           that.companyType = res.data.Context.company;
           that.decorationType = res.data.Context.decoration;
@@ -269,6 +274,11 @@ export default {
     that.isHx=false;
     that.isGd=false;
     that.isPx=false;
+    that.xianshi_qy=false;
+    that.xianshi_jg=false;
+    that.xianshi_hx=false;
+    that.xianshi_sx=false;
+    that.maskHid=false;
     that.typeFun();
   },
   methods:{
@@ -347,13 +357,33 @@ export default {
     },
     //点击区域分类
     quClick:function(index,e){
-      console.log('区域id',e.mp.currentTarget.dataset.name);
       const that = this;
-      // that.xianshi_qy=false;
-      // that.maskHid=false;
+      var id=e.mp.currentTarget.dataset.id;
+      for (var j = 0; j < that.regionType.length; j++) {
+        if (that.regionType[j].Id === id) {
+          if (that.show == true && that.dqval == id) {
+            that.show = false;
+            that.regionType[j].isQytype = false;
+          } else {
+            that.show = true;
+            that.regionType[j].isQytype = true;
+            that.dqval = id;
+          }
+          // if(that.regionType[j].isQytype==false){
+          //   that.regionType[j].isQytype=true;
+          // }else{
+          //   that.regionType[j].isQytype=false;
+          // }
+          // that.regionType[j].isQytype=true;
+           console.log('区域选中',that.regionType[index].isQytype);
+        }
+        else{
+        //    console.log('区域未选中');
+        } 
+        } 
       that.isQu=true;
       that.qyName=e.mp.currentTarget.dataset.name;
-      that.zoneId=e.mp.currentTarget.dataset.id;
+      
       // that.typeFun();
     },
     //点击价格分类
@@ -540,6 +570,8 @@ export default {
 
 <style scoped>
 .career{color:#3072F6;}
+.type{background: #EAF1FE !important;color: #3072F6;}
+.none{background: #f8f8fa;color: #000;}
 .clear {
   clear: both;
   height: 0;

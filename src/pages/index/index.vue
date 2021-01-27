@@ -69,8 +69,8 @@
               <image :src="domain+item.ImgUrl" class="hot-image" mode="scaleToFill" />
               <div class="location">{{ item.zonename }}</div>
             </div>
-            <h2>{{ item.name }}</h2>
-            <p>{{item.arearange==""||item.arearange==null?'面积：暂无':item.arearange}}</p>
+            <div class="goodTitle">{{ item.name }}</div>
+            <p>面积：{{item.arearange==""||item.arearange==null?'暂无':item.arearange+'m²'}}</p>
             <h3>{{item.averageprice==""||item.averageprice==null?'价格待定':'均价'+item.averageprice+'元/m²'}}</h3>
           </div>  
         </scroll-view>
@@ -88,12 +88,12 @@
         <scroll-view scroll-x="true" style="width: 100%" class="image-group">
           <div class="loupanlist" v-for="(item, index) in goodroom" :key="index">
             <div class="loupanlist_top"> 
-              <image :src="domain+item.ImgUrl" class="hot-image" mode="scaleToFill" />
-              <div class="location">{{ item.zonename }}</div>
+              <image :src="domain+item.Imgurl" class="hot-image" mode="scaleToFill" />
+              <div class="location">{{ item.Zonename }}</div>
             </div>
             
-            <h2>{{ item.name }}</h2>
-            <p>{{item.arearange==""||item.arearange==null?'面积：暂无':item.arearange}}</p>
+            <div class="goodTitle">{{ item.title }}</div>
+            <p>面积：{{item.area==""||item.area==null?'暂无':item.area+'m²'}}</p>
             <h3>{{item.averageprice==""||item.averageprice==null?'价格待定':'均价'+item.averageprice+'元/m²'}}</h3>
           </div>
         </scroll-view>
@@ -603,11 +603,12 @@ export default {
   line-height: 35rpx;
   text-align: center;
 }
-.hot-nr .loupanlist h2 {
+.goodTitle {
   /* position: relative;
   top: -30rpx; */
+  width: 200rpx;
   font-size: 29rpx;
-  font-weight: bold;
+  font-weight: bold;text-overflow:ellipsis;word-break:break-all;overflow: hidden;
 }
 .hot-nr .loupanlist p {
   font-size: 22rpx;
