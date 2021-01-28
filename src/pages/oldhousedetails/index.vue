@@ -557,7 +557,7 @@ export default {
 
 
 
-.jingjiren{width: 90%; padding-left: 5%; padding-right: 5%; margin-top: 5%; padding-bottom:130rpx; border-bottom:20rpx #efefef solid;}
+.jingjiren{width: 90%; padding-left: 5%; padding-right: 5%; margin-top: 5%; padding-bottom:20rpx; border-bottom:20rpx #efefef solid;}
 .guwen{ width:100%; margin-top:5%;}
 .guwen_list{ width: 100%; margin-top:2%; overflow: hidden; margin-bottom:30rpx;}
 
@@ -649,7 +649,7 @@ export default {
 
 /* 推荐房源 */
 .house-s{width:100%; background: #fff; margin: 0 auto; height:380rpx; padding-top:40rpx; margin-bottom:20rpx;}
-.nr-house{ width:100%;  margin-top:30rpx;}
+.nr-house{ width:100%;  margin-top:30rpx; padding-bottom: 110rpx;}
 .nr-house image{ float: left; width: 40%; height: 180rpx;}
 .nr-house .r_wz{ float:right; width: 57%;}
 .nr-house .r_wz .bt_s{font-size: 34rpx; font-weight: bold; margin-right:10rpx;}
