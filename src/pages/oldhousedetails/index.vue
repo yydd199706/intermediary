@@ -7,10 +7,15 @@
       <swiper class="swiper" @change="djimg" >
         <block v-for="(item, index) in movies" :key="index">
           <swiper-item>
-            <image :src="item.img1" class="slide-image" mode="scaleToFill"/>
+            <image :src="domain+item.imgurl" class="slide-image" mode="scaleToFill"/>
           </swiper-item>
         </block>
       </swiper>
+      
+      <div class="lbvr" v-if="isshowvr == 1 ? true : false">
+        <image :src="img_vr" />
+      </div>
+
       <div class="imageCount">{{current+1}}/{{movies.length}}</div>
     </div>
     <!-- 图片轮播 -->
@@ -25,7 +30,7 @@
             <p>{{Decorationname}}</p>
             <p>{{looktime}}</p>
         </div>
-        <div class="moredj"><image :src="bjimg" /><span>变价提醒</span></div>
+        <div class="moredj" @click="priceNotice"><image :src="bjimg" /><span>变价提醒</span></div>
       </div>
       <div class="biaoti">{{title}}</div> 
       <div class="mianji">
@@ -48,7 +53,6 @@
             <li>建筑年份：<span>{{buildyear}}</span></li>
             <li>楼层：<span>{{floor}}</span></li>
             <li>总层数：<span>{{floorcount}}</span></li>
-            <!-- <li>地址：<span>{{address}}</span></li> -->
             <li>看房时间：<span>{{looktime}}</span></li>
             <li>租期：<span>{{Termname}}</span></li>
             <li>房屋朝向：<span>{{Towardname}}</span></li>
@@ -96,7 +100,7 @@
 
 
     <!-- 推荐经纪人开始 -->
-    <div class="jingjiren">
+    <div class="jingjiren" v-if="agent.length > 0 ? true : false">
       <div class="hx_bt">
         <p>推荐经纪人</p>
         <span>查看更多</span>
@@ -113,12 +117,12 @@
                   <span>{{item.companyname}}</span>
                   <div class="clear"></div>
                 </div>
-                <p>{{item.evaluating}}</p>
+                <p>{{item.evaluation}}</p>
               </div>
             </div>
             <div class="right_g">
-              <p><image :src="img9" class="slide-image" mode="scaleToFill" /></p>
-              <p><image :src="img10s" class="slide-image" mode="scaleToFill" /></p>
+              <p class="wxl"><image :src="img9" class="slide-image" mode="scaleToFill" /></p>
+              <p class="dhr"><image :src="img10s" class="slide-image" mode="scaleToFill" /></p>
             </div>
           </div>
 
@@ -129,7 +133,7 @@
 
 
     <!-- 猜你喜欢开始 -->
-    <div class="jingjiren">
+    <div class="jingjiren" v-if="likes.length > 0 ? true : false">
       <div class="hx_bt">
         <p>猜你喜欢</p>
         <span>查看更多</span>
@@ -140,7 +144,7 @@
           <div class="likelist" v-for="(item, cai) in likes" :key="cai">
             <div class="tupian_l">
               <image :src="domain+item.Imgurl" mode="scaleToFill"/>
-              <div class="guanzhu">{{item.num}}人关注</div>
+              <div class="guanzhu" v-if="gznum > 0 ? true : false">{{item.gznum}}人关注</div>
             </div>
             <div class="wenzi_r">
               <h1>{{item.title}}</h1>
@@ -186,10 +190,10 @@
           </div>
           <div class="xiangmu">
             <div class="l_xiangmu">
-              <h1>参考均价：<span>{{averageprice}}元/平</span></h1>
+              <h1>参考均价：<span>{{averagepriceXq}}元/平</span></h1>
               <p>房屋总数：{{housecount}}户</p>
-              <p>已售套数：{{years}}年建</p>
-              <p>房栋总数：{{building}}栋</p>
+              <p>已售套数：{{soldcount==""||soldcount==null?'暂无信息':soldcount}}</p>
+              <p>土地使用年限：{{landyear}}年</p>
               
             </div>
             <div class="r_xiangmu">
@@ -198,7 +202,7 @@
           </div>
       </div>
 
-      <div class="k2">
+      <div class="k2" v-if="chengjiao.length > 0 ? true : false">
           <div class="hx_bt1">
             <p>同小区成交（{{cj_num}}）</p>
             <span>更多成交 ></span>
@@ -207,17 +211,17 @@
             <ul>
               <li v-for="(item, cj) in chengjiao" :key="cj">
                 <div class="cj_le">
-                  <h2><span>{{item.chengj1}}</span>/<span>{{item.chengj2}}平米</span>/<span>{{item.chengj3}}</span></h2>
-                  <p><span>单价{{item.chengj4}}元/平</span>，<span>{{item.chengj5}}成交</span></p>
+                  <h2><span class="quan"></span><span>{{item.apirlroom}}室{{item.apirloffice}}厅{{item.apirltoilet}}卫</span>/<span>{{item.area}}平米</span>/<span>{{item.Towardname}}</span></h2>
+                  <p><span>单价{{item.averageprice}}元/平</span>，<span>{{item.chengj5}}成交</span></p>
                 </div>
-                <div class="cj_ri">{{item.chengj6}}万</div>
+                <div class="cj_ri">{{item.price}}万</div>
               </li>
             </ul>
           </div>
       </div>
 
 
-      <div class="k2">
+      <div class="k2" v-if="fangyuan.length > 0 ? true : false">
           <div class="hx_bt1">
             <p>同小区房源</p>
             <span>查看更多</span>
@@ -225,9 +229,9 @@
           <div class="fangyuan_list">
             <scroll-view scroll-x="true" style="width: 100%" class="image-group">
               <div class="fang_list" v-for="(item, fy) in fangyuan" :key="fy">
-                <image :src="img11" class="slide-image" />
-                <h3><span>{{item.fangy1}}</span>/<span>{{item.fangy2}}m²</span>/<span>{{item.fangy3}}</span></h3>
-                <p><span class="dj1">{{item.fangy4}}万元</span><span class="dj2">{{item.fangy5}}元/平</span></p>
+                <image :src="domain+item.Imgurl" class="slide-image" />
+                <h3><span>{{item.apirlroom}}室{{item.apirloffice}}厅{{item.apirltoilet}}卫</span>/<span>{{item.area}}m²</span>/<span>{{item.Towardname}}</span></h3>
+                <p><span class="dj1">{{item.price}}万元</span><span class="dj2">{{item.averageprice}}元/平</span></p>
               </div>
             </scroll-view>
           </div>
@@ -339,37 +343,12 @@ export default {
       Rightnaturename:"",
       Supportingname:"",
       Specialname:"",
-      bjimg:"/static/images/tx.png",
-      rootImg1: "/static/images/jt1.jpg",
-      img9:'/static/images/wx.png',
-      img10s:'/static/images/dh.png',
+      bjimg: app.globalData.imgurl +"tx.png",
+      rootImg1: app.globalData.imgurl +"jt1.jpg",
+      img9: app.globalData.imgurl +"wx.png",
+      img10s: app.globalData.imgurl +"dh.png",
       agent: [],
-      likes: [
-        {
-          img5:'http://vip.yijienet.com/tt/img1.jpg',num:15,title:'城投佳境随时看房 双阳台',wan:150,wan1:6587,
-          tese: [
-            { id:'满五年'},
-            { id:'有电梯'},
-            { id:'简装'}
-          ]
-        },
-        {
-          img5:'http://vip.yijienet.com/tt/img1.jpg',num:15,title:'城投佳境随时看房 双阳台',wan:150,wan1:6587,
-          tese: [
-            { id:'满五年'},
-            { id:'有电梯'},
-            { id:'简装'}
-          ]
-        },
-        {
-          img5:'http://vip.yijienet.com/tt/img1.jpg',num:15,title:'城投佳境随时看房 双阳台',wan:150,wan1:6587,
-          tese: [
-            { id:'满五年'},
-            { id:'有电梯'},
-            { id:'简装'}
-          ]
-        }
-      ],
+      likes: [],
       tabBar: [
           {img1:'/static/images/an1.png',img2:'/static/images/an1s.png',title:'核心卖点'},
           {img1:'/static/images/an1.png',img2:'/static/images/an1s.png',title:'小区介绍'},
@@ -379,31 +358,17 @@ export default {
           {img1:'/static/images/an1.png',img2:'/static/images/an1s.png',title:'交通出行'},
       ],
       currentTab: 0,
-      movies: [
-        {img1: 'http://vip.yijienet.com/tt/img1.jpg'},
-        {img1: 'http://vip.yijienet.com/tt/img1.jpg'},
-        {img1: 'http://vip.yijienet.com/tt/img1.jpg'},
-        {img1: 'http://vip.yijienet.com/tt/img1.jpg'}
-      ],
+      movies: [],
+      isshowvr:"",
+      img_vr: app.globalData.imgurl +"VR.png",
       current: 0,
-      averageprice:"",
-      years:"",
-      building:"",
+      averagepriceXq:"",
       housecount:"",
+      soldcount:"",
+      landyear:"",
       ImgUrl:"",
-      // reference:1280,
-      // years:20,
-      // building:180,
-      // housing:8900,
-      // img11:'http://vip.yijienet.com/tt/img1.jpg',
-      chengjiao:[
-        {chengj1:'2室一厅',chengj2:80.5,chengj3:'北',chengj4:8900,chengj6:77}
-      ],
-      fangyuan:[
-        {fangy1:'2室一厅',fangy2:80.5,fangy3:'北',fangy4:130,fangy5:6500.5},
-        {fangy1:'2室一厅',fangy2:80.5,fangy3:'北',fangy4:130,fangy5:6500.5},
-        {fangy1:'2室一厅',fangy2:80.5,fangy3:'北',fangy4:130,fangy5:6500.5}
-      ],
+      chengjiao:[],
+      fangyuan:[],
       house: [
         { 
           img6:'http://vip.yijienet.com/tt/img1.jpg', title:'城投佳境',
@@ -420,10 +385,10 @@ export default {
 
         }
       ],
-      img10: "/static/images/gz.png",
-      img12: "/static/images/xin.png",
-      img13: "/static/images/fx.png",
-      img14: "/static/images/yy.png",
+      img10: app.globalData.imgurl +"gz.png",
+      img12: app.globalData.imgurl +"xin.png",
+      img13: app.globalData.imgurl +"fx.png",
+      img14: app.globalData.imgurl +"yy.png",
       gztu_img:0,
 
     }
@@ -438,6 +403,10 @@ export default {
         success: function (res) {
           let patient = res.data
           console.log('详情',res);
+          //房源轮播图
+          that.movies = res.data.Context.carousel;
+          that.isshowvr = res.data.Context.houseInfo.isshowvr;
+          //房源基本信息详情
           that.title = res.data.Context.houseInfo.title;
           that.price = res.data.Context.houseInfo.price;
           that.averageprice = res.data.Context.houseInfo.averageprice;
@@ -460,15 +429,21 @@ export default {
           that.Rightnaturename = res.data.Context.houseInfo.Rightnaturename;
           that.Supportingname = res.data.Context.houseInfo.Supportingname;
           that.Specialname = res.data.Context.houseInfo.Specialname;
+          //推荐经纪人
           that.agent = res.data.Context.agent;
+          //猜你喜欢
           that.likes = res.data.Context.guessLike;
-          that.averageprice = res.data.Context.project.averageprice;
-          that.years = res.data.Context.project.years;
-          that.building = res.data.Context.project.building;
+          //小区项目信息
+          that.averagepriceXq = res.data.Context.project.averageprice;
           that.housecount = res.data.Context.project.housecount;
+          that.soldcount = res.data.Context.project.soldcount;
+          that.landyear = res.data.Context.project.landyear;
           that.ImgUrl = res.data.Context.project.ImgUrl;
-
-           
+          //同小区成交
+          that.chengjiao = res.data.Context.deal;
+          //同小区房源
+          that.fangyuan = res.data.Context.sameDistrict;
+ 
           
           
         },
@@ -477,36 +452,30 @@ export default {
       });
 
   },
-  // onLoad(option){
-  //   const that = this;
-  //   that.id=option.id;
-  //   //获取活动详情
-  //  post("OldHouse/BandEsfInfo",{
-  //    id:option.id,
-  //    openid:wx.getStorageSync('openid')
-  //  })
-
-  // },
+ 
 
 
 
   methods: {
-        clickTab(e) {
-             this.currentTab = e;
-        },
-        changeTab(e) {
-             this.currentTab = e.mp.detail.current;
-        },
-        djimg(e) {
-           this.current = e.target.current;
-        },
-        gz_dj(){
-          if(this.gztu_img==1){
-            this.gztu_img=0;
-          }else{
-            this.gztu_img=1;
-          }
-        },
+    //图片轮播切换
+    clickTab(e) {
+      this.currentTab = e;
+    },
+    changeTab(e) {
+      this.currentTab = e.mp.detail.current;
+    },
+    djimg(e) {
+      this.current = e.target.current;
+    },
+    //底部关注
+    gz_dj(){
+      if(this.gztu_img==1){
+        this.gztu_img=0;
+      }else{
+        this.gztu_img=1;
+      }
+    },
+
         
 
  
@@ -528,7 +497,7 @@ export default {
 .indexstyle{width: 100%; margin: 0 auto; background: #fff;}
 
 
-.lunbo{ width: 100%; height: 500rpx;}
+.lunbo{ width: 100%; height: 500rpx; position: relative;}
 .swiper{ width: 100%; height: 100%;}
 .lunbo image{ width: 100%; height: 100%;}
 .imageCount {
@@ -540,11 +509,12 @@ export default {
   color:#fff;
   text-align:center;
   font-size:24rpx;
-  position:relative;
-  left:42%;
-  bottom:70rpx;
+  position:absolute;
+  left:80%;
+  bottom:30rpx;
 }
-
+.lbvr{ position: absolute; left:40%; top:200rpx; z-index: 999999;}
+.lbvr image{ width:130rpx; height:130rpx;}
 
 
 
@@ -560,7 +530,7 @@ export default {
 .features>div {float: left; font-size: 24rpx; padding: 2rpx 10rpx 2rpx 10rpx; background: #edf0f3; color: #849aae; margin-right:6rpx; border-radius:6rpx;} */
 
 .moredj{float: right;font-size: 24rpx;}
-.moredj image{ width:33rpx; height:37rpx; margin-right: 5rpx;}
+.moredj image{ width:33rpx; height:37rpx; margin-right:10rpx;}
 .moredj span{ position: relative; top: -10rpx;}
 .biaoti{ font-size:43rpx; font-weight: bold; margin-top:1%; }
 .mianji{ overflow: hidden; margin-top:3%; }
@@ -589,7 +559,7 @@ export default {
 
 .jingjiren{width: 90%; padding-left: 5%; padding-right: 5%; margin-top: 5%; padding-bottom: 5%; border-bottom:20rpx #efefef solid;}
 .guwen{ width:100%; margin-top:5%;}
-.guwen_list{ width: 100%; margin-top:2%; overflow: hidden;}
+.guwen_list{ width: 100%; margin-top:2%; overflow: hidden; margin-bottom:30rpx;}
 
 .left_g{ float: left; width:75%;}
 .left_g image{ float: left; width:110rpx; height:110rpx; border-radius: 50%; margin-right: 2%;}
@@ -598,8 +568,9 @@ export default {
 .neirong div span{ float: left; font-size: 22rpx; padding:1rpx 2rpx 1rpx 2rpx; border:2rpx #f86577 solid; color: #f86577; text-align: center; border-radius:6rpx; }
 .neirong p{ font-size: 27rpx; color: #969ca8; margin-top:2%;}
 
-.right_g{ float: right; margin-top:20rpx; width: 25%; }
-.right_g p{ float: left;margin-left:10%;}
+.right_g{ float: right; margin-top:20rpx; width: 25%; overflow: hidden;}
+.right_g p.wxl{ float: left;}
+.right_g p.dhr{ float: right ;}
 .right_g image{ width:60rpx; height:60rpx;}
 
 
@@ -653,14 +624,16 @@ export default {
 
 .k2{padding-bottom:30rpx;margin-top: 5%; border-bottom: 1px rgb(235, 235, 235) solid; }
 .hx_bt1{ width:100%; overflow: hidden;}
-.hx_bt1 p{ float: left; font-size:32rpx; }
+.hx_bt1 p{ float: left; font-size:32rpx; font-weight: bold; }
 .hx_bt1 span{ float: right; font-size:24rpx;}
-.chengjiao_list{ width: 100%; margin-top: 5%;}
-.chengjiao_list ul li{ overflow: hidden;}
-.chengjiao_list ul li .cj_le{ width: 60%; float: left;}
-.chengjiao_list ul li .cj_le h2{ font-size: 30rpx;}
-.chengjiao_list ul li .cj_le p{ font-size: 24rpx; color: #ccc;}
-.cj_ri{ float: right; font-size: 32rpx; font-weight: bold; color: rgb(233, 39, 39);}
+.chengjiao_list{  margin-top: 5%; border-left: 2rpx #e4e4e4 solid; }
+.chengjiao_list ul{width: 100%;overflow: hidden; position: relative; left:-12rpx; }
+.chengjiao_list ul li{ overflow: hidden; margin-bottom:40rpx; }
+.chengjiao_list ul li .cj_le{ width:80%; float: left;}
+.chengjiao_list ul li .cj_le h2{ font-size: 31rpx; line-height: 28rpx;}
+.quan{ width: 20rpx; height: 20rpx; background: #e4e4e4; display: inline-block; position: relative; top: -6rpx;  z-index: 9999; margin-right: 20rpx; border-radius:30rpx;}
+.chengjiao_list ul li .cj_le p{ font-size:28rpx; color: rgb(131, 131, 131); margin-top: 10rpx; margin-left:42rpx;}
+.cj_ri{ float: right; font-size: 34rpx; font-weight: bold; color: rgb(233, 39, 39);}
 
 
 
@@ -689,8 +662,8 @@ export default {
 
 
 
-.footer{ width: 100%; height: 120rpx; background: #fff;position: fixed;bottom: 0;}
-.left_foot{ float: left; width:39%;height: 120rpx; margin-right:3%; margin-left: 3%;}
+.footer{ width: 100%; height: 130rpx; background: #fff;position: fixed;bottom: 0; z-index: 9999;}
+.left_foot{ float: left; width:39%;height: 120rpx; margin-top:10rpx; margin-right:3%; margin-left: 3%;}
 
 .left_foot .guanzhus{ float: left; width:33.3%; margin: 0 auto; background: #fff;overflow: inherit;border: none; padding: 0 !important;}
 .left_foot .guanzhus image{ width:36rpx; height:36rpx;}
@@ -699,15 +672,15 @@ export default {
 
 
 .left_foot .fenxiangs{ float: left; width:33.3%; height:50rpx; margin: 0 auto; background: #fff;overflow: inherit;border: none; padding: 0 !important;}
-.left_foot button{border: none; padding: 0 !important; padding-left: 0 !important; padding-right: 0 !important;}
+.left_foot button{border: none; padding: 0 !important; padding-left: 0 !important; padding-right: 0 !important; background:none;}
 .left_foot button::after{border: none; padding: 0 !important;}
 .left_foot .fenxiangs image{ width:36rpx; height:36rpx;}
-.left_foot .fenxiangs p{ font-size: 26rpx; color: #000; position: relative; top: -40rpx;}
+.left_foot .fenxiangs p{ font-size: 26rpx; color: #000; position: relative; top: -37rpx;}
 
 
 
 
-.right_foot{ float: right; width:55%; margin-top:14rpx;}
+.right_foot{ float: right; width:55%; margin-top:22rpx;}
 .Report{ float: left; width: 45%; background: #3dc28e; font-size: 28rpx; height:90rpx; line-height:90rpx; text-align: center; border-radius: 10rpx; color: #fff; margin-right: 5%;}
 .Telephone{ float: right; width: 45%; background: #2e72f1; font-size: 28rpx; height:90rpx; line-height:90rpx; text-align: center; border-radius:10rpx; color: #fff; margin-right: 5%;}
 
