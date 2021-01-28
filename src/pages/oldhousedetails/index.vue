@@ -557,7 +557,7 @@ export default {
 
 
 
-.jingjiren{width: 90%; padding-left: 5%; padding-right: 5%; margin-top: 5%; padding-bottom: 5%; border-bottom:20rpx #efefef solid;}
+.jingjiren{width: 90%; padding-left: 5%; padding-right: 5%; margin-top: 5%; padding-bottom:130rpx; border-bottom:20rpx #efefef solid;}
 .guwen{ width:100%; margin-top:5%;}
 .guwen_list{ width: 100%; margin-top:2%; overflow: hidden; margin-bottom:30rpx;}
 
