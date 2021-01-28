@@ -350,12 +350,12 @@ export default {
       agent: [],
       likes: [],
       tabBar: [
-          {img1:'/static/images/an1.png',img2:'/static/images/an1s.png',title:'核心卖点'},
-          {img1:'/static/images/an1.png',img2:'/static/images/an1s.png',title:'小区介绍'},
-          {img1:'/static/images/an1.png',img2:'/static/images/an1s.png',title:'适宜人群'},
-          {img1:'/static/images/an1.png',img2:'/static/images/an1s.png',title:'周边配套'},
-          {img1:'/static/images/an1.png',img2:'/static/images/an1s.png',title:'费用介绍'},
-          {img1:'/static/images/an1.png',img2:'/static/images/an1s.png',title:'交通出行'},
+          {img1: app.globalData.imgurl +'an1.png',img2: app.globalData.imgurl +'an1s.png',title:'核心卖点'},
+          {img1: app.globalData.imgurl +'an1.png',img2: app.globalData.imgurl +'an1s.png',title:'小区介绍'},
+          {img1: app.globalData.imgurl +'an1.png',img2: app.globalData.imgurl +'an1s.png',title:'适宜人群'},
+          {img1: app.globalData.imgurl +'an1.png',img2: app.globalData.imgurl +'an1s.png',title:'周边配套'},
+          {img1: app.globalData.imgurl +'an1.png',img2: app.globalData.imgurl +'an1s.png',title:'费用介绍'},
+          {img1: app.globalData.imgurl +'an1.png',img2: app.globalData.imgurl +'an1s.png',title:'交通出行'},
       ],
       currentTab: 0,
       movies: [],
@@ -618,7 +618,7 @@ export default {
 .l_xiangmu{ float: left; width:60%;}
 .l_xiangmu h1{ font-size: 32rpx; font-weight: bold; margin-bottom: 5%;}
 .l_xiangmu h1 span{ color: rgb(218, 0, 0);}
-.l_xiangmu p{ line-height:40rpx; color: rgb(124, 124, 124); font-size: 26rpx;}
+.l_xiangmu p{ line-height:40rpx; color: rgb(124, 124, 124); font-size:28rpx;}
 .r_xiangmu{ width: 40%; float: right;}
 .r_xiangmu image{ width: 100%; height:200rpx;}
 
