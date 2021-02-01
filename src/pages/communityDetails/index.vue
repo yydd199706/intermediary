@@ -100,10 +100,14 @@
 </template>
 
 <script>
+const app = getApp();
+const common = require("@/utils/index");
 export default {
   data () {
     xianshi:false;
     return {
+      id:1,
+      domain:null,
       movies: [
         {img1: 'http://vip.yijienet.com/tt/img1.jpg'},
         {img1: 'http://vip.yijienet.com/tt/img1.jpg'},
@@ -140,28 +144,46 @@ export default {
 
     }
   },
-   methods: {
-        clickTab(e) {
-             this.currentTab = e;
-             
-        },
-        changeTab(e) {
-             this.currentTab = e.mp.detail.current;
-         },
-         djimg(e) {
-           this.current = e.target.current;
-         },
-         gzdianji(){
-           if(this.gzxianshi==1){
-             this.gzxianshi=0;
-           }else{
-             this.gzxianshi=1;
-           }
-         }
+  onLoad(option) {
+    const that = this;
+    var id=option.id;
+    that.domain=app.globalData.domain;
+    console.log(option)
+    //获取详情
+      // wx.request({
+      //   url:app.globalData.url +"Project/BandProjectInfo" +"?sessionKey=" +app.globalData.sessionKey+'&projectid=' + option.id,
+      //   success: function (res) {
+      //     let patient = res.data
+      //     console.log('详情',res);
+          
+      //   },
+      //   fail: function (res) {},
+      // });
+
+  },
+
+
+  methods: {
+    clickTab(e) {
+      this.currentTab = e;
+    },
+    changeTab(e) {
+      this.currentTab = e.mp.detail.current;
+    },
+    djimg(e) {
+      this.current = e.target.current;
+    },
+    gzdianji(){
+      if(this.gzxianshi==1){
+        this.gzxianshi=0;
+      }else{
+        this.gzxianshi=1;
+      }
+  }
  
 
  
-  }
+},
  
 
 

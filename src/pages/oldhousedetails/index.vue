@@ -30,9 +30,11 @@
             <p>{{Decorationname}}</p>
             <p>{{looktime}}</p>
         </div>
-        <div class="moredj" @click="priceNotice"><image :src="bjimg" /><span>变价提醒</span></div>
+        <!-- <div class="moredj" @click="priceNotice"><image :src="bjimg" /><span>变价提醒</span></div> -->
+        <div class="license"><image :src="yy_img" /><span>房源发布机构</span></div>
       </div>
       <div class="biaoti">{{title}}</div> 
+      
       <div class="mianji">
           <div class="lelf_mj">
             <h1>{{price}}万</h1>
@@ -49,22 +51,22 @@
       </div>
       <div class="xinxi">
           <ul>
-            <li>单价：<span>{{averageprice}}元/m²</span></li>
-            <li>建筑年份：<span>{{buildyear}}</span></li>
-            <li>楼层：<span>{{floor}}</span></li>
-            <li>总层数：<span>{{floorcount}}</span></li>
-            <li>看房时间：<span>{{looktime}}</span></li>
-            <li>租期：<span>{{Termname}}</span></li>
-            <li>房屋朝向：<span>{{Towardname}}</span></li>
-            <li>建筑类型：<span>{{Propertyname}}</span></li>
-            <li>区域：<span>{{Zonename}}</span></li>
-            <li>装修情况：<span>{{Decorationname}}</span></li>
-            <li>产权类型：<span>{{Rightnaturename}}</span></li>
+            <li><span>建筑年份：</span>{{buildyear}}</li>
+            <li><span>单价：</span>{{averageprice}}元/m²</li>
+            <li><span>楼层：</span>{{floor}}</li>
+            <li><span>总层数：</span>{{floorcount}}</li>
+            <li><span>看房时间：</span>{{looktime}}</li>
+            <li><span>租期：</span>{{Termname}}</li>
+            <li><span>房屋朝向：</span>{{Towardname}}</li>
+            <li><span>建筑类型：</span>{{Propertyname}}</li>
+            <li><span>区域：</span>{{Zonename}}</li>
+            <li><span>装修情况：</span>{{Decorationname}}</li>
+            <li><span>产权类型：</span>{{Rightnaturename}}</li>
           </ul>
-          <div><p>楼盘名称：<span>{{projectname}}</span></p><image :src="rootImg1" class="slide-image" mode="scaleToFill"/></div>
-          <div><p>地址：<span>{{address}}</span></p></div>
-          <div><p>房源配套：<span>{{Supportingname}}</span></p></div>
-          <div><p>房源特色：<span>{{Specialname}}</span></p></div>
+          <div><p><span>楼盘名称：</span>{{projectname}}</p><image :src="rootImg1" class="slide-image" mode="scaleToFill"/></div>
+          <div><p><span>地址：</span>{{address}}</p></div>
+          <div><p><span>房源配套：</span>{{Supportingname}}</p></div>
+          <div><p><span>房源特色：</span>{{Specialname}}</p></div>
       </div>
 
     </div>
@@ -86,15 +88,26 @@
           </scroll-view>
           <swiper :current="currentTab" @change="changeTab">
             <swiper-item>
-            <div class="neir">核心卖点核心卖点核心卖点核心卖点核心卖点核心卖点</div>
+            <div class="neir">{{kspoint}}</div>
             </swiper-item>
             <swiper-item>
-            <div class="neir">核心卖点核心卖点核心卖点核心卖点核心卖点核心卖点</div>
+            <div class="neir">{{comintro}}</div>
+            </swiper-item>
+            <swiper-item>
+            <div class="neir">{{spopul}}</div>
+            </swiper-item>
+            <swiper-item>
+            <div class="neir">{{sfacilit}}</div>
+            </swiper-item>
+            <swiper-item>
+            <div class="neir">{{costintro}}</div>
+            </swiper-item>
+            <swiper-item>
+            <div class="neir">{{transport}}</div>
             </swiper-item>
           </swiper>
 
       </div>
-
     </div>
     <!-- 评价分类结束 -->
 
@@ -182,15 +195,15 @@
 
 
     <!-- 小区项目信息开始 -->
-    <div class="Projectks">
+    <div class="Projectks1" v-if="project===null ? false : true">
       <div class="k1">
           <div class="hx_bt">
             <p>小区项目信息</p>
-            <span>小区详情 ></span>
+            <span @click="PlotDetails(index,$event)">小区详情 ></span>
           </div>
           <div class="xiangmu">
             <div class="l_xiangmu">
-              <h1>参考均价：<span>{{averagepriceXq}}元/平</span></h1>
+              <h1>参考均价：<span>{{project==null?'暂无信息':averagepriceXq+'元/平'}}</span></h1>
               <p>房屋总数：{{housecount}}户</p>
               <p>已售套数：{{soldcount==""||soldcount==null?'暂无信息':soldcount}}</p>
               <p>土地使用年限：{{landyear}}年</p>
@@ -201,15 +214,18 @@
             </div>
           </div>
       </div>
-
-      <div class="k2" v-if="chengjiao.length > 0 ? true : false">
+    </div>
+    <!-- 小区项目信息结束 -->
+    <!-- 同小区成交开始 -->
+    <div class="Projectks2" v-if="deal.length > 0 ? true : false">
+      <div class="k2">
           <div class="hx_bt1">
             <p>同小区成交（{{cj_num}}）</p>
             <span>更多成交 ></span>
           </div>
           <div class="chengjiao_list">
             <ul>
-              <li v-for="(item, cj) in chengjiao" :key="cj">
+              <li v-for="(item, cj) in deal" :key="cj">
                 <div class="cj_le">
                   <h2><span class="quan"></span><span>{{item.apirlroom}}室{{item.apirloffice}}厅{{item.apirltoilet}}卫</span>/<span>{{item.area}}平米</span>/<span>{{item.Towardname}}</span></h2>
                   <p><span>单价{{item.averageprice}}元/平</span>，<span>{{item.chengj5}}成交</span></p>
@@ -219,16 +235,18 @@
             </ul>
           </div>
       </div>
-
-
-      <div class="k2" v-if="fangyuan.length > 0 ? true : false">
+    </div>
+    <!-- 同小区成交结束 -->
+    <!-- 同小区房源开始 -->
+    <div class="Projectks3" v-if="sameDistrict.length > 0 ? true : false">
+      <div class="k2">
           <div class="hx_bt1">
             <p>同小区房源</p>
             <span>查看更多</span>
           </div>
           <div class="fangyuan_list">
             <scroll-view scroll-x="true" style="width: 100%" class="image-group">
-              <div class="fang_list" v-for="(item, fy) in fangyuan" :key="fy">
+              <div class="fang_list" v-for="(item, fy) in sameDistrict" :key="fy">
                 <image :src="domain+item.Imgurl" class="slide-image" />
                 <h3><span>{{item.apirlroom}}室{{item.apirloffice}}厅{{item.apirltoilet}}卫</span>/<span>{{item.area}}m²</span>/<span>{{item.Towardname}}</span></h3>
                 <p><span class="dj1">{{item.price}}万元</span><span class="dj2">{{item.averageprice}}元/平</span></p>
@@ -236,9 +254,9 @@
             </scroll-view>
           </div>
       </div>
-
-     </div>
-    <!-- 小区项目信息结束 -->
+    </div>
+    <!-- 同小区房源结束 -->
+    
 
 
     <!-- 推荐房源开始 -->
@@ -248,27 +266,25 @@
       </div>
 
       <div class="nr-house">
-
-        <div class="h-mt" v-for="(item, index) in house" :key="index">
-          <image :src="item.img6" class="new-image" mode="scaleToFill"/>
+        <div class="h-mt" v-for="(item, index) in recommended" :key="index">
+          <image :src="domain+item.Imgurl" class="new-image" mode="scaleToFill" />
           <div class="r_wz">
-            <div class="bt_s">{{item.title}}</div>
-            <div class="jieshao" v-for="(w, ind) in item.area" :key="ind">
-              <span>{{w.model}}</span>/
-              <span>{{w.size}}m²</span>/
-              <span>{{w.direction}}</span>/
-              <span>{{w.name}}</span>
+            <div class="bt_s">{{ item.title}}</div>
+            <div class="jieshao">
+              <span>{{item.apirlroom}}室{{item.apirloffice}}厅{{item.apirloffice}}卫</span>/<span>{{item.area}}m²</span>/
+              <span>{{item.Towardname}}</span>
             </div>
-            <div class="youshi" v-for="(f, inds) in item.advantage" :key="inds">
-              <div class="youshi1" v-if="inds<2">{{f.id}}</div>
+            <div class="youshi">
+              <div class="youshi1">{{item.Decorationname}}</div>
+              <div class="youshi1">{{item.Propertyname}}</div>
             </div>
             <div class="clear"></div>
-            <div class="m-x"><p class="money">{{item.price}}万</p><p class="money1">{{item.price1}}元/平</p></div>
+            <div class="m-x">
+              <p class="money">{{item.price==""||item.price==null?'总价：暂无':item.price+'万'}}</p>
+              <p class="average">{{item.averageprice==""||item.averageprice==null?'价格待定':item.averageprice+'元/平'}}</p>
+            </div>
           </div>
-          <div class="clear"></div>
-
         </div>
-
       </div>
  
 
@@ -291,7 +307,7 @@
           <image :src="img13" class="slide-image" />
           <p>分享</p>
         </button>
-        <button class="fenxiangs">
+        <button class="fenxiangs" @click="anyy_dj">
           <image :src="img14" class="slide-image" />
           <p>预约</p>
         </button>
@@ -302,6 +318,49 @@
       </div>
     </div>
     <!-- 底部按钮开始 -->
+    <!-- 弹出预约开始 -->
+    <div class="tcyyzg" v-if="yuyue_yc">
+        <div class="tcyy">
+          <div class="btyy">预约看房</div>
+          <div class="appointment">
+              <!-- 预约人 -->
+              <div class="project__input">
+                <div class="xmmc">预约人</div>
+                <input id="name" type="text" placeholder="请输入真实姓名" placeholder-style="color: #aaa"/>
+              </div>
+              <!-- 房源编号 -->
+              <div class="project__input">
+                <div class="xmmc">房源编号</div>
+                <input id="name" type="text" placeholder="AK001884" placeholder-style="color: #aaa" disabled="disabled"/>
+              </div>
+              <!-- 手机号码 -->
+              <div class="project__input">
+                <div class="xmmc">手机号码</div>
+                <input id="name" type="text" placeholder="请输入手机号码" placeholder-style="color: #aaa"/>
+              </div>
+              <!-- 验证码 -->
+              <div class="project__input">
+                <div class="xmmc">验证码</div>
+                <input id="name" type="text" placeholder="请输入验证码" placeholder-style="color: #aaa"/>
+              </div>
+              <!-- 手机验证码 -->
+              <div class="project__input">
+                <div class="xmmc">手机验证码</div>
+                <input id="name" type="text" placeholder="请输入手机验证码" placeholder-style="color: #aaa"/>
+              </div>
+              <!-- 预约描述 -->
+              <div class="project__input">
+                <div class="xmmc">预约描述</div>
+                <input id="name" type="text" placeholder="请输入描述信息" placeholder-style="color: #aaa"/>
+              </div>
+
+              <button class="applyFor">立即申请</button>
+
+          </div>
+          <div class="ShutDown" @click="ShutDown_gb">X</div>
+        </div>
+    </div>
+    <!-- 弹出预约结束 -->
 
 
 
@@ -320,6 +379,8 @@ const common = require("@/utils/index");
 export default {
   data () {
     return {
+      id:"",
+      yuyue_yc:false,
       domain:null,
       Decorationname:"",
       looktime:"",
@@ -357,7 +418,13 @@ export default {
           {img1: app.globalData.imgurl +'an1.png',img2: app.globalData.imgurl +'an1s.png',title:'费用介绍'},
           {img1: app.globalData.imgurl +'an1.png',img2: app.globalData.imgurl +'an1s.png',title:'交通出行'},
       ],
-      currentTab: 0,
+      kspoint:"",
+      comintro:"",
+      spopul:"",
+      sfacilit:"",
+      costintro:"",
+      transport:"",
+      currentTab: 1,
       movies: [],
       isshowvr:"",
       img_vr: app.globalData.imgurl +"VR.png",
@@ -367,29 +434,16 @@ export default {
       soldcount:"",
       landyear:"",
       ImgUrl:"",
-      chengjiao:[],
-      fangyuan:[],
-      house: [
-        { 
-          img6:'http://vip.yijienet.com/tt/img1.jpg', title:'城投佳境',
-          area: [
-            { model:'2室1厅', size:90, direction:'西北', name:'城投佳境'}
-          ],
-          advantage: [
-            { id:'满五年'},
-            { id:'满五年'},
-            { id:'满五年'}
-          ],
-          price:555, price1:6500,
-
-
-        }
-      ],
+      deal:[],
+      sameDistrict:[],
+      recommended: [],
       img10: app.globalData.imgurl +"gz.png",
       img12: app.globalData.imgurl +"xin.png",
       img13: app.globalData.imgurl +"fx.png",
       img14: app.globalData.imgurl +"yy.png",
       gztu_img:0,
+      project:null,
+      yy_img:"/static/images/yyzz.png",
 
     }
   },
@@ -429,21 +483,34 @@ export default {
           that.Rightnaturename = res.data.Context.houseInfo.Rightnaturename;
           that.Supportingname = res.data.Context.houseInfo.Supportingname;
           that.Specialname = res.data.Context.houseInfo.Specialname;
+          //房源评价
+          that.kspoint = res.data.Context.houseInfo.kspoint;
+          that.comintro = res.data.Context.houseInfo.comintro;
+          that.spopul = res.data.Context.houseInfo.spopul;
+          that.sfacilit = res.data.Context.houseInfo.sfacilit;
+          that.costintro = res.data.Context.houseInfo.costintro;
+          that.transport = res.data.Context.houseInfo.transport;
           //推荐经纪人
           that.agent = res.data.Context.agent;
           //猜你喜欢
           that.likes = res.data.Context.guessLike;
           //小区项目信息
-          that.averagepriceXq = res.data.Context.project.averageprice;
-          that.housecount = res.data.Context.project.housecount;
-          that.soldcount = res.data.Context.project.soldcount;
-          that.landyear = res.data.Context.project.landyear;
-          that.ImgUrl = res.data.Context.project.ImgUrl;
+          that.project = res.data.Context.project;
+          if(res.data.Context.project!=null){
+             that.averagepriceXq = res.data.Context.project.averageprice;
+             that.housecount = res.data.Context.project.housecount;
+             that.soldcount = res.data.Context.project.soldcount;
+             that.landyear = res.data.Context.project.landyear;
+             that.ImgUrl = res.data.Context.project.ImgUrl;
+          }
           //同小区成交
-          that.chengjiao = res.data.Context.deal;
+          that.deal = res.data.Context.deal;
           //同小区房源
-          that.fangyuan = res.data.Context.sameDistrict;
- 
+          that.sameDistrict = res.data.Context.sameDistrict;
+          //推荐房源
+          that.recommended = res.data.Context.recommended;
+
+          
           
           
         },
@@ -458,15 +525,26 @@ export default {
 
   methods: {
     //图片轮播切换
-    clickTab(e) {
-      this.currentTab = e;
-    },
-    changeTab(e) {
-      this.currentTab = e.mp.detail.current;
-    },
-    djimg(e) {
-      this.current = e.target.current;
-    },
+    // clickTab(e) {
+    //   this.currentTab = e;
+    // },
+    // changeTab(e) {
+    //   this.currentTab = e.mp.detail.current;
+    // },
+     djimg(e) {
+       this.current = e.target.current;
+     },
+    clickTab(index) {
+       this.currentTab = index;
+     },
+
+     anyy_dj(){
+       this.yuyue_yc = !this.yuyue_yc;
+     },
+     ShutDown_gb(){
+       this.yuyue_yc = false;
+     },
+
     //底部关注
     gz_dj(){
       if(this.gztu_img==1){
@@ -474,6 +552,14 @@ export default {
       }else{
         this.gztu_img=1;
       }
+    },
+
+    //点击跳转二手房详情页
+    PlotDetails:function (index,e){
+      console.log('小区详情',e);
+      let id = e.mp.currentTarget.dataset.id;
+      // console.log('e',e.mp.currentTarget.dataset.id);
+      wx.navigateTo({ url: "/pages/communityDetails/main?id="+id});
     },
 
         
@@ -529,9 +615,12 @@ export default {
 /* .features{ float: left;}
 .features>div {float: left; font-size: 24rpx; padding: 2rpx 10rpx 2rpx 10rpx; background: #edf0f3; color: #849aae; margin-right:6rpx; border-radius:6rpx;} */
 
-.moredj{float: right;font-size: 24rpx;}
+/* .moredj{float: right;font-size: 24rpx;}
 .moredj image{ width:33rpx; height:37rpx; margin-right:10rpx;}
-.moredj span{ position: relative; top: -10rpx;}
+.moredj span{ position: relative; top: -10rpx;} */
+.license{ float: right; font-size: 24rpx; color: rgb(124, 124, 124); display: flex; flex-direction: row; margin-bottom: 10rpx;}
+.license span{ display: block; margin-top: 3rpx;}
+.license image{ width:45rpx; height:33rpx; margin-top:5rpx; display: block; margin-right:10rpx;}
 .biaoti{ font-size:43rpx; font-weight: bold; margin-top:1%; }
 .mianji{ overflow: hidden; margin-top:3%; }
 .lelf_mj{ float: left; width: 26%; border-right: 1px rgb(235, 235, 235) solid;}
@@ -542,13 +631,13 @@ export default {
 
 .xinxi{ margin-top: 3%; padding-bottom:40rpx;}
 .xinxi ul{ overflow: hidden;}
-.xinxi ul li{ float: left; width: 50%; font-size:30rpx; color: rgb(160, 160, 160); line-height:65rpx;}
-.xinxi ul li span{ color: #000;}
-.xinxi div{ font-size:30rpx; color: rgb(160, 160, 160); height: 65rpx; line-height:65rpx; width: 100% !important; overflow: hidden;}
+.xinxi ul li{ float: left; width: 50%; font-size:29rpx;  color: #000; line-height:65rpx;}
+.xinxi ul li span{ color: rgb(160, 160, 160); width: 150rpx; display: inline-block; text-align-last: justify;text-align: justify;text-justify: distribute-all-lines; }
+.xinxi div{ color: #000; font-size:30rpx; height: 65rpx; line-height:65rpx; width: 100% !important; overflow: hidden;}
 .xinxi div P{ float: left; width: 70%;}
-.xinxi div span{ color: #000;}
+.xinxi div span{color: rgb(160, 160, 160); width: 150rpx;display: inline-block; text-align-last: justify;text-align: justify;text-justify: distribute-all-lines; }
 .xinxi div image{ float: right; width:18rpx; height:30rpx; position: relative; top: -50rpx;}
-
+ 
 
 .pingjia{width: 90%; padding-left: 5%; padding-right: 5%; margin-top: 5%; padding-bottom: 5%; border-bottom:20rpx #efefef solid;}
 .hx_bt{ width:100%; overflow: hidden;}
@@ -608,17 +697,20 @@ export default {
 .an_qh image{width:50rpx; height:50rpx; margin: 0 auto; display: block; margin-top:18%;}
 .an_qh p{font-size:26rpx; line-height:60rpx; text-align: center;}
 .tabbar-bottom { width:180rpx; height:160rpx; background:#2e72f1;color: #fff;}
-.neir{ font-size: 26rpx; margin-top:20rpx; height:300rpx; overflow: hidden;}
-.anniu swiper{ height:80rpx !important;} 
+.neir{ font-size:30rpx; line-height:50rpx; margin-top:20rpx; height:200rpx; overflow: hidden;}
+.anniu swiper{ height:120rpx !important;} 
+.ceping{ height: 200rpx;}
 
 
-.Projectks{width: 90%; padding-left: 5%; padding-right: 5%; margin-top: 5%; padding-bottom: 5%; border-bottom:20rpx #efefef solid;}
+.Projectks1{width: 90%; padding-left: 5%; padding-right: 5%; margin-top: 5%;}
+.Projectks2{width: 90%; padding-left: 5%; padding-right: 5%;}
+.Projectks3{width: 90%; padding-left: 5%; padding-right: 5%;padding-bottom: 5%; border-bottom:20rpx #efefef solid;}
 .k1{padding-bottom:30rpx; border-bottom: 1px rgb(235, 235, 235) solid; }
 .xiangmu{ margin-top:5%; overflow: hidden; }
 .l_xiangmu{ float: left; width:60%;}
 .l_xiangmu h1{ font-size: 32rpx; font-weight: bold; margin-bottom: 5%;}
 .l_xiangmu h1 span{ color: rgb(218, 0, 0);}
-.l_xiangmu p{ line-height:40rpx; color: rgb(124, 124, 124); font-size:28rpx;}
+.l_xiangmu p{ line-height:45rpx; color: rgb(124, 124, 124); font-size:28rpx;}
 .r_xiangmu{ width: 40%; float: right;}
 .r_xiangmu image{ width: 100%; height:200rpx;}
 
@@ -650,21 +742,21 @@ export default {
 /* 推荐房源 */
 .house-s{width:100%; background: #fff; margin: 0 auto; height:380rpx; padding-top:40rpx; margin-bottom:20rpx;}
 .nr-house{ width:100%;  margin-top:30rpx; padding-bottom: 110rpx;}
-.nr-house image{ float: left; width: 40%; height: 180rpx;}
-.nr-house .r_wz{ float:right; width: 57%;}
-.nr-house .r_wz .bt_s{font-size: 34rpx; font-weight: bold; margin-right:10rpx;}
-.jieshao{ font-size: 26rpx; color: #000; margin-top:10rpx;}
-.youshi1{ float: left; width:90rpx; height:40rpx; line-height: 40rpx; border-radius:6rpx; background: #edf0f3; color:#849aae; font-size: 25rpx; text-align: center; margin-top:10rpx; margin-right: 10rpx;}
-.m-x{ margin-top: 10rpx; }
-.m-x p{ float: left;}
-.m-x p.money{ font-size: 34rpx; color: rgb(192, 0, 0); font-weight: 900; margin-right: 5rpx;}
-.m-x p.money1{ font-size:26rpx; color:#ccc; margin-top: 10rpx; }
-
+.h-mt {overflow: hidden;margin-bottom:15rpx;}
+.nr-house image {float: left;width: 40%;height: 200rpx;border-radius: 10rpx;}
+.nr-house .r_wz {float: right;width: 57%;}
+.bt_s {font-size: 30rpx;font-weight: bold;margin-right: 10rpx;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.jieshao {font-size: 25rpx;color: #333;margin-top: 10rpx;}
+.youshi1 {float: left;padding: 0 10rpx;height: 40rpx;line-height: 40rpx;border-radius: 3px;background: #edf0f3;color: #849aae;font-size: 25rpx;text-align: center;margin-top: 10rpx;margin-right: 10rpx;}
+.m-x {margin-top: 10rpx;overflow: hidden;}
+.m-x p {float: left;}
+.m-x p.money {font-size: 30rpx;color: #fa5741;font-weight: 900;margin-right: 5rpx;}
+.money1 {font-size:30rpx;color: #fa5741;font-weight: 900;}
+.more-house {width: 94%;height: 70rpx;background: #e8edf3;border-radius: 5px;text-align: center;line-height: 70rpx;font-size: 28rpx;font-weight: bold;margin-left: 3%;margin-right: 3%;margin-top: 30rpx;color: #3072f6;}
 
 
 .footer{ width: 100%; height: 130rpx; background: #fff;position: fixed;bottom: 0; z-index: 9999;}
 .left_foot{ float: left; width:39%;height: 120rpx; margin-top:10rpx; margin-right:3%; margin-left: 3%;}
-
 .left_foot .guanzhus{ float: left; width:33.3%; margin: 0 auto; background: #fff;overflow: inherit;border: none; padding: 0 !important;}
 .left_foot .guanzhus image{ width:36rpx; height:36rpx;}
 .left_foot .guanzhus p{ font-size: 26rpx; color: #000; position: relative; top:-24rpx; left:22%;}
@@ -683,6 +775,19 @@ export default {
 .right_foot{ float: right; width:55%; margin-top:22rpx;}
 .Report{ float: left; width: 45%; background: #3dc28e; font-size: 28rpx; height:90rpx; line-height:90rpx; text-align: center; border-radius: 10rpx; color: #fff; margin-right: 5%;}
 .Telephone{ float: right; width: 45%; background: #2e72f1; font-size: 28rpx; height:90rpx; line-height:90rpx; text-align: center; border-radius:10rpx; color: #fff; margin-right: 5%;}
+
+
+/* 弹出预约开始 */
+.tcyyzg{position:fixed;top:0;bottom:0;right:0;left:0;background-color:#333333d1;display:flex;align-items:flex-end;align-content:center; z-index: 999999;}
+.tcyy{ width:90%; margin-left:5%; margin-right:5%; background: #fff; border-radius:30rpx;  position: relative; bottom:20%;}
+.btyy{ width: 100%; height:100rpx; background: #3dc28e; color: #fff; text-align: center; border-top-left-radius:30rpx; border-top-right-radius: 30rpx; line-height:100rpx; font-size: 36rpx; font-weight: bold;}
+.appointment{padding:1% 5% 7% 5%; width:90%;}
+.project__input{ margin-top:30rpx; height:60rpx; padding-bottom:10rpx; border-bottom: 1px #ececec solid;}
+.project__input .xmmc{ float: left; font-size: 30rpx; width:210rpx; margin-right:25rpx; text-align: justify;text-justify:distribute-all-lines;}
+.xmmc:after {width: 100%;height: 0;margin: 0;display: inline-block;overflow: hidden;content: '';}
+.project__input input{ float: left; font-size: 30rpx; }
+.applyFor{ width:60%; height:80rpx; background: #2e72f1; line-height: 80rpx; text-align: center; font-size: 36rpx; color: #fff; margin-top: 40rpx;}
+.ShutDown{ font-size:40rpx; font-weight: bold; position: absolute; top: 20rpx; right: 20rpx; color: #fff;}
 
 
 
