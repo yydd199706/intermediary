@@ -63,7 +63,7 @@
             <div class="z_buxian">
               <div><image :src='img6' mode="scaleToFill"/></div>
               <div>重置</div>
-              </div>
+              </div> 
             <div class="y_quding" @click="qySure">确定</div>
           </div>
         </div>
@@ -79,7 +79,7 @@
             <div class="z_buxian" @click="hxReset">
               <div><image :src='img6' mode="scaleToFill"/></div>
               <div>重置</div>
-              </div>
+            </div>
             <div class="y_quding" @click="qySure">确定</div>
           </div>
         </div>

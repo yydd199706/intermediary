@@ -148,17 +148,20 @@ export default {
     const that = this;
     var id=option.id;
     that.domain=app.globalData.domain;
-    console.log(option)
+    console.log(option);
+    // wx.setStorageSync('id');
+    var id=wx.getStorageSync('id');
+    console.log('id==',id);
     //获取详情
-      // wx.request({
-      //   url:app.globalData.url +"Project/BandProjectInfo" +"?sessionKey=" +app.globalData.sessionKey+'&projectid=' + option.id,
-      //   success: function (res) {
-      //     let patient = res.data
-      //     console.log('详情',res);
+      wx.request({
+        url:app.globalData.url +"Project/BandProjectInfo" +"?sessionKey=" +app.globalData.sessionKey+'&projectid=' + id,
+        success: function (res) {
+          // let patient = res.data
+          console.log('详情',res);
           
-      //   },
-      //   fail: function (res) {},
-      // });
+        },
+        fail: function (res) {},
+      });
 
   },
 

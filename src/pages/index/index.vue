@@ -399,9 +399,9 @@ export default {
       wx.switchtab({ url: "/pages/articlelist/main" });
     },
     //跳转楼盘动态详情
-    lpclicktab: function () {
-      wx.navigateTo({ url: "/pages/newhousedetails/main?id=" + id });
-    },
+    // lpclicktab: function () {
+    //   wx.navigateTo({ url: "/pages/newhousedetails/main?id=" + id });
+    // },
     navList:function(index,e){
       wx.navigateTo({ url: e.mp.currentTarget.dataset.url });
     },

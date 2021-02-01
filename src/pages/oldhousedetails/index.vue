@@ -199,7 +199,7 @@
       <div class="k1">
           <div class="hx_bt">
             <p>小区项目信息</p>
-            <span @click="PlotDetails(index,$event)">小区详情 ></span>
+            <span @click="PlotDetails()">小区详情 ></span>
           </div>
           <div class="xiangmu">
             <div class="l_xiangmu">
@@ -502,6 +502,8 @@ export default {
              that.soldcount = res.data.Context.project.soldcount;
              that.landyear = res.data.Context.project.landyear;
              that.ImgUrl = res.data.Context.project.ImgUrl;
+             that.id=res.data.Context.project.id;
+            //  wx.setStorageSync('id',res.data.Context.project.id);
           }
           //同小区成交
           that.deal = res.data.Context.deal;
@@ -554,12 +556,10 @@ export default {
       }
     },
 
-    //点击跳转二手房详情页
-    PlotDetails:function (index,e){
-      console.log('小区详情',e);
-      let id = e.mp.currentTarget.dataset.id;
-      // console.log('e',e.mp.currentTarget.dataset.id);
-      wx.navigateTo({ url: "/pages/communityDetails/main?id="+id});
+    //点击跳转小区详情页
+    PlotDetails:function (){
+      const that = this;
+      wx.navigateTo({ url: "/pages/communityDetails/main"});
     },
 
         
