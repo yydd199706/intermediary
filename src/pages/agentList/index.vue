@@ -2,21 +2,21 @@
   <div class="indexstyle">
     <!-- 经纪人列表开始 -->
     <div class="guwen">
-      <div class="guwen_list" v-for="(item, index) in agent" :key="index">
+      <div class="guwen_list" v-for="(item, index) in agentList" :key="index">
           <div class="left_g">
-              <image :src="item.img8" class="slide-image" mode="scaleToFill"/>
-              <div class="neirong">
+            <image :src="domain+item.headpic" class="slide-image" mode="scaleToFill"/>
+            <div class="neirong">
                 <div>
-                  <h1>{{item.name}}</h1>
-                  <span>{{item.fraction}}</span>
+                  <h1>{{item.realname}}</h1>
+                  <span>{{item.companyname}}</span>
                   <div class="clear"></div>
                 </div>
-                <p>{{item.neirong}}</p>
-              </div>
+                <p>{{item.evaluation}}</p>
+            </div>
           </div>
           <div class="right_g">
-              <p class="wxl"><image :src="img9" class="slide-image" mode="scaleToFill" /></p>
-              <p class="dhr"><image :src="img10" class="slide-image" mode="scaleToFill" /></p>
+            <p class="wxl"><image :src="img9" class="slide-image" mode="scaleToFill" /></p>
+            <p class="dhr"><image :src="img10s" class="slide-image" mode="scaleToFill" /></p>
           </div>
       </div>
     </div>
@@ -46,16 +46,9 @@ export default {
     return {
       company:"",
       storename:"",
-      agent: [
-            {
-              img8:'http://vip.yijienet.com/tt/img1.jpg',
-              name:'王先生',
-              fraction:5,
-              neirong:'我带看过本房，清楚本房特色',
-              img9:'/static/images/wx.png',
-              img10:'/static/images/dh.png',
-            }
-      ],
+      agentList: [],
+      img9:'/static/images/wx.png',
+      img10:'/static/images/dh.png',
       // img9: app.globalData.imgurl +"wx.png",
       // img10s: app.globalData.imgurl +"dh.png",
     }
@@ -78,7 +71,9 @@ export default {
         'content-type': 'application/json' // 默认值
       },
       success (res) {
-        console.log(res.data)
+        console.log(res.data);
+        that.agentList = res.data.Context.agentList;
+
       }
     })
   },
