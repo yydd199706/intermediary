@@ -185,6 +185,12 @@
           "pathName": "pages/collection/main",
           "query": "",
           "scene": null
+        },
+        {
+          "name": "经纪人列表",
+          "pathName": "pages/agentList/main",
+          "query": "",
+          "scene": null
         }
       ]
     }

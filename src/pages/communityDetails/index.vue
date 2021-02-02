@@ -17,8 +17,8 @@
     <!-- 小区名称开始 -->
     <div class="community">
       <div class="lelf_c">
-         <h1>{{title}}</h1>
-         <p>{{dizhi}}</p>
+         <h1>{{name}}</h1>
+         <p>{{address}}</p>
       </div>
       <div class="right_c">
         <div>
@@ -53,17 +53,25 @@
     <div class="jianjie">
       <h3>小区简介</h3>
       <div>
-        <p>建筑类型：<span>{{construction}}</span></p>
-        <p>建筑年代：<span>{{years}}</span></p>
-        <p>楼栋总数：<span>{{storiedBuilding}}</span></p>
-        <p>房屋总数：<span>{{housing}}</span></p>
-        <p>车位数：<span>{{parkingSpace}}</span></p>
-        <p>车位配比：<span>{{ratio}}</span></p>
-        <p>停车费：<span>{{parkingfei}}</span></p>
-        <p>物业公司：<span>{{propertygs}}</span></p>
-        <p>物业费用：<span>{{wycost}}</span></p>
-        <p>开发商：<span>{{developers}}</span></p>
-        <p>小区别名：<span>{{communityAlias}}</span></p>
+        <p>土地使用年限：<span>{{landyear}}年</span></p>
+        <p>总套数：<span>{{housecount }}套</span></p>
+        <p>车位数：<span>{{parknumber}}个</span></p>
+        <p>物业费：<span>{{propertycost}}元/m²</span></p>
+        <p>绿化率：<span>{{greenrate}}%</span></p>
+        <p>占地面积：<span>{{landarea}}平方米</span></p>
+        <p>建筑面积：<span>{{buildarea}}平方米</span></p>
+        <p>物业公司：<span>{{propertycorp}}</span></p>
+        <p>装修情况：<span>{{Decorationname}}</span></p>
+        <p>供水情况：<span>{{BS_Watername}}</span></p>
+        <p>供热情况：<span>{{BS_HotGasname}}</span></p>
+        <p>安防情况：<span>{{BS_Securityname}}</span></p>
+        <!-- <p>配套教育：<span>{{sp_education}}</span></p>
+        <p>配套商业：<span>{{sp_business}}</span></p>
+        <p>配套银行：<span>{{sp_bank}}</span></p>
+        <p>配套医院：<span>{{sp_hospital}}</span></p>
+        <p>配套交通：<span>{{sp_traffic}}</span></p>
+        <p>配套购物：<span>{{sp_shopping}}</span></p>
+        <p>配套餐饮：<span>{{sp_catering}}</span></p> -->
       </div>
       
     </div>
@@ -72,7 +80,7 @@
     <!-- 小区房源开始 -->
     <div class="fangyuan">
       <div class="hx_bt1">
-        <p>同小区房源</p>
+        <p>小区房源</p>
         <span>查看更多</span>
       </div>
       <div class="fangyuan_list">
@@ -104,9 +112,8 @@ const app = getApp();
 const common = require("@/utils/index");
 export default {
   data () {
-    xianshi:false;
+    //xianshi:false;
     return {
-      id:1,
       domain:null,
       movies: [
         {img1: 'http://vip.yijienet.com/tt/img1.jpg'},
@@ -115,28 +122,36 @@ export default {
         {img1: 'http://vip.yijienet.com/tt/img1.jpg'}
       ],
       current: 0,
-      title:"兴安府",
-      dizhi:"翠屏路和欢喜岭路交汇处",
+      name:"",
+      address:"",
       img2:"/static/images/tx.png",
       img3:"/static/images/gz.png",
       img4:"/static/images/xin.png",
-      gzxianshi:0,
-      construction:"板楼",
-      years:"2012~2020年",
-      storiedBuilding:"5栋",
-      housing:"508户",
-      parkingSpace:560,
-      ratio:"1:1.2",
-      parkingfei:550,
-      propertygs:"",
-      wycost:"1.14元/平米/月",
-      developers:"",
-      communityAlias:"兴安府",
+      landyear:"",
+      housecount:"",
+      parknumber:"",
+      propertycost:"",
+      greenrate:"",
+      landarea:"",
+      buildarea:"",
+      propertycorp:"",
+      Decorationname:"",
+      BS_Watername:"",
+      BS_HotGasname:"",
+      BS_Securityname:"",
+      // sp_education:"",
+      // sp_business:"",
+      // sp_bank:"",
+      // sp_hospital:"",
+      // sp_traffic:"",
+      // sp_shopping:"",
+      // sp_catering:"",
       fangyuan:[
         {img11:'http://vip.yijienet.com/tt/img1.jpg',fangy1:'2室一厅',fangy2:80.5,fangy3:'北',fangy4:130,fangy5:6500.5},
         {img11:'http://vip.yijienet.com/tt/img1.jpg',fangy1:'2室一厅',fangy2:80.5,fangy3:'北',fangy4:130,fangy5:6500.5},
         {img11:'http://vip.yijienet.com/tt/img1.jpg',fangy1:'2室一厅',fangy2:80.5,fangy3:'北',fangy4:130,fangy5:6500.5}
       ],
+      gzxianshi:0,
 
  
  
@@ -150,15 +165,40 @@ export default {
     that.domain=app.globalData.domain;
     console.log(option);
     // wx.setStorageSync('id');
-    var id=wx.getStorageSync('id');
-    console.log('id==',id);
+    //var id=wx.getStorageSync('id');
+    //console.log('id==',id);
     //获取详情
       wx.request({
-        url:app.globalData.url +"Project/BandProjectInfo" +"?sessionKey=" +app.globalData.sessionKey+'&projectid=' + id,
+        url:app.globalData.url +"Project/BandProjectInfo" +"?sessionKey=" +app.globalData.sessionKey+'&projectid=' + option.id,
         success: function (res) {
           // let patient = res.data
           console.log('详情',res);
-          
+          that.name = res.data.Context.projectInfo.name;
+          that.address = res.data.Context.projectInfo.address;
+
+          that.landyear = res.data.Context.projectInfo.landyear;
+          that.housecount = res.data.Context.projectInfo.housecount;
+          that.parknumber = res.data.Context.projectInfo.parknumber;
+          that.propertycost = res.data.Context.projectInfo.propertycost;
+          that.greenrate = res.data.Context.projectInfo.greenrate;
+          that.landarea = res.data.Context.projectInfo.landarea;
+          that.buildarea = res.data.Context.projectInfo.buildarea;
+          that.propertycorp = res.data.Context.projectInfo.propertycorp;
+          that.Decorationname = res.data.Context.projectInfo.Decorationname;
+          that.BS_Watername = res.data.Context.projectInfo.BS_Watername;
+          that.BS_HotGasname = res.data.Context.projectInfo.BS_HotGasname;
+          that.BS_Securityname = res.data.Context.projectInfo.BS_Securityname;
+          // that.sp_education = res.data.Context.projectInfo.sp_education;
+          // that.sp_business = res.data.Context.projectInfo.sp_business;
+          // that.sp_bank = res.data.Context.projectInfo.sp_bank;
+          // that.sp_hospital = res.data.Context.projectInfo.sp_hospital;
+          // that.sp_traffic = res.data.Context.projectInfo.sp_traffic;
+          // that.sp_shopping = res.data.Context.projectInfo.sp_shopping;
+          // that.sp_catering = res.data.Context.projectInfo.sp_catering;
+
+
+
+
         },
         fail: function (res) {},
       });
@@ -232,13 +272,13 @@ export default {
 .right_c div{ display: flex; flex-direction: row; width: 100%;}
 .tixing{ margin-right: 3%; width:50%; }
 .tixing image{ width: 36rpx; height: 41rpx;}
-.tixing p{ font-size: 26rpx; position: relative; top: -40rpx;}
-.right_c button{border: none; padding: 0 !important; padding-left: 0 !important; padding-right: 0 !important; width:120rpx; }
+.tixing p{ font-size: 28rpx; position: relative; top: -40rpx;}
+.right_c button{border: none; padding: 0 !important; padding-left: 0 !important; padding-right: 0 !important; width:120rpx; background: none; }
 .right_c button::after{border: none; padding: 0 !important; background: none !important;}
 
 .guanzhu{ margin-right: 3%; width:100%;}
-.guanzhu image{ width:40rpx; height:40rpx;}
-.guanzhu p{ font-size: 28rpx; position: relative; top: -40rpx;}
+.guanzhu image{ width:40rpx; height:40rpx; position: relative; top:-2rpx;}
+.guanzhu p{ font-size: 28rpx; position: relative; top: -41rpx;}
 .ygz{ position: relative; }
 
 /* 小区简介开始 */

@@ -1,0 +1,125 @@
+<template>
+  <div class="indexstyle">
+    <!-- 经纪人列表开始 -->
+    <div class="guwen">
+      <div class="guwen_list" v-for="(item, index) in agent" :key="index">
+          <div class="left_g">
+              <image :src="item.img8" class="slide-image" mode="scaleToFill"/>
+              <div class="neirong">
+                <div>
+                  <h1>{{item.name}}</h1>
+                  <span>{{item.fraction}}</span>
+                  <div class="clear"></div>
+                </div>
+                <p>{{item.neirong}}</p>
+              </div>
+          </div>
+          <div class="right_g">
+              <p class="wxl"><image :src="img9" class="slide-image" mode="scaleToFill" /></p>
+              <p class="dhr"><image :src="img10" class="slide-image" mode="scaleToFill" /></p>
+          </div>
+      </div>
+    </div>
+    <!-- 经纪人列表结束 -->
+    
+     
+
+
+    
+
+
+
+
+
+
+   
+  
+
+  </div>
+</template>
+
+<script>
+const app = getApp();
+const common = require("@/utils/index");
+export default {
+  data () {
+    return {
+      company:"",
+      storename:"",
+      agent: [
+            {
+              img8:'http://vip.yijienet.com/tt/img1.jpg',
+              name:'王先生',
+              fraction:5,
+              neirong:'我带看过本房，清楚本房特色',
+              img9:'/static/images/wx.png',
+              img10:'/static/images/dh.png',
+            }
+      ],
+      // img9: app.globalData.imgurl +"wx.png",
+      // img10s: app.globalData.imgurl +"dh.png",
+    }
+  },
+  onLoad(option) {
+    const that = this;
+    var id=option.id;
+    that.domain=app.globalData.domain;
+    console.log(option);
+
+    wx.request({
+      url: app.globalData.url +"Agent/BandAgentList" +"?sessionKey=" +app.globalData.sessionKey,
+      method:"POST",
+      data: {
+        company: that.company,
+        storename: that.storename,
+      },
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success (res) {
+        console.log(res.data)
+      }
+    })
+  },
+  methods: {
+
+ 
+
+ 
+  }
+ 
+
+
+ 
+
+   
+
+}
+</script>
+
+<style scoped>
+.clear {
+  clear: both;
+  height: 0;
+  display: block;}
+.hsxian{ width: 100%; height:20rpx; background: #f8f8fa;}
+.indexstyle{width: 100%; margin: 0 auto; background: #fff;}
+
+/* 经纪人列表开始  */
+.guwen{ width:100%; margin-top:5%;}
+.guwen_list{ width: 100%; margin-top:2%; overflow: hidden; margin-bottom:30rpx;}
+
+.left_g{ float: left; width:75%;}
+.left_g image{ float: left; width:110rpx; height:110rpx; border-radius: 50%; margin-right: 2%;}
+.neirong{ float: left; width:70%; margin-top: 2%; }
+.neirong div h1{float: left; font-size:32rpx; font-weight: bold; margin-right:10rpx; }
+.neirong div span{ float: left; font-size: 22rpx; padding:1rpx 2rpx 1rpx 2rpx; border:2rpx #f86577 solid; color: #f86577; text-align: center; border-radius:6rpx; }
+.neirong p{ font-size: 27rpx; color: #969ca8; margin-top:2%;}
+
+.right_g{ float: right; margin-top:20rpx; width: 25%; overflow: hidden;}
+.right_g p.wxl{ float: left;}
+.right_g p.dhr{ float: right ;}
+.right_g image{ width:60rpx; height:60rpx;}
+
+
+</style>

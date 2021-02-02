@@ -116,7 +116,7 @@
     <div class="jingjiren" v-if="agent.length > 0 ? true : false">
       <div class="hx_bt">
         <p>推荐经纪人</p>
-        <span>查看更多</span>
+        <span @click="agentlists()">查看更多</span>
       </div>
 
       <div class="guwen">
@@ -380,6 +380,8 @@ export default {
   data () {
     return {
       id:"",
+      company:"",
+      storename:"",
       yuyue_yc:false,
       domain:null,
       Decorationname:"",
@@ -492,6 +494,9 @@ export default {
           that.transport = res.data.Context.houseInfo.transport;
           //推荐经纪人
           that.agent = res.data.Context.agent;
+          that.company = res.data.Context.agent.company;
+          that.storename = res.data.Context.agent.storename;
+
           //猜你喜欢
           that.likes = res.data.Context.guessLike;
           //小区项目信息
@@ -503,7 +508,7 @@ export default {
              that.landyear = res.data.Context.project.landyear;
              that.ImgUrl = res.data.Context.project.ImgUrl;
              that.id=res.data.Context.project.id;
-            //  wx.setStorageSync('id',res.data.Context.project.id);
+             //wx.setStorageSync('id',res.data.Context.project.id);
           }
           //同小区成交
           that.deal = res.data.Context.deal;
@@ -559,8 +564,15 @@ export default {
     //点击跳转小区详情页
     PlotDetails:function (){
       const that = this;
-      wx.navigateTo({ url: "/pages/communityDetails/main"});
+      wx.navigateTo({ url: "/pages/communityDetails/main?id="+this.id});
     },
+    //点击经纪人列表
+    agentlists:function (){
+      const that = this;
+      wx.navigateTo({ url: "/pages/agentList/main?company=" + this.id + "&storename=" + this.id});
+    },
+
+    
 
         
 
@@ -645,7 +657,7 @@ export default {
 .hx_bt span{ float: right; font-size:25rpx;}
 
 
-
+/* 推荐经纪人 */
 .jingjiren{width: 90%; padding-left: 5%; padding-right: 5%; margin-top: 5%; padding-bottom:20rpx; border-bottom:20rpx #efefef solid;}
 .guwen{ width:100%; margin-top:5%;}
 .guwen_list{ width: 100%; margin-top:2%; overflow: hidden; margin-bottom:30rpx;}
