@@ -65,9 +65,10 @@ export default {
     var id=option.id;
     that.domain=app.globalData.domain;
     console.log(option);
-
+    that.company=option.company;
+    that.storename=option.storename;
     wx.request({
-      url: app.globalData.url +"Agent/BandAgentList" +"?sessionKey=" +app.globalData.sessionKey,
+      url: app.globalData.url +"Agent/BandAgentList?sessionKey=" +app.globalData.sessionKey,
       method:"POST",
       data: {
         company: that.company,

@@ -116,7 +116,7 @@
     <div class="jingjiren" v-if="agent.length > 0 ? true : false">
       <div class="hx_bt">
         <p>推荐经纪人</p>
-        <span @click="agentlists()">查看更多</span>
+        <span @click="agentlists">查看更多</span>
       </div>
 
       <div class="guwen">
@@ -296,12 +296,11 @@
     <!-- 底部按钮开始 -->
     <div class="footer">
       <div class="left_foot">
-
         <div class="guanzhus">
           <button class="gzdianji" @click="gz_dj" v-if="gztu_img==0" ><image :src="img10" /></button>
           <button class="gzxianshi" @click="gz_dj" v-else ><image :src="img12" /></button>
           <p>关注</p>          
-        </div>
+        </div> 
 
         <button open-type="share" class="fenxiangs">
           <image :src="img13" class="slide-image" />
@@ -494,9 +493,16 @@ export default {
           that.transport = res.data.Context.houseInfo.transport;
           //推荐经纪人
           that.agent = res.data.Context.agent;
-          that.company = res.data.Context.agent.company;
-          that.storename = res.data.Context.agent.storename;
-
+          for(var i =0;i<that.agent.length;i++){
+            that.company = that.agent[i].company;
+            that.storename = that.agent[i].storename;
+            console.log('门店id',that.storename);
+          console.log('公司id',that.company);
+          }
+          // that.company = res.data.Context.agent.company;
+          // that.storename = res.data.Context.agent.storename;
+          console.log('门店id',that.storename);
+          console.log('公司id',that.company);
           //猜你喜欢
           that.likes = res.data.Context.guessLike;
           //小区项目信息
@@ -569,7 +575,7 @@ export default {
     //点击经纪人列表
     agentlists:function (){
       const that = this;
-      wx.navigateTo({ url: "/pages/agentList/main?company=" + this.id + "&storename=" + this.id});
+      wx.navigateTo({ url: "/pages/agentList/main?company=" + that.company + "&storename=" + that.storename});
     },
 
     
