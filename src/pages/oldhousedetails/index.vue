@@ -119,37 +119,48 @@
       </div>
 
       <div class="anniu">
-          <scroll-view scroll-x class="top">
-              <div class="an_qh" :class="{'tabbar-bottom':currentTab==index}" v-for="(item,index) in tabBar" :key="index" @click="clickTab(index)" >
-                  <div v-if="currentTab==index"><image :src="item.img2" class="slide-image" mode="scaleToFill"/></div>
-                  <div v-else><image :src="item.img1" class="slide-image" mode="scaleToFill"/></div>
-                  <p>{{item.title}}</p>
-              </div>
-          </scroll-view>
-          <div>
-            <swiper style="height:10vh" :current="currentTab" @change="changeTab">
-              <swiper-item>
-              <div class="neir">{{kspoint}}</div>
-              </swiper-item>
-              <swiper-item>
-              <div class="neir">{{comintro}}</div>
-              </swiper-item>
-              <swiper-item>
-              <div class="neir">{{spopul}}</div>
-              </swiper-item>
-              <swiper-item>
-              <div class="neir">{{sfacilit}}</div>
-              </swiper-item>
-              <swiper-item>
-              <div class="neir">{{costintro}}</div>
-              </swiper-item>
-              <swiper-item>
-              <div class="neir">{{transport}}</div>
-              </swiper-item>
-            </swiper>
-          </div>
-
+        <scroll-view scroll-x class="top_jj">
+            <div :class="{'selected':tab === 1,'title':true}" class="jj_default" @click="jjchangTab(1)">
+              <div v-if="tab===1"><image :src="jimg2" class="slide-image" mode="scaleToFill"/></div>
+              <div v-else><image :src="jimg1" class="slide-image" mode="scaleToFill"/></div>
+              <p>核心卖点</p>
+            </div>
+            <div :class="{'selected':tab === 2,'title':true}" class="jj_default" @click="jjchangTab(2)">
+              <div v-if="tab===2"><image :src="jimg4" class="slide-image" mode="scaleToFill"/></div>
+              <div v-else><image :src="jimg3" class="slide-image" mode="scaleToFill"/></div>
+              <p>小区介绍</p>
+            </div>
+            <div :class="{'selected':tab === 3,'title':true}" class="jj_default" @click="jjchangTab(3)">
+              <div v-if="tab===3"><image :src="jimg6" class="slide-image" mode="scaleToFill"/></div>
+              <div v-else><image :src="jimg5" class="slide-image" mode="scaleToFill"/></div>
+              <p>适宜人群</p>
+            </div>
+            <div :class="{'selected':tab === 4,'title':true}" class="jj_default" @click="jjchangTab(4)">
+              <div v-if="tab===4"><image :src="jimg8" class="slide-image" mode="scaleToFill"/></div>
+              <div v-else><image :src="jimg7" class="slide-image" mode="scaleToFill"/></div>
+              <p>周边配套</p>
+            </div>
+            <div :class="{'selected':tab === 5,'title':true}" class="jj_default" @click="jjchangTab(5)">
+              <div v-if="tab===5"><image :src="jimg10" class="slide-image" mode="scaleToFill"/></div>
+              <div v-else><image :src="jimg9" class="slide-image" mode="scaleToFill"/></div>
+              <p>费用介绍</p>
+            </div>
+            <div :class="{'selected':tab === 6,'title':true}" class="jj_default" @click="jjchangTab(6)">
+              <div v-if="tab===6"><image :src="jimg12" class="slide-image" mode="scaleToFill"/></div>
+              <div v-else><image :src="jimg11" class="slide-image" mode="scaleToFill"/></div>
+              <p>交通出行</p>
+            </div>
+        </scroll-view>
+        <div class="diakuand1">
+          <div class="neir" v-if="tab===1">{{kspoint}}</div>
+          <div class="neir" v-else-if="tab===2">{{comintro}}</div>
+          <div class="neir" v-else-if="tab===3">{{spopul}}</div>
+          <div class="neir" v-else-if="tab===4">{{sfacilit}}</div>
+          <div class="neir" v-else-if="tab===5">{{costintro}}</div>
+          <div class="neir" v-else>{{transport}}</div>
+        </div>
       </div>
+
     </div>
     <!-- 评价分类结束 -->
 
@@ -288,7 +299,7 @@
           </div>
           <div class="fangyuan_list">
             <scroll-view scroll-x="true" style="width: 100%" class="image-group">
-              <div class="fang_list" v-for="(item, fy) in sameDistrict" :key="fy">
+              <div class="fang_list" v-for="(item, index) in sameDistrict" :key="index">
                 <image :src="domain+item.Imgurl" class="slide-image" />
                 <h3><span>{{item.apirlroom}}室{{item.apirloffice}}厅{{item.apirltoilet}}卫</span>/<span>{{item.area}}m²</span>/<span>{{item.Towardname}}</span></h3>
                 <p><span class="dj1">{{item.price}}万元</span><span class="dj2">{{item.averageprice}}元/平</span></p>
@@ -449,18 +460,18 @@ export default {
       Specialname:"",
       bjimg: app.globalData.imgurl +"tx.png",
       rootImg1: app.globalData.imgurl +"jt1.jpg",
-      img9: app.globalData.imgurl +"wx.png",
+      img9:"/static/images/wx.png",
       img10s: app.globalData.imgurl +"dh.png",
       agent: [],
       likes: [],
-      tabBar: [
-          {img1: app.globalData.imgurl +'an1.png',img2: app.globalData.imgurl +'an1s.png',title:'核心卖点'},
-          {img1: app.globalData.imgurl +'an2.png',img2: app.globalData.imgurl +'an2s.png',title:'小区介绍'},
-          {img1: app.globalData.imgurl +'an3.png',img2: app.globalData.imgurl +'an3s.png',title:'适宜人群'},
-          {img1: app.globalData.imgurl +'an4.png',img2: app.globalData.imgurl +'an4s.png',title:'周边配套'},
-          {img1: app.globalData.imgurl +'an5.png',img2: app.globalData.imgurl +'an5s.png',title:'费用介绍'},
-          {img1: app.globalData.imgurl +'an6.png',img2: app.globalData.imgurl +'an6s.png',title:'交通出行'},
-      ],
+      // tabBar: [
+      //     {img1: app.globalData.imgurl +'an1.png',img2: app.globalData.imgurl +'an1s.png',title:'核心卖点'},
+      //     {img1: app.globalData.imgurl +'an2.png',img2: app.globalData.imgurl +'an2s.png',title:'小区介绍'},
+      //     {img1: app.globalData.imgurl +'an3.png',img2: app.globalData.imgurl +'an3s.png',title:'适宜人群'},
+      //     {img1: app.globalData.imgurl +'an4.png',img2: app.globalData.imgurl +'an4s.png',title:'周边配套'},
+      //     {img1: app.globalData.imgurl +'an5.png',img2: app.globalData.imgurl +'an5s.png',title:'费用介绍'},
+      //     {img1: app.globalData.imgurl +'an6.png',img2: app.globalData.imgurl +'an6s.png',title:'交通出行'},
+      // ],
       kspoint:"",
       comintro:"",
       spopul:"",
@@ -487,6 +498,20 @@ export default {
       gztu_img:0,
       project:null,
       yy_img: app.globalData.imgurl +"yyzz.png",
+      tab: 1,
+      bai:0,
+      jimg1: app.globalData.imgurl +"an1.png",
+      jimg2: app.globalData.imgurl +"an1s.png",
+      jimg3: app.globalData.imgurl +"an2.png",
+      jimg4: app.globalData.imgurl +"an2s.png",
+      jimg5: app.globalData.imgurl +"an3.png",
+      jimg6: app.globalData.imgurl +"an3s.png",
+      jimg7: app.globalData.imgurl +"an4.png",
+      jimg8: app.globalData.imgurl +"an4s.png",
+      jimg9: app.globalData.imgurl +"an5.png",
+      jimg10: app.globalData.imgurl +"an5s.png",
+      jimg11: app.globalData.imgurl +"an6.png",
+      jimg12: app.globalData.imgurl +"an6s.png",
 
     }
   },
@@ -587,12 +612,16 @@ export default {
     changeTab(e) {
       this.currentTab = e.mp.detail.current;
     },
+    // clickTab(index) {
+    //     this.currentTab = index;
+    // },
+    jjchangTab(index) {
+        this.tab = index;
+    },
+
      djimg(e) {
        this.current = e.target.current;
      },
-    // clickTab(index) {
-    //    this.currentTab = index;
-    //  },
 
      anyy_dj(){
        this.yuyue_yc = !this.yuyue_yc;
@@ -761,18 +790,15 @@ export default {
 .map_img>image{width: 100%;height: 100%; margin-top: 3%;}
 
 
-
+ 
 .anniu{ width: 100%; margin-top:20rpx;}
-.top {width: 100%; line-height:84rpx;white-space: nowrap;position: relative;background: #fff; overflow: hidden; }
-.an_qh{ width:180rpx; height:160rpx; background: rgb(231, 231, 231);color: #000; display: inline-block; margin-right:20rpx; border-radius:10rpx;}
-.an_qh image{width:50rpx; height:50rpx; margin: 0 auto; display: block; margin-top:18%;}
-.an_qh p{font-size:26rpx; line-height:60rpx; text-align: center;}
-.tabbar-bottom { width:180rpx; height:160rpx; background:#2e72f1;color: #fff;}
+.top_jj{width: 100%; line-height:84rpx;white-space: nowrap;position: relative;background: #fff; overflow: hidden; }
+.jj_default{ width:180rpx; height:160rpx; background: rgb(231, 231, 231);color: #000; display: inline-block; margin-right:20rpx; border-radius:10rpx;}
+.jj_default image{width:50rpx; height:50rpx; margin: 0 auto; display: block; margin-top:18%;}
+.jj_default p{font-size:26rpx; line-height:60rpx; text-align: center;}
+.selected { width:180rpx; height:160rpx; background:#2e72f1;color: #fff;}
+.diakuand1{ margin-top: 20rpx;}
 .neir{ font-size:30rpx; line-height:50rpx; margin-top:20rpx;height: auto; overflow: hidden;} 
- /* .anniu swiper{ height:120rpx !important;}  
-.ceping{ height: 200rpx;}
-.swiper { width: 100%;}*/
-.introducenr{height:10vh;}
 
 
 

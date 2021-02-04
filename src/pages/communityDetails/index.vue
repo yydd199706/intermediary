@@ -6,7 +6,7 @@
       <swiper class="swiper" @change="djimg" >
         <block v-for="(item, index) in movies" :key="index">
           <swiper-item>
-            <image :src="item.img1" class="slide-image" mode="scaleToFill"/>
+            <image :src="domain+item.imgurl" class="slide-image" mode="scaleToFill"/>
           </swiper-item>
         </block>
       </swiper>
@@ -65,13 +65,6 @@
         <p>供水情况：<span>{{BS_Watername}}</span></p>
         <p>供热情况：<span>{{BS_HotGasname}}</span></p>
         <p>安防情况：<span>{{BS_Securityname}}</span></p>
-        <!-- <p>配套教育：<span>{{sp_education}}</span></p>
-        <p>配套商业：<span>{{sp_business}}</span></p>
-        <p>配套银行：<span>{{sp_bank}}</span></p>
-        <p>配套医院：<span>{{sp_hospital}}</span></p>
-        <p>配套交通：<span>{{sp_traffic}}</span></p>
-        <p>配套购物：<span>{{sp_shopping}}</span></p>
-        <p>配套餐饮：<span>{{sp_catering}}</span></p> -->
       </div>
       
     </div>
@@ -84,13 +77,13 @@
         <span>查看更多</span>
       </div>
       <div class="fangyuan_list">
-          <scroll-view scroll-x="true" style="width: 100%" class="image-group">
-            <div class="fang_list" v-for="(item, fy) in fangyuan" :key="fy">
-              <image :src="item.img11" class="slide-image" />
-              <h3><span>{{item.fangy1}}</span>/<span>{{item.fangy2}}m²</span>/<span>{{item.fangy3}}</span></h3>
-              <p><span class="dj1">{{item.fangy4}}万元</span><span class="dj2">{{item.fangy5}}元/平</span></p>
-            </div>
-          </scroll-view>
+        <scroll-view scroll-x="true" style="width: 100%;" class="image-group">
+          <div class="fang_list" v-for="(item, index) in houseInfo" :key="index">
+            <image :src="domain+item.Imgurl" class="slide-image" />
+            <h3><span>{{item.apirlroom}}室{{item.apirloffice}}厅{{item.apirltoilet}}卫</span>/<span>{{item.area}}m²</span>/<span>{{item.Towardname}}</span></h3>
+            <p><span class="dj1">{{item.price}}万元</span><span class="dj2">{{item.averageprice}}元/平</span></p>
+          </div>
+        </scroll-view>
       </div>
     </div>
     <!-- 小区房源结束 -->
@@ -115,18 +108,13 @@ export default {
     //xianshi:false;
     return {
       domain:null,
-      movies: [
-        {img1: 'http://vip.yijienet.com/tt/img1.jpg'},
-        {img1: 'http://vip.yijienet.com/tt/img1.jpg'},
-        {img1: 'http://vip.yijienet.com/tt/img1.jpg'},
-        {img1: 'http://vip.yijienet.com/tt/img1.jpg'}
-      ],
+      movies: [],
       current: 0,
       name:"",
       address:"",
-      img2:"/static/images/tx.png",
-      img3:"/static/images/gz.png",
-      img4:"/static/images/xin.png",
+      img2: app.globalData.imgurl +"tx.png",
+      img3: app.globalData.imgurl +"gz.png",
+      img4: app.globalData.imgurl +"xin.png",
       landyear:"",
       housecount:"",
       parknumber:"",
@@ -139,18 +127,7 @@ export default {
       BS_Watername:"",
       BS_HotGasname:"",
       BS_Securityname:"",
-      // sp_education:"",
-      // sp_business:"",
-      // sp_bank:"",
-      // sp_hospital:"",
-      // sp_traffic:"",
-      // sp_shopping:"",
-      // sp_catering:"",
-      fangyuan:[
-        {img11:'http://vip.yijienet.com/tt/img1.jpg',fangy1:'2室一厅',fangy2:80.5,fangy3:'北',fangy4:130,fangy5:6500.5},
-        {img11:'http://vip.yijienet.com/tt/img1.jpg',fangy1:'2室一厅',fangy2:80.5,fangy3:'北',fangy4:130,fangy5:6500.5},
-        {img11:'http://vip.yijienet.com/tt/img1.jpg',fangy1:'2室一厅',fangy2:80.5,fangy3:'北',fangy4:130,fangy5:6500.5}
-      ],
+      houseInfo:[],
       gzxianshi:0,
 
  
@@ -188,13 +165,10 @@ export default {
           that.BS_Watername = res.data.Context.projectInfo.BS_Watername;
           that.BS_HotGasname = res.data.Context.projectInfo.BS_HotGasname;
           that.BS_Securityname = res.data.Context.projectInfo.BS_Securityname;
-          // that.sp_education = res.data.Context.projectInfo.sp_education;
-          // that.sp_business = res.data.Context.projectInfo.sp_business;
-          // that.sp_bank = res.data.Context.projectInfo.sp_bank;
-          // that.sp_hospital = res.data.Context.projectInfo.sp_hospital;
-          // that.sp_traffic = res.data.Context.projectInfo.sp_traffic;
-          // that.sp_shopping = res.data.Context.projectInfo.sp_shopping;
-          // that.sp_catering = res.data.Context.projectInfo.sp_catering;
+          //轮播图
+          that.movies = res.data.Context.pictureInfo;
+          //小区房源
+          that.houseInfo = res.data.Context.houseInfo;
 
 
 
@@ -285,12 +259,12 @@ export default {
 .jianjie{ width: 90%; padding-left: 5%; padding-right: 5%; margin-top: 5%; padding-bottom:7%;border-bottom:20rpx #efefef solid; }
 .jianjie h3{ font-size:40rpx; font-weight: bold; padding-bottom:3%; border-bottom:2rpx rgb(233, 233, 233) solid;}
 .jianjie div{ margin-top: 4%;}
-.jianjie div p{ line-height:65rpx; color: #999999;}
+.jianjie div p{ line-height:66rpx; color: #999999; font-size: 34rpx;}
 .jianjie div p span{ color: #000;}
 .wzjj{ margin-top: 5%; width:330rpx; height:85rpx; line-height:85rpx; margin-bottom: 5%; font-size:30rpx;}
 
 /* 小区房源开始 */
-.fangyuan{ width: 90%; padding-left: 5%; padding-right: 5%; overflow: hidden; padding-top: 5%; margin-bottom: 5%;}
+.fangyuan{ width: 90%; padding-left: 5%; padding-right: 5%; overflow: hidden; padding-top: 5%; padding-bottom: 80rpx;}
 .fangyuan_list{ width: 100%; }
 .fang_list{ overflow: hidden; margin-right:6%; width:58%; margin-right: 5%; height:380rpx;display: inline-block;}
 .fang_list image{ width: 100%; height: 260rpx;}

@@ -1,23 +1,25 @@
 <template>
   <div class="indexstyle">
     <!-- 经纪人列表开始 -->
-    <div class="guwen">
-      <div class="guwen_list" v-for="(item, index) in agentList" :key="index">
-          <div class="left_g">
-            <image :src="domain+item.headpic" class="slide-image" mode="scaleToFill"/>
-            <div class="neirong">
-                <div>
-                  <h1>{{item.realname}}</h1>
-                  <span>{{item.companyname}}</span>
-                  <div class="clear"></div>
-                </div>
-                <p>{{item.evaluation}}</p>
+    <div class="jjr">
+      <div class="guwen">
+        <div class="guwen_list" v-for="(item, index) in agentList" :key="index">
+            <div class="left_g">
+              <image :src="domain+item.headpic" class="slide-image" mode="scaleToFill"/>
+              <div class="neirong">
+                  <div>
+                    <h1>{{item.realname}}</h1>
+                    <span>{{item.companyname}}</span>
+                    <div class="clear"></div>
+                  </div>
+                  <p>{{item.evaluation}}</p>
+              </div>
             </div>
-          </div>
-          <div class="right_g">
-            <p class="wxl"><image :src="img9" class="slide-image" mode="scaleToFill" /></p>
-            <p class="dhr"><image :src="img10s" class="slide-image" mode="scaleToFill" /></p>
-          </div>
+            <div class="right_g">
+              <p class="wxl"><image :src="img9" class="slide-image" mode="scaleToFill" /></p>
+              <p class="dhr"><image :src="img10s" class="slide-image" mode="scaleToFill" /></p>
+            </div>
+        </div>
       </div>
     </div>
     <!-- 经纪人列表结束 -->
@@ -44,13 +46,12 @@ const common = require("@/utils/index");
 export default {
   data () {
     return {
+      domain:null,
       company:"",
       storename:"",
       agentList: [],
-      img9:'/static/images/wx.png',
-      img10:'/static/images/dh.png',
-      // img9: app.globalData.imgurl +"wx.png",
-      // img10s: app.globalData.imgurl +"dh.png",
+      img9: app.globalData.imgurl +"wx.png",
+      img10s: app.globalData.imgurl +"dh.png",
     }
   },
   onLoad(option) {
@@ -61,12 +62,13 @@ export default {
     that.company=option.company;
     that.storename=option.storename;
     wx.request({
-      url: app.globalData.url +"Agent/BandAgentList?sessionKey=" +app.globalData.sessionKey,
-      method:"POST",
-      data: {
-        company: that.company,
-        storename: that.storename,
-      },
+      // url: app.globalData.url +"Agent/BandAgentList?sessionKey=" +app.globalData.sessionKey,
+      url: app.globalData.url +"Agent/BandAgentList?sessionKey=" +app.globalData.sessionKey+"&company="+that.company+"&store="+that.storename,
+      // method:"POST",
+      // data: {
+      //   company: that.company,
+      //   storename: that.storename,
+      // },
       header: {
         'content-type': 'application/json' // 默认值
       },
@@ -102,7 +104,12 @@ export default {
 .indexstyle{width: 100%; margin: 0 auto; background: #fff;}
 
 /* 经纪人列表开始  */
-.guwen{ width:100%; margin-top:5%;}
+.jjr{width: 140%; height: 500rpx; position: absolute; left: -20%; top: 0; z-index: -1; content: ''; border-radius: 0 0 50% 50%; background: linear-gradient(#3bb1f5, #2e72f1); }
+.guwen{ width:58%; margin-left:18%; margin-right:18%; padding-left:3%; padding-right:3%; padding-top:4%; background:#fff; border-radius:3%; margin-top:10%; padding-bottom:7%; }
+/* 去掉横向滚动条 */
+::-webkit-scrollbar {width: 0;height: 0;color: transparent;}
+
+/* .guwen{ width:90%; margin-left: 5%; margin-right: 5%; margin-top:5%;} */
 .guwen_list{ width: 100%; margin-top:2%; overflow: hidden; margin-bottom:30rpx;}
 
 .left_g{ float: left; width:75%;}
