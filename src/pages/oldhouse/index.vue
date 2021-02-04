@@ -25,13 +25,12 @@
              <image :src='[xianshi_hx==false?img3:img4]' mode="scaleToFill"/>
            </div>
            <div class="region_bt" @click="dianji_sx" :class="[areaArr.length>0||xianshi_sx==true||specialId!=''||
-             companyId!=''||decorationId!=''||buildyearId!=''||towardId!=''||floorId!=''||supportingId!=''||orderById!=''
+             companyId!=''||decorationId!=''||buildyearId!=''||towardId!=''||floorId!=''||supportingId!=''
              ?'career':'']">{{areaArr.length>1?'多选':'更多'}}
              <image :src='[xianshi_sx==false?img3:img4]' mode="scaleToFill"/>
            </div>
-           
            <div class="region_bt" @click="dianji_sort" :class="[isPx||pxName!='排序'?'career':'']">{{pxName}}
-             <!-- <image :src='[xianshi_sort==false?img3:img4]' mode="scaleToFill"/> -->
+             <image :src='[xianshi_sort==false?img3:img4]' mode="scaleToFill"/>
            </div>
         </div>
         <!-- 区域开始 -->
@@ -142,6 +141,17 @@
             <div class="y_quding" @click="qySure">确定</div>
           </div>
         </div>
+        <!-- 排序分类开始 -->
+        <div class="region_xl" v-if="xianshi_sort">
+          <div class="sort">
+             <!-- :class="[item.isHxtype?'type':'none']" -->
+            <div v-for="(item, index) in orderByType" :key="index" :class="[indAction==index?'colors':'']"
+              @click="sortClick(index,$event)" :data-id="item.id">
+              {{item.Name}}</div>
+          <!-- <div class="clear"></div> -->
+          </div>
+        </div>
+        <!-- 排序分类结束 -->
         <!-- 筛选开始 -->
         <div class="clear"></div>
       </div>
@@ -179,7 +189,7 @@
       <image :src="img5" class="new-image" mode="scaleToFill" />
     </div>
     <!-- 一键回到顶部 -->
-    <div class="hujian">
+    <div class="hujian" v-if="topHid" @click="goTop">
       <image :src="img" class="new-image" mode="scaleToFill" />
     </div>
     <!-- 文章列表结束 -->
@@ -195,6 +205,7 @@ export default {
       domain:null,
       xianshi:false,
       maskHid:false,
+      topHid:false,
       pageNumber:1,
       pageRecord:6,
       img:app.globalData.imgurl +"hj.png",
@@ -214,6 +225,8 @@ export default {
       specialType:[],
       supportingType:[],
       towardType:[],
+      orderByType:[{Name:"默认排序"},{Name:"总价从低到高",id:"1|0"},{Name:"总价从高到低",id:"1|1"},
+      {Name:"单价从低到高",id:"2|0"},{Name:"单价从高到低",id:"2|1"},{Name:"面积从大到小",id:"3|1"},{Name:"面积从小到大",id:"3|0"}],
       isQu:false,
       isJg:false,
       isHx:false,
@@ -223,6 +236,10 @@ export default {
       apirlroomArr:[],
       priceArr:[],
       areaArr:[],
+      zonearr:[],
+      apirlroomarr:[],
+      pricearr:[],
+      areaarr:[],
       specialId:"",
       companyId:"",
       decorationId:"",
@@ -240,6 +257,7 @@ export default {
       supporting:null,
       orderBy:null,
       allPage:null,
+      indAction:null,
       qyName:"区域",
       jgName:"价格",
       hxName:"户型",
@@ -254,6 +272,7 @@ export default {
       xianshi_dj:false,
       xianshi_hx:false,
       xianshi_sx:false,
+      xianshi_sort:false,
       show: false,
       qybtn:false,
       jgbtn:false,
@@ -308,6 +327,11 @@ export default {
     that.apirlroomArr=[];
     that.priceArr=[];
     that.areaArr=[];
+    that.zonearr=[];
+    that.apirlroomarr=[];
+    that.pricearr=[];
+    that.areaarr=[];
+    that.esf=[];
     that.specialId="";
     that.companyId="";
     that.decorationId="";
@@ -332,6 +356,10 @@ export default {
     that.xianshi_sx=false;
     that.maskHid=false;
     that.typeFun();
+    wx.pageScrollTo({
+      scrollTop: 0,
+      duration: 300
+    });
   },
   methods:{
     //点击区域
@@ -340,6 +368,11 @@ export default {
       that.xianshi_qy=!that.xianshi_qy;
       if(that.xianshi_qy==true){
         that.maskHid=true;
+        if(that.zoneArr.length==0){
+          for (var j = 0; j < that.regionType.length; j++) {
+            that.regionType[j].isQytype=false;
+          }
+        }
       }else{
         that.maskHid=false;
       }
@@ -358,6 +391,12 @@ export default {
       that.xianshi_jg=!that.xianshi_jg;
       if(that.xianshi_jg==true){
         that.maskHid=true;
+        if(that.priceArr.length==0){
+          console.log('价格',that.priceArr);
+          for (var j = 0; j < that.priceType.length; j++) {
+            that.priceType[j].isJgtype=false;
+          }
+        }
       }else{
         that.maskHid=false;
       }
@@ -376,6 +415,11 @@ export default {
       that.xianshi_hx=!that.xianshi_hx;
       if(that.xianshi_hx==true){
         that.maskHid=true;
+        if(that.apirlroomArr.length==0){
+          for (var j = 0; j < that.apirlroomType.length; j++) {
+            that.apirlroomType[j].isHxtype=false;
+          }
+        }
       }else{
         that.maskHid=false;
       }
@@ -394,6 +438,11 @@ export default {
       that.xianshi_sx=!that.xianshi_sx;
       if(that.xianshi_sx==true){
         that.maskHid=true;
+        if(that.areaArr.length==0){
+          for (var j = 0; j < that.areaType.length; j++) {
+            that.areaType[j].isAreatype=false;
+          }
+        }
       }else{
         that.maskHid=false;
       }
@@ -406,6 +455,13 @@ export default {
       that.isHx=false;
       that.isPx=false;
     },
+    //点击排序
+    dianji_sort:function(){
+      const that = this;
+      that.xianshi_sort=!that.xianshi_sort;
+      that.maskHid=!that.maskHid;
+      that.isPx=true;
+    },
     //点击区域分类
     quClick:function(index,e){
       const that = this;
@@ -416,14 +472,14 @@ export default {
         if (that.regionType[j].Id == id) {
             if(that.regionType[j].isQytype==false){
               that.regionType[j].isQytype=true;
-              that.zoneArr.push(id);
-              console.log('添加数组',that.zoneArr);
+              that.zonearr.push(id);
+              console.log('添加数组',that.zonearr);
             }else if(that.regionType[j].isQytype==true){
-              for(var i = 0;i<that.zoneArr.length;i++){
-                if(that.regionType[j].Id==that.zoneArr[i]){
+              for(var i = 0;i<that.zonearr.length;i++){
+                if(that.regionType[j].Id==that.zonearr[i]){
                    that.regionType[j].isQytype=false;
-                  that.zoneArr.splice(i,1);
-                  console.log('删除数组',that.zoneArr);
+                  that.zonearr.splice(i,1);
+                  console.log('删除数组',that.zonearr);
                 }
               }
             }
@@ -441,14 +497,14 @@ export default {
         if (that.priceType[j].Id == priceId) {
             if(that.priceType[j].isJgtype==false){
               that.priceType[j].isJgtype=true;
-              that.priceArr.push(priceId);
-              console.log('添加数组',that.priceArr);
+              that.pricearr.push(priceId);
+              console.log('添加数组',that.pricearr);
             }else if(that.priceType[j].isJgtype==true){
-              for(var i = 0;i<that.priceArr.length;i++){
-                if(that.priceType[j].Id==that.priceArr[i]){
+              for(var i = 0;i<that.pricearr.length;i++){
+                if(that.priceType[j].Id==that.pricearr[i]){
                    that.priceType[j].isJgtype=false;
-                  that.priceArr.splice(i,1);
-                  console.log('删除数组',that.priceArr);
+                  that.pricearr.splice(i,1);
+                  console.log('删除数组',that.pricearr);
                 }
               }
             }
@@ -464,14 +520,14 @@ export default {
         if (that.apirlroomType[j].Id == that.apirlroomId) {
             if(that.apirlroomType[j].isHxtype==false){
               that.apirlroomType[j].isHxtype=true;
-              that.apirlroomArr.push(that.apirlroomId);
-              console.log('添加数组',that.apirlroomArr);
+              that.apirlroomarr.push(that.apirlroomId);
+              console.log('添加数组',that.apirlroomarr);
             }else if(that.apirlroomType[j].isHxtype==true){
-              for(var i = 0;i<that.apirlroomArr.length;i++){
-                if(that.apirlroomType[j].Id==that.apirlroomArr[i]){
+              for(var i = 0;i<that.apirlroomarr.length;i++){
+                if(that.apirlroomType[j].Id==that.apirlroomarr[i]){
                    that.apirlroomType[j].isHxtype=false;
-                  that.apirlroomArr.splice(i,1);
-                  console.log('删除数组',that.apirlroomArr);
+                  that.apirlroomarr.splice(i,1);
+                  console.log('删除数组',that.apirlroomarr);
                 }
               }
             }
@@ -487,14 +543,14 @@ export default {
         if (that.areaType[j].Id == that.areaId) {
             if(that.areaType[j].isAreatype==false){
               that.areaType[j].isAreatype=true;
-              that.areaArr.push(that.areaId);
-              console.log('添加数组',that.areaArr);
+              that.areaarr.push(that.areaId);
+              console.log('添加数组',that.areaarr);
             }else if(that.areaType[j].isAreatype==true){
-              for(var i = 0;i<that.areaArr.length;i++){
-                if(that.areaType[j].Id==that.areaArr[i]){
+              for(var i = 0;i<that.areaarr.length;i++){
+                if(that.areaType[j].Id==that.areaarr[i]){
                    that.areaType[j].isAreatype=false;
-                  that.areaArr.splice(i,1);
-                  console.log('删除数组',that.areaArr);
+                  that.areaarr.splice(i,1);
+                  console.log('删除数组',that.areaarr);
                 }
               }
             }
@@ -586,6 +642,37 @@ export default {
         that.towardId="";
       }
     },
+    //点击更多-朝向分类
+    sortClick:function(index,e){
+      console.log('区域id',e.mp.currentTarget.dataset.name);
+      const that = this;
+      that.xianshi_sort=false;
+      that.maskHid=false;
+      that.indAction=index;
+      that.esf=[];
+      if(that.indAction==0){
+        that.zoneArr=[];
+        that.apirlroomArr=[];
+        that.priceArr=[];
+        that.areaArr=[];
+        that.specialId="";
+        that.companyId="";
+        that.decorationId="";
+        that.buildyearId="";
+        that.towardId="";
+        that.floorId="";
+        that.supportingId="";
+        that.orderById="";
+        that.pageNumber=1;
+        that.pageRecord=6;
+        that.typeFun();
+      }else{
+        that.orderById=e.mp.currentTarget.dataset.id;
+        that.pageNumber=1;
+        that.pageRecord=6;
+        that.typeFun();
+      }
+    },
     //点击区域-确定
     qySure:function(index,e){
       const that = this;
@@ -594,6 +681,11 @@ export default {
       that.xianshi_hx=false;
       that.xianshi_sx=false;
       that.maskHid=false;
+      that.zoneArr=that.zonearr;
+      console.log('区域',that.zoneArr);
+      that.apirlroomArr=that.apirlroomarr;
+      that.priceArr=that.pricearr;
+      that.areaArr=that.areaarr;
       that.pageNumber=1;
       that.esf=[];
       that.typeFun();
@@ -604,12 +696,13 @@ export default {
       that.xianshi_sx=false;
       that.maskHid=false;
       that.isGd=true;
+      
       that.typeFun();
     },
     // 点击区域-重置
     qyReset:function(){
       const that = this;
-      that.zoneArr=[];
+      that.zonearr=[];
       for(var i=0;i<that.regionType.length;i++){
         that.regionType[i].isQytype=false;
       }
@@ -617,7 +710,7 @@ export default {
      // 点击价格-重置
     jgReset:function(){
       const that = this;
-      that.priceArr=[];
+      that.pricearr=[];
       for(var i=0;i<that.priceType.length;i++){
         that.priceType[i].isJgtype=false;
       }
@@ -625,7 +718,7 @@ export default {
     // 点击户型-重置
     hxReset:function(){
       const that = this;
-      that.apirlroomArr=[];
+      that.apirlroomarr=[];
       for(var i=0;i<that.apirlroomType.length;i++){
         that.apirlroomType[i].isHxtype=false;
       }
@@ -633,7 +726,7 @@ export default {
     // 点击更多-重置
     gdReset:function(){
       const that = this;
-      that.areaArr=[];
+      that.areaarr=[];
       that.special=="";
       that.specialId=="";
       that.company=null;
@@ -701,8 +794,24 @@ export default {
         // that.esf=res.data.Context.esf;
       }
     })
-    }
+    },
+    //一键回到顶部
+    goTop: function() {
+      if (wx.pageScrollTo) {
+        wx.pageScrollTo({
+          scrollTop: 0
+        });
+      }
+    },
 
+  },
+  onPageScroll: function(e) {
+    // 获取滚动条当前位置
+    if (e.scrollTop >= 200) {
+      this.topHid = true;
+    } else if (e.scrollTop == 0) {
+      this.topHid = false;
+    }
   },
   // 上拉加载，拉到底部触发
   onReachBottom: function() {
@@ -721,7 +830,7 @@ export default {
 <style scoped>
 .career{color:#3072F6;}
 .type{background: #EAF1FE !important;color: #3072F6;}
-.none{width: 100%;text-align: center;height: 560rpx;}
+.none{width: 100%;text-align: center;height: 675rpx;}
 .none>image{width: 100%;height: 100%;}
 .clear {
   clear: both;
@@ -732,9 +841,9 @@ export default {
  
 
 /* 搜索 */
-.search{ width: 90%;  margin: 25rpx auto; margin-left: 5%; }
+.search{ width: 90%;  margin: 25rpx auto; margin-left: 5%;position: relative;}
 .search input{ height:80rpx; line-height:80rpx; width:100%; border-radius:60rpx; margin: 0 auto; background: #f1f1f1;  }
-.search image{ width: 40rpx; height: 40rpx; position: absolute; top:1.5%; left:8%; }
+.search image{ width: 40rpx; height: 40rpx; position: absolute; top:20rpx; left:3%; }
 
 /* 导航 */
 .nav{ width: 94%; margin-left: 3%; margin-right: 3%; background: #fff; margin: 0 auto; height:220rpx; }
@@ -856,4 +965,7 @@ text-overflow:ellipsis;
 .average{color: #A1A1A1;margin-left: 20rpx;font-size: 28rpx;}
 .hujian{width: 110rpx;height: 110rpx;position: fixed;right: 10rpx;bottom: 300rpx;}
 .hujian>image{width: 100%;height: 100%;}
+.sort{padding: 0 0 50rpx 40rpx;color: #333;font-size: 28rpx;box-sizing: border-box;}
+.sort>div{padding-top: 50rpx;}
+.colors{color: #3072F6;}
 </style>
