@@ -141,7 +141,20 @@
     </div>    
     <!-- 更多推荐结束 -->
 
-    
+    <!-- 底部按钮开始 -->
+    <div class="foot-an">
+      <div class="lelf_foot">
+        <button>
+          <image :src="footimg1" class="slide-image" />
+          <p>分享</p>
+        </button>
+      </div>
+      <div class="right_foot">
+        <div class="zixun">在线咨询</div>
+        <div class="dianhua">电话咨询</div>
+      </div>
+    </div>
+    <!-- 底部按钮结束 -->
 
  
    
@@ -282,12 +295,14 @@ export default {
 .m-x p.money1{ font-size:24rpx; color:rgb(187, 187, 187); margin-top: 10rpx; }
 
 /* 底部按钮开始 */
-.foot-an{ width: 90%; margin-left: 5%; margin-right: 5%;background: #fff;position: fixed;bottom: 0; z-index: 9999; overflow: hidden;}
+.foot-an{ width: 90%; height: 100rpx; padding-left: 5%; padding-right: 5%;background: rgb(155, 155, 155);position: fixed;bottom: 0; z-index: 9999; overflow: hidden;}
 .lelf_foot{ float: left; width: 30%;}
 .lelf_foot button{border: none; padding: 0 !important; padding-left: 0 !important; padding-right: 0 !important; background:none;}
 .lelf_foot button::after{border: none; padding: 0 !important;}
-.lelf_foot image{ width: 35rpx; height: 35rpx;}
-.lelf_foot p{ font-size: 30rpx;}
-.right_foot{ float: right;}
+.lelf_foot image{ width:45rpx; height: 45rpx; position: relative; top: -20rpx;}
+.lelf_foot p{ font-size: 30rpx; position: relative; top: -40rpx;}
+.right_foot{ float: right; width: 68%; display: flex; flex-direction: row;}
+.zixun{ width: 46%; margin-left: 2%; margin-right: 2%;}
+.dianhua{ width: 46%; margin-left: 2%; margin-right: 2%;}
 
 </style>
