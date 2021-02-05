@@ -52,60 +52,73 @@
 
       <div class="xqxx">
         <div>
-          <div class="xq_l">建筑年份：</div>
+          <div class="xq_l">建筑年份</div>
+          <span class="maohao">：</span>
           <div class="xq_r">{{buildyear}}</div>
         </div>
         <div>
-          <div class="xq_l">单价：</div>
+          <div class="xq_l">单价</div>
+          <span class="maohao">：</span>
           <div class="xq_r">{{averageprice}}元/m²</div>
         </div>
         <div>
-          <div class="xq_l">楼层：</div>
+          <div class="xq_l">楼层</div>
+          <span class="maohao">：</span>
           <div class="xq_r">{{floor}}</div>
         </div>
         <div>
-          <div class="xq_l">总层数：</div>
+          <div class="xq_l">总层数</div>
+          <span class="maohao">：</span>
           <div class="xq_r">{{floorcount}}</div>
         </div>
         <div>
-          <div class="xq_l">看房时间：</div>
+          <div class="xq_l">看房时间</div>
+          <span class="maohao">：</span>
           <div class="xq_r">{{looktime}}</div>
         </div>
         <div>
-          <div class="xq_l">租期：</div>
+          <div class="xq_l">租期</div>
+          <span class="maohao">：</span>
           <div class="xq_r">{{Termname}}</div>
         </div>
         <div>
-          <div class="xq_l">房屋朝向：</div>
+          <div class="xq_l">房屋朝向</div>
+          <span class="maohao">：</span>
           <div class="xq_r">{{Towardname}}</div>
         </div>
         <div>
-          <div class="xq_l">建筑类型：</div>
+          <div class="xq_l">建筑类型</div>
+          <span class="maohao">：</span>
           <div class="xq_r">{{Propertyname}}</div>
         </div>
         <div>
-          <div class="xq_l">区域：</div>
+          <div class="xq_l">区域</div>
+          <span class="maohao">：</span>
           <div class="xq_r">{{Zonename}}</div>
         </div>
         <div>
-          <div class="xq_l">装修情况：</div>
+          <div class="xq_l">装修情况</div>
+          <span class="maohao">：</span>
           <div class="xq_r">{{Decorationname}}</div>
         </div>
         <div>
-          <div class="xq_l">产权类型：</div>
+          <div class="xq_l">产权类型</div>
+          <span class="maohao">：</span>
           <div class="xq_r">{{Rightnaturename}}</div>
         </div>
         <div class="bo_lp">
-          <div class="xq_l">楼盘名称：</div>
+          <div class="xq_l">楼盘名称</div>
+          <span class="maohao">：</span>
           <div class="xq_r">{{projectname}}</div>
-          <span>></span>
         </div>
         <div class="bo_lp">
-          <div class="xq_l">地址：</div>
+          <div class="xq_l">地址</div>
+          <span class="maohao">：</span>
           <div class="xq_r">{{address}}</div>
         </div>
         <div class="bo_lp">
-          <div class="xq_l">房源配套：</div>
+          <div class="xq_l">房源配套</div>
+          <span class="maohao">：</span>
           <div class="xq_r">{{Supportingname}}</div>
         </div>
       </div>
@@ -730,11 +743,12 @@ export default {
 
 .xqxx{ margin-top: 3%; padding-bottom:40rpx; margin-top:35rpx;}
 .xqxx>div{float: left; width: 50%; height:65rpx;}
-.xq_l{color: rgb(160, 160, 160);float: left; font-size: 29rpx; width:150rpx; text-align: justify;text-justify:distribute-all-lines;}
+.xq_l{color: rgb(160, 160, 160);float: left; font-size:29rpx; width:120rpx; text-align: justify;text-justify:distribute-all-lines;}
 .xq_l:after {width: 100%;height: 0;margin: 0;display: inline-block;overflow: hidden;content: '';}
-.xq_r{float: left; font-size: 29rpx;}
+.maohao{float: left;color: rgb(160, 160, 160); position: relative; top: -5rpx; }
+.xq_r{float: left; font-size:29rpx;}
 .bo_lp{ width: 100% !important;}
-.bo_lp span{ float: right;font-size:35rpx;color: rgb(185, 185, 185); position: relative; top: -10rpx;}
+/* .bo_lp span{ float: right;font-size:35rpx;color: rgb(185, 185, 185); position: relative; top: -10rpx;} */
 
 
  
@@ -886,6 +900,7 @@ export default {
 .project__input .xmmc{ float: left; font-size: 30rpx; width:160rpx; margin-right:25rpx; text-align: justify;text-justify:distribute-all-lines;}
 .xmmc:after {width: 100%;height: 0;margin: 0;display: inline-block;overflow: hidden;content: '';}
 .project__input input{ float: left; font-size: 30rpx; }
+.project__input textarea{ float: left; font-size: 30rpx; width:69%; }
 .applyFor{ width:60%; height:80rpx; background: #2e72f1; line-height: 80rpx; text-align: center; font-size: 36rpx; color: #fff; margin-top: 40rpx;}
 .ShutDown{ font-size:40rpx; font-weight: bold; position: absolute; top: 20rpx; right: 20rpx; color: #fff;}
 

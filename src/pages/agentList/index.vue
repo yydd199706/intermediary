@@ -3,7 +3,7 @@
     <!-- 经纪人列表开始 -->
     <div class="jjr">
       <div class="guwen">
-        <div class="guwen_list" v-for="(item, index) in agentList" :key="index">
+        <div class="guwen_list" v-for="(item, index) in agentList" :key="index" @click="agentInfo(index,$event)" :data-id="item.id" >
             <div class="left_g">
               <image :src="domain+item.headpic" class="slide-image" mode="scaleToFill"/>
               <div class="neirong">
@@ -24,18 +24,6 @@
     </div>
     <!-- 经纪人列表结束 -->
     
-     
-
-
-    
-
-
-
-
-
-
-   
-  
 
   </div>
 </template>
@@ -56,9 +44,7 @@ export default {
   },
   onLoad(option) {
     const that = this;
-    var id=option.id;
     that.domain=app.globalData.domain;
-    console.log(option);
     that.company=option.company;
     that.storename=option.storename;
     wx.request({
@@ -75,23 +61,16 @@ export default {
       success (res) {
         console.log(res.data);
         that.agentList = res.data.Context.agentList;
-
       }
     })
   },
   methods: {
-
- 
-
- 
+    //点击跳转经纪人名片
+    agentInfo:function(index,e){
+      console.log('e',e.mp.currentTarget.dataset.id);
+      wx.navigateTo({ url: "/pages/agentDetails/main?agentid="+e.mp.currentTarget.dataset.id});
+    }
   }
- 
-
-
- 
-
-   
-
 }
 </script>
 
