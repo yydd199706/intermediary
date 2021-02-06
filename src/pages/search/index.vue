@@ -24,12 +24,13 @@
 </template>
 
 <script>
- 
+const app = getApp();
+ const common = require("@/utils/index");
   export default {
  
     data() {
       return {
-        img2: "/static/images/ss.png",
+        img2: app.globalData.imgurl +"ss.png",
         search:[
           {title:'天一城市之光',img1: "/static/images/sshot.png"},
           {title:'兴安府',img1: "/static/images/sshot.png"},

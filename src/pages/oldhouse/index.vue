@@ -2,7 +2,8 @@
   <div class="indexstyle">
     <!-- 搜索开始 -->
     <div class="search">
-      <input type="text" placeholder="请输入楼盘名或区域" placeholder-style="font-size:14px; padding-left:35px;">
+      <input type="text" placeholder="请输入楼盘名或区域" placeholder-style="font-size:14px; padding-left:35px;"
+       disabled="disabled" @click="searchUrl"/>
       <image :src="img2" mode="scaleToFill"/>
     </div>
     <!-- 搜索结束 -->
@@ -803,7 +804,10 @@ export default {
         });
       }
     },
-
+    //点击跳转搜索页
+    searchUrl:function(){
+       wx.navigateTo({url:"/pages/search/main"});
+    },
   },
   onPageScroll: function(e) {
     // 获取滚动条当前位置
