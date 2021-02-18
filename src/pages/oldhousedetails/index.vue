@@ -187,7 +187,7 @@
 
       <div class="guwen">
 
-          <div class="guwen_list" v-for="(item, index) in agent" :key="index">
+          <div class="guwen_list" v-for="(item, index) in agent" :key="index" @click="agentlistJump(index,$event)" :data-id="item.id">
             <div class="left_g">
               <image :src="domain+item.headpic" class="slide-image" mode="scaleToFill"/>
               <div class="neirong">
@@ -657,10 +657,15 @@ export default {
       const that = this;
       wx.navigateTo({ url: "/pages/communityDetails/main?id="+this.id});
     },
-    //点击经纪人列表
+    //点击跳转经纪人列表
     agentlists:function (){
       const that = this;
       wx.navigateTo({ url: "/pages/agentList/main?company=" + that.company + "&storename=" + that.storename});
+    },
+    //点击跳转经纪人名片
+    agentlistJump:function(index,e){
+      console.log('经纪人名片id',e.mp.currentTarget.dataset.id);
+      wx.navigateTo({ url: "/pages/agentDetails/main?agentid=" + e.mp.currentTarget.dataset.id});
     },
 
     
