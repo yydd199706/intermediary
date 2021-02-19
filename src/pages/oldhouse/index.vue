@@ -164,7 +164,8 @@
     <!-- 遮罩层结束 -->
     <div class="intention-house" v-if="esf.length>0?true:false">
       <div class="intention-nr">
-        <div class="h-mt" v-for="(item, index) in esf" :key="index">
+        <div class="h-mt" v-for="(item, index) in esf" :key="index" :data-id="item.id" 
+          @click="esfDetail(index,$event)">
           <image :src="domain+item.Imgurl" class="new-image" mode="scaleToFill" />
           <div class="r_wz">
             <div class="bt_s">{{ item.title}}</div>
@@ -814,6 +815,11 @@ export default {
     searchUrl:function(){
        wx.navigateTo({url:"/pages/search/main"});
     },
+    //点击跳转二手房详情页
+    esfDetail:function(index,e){
+      console.log('e',e.mp.currentTarget.dataset.id);
+      wx.navigateTo({ url: "/pages/oldhousedetails/main?id=" + e.mp.currentTarget.dataset.id });
+    }
   },
   onPageScroll: function(e) {
     // 获取滚动条当前位置
