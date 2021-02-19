@@ -86,7 +86,8 @@
       </div>
       <div class="hot-nr">
         <scroll-view scroll-x="true" style="width: 100%" class="image-group">
-          <div class="loupanlist" v-for="(item, index) in goodroom" :key="index">
+          <div class="loupanlist" v-for="(item, index) in goodroom" :key="index" :data-id="item.id" 
+          @click="esfDetail(index,$event)">
             <div class="loupanlist_top"> 
               <image :src="domain+item.Imgurl" class="hot-image" mode="scaleToFill" />
               <div class="location">{{ item.Zonename }}</div>
