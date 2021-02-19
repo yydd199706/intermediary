@@ -3,8 +3,8 @@
     <!-- 经纪人列表开始 -->
     <div class="jjr">
       <div class="guwen">
-        <div class="guwen_list" v-for="(item, index) in agentList" :key="index" @click="agentInfo(index,$event)" :data-id="item.id" >
-            <div class="left_g">
+        <div class="guwen_list" v-for="(item, index) in agentList" :key="index">
+            <div class="left_g" @click="agentInfo(index,$event)" :data-id="item.id" >
               <image :src="domain+item.headpic" class="slide-image" mode="scaleToFill"/>
               <div class="neirong">
                   <div>
@@ -16,8 +16,8 @@
               </div>
             </div>
             <div class="right_g">
-              <p class="wxl"><image :src="img9" class="slide-image" mode="scaleToFill" /></p>
-              <p class="dhr"><image :src="img10s" class="slide-image" mode="scaleToFill" /></p>
+              <p class="wxl"><image :src="img9" class="slide-image" mode="scaleToFill"/></p>
+              <p class="dhr"><image :src="img10s" class="slide-image" mode="scaleToFill" :data-telphone="item.mobile" @click="telphoneClick(index,$event)" /></p>
             </div>
         </div>
       </div>
@@ -69,7 +69,16 @@ export default {
     agentInfo:function(index,e){
       console.log('e',e.mp.currentTarget.dataset.id);
       wx.navigateTo({ url: "/pages/agentDetails/main?agentid="+e.mp.currentTarget.dataset.id});
-    }
+    },
+    //拨打经纪人电话
+    telphoneClick:function(index,e){
+      console.log('打电话',e.currentTarget.dataset.telphone);
+      wx.makePhoneCall({
+        phoneNumber: e.currentTarget.dataset.telphone
+      })
+    },
+
+    
   }
 }
 </script>
@@ -80,13 +89,13 @@ export default {
   height: 0;
   display: block;}
 .hsxian{ width: 100%; height:20rpx; background: #f8f8fa;}
-.indexstyle{width: 100%; margin: 0 auto; background: #fff;}
+.indexstyle{width: 100%; margin: 0 auto; background: #fff;width:100%;overflow-x: hidden;}
 
 /* 经纪人列表开始  */
 .jjr{width: 140%; height: 500rpx; position: absolute; left: -20%; top: 0; z-index: -1; content: ''; border-radius: 0 0 50% 50%; background: linear-gradient(#3bb1f5, #2e72f1); }
 .guwen{ width:58%; margin-left:18%; margin-right:18%; padding-left:3%; padding-right:3%; padding-top:4%; background:#fff; border-radius:3%; margin-top:10%; padding-bottom:7%; }
 /* 去掉横向滚动条 */
-::-webkit-scrollbar {width: 0;height: 0;color: transparent;}
+::-webkit-scrollbar {width: 0;height: 0;color: transparent;overflow-x:hidden;}
 
 /* .guwen{ width:90%; margin-left: 5%; margin-right: 5%; margin-top:5%;} */
 .guwen_list{ width: 100%; margin-top:2%; overflow: hidden; margin-bottom:30rpx;}

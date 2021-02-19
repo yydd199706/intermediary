@@ -187,8 +187,8 @@
 
       <div class="guwen">
 
-          <div class="guwen_list" v-for="(item, index) in agent" :key="index" @click="agentlistJump(index,$event)" :data-id="item.id">
-            <div class="left_g">
+          <div class="guwen_list" v-for="(item, index) in agent" :key="index" >
+            <div class="left_g" @click="agentlistJump(index,$event)" :data-id="item.id">
               <image :src="domain+item.headpic" class="slide-image" mode="scaleToFill"/>
               <div class="neirong">
                 <div>
@@ -201,7 +201,7 @@
             </div>
             <div class="right_g">
               <p class="wxl"><image :src="img9" class="slide-image" mode="scaleToFill" /></p>
-              <p class="dhr"><image :src="img10s" class="slide-image" mode="scaleToFill" /></p>
+              <p class="dhr"><image :src="img10s" class="slide-image" mode="scaleToFill" :data-telphone="item.mobile" @click="telphoneClick(index,$event)" /></p>
             </div>
           </div>
 
@@ -667,6 +667,13 @@ export default {
       console.log('经纪人名片id',e.mp.currentTarget.dataset.id);
       wx.navigateTo({ url: "/pages/agentDetails/main?agentid=" + e.mp.currentTarget.dataset.id});
     },
+    //拨打经纪人电话
+    telphoneClick:function(index,e){
+      console.log('打电话',e.currentTarget.dataset.telphone);
+      wx.makePhoneCall({
+        phoneNumber: e.currentTarget.dataset.telphone
+      })
+    },
 
     
 
@@ -750,8 +757,8 @@ export default {
 .xqxx>div{float: left; width: 50%; height:65rpx;}
 .xq_l{color: rgb(160, 160, 160);float: left; font-size:29rpx; width:120rpx; text-align: justify;text-justify:distribute-all-lines;}
 .xq_l:after {width: 100%;height: 0;margin: 0;display: inline-block;overflow: hidden;content: '';}
-.maohao{float: left;color: rgb(160, 160, 160); position: relative; top: -5rpx; }
-.xq_r{float: left; font-size:29rpx;}
+.maohao{float: left;color: rgb(160, 160, 160); position: relative; top:0rpx; }
+.xq_r{float: left; font-size:28rpx;}
 .bo_lp{ width: 100% !important;}
 /* .bo_lp span{ float: right;font-size:35rpx;color: rgb(185, 185, 185); position: relative; top: -10rpx;} */
 
