@@ -2,8 +2,8 @@
   <div class="indexstyle">
     <!-- 搜索开始 -->
     <div class="search">
-      <input type="text" placeholder="请输入楼盘名或区域" placeholder-style="font-size:14px; padding-left:35px;"
-       disabled="disabled" @click="searchUrl"/>
+      <input type="text" placeholder="请输入楼盘名或区域"
+       disabled="disabled" @click="searchUrl" :value="keyword"/>
       <image :src="img2" mode="scaleToFill"/>
     </div>
     <!-- 搜索结束 -->
@@ -249,6 +249,7 @@ export default {
       floorId:"",
       supportingId:"",
       orderById:"",
+      keyword:"",
       special:null,
       company:null,
       decoration:null,
@@ -282,9 +283,11 @@ export default {
       dqval: 0
     }
   },
-  onLoad(){
+  onLoad(option){
     const that = this;
+    console.log('执行onLoad');
     that.domain=app.globalData.domain;
+    that.keyword=option.keyword;
     //获取筛选条件
       wx.request({
         url:
@@ -324,6 +327,7 @@ export default {
   },
   onShow(){
     const that = this;
+    console.log('执行onShow');
     that.zoneArr=[];
     that.apirlroomArr=[];
     that.priceArr=[];
@@ -341,6 +345,7 @@ export default {
     that.floorId="";
     that.supportingId="";
     that.orderById="";
+    that.pageNumber=1;
     that.qyName="区域";
     that.jgName="价格";
     that.hxName="户型";
@@ -767,6 +772,7 @@ export default {
         floor: that.floorId,
         supporting: that.supportingId,
         orderBy: that.orderById,
+        keyword:that.keyword,
         pageNumber:that.pageNumber,
         pageRecord:that.pageRecord
       },
@@ -845,8 +851,8 @@ export default {
  
 
 /* 搜索 */
-.search{ width: 90%;  margin: 25rpx auto; margin-left: 5%;position: relative;}
-.search input{ height:80rpx; line-height:80rpx; width:100%; border-radius:60rpx; margin: 0 auto; background: #f1f1f1;  }
+.search{ width: 90%;  margin: 25rpx auto; margin-left: 5%;position: relative;background: #f1f1f1; border-radius:60rpx;}
+.search input{ height:80rpx; line-height:80rpx;margin: 0 auto; width:80%;margin-left: 80rpx;font-size: 26rpx;  }
 .search image{ width: 40rpx; height: 40rpx; position: absolute; top:20rpx; left:3%; }
 
 /* 导航 */
