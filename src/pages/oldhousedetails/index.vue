@@ -77,7 +77,7 @@
           <div class="xq_r">{{looktime}}</div>
         </div>
         <div>
-          <div class="xq_l">租期</div>
+          <div class="xq_l">物业公司</div>
           <span class="maohao">：</span>
           <div class="xq_r">{{Termname}}</div>
         </div>
@@ -579,7 +579,7 @@ export default {
           that.floorcount = res.data.Context.houseInfo.floorcount;
           that.address = res.data.Context.houseInfo.address;
           that.looktime = res.data.Context.houseInfo.looktime;
-          that.Termname = res.data.Context.houseInfo.Termname;
+          that.Termname = res.data.Context.houseInfo.propertycorp;
           that.Towardname = res.data.Context.houseInfo.Towardname;
           that.Propertyname = res.data.Context.houseInfo.Propertyname;
           that.Zonename = res.data.Context.houseInfo.Zonename;
