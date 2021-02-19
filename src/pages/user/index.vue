@@ -78,7 +78,7 @@ export default {
     xianshi:false;
     return {
       img1:'http://vip.yijienet.com/tt/img1.jpg',
-      title:'请登录',
+      title:'登录',
       img2:'/static/images/xx.png',
       img3:'/static/images/gz2.png',
       img4:'/static/images/gz1.png',
