@@ -378,8 +378,8 @@
         </button>
       </div>
       <div class="right_foot">
-        <div class="Report">打电话</div>
-        <div class="Telephone">加微信</div>
+        <div class="Report" @click="clickService">打电话</div>
+        <div class="Telephone" @click="copy">加微信</div>
       </div>
     </div>
     <!-- 底部按钮开始 -->
@@ -471,6 +471,8 @@ export default {
       Rightnaturename:"",
       Supportingname:"",
       Specialname:"",
+      reservedtelphone:"",
+      wechat_num:"",
       bjimg: app.globalData.imgurl +"tx.png",
       rootImg1: app.globalData.imgurl +"jt1.jpg",
       img9:"/static/images/wx.png",
@@ -572,7 +574,7 @@ export default {
           that.costintro = res.data.Context.houseInfo.costintro;
           that.transport = res.data.Context.houseInfo.transport;
           //推荐经纪人
-          that.agent = res.data.Context.agent;
+          that.agent = res.data.Context.agentList;
           for(var i =0;i<that.agent.length;i++){
             that.company = that.agent[i].company;
             that.storename = that.agent[i].storename;
@@ -602,8 +604,13 @@ export default {
           that.sameDistrict = res.data.Context.sameDistrict;
           //推荐房源
           that.recommended = res.data.Context.recommended;
-
-          
+          //当前经纪人
+          that.reservedtelphone=res.data.Context.agent.mobile;
+          if(res.data.Context.agent.wxid==""){
+            that.wechat_num=res.data.Context.agent.mobile;
+          }else{
+            that.wechat_num=res.data.Context.agent.wxid;
+          }
           
           
         },
@@ -674,7 +681,33 @@ export default {
         phoneNumber: e.currentTarget.dataset.telphone
       })
     },
-
+    //拨打当前经纪人电话
+    clickService:function(){
+      if(this.reservedtelphone!=""){
+        wx.makePhoneCall({
+        phoneNumber: this.reservedtelphone,
+      })
+      }else{
+        wx.showToast({
+          title: '请先添加电话！',
+          icon: 'none',
+          duration: 2000
+        })
+      }
+      
+    },
+     //点击复制微信号
+    copy(){
+      const that = this;
+       wx.setClipboardData({
+      data: that.wechat_num,
+      success: function (res) {
+       wx.showToast({
+          title: '复制成功'
+      })
+      }
+      })
+    },
     
 
         
