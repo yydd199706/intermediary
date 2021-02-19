@@ -149,7 +149,7 @@
     <!-- 更多推荐结束 -->
 
     <!-- 暂无内容 -->
-    <div class="tj_none" v-if="more_esf.length===0?true:false||more_new.length===0?true:false||more_rent.length===0?true:false">
+    <div class="tj_none" v-if="noneimgHid">
       <image :src="noneimg" class="new-image" mode="scaleToFill" />
     </div>
 
@@ -199,7 +199,7 @@ export default {
       evaluation:"",
       overallscore:"",
       evaluatesum:"",
-
+      noneimgHid:false
  
     }
   },
@@ -230,7 +230,11 @@ export default {
         that.more_new = res.data.Context.more_new;
         //推荐租房
         that.more_rent = res.data.Context.more_rent;
- 
+        if(that.more_esf.length<=0){
+          that.noneimgHid=true;
+        }else{
+          that.noneimgHid=false;
+        }
         
         
        }
@@ -238,7 +242,27 @@ export default {
   },
  methods: {
   tuijian(index){
+    const that = this;
     this.tab = index;
+    if(index==1){
+      if(that.more_esf.length<=0){
+          that.noneimgHid=true;
+        }else{
+          that.noneimgHid=false;
+        }
+    }if(index==2){
+      if(that.more_new.length<=0){
+          that.noneimgHid=true;
+        }else{
+          that.noneimgHid=false;
+        }
+    }if(index==3){
+      if(that.more_rent.length<=0){
+          that.noneimgHid=true;
+        }else{
+          that.noneimgHid=false;
+        }
+    }
   } 
  }
 
