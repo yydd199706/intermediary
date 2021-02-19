@@ -165,12 +165,12 @@
             </div>
         </scroll-view>
         <div class="diakuand1">
-          <div class="neir" v-if="tab===1">{{kspoint}}</div>
-          <div class="neir" v-else-if="tab===2">{{comintro}}</div>
-          <div class="neir" v-else-if="tab===3">{{spopul}}</div>
-          <div class="neir" v-else-if="tab===4">{{sfacilit}}</div>
-          <div class="neir" v-else-if="tab===5">{{costintro}}</div>
-          <div class="neir" v-else>{{transport}}</div>
+          <div class="neir" v-if="tab===1">{{kspoint==""||kspoint==null?'暂无信息':kspoint}}</div>
+          <div class="neir" v-else-if="tab===2">{{comintro==""||comintro==null?'暂无信息':comintro}}</div>
+          <div class="neir" v-else-if="tab===3">{{spopul==""||spopul==null?'暂无信息':spopul}}</div>
+          <div class="neir" v-else-if="tab===4">{{sfacilit==""||sfacilit==null?'暂无信息':sfacilit}}</div>
+          <div class="neir" v-else-if="tab===5">{{costintro==""||costintro==null?'暂无信息':costintro}}</div>
+          <div class="neir" v-else>{{transport==""||transport==null?'暂无信息':transport}}</div>
         </div>
       </div>
 
@@ -441,9 +441,38 @@
 <script>
 const app = getApp();
 const common = require("@/utils/index");
+import QQMapWX from "@/utils/qqmap-wx-jssdk.js";
+// 实例化API核心类 
+const qqMap = new QQMapWX({
+    key: '5TJBZ-XDZCK-O5FJR-AWZUZ-C4YTJ-EUBD5' // 必填
+});
 export default {
+  components: {
+    QQMapWX
+  },
   data () {
     return {
+      markers: [
+        {
+        id: 1,
+        latitude: '',
+        longitude: '',
+        name: '',
+        width: 30,
+        height: 30,
+        iconPath:'/static/images/map.png',
+        callout: {
+          content: '',
+          color: '#333',
+          fontSize: 12,
+          borderRadius: 5,
+          display: 'ALWAYS',
+          padding:8
+        }
+      }
+      ],
+      latitude: '',
+      longitude: '',
       id:"",
       company:"",
       storename:"",
@@ -479,14 +508,6 @@ export default {
       img10s: app.globalData.imgurl +"dh.png",
       agent: [],
       likes: [],
-      // tabBar: [
-      //     {img1: app.globalData.imgurl +'an1.png',img2: app.globalData.imgurl +'an1s.png',title:'核心卖点'},
-      //     {img1: app.globalData.imgurl +'an2.png',img2: app.globalData.imgurl +'an2s.png',title:'小区介绍'},
-      //     {img1: app.globalData.imgurl +'an3.png',img2: app.globalData.imgurl +'an3s.png',title:'适宜人群'},
-      //     {img1: app.globalData.imgurl +'an4.png',img2: app.globalData.imgurl +'an4s.png',title:'周边配套'},
-      //     {img1: app.globalData.imgurl +'an5.png',img2: app.globalData.imgurl +'an5s.png',title:'费用介绍'},
-      //     {img1: app.globalData.imgurl +'an6.png',img2: app.globalData.imgurl +'an6s.png',title:'交通出行'},
-      // ],
       kspoint:"",
       comintro:"",
       spopul:"",
@@ -532,6 +553,7 @@ export default {
   },
   onLoad(option) {
     const that = this;
+    var demo = new QQMapWX({ key: '5TJBZ-XDZCK-O5FJR-AWZUZ-C4YTJ-EUBD5' });
     that.domain=app.globalData.domain;
     console.log(option)
       //获取详情
@@ -611,7 +633,36 @@ export default {
           }else{
             that.wechat_num=res.data.Context.agent.wxid;
           }
-          
+          demo.geocoder({
+    address: that.address,   //用户输入的地址（注：地址中请包含城市名称，否则会影响解析效果），如：'北京市海淀区彩和坊路海淀西大街74号'
+    complete: data => {
+      if(data.status==0){
+        that.latitude=data.result.location.lat;
+        that.longitude=data.result.location.lng;
+        that.markers=[{
+          id: 1,
+          latitude: data.result.location.lat,
+          longitude: data.result.location.lng,
+          name: that.projectname,
+          width: 30,
+          height: 30,
+          iconPath:'/static/images/map.png',
+          callout: {
+            content: that.projectname,
+            color: '#333',
+            fontSize: 12,
+            borderRadius: 5,
+            display: 'ALWAYS',
+            padding:8
+        }
+        }]
+        // that.mapHid=true;
+      }else {
+        // that.mapHid=false;
+        that.markers[0].callout.display="display:'none'";
+      }
+    }
+    })
           
         },
      
@@ -708,7 +759,30 @@ export default {
       }
       })
     },
-    
+    //获取经纬度
+    clickAdress(e){
+      qqMap.geocoder({
+        address: this.address,   //用户输入的地址（注：地址中请包含城市名称，否则会影响解析效果），如：'北京市海淀区彩和坊路海淀西大街74号'
+        complete: res => {
+          if(res.result.location!=""){
+            this.latitude=res.result.location.lat;
+            this.longitude=res.result.location.lng;
+            wx.openLocation({
+              latitude: res.result.location.lat,
+              longitude: res.result.location.lng,
+              name:this.projectname,
+              address: this.address
+            })
+          }else {
+            wx.showToast({
+              title: '无法定位到该地址！',
+              icon: 'none',
+              duration: 2000
+            })
+          }
+        }
+        })
+    }
 
         
 
