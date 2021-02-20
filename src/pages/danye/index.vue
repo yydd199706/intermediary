@@ -10,7 +10,7 @@
     <!-- 搜索开始 -->
     <div class="search">
       <image :src="img2" mode="scaleToFill"/>
-      <span>搜索</span>
+      <span>搜索12345</span>
     </div>
     <!-- 搜索结束 -->
 
