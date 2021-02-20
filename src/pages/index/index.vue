@@ -183,7 +183,7 @@
     <div class="house-s">
       <div class="biaoti-new">
         <div class="wz-bt"><span></span>猜你想买的二手房</div>
-        <div class="more">查看更多</div>
+        <div class="more" @click="oldHose">查看更多</div>
       </div>
 
       <div class="nr-house">
@@ -208,7 +208,7 @@
         </div>
       </div>
 
-      <div class="more-house">查看更多</div>
+      <div class="more-house" @click="oldHose">查看更多</div>
     </div>
     <!-- 猜你想买的二手房结束 -->
 
@@ -410,7 +410,11 @@ export default {
     esfDetail:function(index,e){
       console.log('e',e.mp.currentTarget.dataset.id);
       wx.navigateTo({ url: "/pages/oldhousedetails/main?id=" + e.mp.currentTarget.dataset.id });
-    }
+    },
+  //点击猜你想买的二手房查看更多
+  oldHose:function(){
+    wx.navigateTo({ url: "/pages/oldhouse/main"});
+  }
   },
 };
 </script>
