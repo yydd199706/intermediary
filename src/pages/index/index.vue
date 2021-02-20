@@ -59,7 +59,7 @@
     <!-- 热门楼盘开始 -->
     <div class="hot-s" v-if="hot.length > 0 ? true : false">
       <div class="biaoti-new">
-        <div class="wz-bt"><span></span>热门楼盘</div>
+        <div class="wz-bt"><span></span>热门楼盘abc</div>
         <div class="more">查看更多</div>
       </div>
       <div class="hot-nr">
