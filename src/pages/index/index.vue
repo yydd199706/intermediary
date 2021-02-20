@@ -14,7 +14,7 @@
     <!-- 搜索开始 -->
     <div class="search">
       <div class="searchCon">
-        <input type="text" placeholder="您想住在哪里？" placeholder-style="font-size:14px; padding-left:10%;"/>
+        <input type="text" placeholder="您想住在哪里111111111？" placeholder-style="font-size:14px; padding-left:10%;"/>
         <image :src="img2" mode="scaleToFill" />
       </div>
     </div>
@@ -33,7 +33,7 @@
     <!-- 楼盘动态开始 -->
     <div class="news-s" v-if="news.length > 0 ? true : false">
       <div class="biaoti-new">
-        <div class="wz-bt"><span></span>楼盘动态123</div>
+        <div class="wz-bt"><span></span>楼盘动态</div>
         <div class="more" @click="lpdongtai">查看更多</div>
       </div>
       <div v-for="(item, index) in news" :key="index" @click="lpclicktab(index, $event)" class="proNew">
