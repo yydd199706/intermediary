@@ -1,7 +1,5 @@
 <template>
   <div class="indexstyle">
-
-
     <!-- 图片轮播 -->
     <div class="lunbo">
       <swiper class="swiper" @change="djimg" >
@@ -11,18 +9,12 @@
           </swiper-item>
         </block>
       </swiper>
-      
       <div class="lbvr" v-if="isshowvr == 1 ? true : false">
         <image :src="img_vr" />
       </div>
-
       <div class="imageCount">{{current+1}}/{{movies.length}}</div>
     </div>
     <!-- 图片轮播 -->
-
-
-
-
     <!-- 二手房信息开始 -->
     <div class="ershou">
       <div>
@@ -34,7 +26,6 @@
         <div class="license"><image :src="yy_img" /><span>房源发布机构</span></div>
       </div>
       <div class="biaoti">{{title}}</div> 
-
       <div class="mianji">
           <div class="lelf_mj">
             <h1>{{price}}万</h1>
@@ -49,7 +40,6 @@
             <p>建筑面积</p>
           </div>
       </div>
-
       <div class="xqxx">
         <div>
           <div class="xq_l">建筑年份</div>
@@ -124,13 +114,11 @@
       </div>
     </div>
     <!-- 二手房信息结束 -->
-
     <!-- 评价分类开始 -->
     <div class="pingjia">
       <div class="hx_bt">
         <p>房源评价</p>
       </div>
-
       <div class="anniu">
         <scroll-view scroll-x class="top_jj">
             <div :class="{'selected':tab === 1,'title':true}" class="jj_default" @click="jjchangTab(1)">
@@ -173,20 +161,15 @@
           <div class="neir" v-else>{{transport==""||transport==null?'暂无信息':transport}}</div>
         </div>
       </div>
-
     </div>
     <!-- 评价分类结束 -->
-
-
     <!-- 推荐经纪人开始 -->
     <div class="jingjiren" v-if="agent.length > 0 ? true : false">
       <div class="hx_bt">
         <p>推荐经纪人</p>
         <span @click="agentlists">查看更多</span>
       </div>
-
       <div class="guwen">
-
           <div class="guwen_list" v-for="(item, index) in agent" :key="index" >
             <div class="left_g" @click="agentlistJump(index,$event)" :data-id="item.id">
               <image :src="domain+item.headpic" class="slide-image" mode="scaleToFill"/>
@@ -204,20 +187,15 @@
               <p class="dhr"><image :src="img10s" class="slide-image" mode="scaleToFill" :data-telphone="item.mobile" @click="telphoneClick(index,$event)" /></p>
             </div>
           </div>
-
         </div>
-
     </div>
     <!-- 推荐经纪人结束 -->
-
-
     <!-- 猜你喜欢开始 -->
     <div class="jingjiren" v-if="likes.length > 0 ? true : false">
       <div class="hx_bt">
         <p>猜你喜欢</p>
         <span>查看更多</span>
       </div>
-
       <div class="xihuan">
         <scroll-view scroll-x="true" style="width: 100%" class="image-group">
           <div class="likelist" v-for="(item, cai) in likes" :key="cai">
@@ -235,15 +213,10 @@
               <div class="jiaqian"><span class="jq1">{{item.price}}万</span><span class="jq2">{{item.averageprice}}元/平</span></div>
             </div>
           </div>
-              
         </scroll-view>
       </div>
- 
-
     </div>
     <!-- 猜你喜欢结束 -->
-
-
     <!-- 位置及周边配套开始 -->
     <div class="jingjiren">
       <div class="hx_bt">
@@ -255,11 +228,8 @@
           :bindregionchange="regionchange" show-location style="width: 100%; height: 220px;"
           :enable-scroll="false" :enable-zoom="false" @click="clickAdress"></map>
       </div>
-
     </div>
     <!-- 位置及周边配套结束 -->
-
-
     <!-- 小区项目信息开始 -->
     <div class="Projectks1" v-if="project===null ? false : true">
       <div class="k1">
@@ -273,7 +243,6 @@
               <p>房屋总数：{{housecount}}户</p>
               <p>已售套数：{{soldcount==""||soldcount==null?'暂无信息':soldcount}}</p>
               <p>土地使用年限：{{landyear}}年</p>
-              
             </div>
             <div class="r_xiangmu">
               <image :src="domain+ImgUrl" class="slide-image" />
@@ -322,15 +291,11 @@
       </div>
     </div>
     <!-- 同小区房源结束 -->
-    
-
-
     <!-- 推荐房源开始 -->
     <div class="jingjiren">
       <div class="hx_bt">
         <p>推荐房源</p>
       </div>
-
       <div class="nr-house">
         <div class="h-mt" v-for="(item, index) in recommended" :key="index">
           <image :src="domain+item.Imgurl" class="new-image" mode="scaleToFill" />
@@ -352,13 +317,8 @@
           </div>
         </div>
       </div>
- 
-
     </div>
     <!-- 推荐房源结束 -->
-
-
-
     <!-- 底部按钮开始 -->
     <div class="footer">
       <div class="left_foot">
@@ -367,7 +327,6 @@
           <button class="gzxianshi" @click="gz_dj" v-else ><image :src="img12" /></button>
           <p>关注</p>          
         </div> 
-
         <button open-type="share" class="fenxiangs">
           <image :src="img13" class="slide-image" />
           <p>分享</p>
@@ -418,26 +377,14 @@
                 <div class="xmmc">预约描述</div>
                 <input id="name" type="text" placeholder="请输入描述信息" placeholder-style="color: #aaa"/>
               </div>
-
               <button class="applyFor">立即申请</button>
-
           </div>
           <div class="ShutDown" @click="ShutDown_gb">X</div>
         </div>
     </div>
     <!-- 弹出预约结束 -->
-
-
-
-
-
-
-
-
-
   </div>
 </template>
-
 <script>
 const app = getApp();
 const common = require("@/utils/index");
@@ -548,7 +495,6 @@ export default {
       jimg10: app.globalData.imgurl +"an5s.png",
       jimg11: app.globalData.imgurl +"an6.png",
       jimg12: app.globalData.imgurl +"an6s.png",
-
     }
   },
   onLoad(option) {
@@ -668,13 +614,7 @@ export default {
      
         fail: function (res) {},
       });
-
   },
- 
- 
-
-
-
   methods: {
     //图片轮播切换
     clickTab(e) {
