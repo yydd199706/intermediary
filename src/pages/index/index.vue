@@ -46,7 +46,7 @@
     <!-- 楼盘活动开始 -->
     <div class="news-s" v-if="activity.length > 0 ? true : false">
       <div class="biaoti-new">
-        <div class="wz-bt"><span></span>楼盘活动</div>
+        <div class="wz-bt"><span></span>楼盘活动123123</div>
         <div class="more">查看更多</div>
       </div>
       <div v-for="(item, index) in activity" :key="index" @click="lpclicktab(index, $event)" class="proNew">
