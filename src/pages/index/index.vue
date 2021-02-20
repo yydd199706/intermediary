@@ -413,7 +413,7 @@ export default {
     },
   //点击猜你想买的二手房查看更多
   oldHose:function(){
-    wx.navigateTo({ url: "/pages/oldhousedetails/main"});
+    wx.navigateTo({ url: "/pages/oldhouse/main"});
   }
   },
 };
