@@ -33,7 +33,7 @@
     <!-- 楼盘动态开始 -->
     <div class="news-s" v-if="news.length > 0 ? true : false">
       <div class="biaoti-new">
-        <div class="wz-bt"><span></span>楼盘动态</div>
+        <div class="wz-bt"><span></span>楼盘动态333333333333</div>
         <div class="more" @click="lpdongtai">查看更多</div>
       </div>
       <div v-for="(item, index) in news" :key="index" @click="lpclicktab(index, $event)" class="proNew">
