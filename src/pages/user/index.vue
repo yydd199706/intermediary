@@ -64,7 +64,10 @@
 
 
     </div>
- 
+    <div class="company">
+      <div>技术支持：易房通网络科技有限公司</div>
+      <div>0915-8885557</div>
+    </div>
  
   
   
@@ -73,6 +76,8 @@
 </template>
 
 <script>
+const app = getApp();
+const common = require("@/utils/index");
 export default {
   data () {
     xianshi:false;
@@ -98,7 +103,29 @@ export default {
     authSetUser(res){
       console.log(res);
 
-    }
+    },
+       //点击获取手机号
+    getPhoneNumber(e){
+      const that = this;
+      console.log('手机号',e.mp);
+      if (e.mp.detail.errMsg == "getPhoneNumber:ok") {
+        wx.request({
+      url: app.globalData.url +"WxLogin/getPhoneNumber",
+      method:"POST",
+      data: {
+        encryptedData:e.mp.detail.encryptedData,
+        iv:e.mp.detail.iv,
+        session_key:wx.getStorageSync('sessionKey')
+      },
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success (res) {
+        console.log('res',res);
+      }
+        })
+      }
+    },
 
   }
 
@@ -147,5 +174,6 @@ export default {
 .liulan1 .jt_right image{ width:20rpx; height:20rpx;}
 .anniu2 button{ border-radius:0; background: none; border: 0;}
 .anniu2 button::after{border: none;}
-
+.company{text-align: center;color: #8b919a;font-size: 26rpx !important;}
+.company>div{font-size: 26rpx !important;margin-top: 15rpx;}
 </style>

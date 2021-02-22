@@ -68,9 +68,9 @@
           <div class="xq_r">{{looktime}}</div>
         </div>
         <div>
-          <div class="xq_l">物业公司</div>
+          <div class="xq_l">公司名称</div>
           <span class="maohao">：</span>
-          <div class="xq_r">{{Termname}}</div>
+          <div class="xq_r">{{companyname}}</div>
         </div>
         <div>
           <div class="xq_l">房屋朝向</div>
@@ -236,7 +236,7 @@
       <div class="k1">
           <div class="hx_bt">
             <p>小区项目信息</p>
-            <span @click="PlotDetails()">小区详情 ></span>
+            <!-- <span @click="PlotDetails()">小区详情 ></span> -->
           </div>
           <div class="xiangmu">
             <div class="l_xiangmu">
@@ -444,12 +444,12 @@ export default {
       Towardname:"",
       Propertyname:"",
       Zonename:"",
-      Towardname:"",
       Rightnaturename:"",
       Supportingname:"",
       Specialname:"",
       reservedtelphone:"",
       wechat_num:"",
+      companyname:"",
       bjimg: app.globalData.imgurl +"tx.png",
       rootImg1: app.globalData.imgurl +"jt1.jpg",
       img9:"/static/images/wx.png",
@@ -532,8 +532,6 @@ export default {
           that.floorcount = res.data.Context.houseInfo.floorcount;
           that.address = res.data.Context.houseInfo.address;
           that.looktime = res.data.Context.houseInfo.looktime;
-          that.Termname = res.data.Context.project.propertycorp;
-          that.Towardname = res.data.Context.houseInfo.Towardname;
           that.Propertyname = res.data.Context.houseInfo.Propertyname;
           that.Zonename = res.data.Context.houseInfo.Zonename;
           that.Decorationname = res.data.Context.houseInfo.Decorationname;
@@ -541,6 +539,7 @@ export default {
           that.Rightnaturename = res.data.Context.houseInfo.Rightnaturename;
           that.Supportingname = res.data.Context.houseInfo.Supportingname;
           that.Specialname = res.data.Context.houseInfo.Specialname;
+          that.companyname=res.data.Context.houseInfo.companyname;
           //房源评价
           that.kspoint = res.data.Context.houseInfo.kspoint;
           that.comintro = res.data.Context.houseInfo.comintro;
@@ -565,6 +564,7 @@ export default {
              that.landyear = res.data.Context.project.landyear;
              that.ImgUrl = res.data.Context.project.ImgUrl;
              that.id=res.data.Context.project.id;
+             that.Termname = res.data.Context.project.propertycorp;
              //wx.setStorageSync('id',res.data.Context.project.id);
           }
           //同小区成交
