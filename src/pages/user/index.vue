@@ -3,7 +3,7 @@
 
     <!-- 客户信息开始 -->
     <div class="user">
-      <button class="kehuxx" open-type="getUserInfo" @getUserInfo="authSetUser">
+      <button class="kehuxx" open-type="getPhoneNumber" @getphonenumber="getPhoneNumber">
         <image :src="img1" />
         <span>{{title}}</span>
       </button>

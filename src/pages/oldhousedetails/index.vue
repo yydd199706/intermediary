@@ -5,7 +5,8 @@
       <swiper class="swiper" @change="djimg" >
         <block v-for="(item, index) in movies" :key="index">
           <swiper-item>
-            <image :src="domain+item.imgurl" class="slide-image" mode="scaleToFill"/>
+            <image :src="domain+item.imgurl" class="slide-image" mode="scaleToFill" @click="previewImg(pro,$event)" 
+            :data-src="domain+item.imgurl"/>
           </swiper-item>
         </block>
       </swiper>
@@ -322,9 +323,9 @@
     <!-- 底部按钮开始 -->
     <div class="footer">
       <div class="left_foot">
-        <div class="guanzhus">
-          <button class="gzdianji" @click="gz_dj" v-if="gztu_img==0" ><image :src="img10" /></button>
-          <button class="gzxianshi" @click="gz_dj" v-else ><image :src="img12" /></button>
+        <div class="guanzhus" @click="priceNotice">
+          <!-- <image :src="img10" /> -->
+          <button class="gzxianshi"><image :src="img10" /></button>
           <p>关注</p>          
         </div> 
         <button open-type="share" class="fenxiangs">
@@ -463,6 +464,7 @@ export default {
       transport:"",
       currentTab: 1,
       movies: [],
+      imgArr:[],
       isshowvr:"",
       img_vr: app.globalData.imgurl +"VR.png",
       current: 0,
@@ -471,6 +473,9 @@ export default {
       soldcount:"",
       landyear:"",
       ImgUrl:"",
+      houserid:"",
+      memberid:"",
+      state:"",
       deal:[],
       sameDistrict:[],
       recommended: [],
@@ -501,15 +506,17 @@ export default {
     const that = this;
     var demo = new QQMapWX({ key: '5TJBZ-XDZCK-O5FJR-AWZUZ-C4YTJ-EUBD5' });
     that.domain=app.globalData.domain;
-    console.log(option)
+    that.houserid=option.id;
       //获取详情
       wx.request({
         url:app.globalData.url +"OldHouse/BandEsfInfo" +"?sessionKey=" +app.globalData.sessionKey+'&houseid=' + option.id,
         success: function (res) {
-          let patient = res.data
-          console.log('详情',res);
+          let patient = res.data;
           //房源轮播图
           that.movies = res.data.Context.carousel;
+         for(var j = 0;j<that.movies.length;j++){
+           that.imgArr.push(that.domain+that.movies[j].imgurl);
+         }
           that.isshowvr = res.data.Context.houseInfo.isshowvr;
           //房源基本信息详情
           that.title = res.data.Context.houseInfo.title;
@@ -546,13 +553,7 @@ export default {
           for(var i =0;i<that.agent.length;i++){
             that.company = that.agent[i].company;
             that.storename = that.agent[i].storename;
-            console.log('门店id',that.storename);
-          console.log('公司id',that.company);
           }
-          // that.company = res.data.Context.agent.company;
-          // that.storename = res.data.Context.agent.storename;
-          // console.log('门店id',that.storename);
-          // console.log('公司id',that.company);
           //猜你喜欢
           that.likes = res.data.Context.guessLike;
           //小区项目信息
@@ -579,6 +580,7 @@ export default {
           }else{
             that.wechat_num=res.data.Context.agent.wxid;
           }
+          that.memberid=res.data.Context.agent.id;
           demo.geocoder({
     address: that.address,   //用户输入的地址（注：地址中请包含城市名称，否则会影响解析效果），如：'北京市海淀区彩和坊路海淀西大街74号'
     complete: data => {
@@ -662,12 +664,10 @@ export default {
     },
     //点击跳转经纪人名片
     agentlistJump:function(index,e){
-      console.log('经纪人名片id',e.mp.currentTarget.dataset.id);
       wx.navigateTo({ url: "/pages/agentDetails/main?agentid=" + e.mp.currentTarget.dataset.id});
     },
     //拨打经纪人电话
     telphoneClick:function(index,e){
-      console.log('打电话',e.currentTarget.dataset.telphone);
       wx.makePhoneCall({
         phoneNumber: e.currentTarget.dataset.telphone
       })
@@ -722,10 +722,71 @@ export default {
           }
         }
         })
-    }
+    },
+    //点击放大轮播图片
+    previewImg:function(pro,e){
+    const that = this;
+    var index = pro;
+    var img_url = e.target.dataset.src;
+    wx.previewImage({
+      current: img_url,     //当前图片地址
+      urls:that.imgArr,               //所有要预览的图片的地址集合 数组形式
+      success: function(res) {},
+      fail: function(res) {
+      },
+      complete: function(res) {},
+    })
+  },
+  //点击关注
+    priceNotice:function(){
+      const that = this;
+      // that.type="change";
+      // if(that.change_message==false){
+        wx.requestSubscribeMessage({
+        tmplIds: ["THIl9oVwY4TlDibEvG_2esn7Nxc9jtYo3RYayPJ9qDg"],
+        success(res) {
+           if(res["THIl9oVwY4TlDibEvG_2esn7Nxc9jtYo3RYayPJ9qDg"] == "accept"){
+            that.msgFun();
+          } else if(res["THIl9oVwY4TlDibEvG_2esn7Nxc9jtYo3RYayPJ9qDg"] == "reject") {
+              Toast("允许后才可以订阅消息哦");
+          }
+        },
+        fail(res) {
+        }
+      });
+      // }
+      // else{
+      //   Toast("您已订阅");
+      // }
+    },
+    //点击关注
+    msgFun:function(){
+      const that = this;
+      wx.request({
+      url: app.globalData.url +"OldHouse/BandEsfFollow" +"?sessionKey=" +app.globalData.sessionKey,
+      method:"POST",
+      data: {
+        houserid: that.houserid,
+        memberid: that.memberid
+      },
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success (res) {
+        if(res.data.Code==0){
+          wx.showToast({
+            title: '关注成功',
+            icon: 'success',
+            duration: 2000
+          });
+          that.state=0;
+        }
+      },
+    });
+
 
         
-
+    },
  
   }
 
