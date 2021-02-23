@@ -3,40 +3,42 @@
     <!-- 经纪人介绍开始 -->
     <div class="jjr">
       <div class="jjr_kuang">
-        <div class="top_js">
-          <div class="lelf_jj">
-              <h1>{{realname}}</h1>
-              <span>{{typename}}</span>
-          </div>
-          <div class="right_jj">
-            <image :src="domain+headpic" />
-            <p>{{companyname}}</p>
-          </div>
-        </div>
+        <div class="agent_img"><image :src="bjtu" /></div>
 
-        <div class="youshis">
-            <span>博学优秀</span>
-        </div>
-
-        <div class="pingjia">
-          <ul>
-            <li>
-              <h2>{{count==""||count==0?'暂无':count}}</h2>
-              <p>成交房源</p>
-            </li>
-            <li>
-              <h2>{{evaluation==""||evaluation==0?'暂无':evaluation}}</h2>
-              <p>自我评价</p>
-            </li>
-            <li>
-              <h2>{{overallscore==""||overallscore==0?'暂无':overallscore}}</h2>
-              <p>客户评分</p>
-            </li>
-            <li>
-              <h2>{{evaluatesum==""||evaluatesum==0?'暂无':evaluatesum}}</h2>
-              <p>评价条数</p>
-            </li>
-          </ul>
+        <div class="nrjieshao">
+          <div class="top_js">
+            <div class="lelf_jj">
+                <h1>{{realname}}</h1>
+                <span>{{typename}}</span>
+            </div>
+            <div class="right_jj">
+              <image :src="domain+headpic" />
+              <p>{{companyname}}</p>
+            </div>
+          </div>
+          <div class="youshis">
+              <span>博学优秀</span>
+          </div>
+          <div class="pingjia">
+            <ul>
+              <li>
+                <h2>{{count==""||count==0?'暂无':count}}</h2>
+                <p>成交房源</p>
+              </li>
+              <li>
+                <h2>{{evaluation==""||evaluation==0?'暂无':evaluation}}</h2>
+                <p>自我评价</p>
+              </li>
+              <li>
+                <h2>{{overallscore==""||overallscore==0?'暂无':overallscore}}</h2>
+                <p>客户评分</p>
+              </li>
+              <li>
+                <h2>{{evaluatesum==""||evaluatesum==0?'暂无':evaluatesum}}</h2>
+                <p>评价条数</p>
+              </li>
+            </ul>
+          </div>
         </div>
          
       </div>
@@ -199,7 +201,8 @@ export default {
       evaluation:"",
       overallscore:"",
       evaluatesum:"",
-      noneimgHid:false
+      noneimgHid:false,
+      bjtu:"/static/images/jjrbj.png"
  
     }
   },
@@ -286,9 +289,15 @@ export default {
 .tj_none>image{width: 100%;height: 100%;}
 
 /* 经纪人开始 */
-.jjr{width: 140%; height: 500rpx; position: absolute; left: -20%; top: 0; z-index: -1; content: ''; border-radius: 0 0 50% 50%; background: linear-gradient(#3b4671, #293359); }
-.jjr_kuang{ width:64%; margin-left:18%; margin-right:18%; background: linear-gradient(#fef1d9, #f2ddb5); border-radius:3%; margin-top:10%; padding-bottom:7%; }
-.top_js{ width:86%; overflow: hidden; margin-left:7%; margin-right: 7%; padding-top:10%;}
+/* .jjr{width: 140%; height: 500rpx; position: absolute; left: -20%; top: 0; z-index: -1; content: ''; border-radius: 0 0 50% 50%; background: linear-gradient(#3b4671, #293359); } */
+/* .jjr_kuang{ width:64%; margin-left:18%; margin-right:18%; background: linear-gradient(#fef1d9, #f2ddb5); border-radius:3%; margin-top:10%; padding-bottom:7%; } */
+.jjr{ width: 100%;height: 560rpx;}
+.jjr_kuang{width: 100%;height: 100%;position: relative;}
+.agent_img{width: 100%;height: 100%;position: absolute;top: 0;left: 0;}
+.agent_img>image{width: 100%;height: 100%;}
+
+.nrjieshao{width:80%; position: absolute;top:80rpx;margin-left:10%; margin-right:10%;}
+.top_js{ width: 100%; overflow: hidden;  padding-top:10%;} 
 .lelf_jj{ float: left; display: flex; flex-direction: row; width: 60%; margin-top:6%;}
 .lelf_jj h1{ font-size:45rpx; font-weight: bold;}
 .lelf_jj span{ font-size:30rpx; margin-left: 3%; margin-top: 3%;}
@@ -297,18 +306,18 @@ export default {
 .right_jj image{ width: 150rpx; height: 150rpx; border-radius: 50%;}
 .right_jj p{ padding:3rpx 5rpx 3rpx 5rpx; text-align: center; background: linear-gradient(#fff4d9, #ffe7b1); border:2rpx #deca99 solid; color: #91783d; font-size: 22rpx;border-radius:150rpx; position: absolute; top:75%; left:7%;}
 
-.youshis{ width:86%; margin-left:7%; margin-right:7%;}
+.youshis{ width: 100%;}
 .youshis span{ font-size: 27rpx;padding:3rpx 7rpx 3rpx 7rpx; border: 2rpx #eadabd solid; color: #6d5c3c; }
 
-.pingjia{ width:92%; margin-left:5%; margin-right:3%; margin-top:7%;}
+.pingjia{width: 100%; margin-top:9%;}
 .pingjia ul{ overflow: hidden;}
 .pingjia ul li{ width:18%; float: left; margin-left:3%; margin-right:3%; }
 .pingjia ul li h2{ font-size: 40rpx; font-weight: bold; color: #372b17; text-align: center;}
 .pingjia ul li h2 span{ font-size: 24rpx; }
-.pingjia ul li p{ font-size: 26rpx; color: #877e67; margin-top:2%;}
+.pingjia ul li p{ font-size: 26rpx; color: #877e67; margin-top:15rpx;}
 
 /* 更多推荐开始 */
-.tuijian{ width: 90%; margin-left: 5%; margin-right: 5%; margin-top:85%;}
+.tuijian{ width: 90%; margin-left: 5%; margin-right: 5%; margin-top:40rpx; }
 .tj_bt{ margin-top: 2%; overflow: hidden;}
 .bt_lelf{ float: left; font-size: 37rpx; font-weight: bold;}
 .bt_right{ float: right; font-size:30rpx; display: flex; flex-direction: row; width:45%;}

@@ -1,24 +1,28 @@
 <template>
   <div class="indexstyle">
     <!-- 经纪人列表开始 -->
-    <div class="jjr">
-      <div class="guwen">
-        <div class="guwen_list" v-for="(item, index) in agentList" :key="index">
-            <div class="left_g" @click="agentInfo(index,$event)" :data-id="item.id" >
-              <image :src="domain+item.headpic" class="slide-image" mode="scaleToFill"/>
-              <div class="neirong">
-                  <div>
-                    <h1>{{item.realname}}</h1>
-                    <span>{{item.companyname}}</span>
-                    <div class="clear"></div>
-                  </div>
-                  <p>{{item.evaluation}}</p>
+    <div class="jjnr_list">
+      <div class="jjr">
+        <div class="jjlist"><image :src="jjimg" /></div>
+        <div class="meiy"></div>
+        <div class="guwen">
+          <div class="guwen_list" v-for="(item, index) in agentList" :key="index">
+              <div class="left_g" @click="agentInfo(index,$event)" :data-id="item.id" >
+                <image :src="domain+item.headpic" class="slide-image" mode="scaleToFill"/>
+                <div class="neirong">
+                    <div>
+                      <h1>{{item.realname}}</h1>
+                      <span>{{item.companyname}}</span>
+                      <div class="clear"></div>
+                    </div>
+                    <p>{{item.evaluation}}</p>
+                </div>
               </div>
-            </div>
-            <div class="right_g">
-              <p class="wxl"><image :src="img9" class="slide-image" mode="scaleToFill"/></p>
-              <p class="dhr"><image :src="img10s" class="slide-image" mode="scaleToFill" :data-telphone="item.mobile" @click="telphoneClick(index,$event)" /></p>
-            </div>
+              <div class="right_g">
+                <p class="wxl"><image :src="img9" class="slide-image" mode="scaleToFill"/></p>
+                <p class="dhr"><image :src="img10s" class="slide-image" mode="scaleToFill" :data-telphone="item.mobile" @click="telphoneClick(index,$event)" /></p>
+              </div>
+          </div>
         </div>
       </div>
     </div>
@@ -40,6 +44,7 @@ export default {
       agentList: [],
       img9: app.globalData.imgurl +"wx.png",
       img10s: app.globalData.imgurl +"dh.png",
+      jjimg:"/static/images/jjlist.png"
     }
   },
   onLoad(option) {
@@ -92,8 +97,13 @@ export default {
 .indexstyle{width: 100%; margin: 0 auto; background: #fff;width:100%;overflow-x: hidden;}
 
 /* 经纪人列表开始  */
-.jjr{width: 140%; height: 500rpx; position: absolute; left: -20%; top: 0; z-index: -1; content: ''; border-radius: 0 0 50% 50%; background: linear-gradient(#3bb1f5, #2e72f1); }
-.guwen{ width:58%; margin-left:18%; margin-right:18%; padding-left:3%; padding-right:3%; padding-top:4%; background:#fff; border-radius:3%; margin-top:10%; padding-bottom:7%; }
+/* .jjr{width: 140%; height: 500rpx; position: absolute; left: -20%; top: 0; z-index: -1; content: ''; border-radius: 0 0 50% 50%; background: linear-gradient(#3bb1f5, #2e72f1); } */
+.jjnr_list{width: 100%;}
+.jjr{width: 100%;height: 100%;position: relative;}
+.jjlist{width: 100%;height: 100%;position: absolute;top: 0;left: 0; }
+.jjlist>image{width: 100%;height: 560rpx;}
+.meiy{ height: 100rpx; width: 100%;}
+.guwen{ width:84%; margin-left:5%; margin-right:5%; padding-left:3%; padding-right:3%; padding-top:4%; background:#fff; border-radius:3%; padding-bottom:7%; position: relative; z-index: 999; }
 /* 去掉横向滚动条 */
 ::-webkit-scrollbar {width: 0;height: 0;color: transparent;overflow-x:hidden;}
 
