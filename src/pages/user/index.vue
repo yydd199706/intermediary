@@ -3,9 +3,9 @@
 
     <!-- 客户信息开始 -->
     <div class="user">
-      <button class="kehuxx" open-type="getPhoneNumber" @getphonenumber="getPhoneNumber">
+      <button class="kehuxx" :open-type="openType" @getphonenumber="getPhoneNumber">
         <image :src="img1" />
-        <span>{{title}}</span>
+        <span>{{purePhoneNumber}}</span>
       </button>
     </div>
     <!-- 客户信息结束 -->
@@ -83,22 +83,31 @@ export default {
     xianshi:false;
     return {
       img1:'http://vip.yijienet.com/tt/img1.jpg',
-      title:'登录',
-      img2:'/static/images/xx.png',
-      img3:'/static/images/gz2.png',
-      img4:'/static/images/gz1.png',
-      img5:'/static/images/ll.png',
-      img6:'/static/images/jt1.jpg',
-      img7:'/static/images/guan.png',
-      img8:'/static/images/dh1.png',
-      img9:'/static/images/gy.png',
- 
+      purePhoneNumber:'请登录',
+      img2:app.globalData.imgurl +"xx.png",
+      img3:app.globalData.imgurl +"gz2.png",
+      img4:app.globalData.imgurl +"gz1.png",
+      img5:app.globalData.imgurl +"ll.png",
+      img6:app.globalData.imgurl +"jt1.jpg",
+      img7:app.globalData.imgurl +"guan.png",
+      img8:app.globalData.imgurl +"dh1.png",
+      img9:app.globalData.imgurl +"gy.png",
+      openType:"getPhoneNumber"
  
 
 
     }
   },
-
+  onShow(){
+    const that = this;
+    if(wx.getStorageSync('telphone')==""){
+      that.purePhoneNumber="请登录";
+      that.openType="getPhoneNumber";
+      }else{
+      that.purePhoneNumber=wx.getStorageSync('telphone');
+      that.openType="";
+      }
+  },
   methods:{
     authSetUser(res){
       console.log(res);
@@ -106,22 +115,41 @@ export default {
     },
        //点击获取手机号
     getPhoneNumber(e){
-      const that = this;
+      const that = this;      
       console.log('手机号',e.mp);
       if (e.mp.detail.errMsg == "getPhoneNumber:ok") {
         wx.request({
-      url: app.globalData.url +"WxLogin/getPhoneNumber",
+      url: app.globalData.url +"WxLogin/getPhoneNumber?sessionKey="+app.globalData.sessionKey,
       method:"POST",
       data: {
         encryptedData:e.mp.detail.encryptedData,
-        iv:e.mp.detail.iv,
-        session_key:wx.getStorageSync('sessionKey')
+        iv:e.mp.detail.iv
       },
       header: {
         'content-type': 'application/json' // 默认值
       },
       success (res) {
-        console.log('res',res);
+        console.log('res',res.data.Context.phoneNumber);
+        var obj = JSON.parse(res.data.Context.phoneNumber.trim());
+        that.purePhoneNumber=obj;
+        wx.setStorageSync('telphone',that.purePhoneNumber);
+          wx.request({
+      url: app.globalData.url +"WxLogin/Register" +"?sessionKey=" +app.globalData.sessionKey,
+      method:"POST",
+      data: {
+        mobile : that.purePhoneNumber
+      },
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success (data) {
+        console.log('data',data);
+        if(data.data.Code==0){
+          console.log('已授权');
+          that.openType="";
+        }
+      }
+      })
       }
         })
       }

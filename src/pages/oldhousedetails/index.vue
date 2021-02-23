@@ -674,7 +674,7 @@ export default {
     },
     //拨打当前经纪人电话
     clickService:function(){
-      if(this.reservedtelphone!=""){
+      if(this.reservedtelphone!=""){  
         wx.makePhoneCall({
         phoneNumber: this.reservedtelphone,
       })
