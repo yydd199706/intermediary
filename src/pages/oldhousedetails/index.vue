@@ -452,7 +452,7 @@ export default {
       companyname:"",
       bjimg: app.globalData.imgurl +"tx.png",
       rootImg1: app.globalData.imgurl +"jt1.jpg",
-      img9:"/static/images/wx.png",
+      img9:app.globalData.imgurl +"wx.png",
       img10s: app.globalData.imgurl +"dh.png",
       agent: [],
       likes: [],
