@@ -507,6 +507,7 @@ export default {
     var demo = new QQMapWX({ key: '5TJBZ-XDZCK-O5FJR-AWZUZ-C4YTJ-EUBD5' });
     that.domain=app.globalData.domain;
     that.houserid=option.id;
+    that.imgArr=[];
       //获取详情
       wx.request({
         url:app.globalData.url +"OldHouse/BandEsfInfo" +"?sessionKey=" +app.globalData.sessionKey+'&houseid=' + option.id,
