@@ -59,12 +59,13 @@ function setLogin(needUserInfo)
           },
           method: 'POST',
           success: function(res) {
+          
             app.globalData.sessionKey = res.data;
             wx.setStorage({
               key: 'sessionKey',
               data: res.data,
             })
-            typeof needUserInfo == "function" && needUserInfo(res);
+            typeof needUserInfo == "function" && needUserInfo(res);  
           },fail: function (res) {
             console.log("获取用户登录态失败！"+JSON.stringify(res));
           }

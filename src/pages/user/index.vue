@@ -3,10 +3,19 @@
 
     <!-- 客户信息开始 -->
     <div class="user">
-      <button class="kehuxx" :open-type="openType" @getphonenumber="getPhoneNumber">
+      <!-- <button class="kehuxx" :open-type="openType" @getphonenumber="getPhoneNumber">
         <image :src="img1" />
         <span>{{purePhoneNumber}}</span>
-      </button>
+      </button> -->
+      
+        <!-- <button open-type="getUserInfo">获取昵称</button> -->
+        <div class="userLeft">
+          <button class="kehuxx" :open-type="openType" @getphonenumber="getPhoneNumber"><image :src="img1" /></button>
+        </div>
+        <div class="userRight">
+          <button :open-type="openType" @getphonenumber="getPhoneNumber">{{purePhoneNumber}}</button>
+          <button open-type="getUserInfo">获取昵称</button>
+        </div>
     </div>
     <!-- 客户信息结束 -->
 
@@ -100,13 +109,20 @@ export default {
   },
   onShow(){
     const that = this;
-    if(wx.getStorageSync('telphone')==""){
-      that.purePhoneNumber="请登录";
-      that.openType="getPhoneNumber";
-      }else{
-      that.purePhoneNumber=wx.getStorageSync('telphone');
-      that.openType="";
-      }
+    wx.request({
+        url:app.globalData.url +"WxLogin/CheckSessionKey" +"?sessionKey=" +app.globalData.sessionKey,
+        success: function (res) {
+          console.log('登录状态',res);
+          if(wx.getStorageSync('telphone')==""){
+              that.purePhoneNumber="请登录";
+            that.openType="getPhoneNumber";
+            }else if(wx.getStorageSync('telphone')!=""&&res.data==true){
+            that.purePhoneNumber=wx.getStorageSync('telphone');
+            that.openType="";
+            }
+        }
+    });
+    
   },
   methods:{
     authSetUser(res){
@@ -134,10 +150,12 @@ export default {
         that.purePhoneNumber=obj;
         wx.setStorageSync('telphone',that.purePhoneNumber);
           wx.request({
-      url: app.globalData.url +"WxLogin/Register" +"?sessionKey=" +app.globalData.sessionKey,
+      url: app.globalData.url +"WxLogin/RegisterLogin" +"?sessionKey=" +app.globalData.sessionKey,
       method:"POST",
       data: {
-        mobile : that.purePhoneNumber
+        nickname:that.nickname,
+        headpic:that.headpic,
+        mobile:that.purePhoneNumber
       },
       header: {
         'content-type': 'application/json' // 默认值
@@ -178,10 +196,14 @@ export default {
 .kehuxx{ width:100%; padding-left: 5%; padding-right: 5%; overflow: hidden; padding-top:6%; }
 .kehuxx image{ float: left; width: 120rpx; height: 120rpx; border-radius: 50%; margin-right: 5%;} 
 .kehuxx span{ float: left; font-size:42rpx; margin-top:2%; color: #fff;}
-.user button{ color: #fff;border-radius:0; font-size: 28rpx; background: none;}
-.user button::after{border: none;}
-
-
+/* .user button{ color: #fff;border-radius:0; font-size: 28rpx; background: none;}
+.user button::after{border: none;} */
+.userLeft{float: left;padding-left: 5%;padding-top:6%;}
+.userLeft>button{background: none;}
+.userLeft>button::after{border: none;}
+.userRight{float: left;margin-left: 30rpx;padding-top: 8%;}
+.userRight>button{background: none;height: 50rpx;line-height: 50rpx;color: #fff;font-size: 28rpx;text-align: left;}
+.userRight>button::after{border: none;}
  
 /* .anniu_h{width:82%; margin-left: 5%; margin-right: 5%; padding-left:3%; padding-right: 5%; margin-top:7%; padding-bottom:6%;  border-bottom: 10px #ececec solid; overflow: hidden; position: relative; top: -30rpx;  } */
 .anniu_h{ width: 90%; margin-left: 5%; margin-right: 5%; padding-top: 30rpx; padding-bottom: 30rpx; position: absolute; top:220rpx; z-index: 999; background: #fff !important; border-radius: 30rpx;}

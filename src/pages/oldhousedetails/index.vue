@@ -324,9 +324,11 @@
     <div class="footer">
       <div class="left_foot">
         <div class="guanzhus" @click="priceNotice">
+          <button :open-type="openType" @getphonenumber="getPhoneNumber">
           <!-- <image :src="img10" /> -->
-          <button class="gzxianshi"><image :src="img10" /></button>
-          <p>关注</p>          
+            <image :src="img10" />
+            <p>关注</p>   
+          </button>       
         </div> 
         <button open-type="share" class="fenxiangs">
           <image :src="img13" class="slide-image" />
@@ -476,6 +478,7 @@ export default {
       houserid:"",
       memberid:"",
       state:"",
+      openType:"",
       deal:[],
       sameDistrict:[],
       recommended: [],
