@@ -323,8 +323,8 @@
     <!-- 底部按钮开始 -->
     <div class="footer">
       <div class="left_foot">
-        <div class="guanzhus" @click="priceNotice">
-          <button :open-type="openType" @getphonenumber="getPhoneNumber">
+        <div class="guanzhus">
+          <button @click="priceNotice">
           <!-- <image :src="img10" /> -->
             <image :src="img10" />
             <p>关注</p>   
@@ -386,6 +386,20 @@
         </div>
     </div>
     <!-- 弹出预约结束 -->
+    <!-- 提醒授权开始 -->
+    <div class="authorization" v-if="telHid">
+      <div class="authorization_title">授权提示</div>
+      <div class="authorization_text">为了更好的为您提供服务，我们请求获取您的电话号码</div>
+      <div class="authorization_btn">
+        <button @click="quxiao">取消</button>
+        <button open-type="getPhoneNumber" @getphonenumber="getPhoneNumber" hover-class="none">允许</button>
+      </div>
+    </div>
+    <!-- 提醒授权结束 -->
+    <!-- 遮罩层开始 -->
+     <!--x -->
+    <div class="modalMask" v-if="maskHid"></div>
+    <!-- 遮罩层结束 -->
   </div>
 </template>
 <script>
@@ -503,6 +517,8 @@ export default {
       jimg10: app.globalData.imgurl +"an5s.png",
       jimg11: app.globalData.imgurl +"an6.png",
       jimg12: app.globalData.imgurl +"an6s.png",
+      maskHid:false,
+      telHid:false
     }
   },
   onLoad(option) {
@@ -742,36 +758,47 @@ export default {
     })
   },
   //点击关注
+  // 先判断是否登录授权手机号，如果未授权，跳转授权手机号页面进行授权，授权后返回详情页点击关注调用关注接口
+  // 关注后弹出订阅消息弹框
     priceNotice:function(){
       const that = this;
-      // that.type="change";
-      // if(that.change_message==false){
-        wx.requestSubscribeMessage({
+      //如果手机号未授权，跳转到授权手机号页面
+      if(wx.getStorageSync('telphone')==""){
+        that.telHid=true;
+        that.maskHid=true;
+      }else{
+        that.telHid=false;
+        that.maskHid=false;
+            wx.requestSubscribeMessage({
         tmplIds: ["THIl9oVwY4TlDibEvG_2esn7Nxc9jtYo3RYayPJ9qDg"],
         success(res) {
            if(res["THIl9oVwY4TlDibEvG_2esn7Nxc9jtYo3RYayPJ9qDg"] == "accept"){
             that.msgFun();
           } else if(res["THIl9oVwY4TlDibEvG_2esn7Nxc9jtYo3RYayPJ9qDg"] == "reject") {
-              Toast("允许后才可以订阅消息哦");
+              // Toast("允许后才可以订阅消息哦");
           }
         },
         fail(res) {
         }
       });
+      }
+      // that.type="change";
+      // if(that.change_message==false){
+    
       // }
       // else{
       //   Toast("您已订阅");
-      // }
+      // }                                                                                                                                                                                                                                                                                                                                                                                         
     },
     //点击关注
+    
     msgFun:function(){
       const that = this;
       wx.request({
       url: app.globalData.url +"OldHouse/BandEsfFollow" +"?sessionKey=" +app.globalData.sessionKey,
       method:"POST",
       data: {
-        houserid: that.houserid,
-        memberid: that.memberid
+        houserid: that.houserid
       },
       header: {
         'content-type': 'application/json' // 默认值
@@ -791,7 +818,55 @@ export default {
 
         
     },
- 
+      //点击取消授权
+  quxiao:function(){
+    const that = this;
+    that.telHid=false;
+    that.maskHid=false;
+  },
+       //点击获取手机号
+    getPhoneNumber(e){
+      const that = this;      
+      console.log('手机号',e.mp);
+      if (e.mp.detail.errMsg == "getPhoneNumber:ok") {
+        wx.request({
+      url: app.globalData.url +"WxLogin/getPhoneNumber?sessionKey="+app.globalData.sessionKey,
+      method:"POST",
+      data: {
+        encryptedData:e.mp.detail.encryptedData,
+        iv:e.mp.detail.iv
+      },
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success (res) {
+        console.log('res',res.data.Context.phoneNumber);
+        var obj = JSON.parse(res.data.Context.phoneNumber.trim());
+        that.purePhoneNumber=obj;
+        wx.setStorageSync('telphone',that.purePhoneNumber);
+          wx.request({
+      url: app.globalData.url +"WxLogin/RegisterLogin" +"?sessionKey=" +app.globalData.sessionKey,
+      method:"POST",
+      data: {
+        nickname:that.nickname,
+        headpic:that.headpic,
+        mobile:that.purePhoneNumber
+      },
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success (data) {
+        console.log('data',data);
+        if(data.data.Code==0){
+          console.log('已授权');
+          that.openType="";
+        }
+      }
+      })
+      }
+        })
+      }
+    },
   }
 
 
@@ -993,11 +1068,13 @@ export default {
 .more-house {width: 94%;height: 70rpx;background: #e8edf3;border-radius: 5px;text-align: center;line-height: 70rpx;font-size: 28rpx;font-weight: bold;margin-left: 3%;margin-right: 3%;margin-top: 30rpx;color: #3072f6;}
 
 
-.footer{ width: 100%; height: 130rpx; background: #fff;position: fixed;bottom: 0; z-index: 9999;}
+.footer{ width: 100%; height: 130rpx; background: #fff;position: fixed;bottom: 0; z-index: 999;}
 .left_foot{ float: left; width:39%;height: 120rpx; margin-top:10rpx; margin-right:3%; margin-left: 3%;}
-.left_foot .guanzhus{ float: left; width:33.3%; margin: 0 auto; background: #fff;overflow: inherit;border: none; padding: 0 !important;}
+.left_foot .guanzhus{ float: left; width:33.3%; margin: 0 auto; background: #fff;overflow: inherit;border: none; 
+padding: 0 !important;}
 .left_foot .guanzhus image{ width:40rpx; height:40rpx;}
-.left_foot .guanzhus p{ font-size: 26rpx; color: #000; position: relative; top:-24rpx; left:22%;}
+.left_foot .guanzhus p{ font-size: 26rpx; color: #000; position: relative; top:-24rpx;
+height: 40rpx;line-height: 40rpx;}
  
 
 
@@ -1027,8 +1104,32 @@ export default {
 .project__input textarea{ float: left; font-size: 30rpx; width:69%; }
 .applyFor{ width:60%; height:80rpx; background: #2e72f1; line-height: 80rpx; text-align: center; font-size: 36rpx; color: #fff; margin-top: 40rpx;}
 .ShutDown{ font-size:40rpx; font-weight: bold; position: absolute; top: 20rpx; right: 20rpx; color: #fff;}
-
-
+/* 提醒授权开始 */
+.authorization{width: 80%;margin: 0 auto;position: fixed;top: 390rpx;left: 10%;z-index: 9999;
+background: #fff;padding: 30rpx 30rpx 60rpx 30rpx;box-sizing: border-box;border-radius: 10rpx;}
+.authorization_title{font-size: 32rpx;color: #040404;font-weight: 700;padding-bottom: 30rpx;
+text-align: center;}
+.authorization_text{font-size: 28rpx;}
+.authorization_btn{justify-content: center;display: flex;margin-top: 30rpx;}
+.authorization_btn>button:first-child{background: #EEEEEE;color: #2F2F2F;}
+.authorization_btn>button:nth-child(2){margin-right: 0;background: #2e72f1;color: #fff;}
+.authorization_btn>button{margin-right: 10%;margin-left: 0;padding: 0;width: 45%;font-size: 28rpx;}
+.authorization_btn>button::after{border: none;}
+/* 提醒授权结束 */
+/* 遮罩层开始 */
+.modalMask {
+  width: 100% !important;
+  height: 100% !important;
+  position: fixed;
+  top: 0;
+  left: 0;
+  opacity: 0.5;
+  background: #000 !important;
+  overflow: hidden;
+  z-index: 9000;
+  color: #fff;
+}
+/* 遮罩层结束 */
 
 
  </style>

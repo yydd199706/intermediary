@@ -13,8 +13,9 @@
           <button class="kehuxx" :open-type="openType" @getphonenumber="getPhoneNumber"><image :src="img1" /></button>
         </div>
         <div class="userRight">
-          <button :open-type="openType" @getphonenumber="getPhoneNumber">{{purePhoneNumber}}</button>
-          <button open-type="getUserInfo">获取昵称</button>
+          <button :open-type="openType" @getphonenumber="getPhoneNumber">{{purePhoneNumber}}
+            <span v-if="openType==''?true:false">{{type==1?'(普通用户)':'(经纪人)'}}</span></button>
+          <button>{{nickname}}</button>
         </div>
     </div>
     <!-- 客户信息结束 -->
@@ -91,7 +92,7 @@ export default {
   data () {
     xianshi:false;
     return {
-      img1:'http://vip.yijienet.com/tt/img1.jpg',
+      img1:'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2435093970,3292456683&fm=26&gp=0.jpg',
       purePhoneNumber:'请登录',
       img2:app.globalData.imgurl +"xx.png",
       img3:app.globalData.imgurl +"gz2.png",
@@ -101,7 +102,9 @@ export default {
       img7:app.globalData.imgurl +"guan.png",
       img8:app.globalData.imgurl +"dh1.png",
       img9:app.globalData.imgurl +"gy.png",
-      openType:"getPhoneNumber"
+      openType:"getPhoneNumber",
+      nickname :"",
+      type:1
  
 
 
@@ -112,14 +115,25 @@ export default {
     wx.request({
         url:app.globalData.url +"WxLogin/CheckSessionKey" +"?sessionKey=" +app.globalData.sessionKey,
         success: function (res) {
-          console.log('登录状态',res);
-          if(wx.getStorageSync('telphone')==""){
-              that.purePhoneNumber="请登录";
-            that.openType="getPhoneNumber";
-            }else if(wx.getStorageSync('telphone')!=""&&res.data==true){
-            that.purePhoneNumber=wx.getStorageSync('telphone');
+          
+          if(res.data==true && wx.getStorageSync('member') !=""){
             that.openType="";
-            }
+            wx.request({
+        url:app.globalData.url +"Percenter/BandUserInfo" +"?sessionKey=" +app.globalData.sessionKey,
+        success: function (data) {
+          console.log("data",res);
+          wx.setStorageSync('member',data.data.Context.member);
+          app.globalData.member=data.data.Context.member;
+          that.purePhoneNumber=app.globalData.member.mobile;
+          that.img1=app.globalData.domain+app.globalData.member.headpic;
+          that.nickname=app.globalData.member.nickname;
+          that.type=app.globalData.member.type;
+        }
+        })
+            }else{
+            that.purePhoneNumber="请登录";
+            that.openType="getPhoneNumber";
+          }
         }
     });
     
@@ -148,7 +162,7 @@ export default {
         console.log('res',res.data.Context.phoneNumber);
         var obj = JSON.parse(res.data.Context.phoneNumber.trim());
         that.purePhoneNumber=obj;
-        wx.setStorageSync('telphone',that.purePhoneNumber);
+        
           wx.request({
       url: app.globalData.url +"WxLogin/RegisterLogin" +"?sessionKey=" +app.globalData.sessionKey,
       method:"POST",
@@ -163,8 +177,14 @@ export default {
       success (data) {
         console.log('data',data);
         if(data.data.Code==0){
+          wx.setStorageSync('member',data.data.Context.member);
           console.log('已授权');
           that.openType="";
+          app.globalData.member=data.data.Context.member;
+          that.purePhoneNumber=app.globalData.member.mobile;
+          that.img1=app.globalData.member.headpic;
+          that.nickname=app.globalData.member.nickname;
+          that.type=app.globalData.member.type;
         }
       }
       })
@@ -194,14 +214,14 @@ export default {
 
 .user{width:100%;margin: 0 auto;overflow: hidden; box-sizing: border-box;height:310rpx;background-image: linear-gradient(to right, #14affd, #016dfe); }
 .kehuxx{ width:100%; padding-left: 5%; padding-right: 5%; overflow: hidden; padding-top:6%; }
-.kehuxx image{ float: left; width: 120rpx; height: 120rpx; border-radius: 50%; margin-right: 5%;} 
+.kehuxx image{ float: left; width: 120rpx; height: 120rpx; border-radius: 50%; margin-right: 5%;width: 100%;height: 100%;} 
 .kehuxx span{ float: left; font-size:42rpx; margin-top:2%; color: #fff;}
 /* .user button{ color: #fff;border-radius:0; font-size: 28rpx; background: none;}
 .user button::after{border: none;} */
-.userLeft{float: left;padding-left: 5%;padding-top:6%;}
-.userLeft>button{background: none;}
+.userLeft{float: left;padding-left: 5%;padding-top:6%;width: 120rpx;height: 120rpx;}
+.userLeft>button{background: none;width: 100%;height: 100%;}
 .userLeft>button::after{border: none;}
-.userRight{float: left;margin-left: 30rpx;padding-top: 8%;}
+.userRight{float: left;padding-top: 8%;}
 .userRight>button{background: none;height: 50rpx;line-height: 50rpx;color: #fff;font-size: 28rpx;text-align: left;}
 .userRight>button::after{border: none;}
  

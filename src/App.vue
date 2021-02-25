@@ -4,7 +4,8 @@ App({
     domain: 'https://ltj.1fangtong.cn:451/',
     url: 'https://ltj.1fangtong.cn:451/api/',
     imgurl: 'https://ltj.1fangtong.cn:451/wximg/',
-    sessionKey: ''
+    sessionKey: '',
+    member:wx.getStorageSync('member')
   },
   onLaunch: function() {
     

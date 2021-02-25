@@ -288,7 +288,9 @@ export default {
   },
   onLoad() {
     const that = this;
+
     that.domain=app.globalData.domain;
+    
     common.initApp(function (userInfo) {
       //console.log("res");
       //获取轮播图
