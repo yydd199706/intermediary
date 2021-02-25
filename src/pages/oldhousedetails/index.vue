@@ -326,7 +326,7 @@
         <div class="guanzhus">
           <button @click="priceNotice">
           <!-- <image :src="img10" /> -->
-            <image :src="img10" />
+            <image :src='[state==0?img10:img12]' />
             <p>关注</p>   
           </button>       
         </div> 
@@ -353,34 +353,47 @@
               <!-- 预约人 -->
               <div class="project__input">
                 <div class="xmmc">预约人</div>
-                <input id="name" type="text" placeholder="请输入真实姓名" placeholder-style="color: #aaa"/>
+                <input id="name" type="text" placeholder="请输入真实姓名" placeholder-style="color: #aaa"
+                :value="name" @input="nameVal($event)"/>
               </div>
               <!-- 房源编号 -->
               <div class="project__input">
                 <div class="xmmc">房源编号</div>
-                <input id="name" type="text" placeholder="AK001884" placeholder-style="color: #aaa" disabled="disabled"/>
+                <input id="name" type="text" :value="numVal" placeholder-style="color: #aaa" disabled="disabled"/>
               </div>
               <!-- 手机号码 -->
               <div class="project__input">
                 <div class="xmmc">手机号码</div>
-                <input id="name" type="text" placeholder="请输入手机号码" placeholder-style="color: #aaa"/>
-              </div>
-              <!-- 验证码 -->
-              <div class="project__input">
-                <div class="xmmc">验证码</div>
-                <input id="name" type="text" placeholder="请输入验证码" placeholder-style="color: #aaa"/>
+                <input id="name" type="text" placeholder="请输入手机号码" placeholder-style="color: #aaa"
+                 :value="tel" @input="telVal($event)"/>
               </div>
               <!-- 手机验证码 -->
               <div class="project__input">
                 <div class="xmmc">手机验证码</div>
-                <input id="name" type="text" placeholder="请输入手机验证码" placeholder-style="color: #aaa"/>
+                <input id="name" type="text" placeholder="请输入验证码" placeholder-style="color: #aaa"
+                class="yzmInput" :value="yzm" @input="yzmVal($event)"/>
+                <button class='codeBtn' @click='getVerificationCode' :disabled="disabled">发送验证码</button>
+                <button class='codeBtn' disabled="true">{{time}}后重新发送</button>
               </div>
               <!-- 预约描述 -->
               <div class="project__input">
-                <div class="xmmc">预约描述</div>
-                <input id="name" type="text" placeholder="请输入描述信息" placeholder-style="color: #aaa"/>
+                <div class="xmmc">看房时间</div>
+                 <picker
+                  mode="date"
+                  :value="lookDate"
+                  :start="pickerStart"
+                  end="endDate"
+                  @change="bindDateChangeStart($event)"
+                  class="lookClass"
+                >
+                  <div id="birthday" :style="color">{{ lookDate }}</div>
+                </picker>
               </div>
-              <button class="applyFor">立即申请</button>
+              <div class="project__input borderNone">
+                <div class="xmmc">预约描述</div>
+                <textarea :value="yuText" @input="makeText($event)"></textarea>
+              </div>
+              <div class="applyFor" @click="applyClick">立即申请</div>
           </div>
           <div class="ShutDown" @click="ShutDown_gb">X</div>
         </div>
@@ -400,19 +413,22 @@
      <!--x -->
     <div class="modalMask" v-if="maskHid"></div>
     <!-- 遮罩层结束 -->
+    <van-toast id="van-toast" />
   </div>
 </template>
 <script>
 const app = getApp();
 const common = require("@/utils/index");
 import QQMapWX from "@/utils/qqmap-wx-jssdk.js";
+import Toast from "@/../static/vant/toast/toast";
 // 实例化API核心类 
 const qqMap = new QQMapWX({
     key: '5TJBZ-XDZCK-O5FJR-AWZUZ-C4YTJ-EUBD5' // 必填
 });
 export default {
   components: {
-    QQMapWX
+    QQMapWX,
+    Toast
   },
   data () {
     return {
@@ -518,12 +534,25 @@ export default {
       jimg11: app.globalData.imgurl +"an6.png",
       jimg12: app.globalData.imgurl +"an6s.png",
       maskHid:false,
-      telHid:false
+      telHid:false,
+      numVal:"",
+      code:"",
+      lookDate:"请选择",
+      pickerStart:"",
+      color: "color:#aaa",
+      disabled:false,
+      yuText:"",
+      name:"",
+      tel:"",
+      yzm:"",
+      agentId:"",
+      time:""
     }
   },
   onLoad(option) {
     const that = this;
     var demo = new QQMapWX({ key: '5TJBZ-XDZCK-O5FJR-AWZUZ-C4YTJ-EUBD5' });
+    
     that.domain=app.globalData.domain;
     that.houserid=option.id;
     that.imgArr=[];
@@ -560,6 +589,7 @@ export default {
           that.Supportingname = res.data.Context.houseInfo.Supportingname;
           that.Specialname = res.data.Context.houseInfo.Specialname;
           that.companyname=res.data.Context.houseInfo.companyname;
+          that.numVal=res.data.Context.houseInfo.id;
           //房源评价
           that.kspoint = res.data.Context.houseInfo.kspoint;
           that.comintro = res.data.Context.houseInfo.comintro;
@@ -595,12 +625,15 @@ export default {
           that.recommended = res.data.Context.recommended;
           //当前经纪人
           that.reservedtelphone=res.data.Context.agent.mobile;
+          that.agentId=res.data.Context.agent.id;
           if(res.data.Context.agent.wxid==""){
             that.wechat_num=res.data.Context.agent.mobile;
           }else{
             that.wechat_num=res.data.Context.agent.wxid;
           }
           that.memberid=res.data.Context.agent.id;
+          //是否关注该房源
+          that.state=res.data.Context.recordCount;
           demo.geocoder({
     address: that.address,   //用户输入的地址（注：地址中请包含城市名称，否则会影响解析效果），如：'北京市海淀区彩和坊路海淀西大街74号'
     complete: data => {
@@ -637,6 +670,7 @@ export default {
         fail: function (res) {},
       });
   },
+  
   methods: {
     //图片轮播切换
     clickTab(e) {
@@ -763,46 +797,24 @@ export default {
     priceNotice:function(){
       const that = this;
       //如果手机号未授权，跳转到授权手机号页面
-      if(wx.getStorageSync('telphone')==""){
+      if(app.globalData.member==""){
+        console.log('判断手机号',app.globalData.member);
         that.telHid=true;
         that.maskHid=true;
       }else{
         that.telHid=false;
         that.maskHid=false;
-            wx.requestSubscribeMessage({
-        tmplIds: ["THIl9oVwY4TlDibEvG_2esn7Nxc9jtYo3RYayPJ9qDg"],
-        success(res) {
-           if(res["THIl9oVwY4TlDibEvG_2esn7Nxc9jtYo3RYayPJ9qDg"] == "accept"){
-            that.msgFun();
-          } else if(res["THIl9oVwY4TlDibEvG_2esn7Nxc9jtYo3RYayPJ9qDg"] == "reject") {
-              // Toast("允许后才可以订阅消息哦");
-          }
-        },
-        fail(res) {
-        }
-      });
-      }
-      // that.type="change";
-      // if(that.change_message==false){
-    
-      // }
-      // else{
-      //   Toast("您已订阅");
-      // }                                                                                                                                                                                                                                                                                                                                                                                         
+       that.msgFun();
+      }                                                                                                                                                                                                                                                                                                                                                                                      
     },
     //点击关注
-    
     msgFun:function(){
       const that = this;
-      wx.request({
-      url: app.globalData.url +"OldHouse/BandEsfFollow" +"?sessionKey=" +app.globalData.sessionKey,
-      method:"POST",
-      data: {
-        houserid: that.houserid
-      },
-      header: {
-        'content-type': 'application/json' // 默认值
-      },
+      //如果关注状态为0调用关注接口，如果为1调用取消关注接口
+      if(that.state==0){
+          wx.request({
+      url: app.globalData.url +"OldHouse/BandEsfFollow?sessionKey=" +app.globalData.sessionKey+'&houseId=' + that.houserid,
+     
       success (res) {
         if(res.data.Code==0){
           wx.showToast({
@@ -810,10 +822,34 @@ export default {
             icon: 'success',
             duration: 2000
           });
-          that.state=0;
+          that.state=1;
+               wx.requestSubscribeMessage({
+        tmplIds: ["THIl9oVwY4TlDibEvG_2esn7Nxc9jtYo3RYayPJ9qDg"],
+        success(res) {
+           if(res["THIl9oVwY4TlDibEvG_2esn7Nxc9jtYo3RYayPJ9qDg"] == "accept"){
+          } else if(res["THIl9oVwY4TlDibEvG_2esn7Nxc9jtYo3RYayPJ9qDg"] == "reject") {
+              // Toast("允许后才可以订阅消息哦");
+          }
+        },
+        fail(res) {
+        }
+      });
         }
       },
     });
+      }else{
+         wx.request({
+      url: app.globalData.url +"OldHouse/BandEsfCancelFollow?sessionKey=" +app.globalData.sessionKey+'&houseId=' + that.houserid,
+     
+      success (res) {
+        console.log('取消关注',res);
+          if(res.data.Code==0){
+          that.state=0;
+        }
+      }
+      })
+      }
+    
 
 
         
@@ -843,7 +879,6 @@ export default {
         console.log('res',res.data.Context.phoneNumber);
         var obj = JSON.parse(res.data.Context.phoneNumber.trim());
         that.purePhoneNumber=obj;
-        wx.setStorageSync('telphone',that.purePhoneNumber);
           wx.request({
       url: app.globalData.url +"WxLogin/RegisterLogin" +"?sessionKey=" +app.globalData.sessionKey,
       method:"POST",
@@ -858,8 +893,12 @@ export default {
       success (data) {
         console.log('data',data);
         if(data.data.Code==0){
-          console.log('已授权');
+          that.telHid=false;
+          that.maskHid=false;
+           wx.setStorageSync('member',data.data.Context.member);
           that.openType="";
+          app.globalData.member=data.data.Context.member;
+          that.msgFun();
         }
       }
       })
@@ -867,6 +906,137 @@ export default {
         })
       }
     },
+    //点击发送验证码
+    getVerificationCode:function(){
+      const that = this;
+      that.code="";
+      //设置长度，这里看需求，我这里设置了4
+      var codeLength = 4;
+      //设置随机字符
+    var random = new Array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
+    //循环codeLength 我设置的4就是循环4次
+    for (var i = 0; i < codeLength; i++) {
+      //设置随机数范围,这设置为0 ~ 9
+      var index = Math.floor(Math.random() * 10);
+      //字符串拼接 将每次随机的字符 进行拼接
+      that.code += random[index];
+    }
+      console.log('code',that.code);
+           wx.request({
+      url: app.globalData.domain +"ashx/SendYZM.ashx",
+      method:"POST",
+      data: {
+        code:that.code,//将拼接好的字符串赋值给展示的code
+        phone:'15991156282',
+        type:6
+      },
+      header:{ 'Content-Type':'application/x-www-form-urlencoded' },
+      success (data) {
+        console.log('data',data.data);
+        if(data.data==0){
+          that.disabled=true;
+        }
+
+      }
+           });
+    },
+    //获取看房时间
+    bindDateChangeStart: function(e) {
+        this.lookDate = e.mp.detail.value;
+      this.color = "color:#333";
+    },
+    //获取姓名
+    nameVal:function(e){
+      const that = this;
+        if (e.mp.detail.value == null || e.mp.detail.value == "") {
+        that.name = "";
+      } else {
+        that.name = e.mp.detail.value;
+      }
+    },
+    // 获取手机号
+    telVal:function(e){
+       const that = this;
+      if (e.mp.detail.value == null || e.mp.detail.value == "") {
+        that.tel = "";
+      } else {
+        that.tel = e.mp.detail.value;
+      }
+    },
+    //获取验证码
+    yzmVal:function(e){
+      const that = this;
+      if (e.mp.detail.value == null || e.mp.detail.value == "") {
+        that.yzm = "";
+      } else {
+        that.yzm = e.mp.detail.value;
+      }
+    },
+    //获取预约描述
+    makeText:function(e){
+      const that = this;
+      if (e.mp.detail.value == null || e.mp.detail.value == "") {
+        that.yuText = "";
+      } else {
+        that.yuText = e.mp.detail.value;
+      }
+    },
+    //申请预约
+    applyClick:function(){
+      const that = this;
+      var reg = /(1[3-9]\d{9}$)/;
+      console.log('输入的验证码',that.yzm);
+      console.log('随机生成四位数',that.code);
+      //判断姓名是否为空
+      if(that.name==""){
+        console.log('姓名',that.name);
+        Toast("姓名不能为空");
+        return false;
+      }
+      //手机号码是否为空并且格式无误
+      if (that.tel == "") {
+        Toast("电话不能为空");
+        return false;
+      } else if (!reg.test(that.tel)) {
+        Toast("请输入正确格式的手机号码!");
+        return false;
+      }
+      //手机验证码是否为空并且是否无误
+      // if (that.yzm == "") {
+      //   Toast("验证码不能为空");
+      //   return false;
+      // } else if (that.yzm!=that.code) {
+        
+      //   Toast("验证码有误");
+      //   return false;
+      // }
+      //看房时间是否为空
+      if (that.lookDate == ""||that.lookDate=="请选择") {
+        Toast("看房时间不能为空");
+        return false;
+      }
+       wx.request({
+      url: app.globalData.url +"OldHouse/BandEsfSubscribe?sessionKey="+app.globalData.sessionKey,
+      method:"POST",
+      data: {
+        houseid:that.numVal,
+        jjrid:that.agentId,
+        name:that.name,
+        telephone:that.tel,
+        createdate:that.lookDate,
+        intro:that.yuText
+      },
+      header:{ 'Content-Type':'application/json' },
+      success (data) {
+        console.log('预约状态',data);
+        if(data.data.code==0){
+          Toast("预约成功");
+          that.yuyue_yc=false;
+        }
+      }
+       });
+
+    }
   }
 
 
@@ -1093,15 +1263,17 @@ height: 40rpx;line-height: 40rpx;}
 
 
 /* 弹出预约开始 */
-.tcyyzg{position:fixed;top:0;bottom:0;right:0;left:0;background-color:#333333d1;display:flex;align-items:flex-end;align-content:center; z-index: 999999;}
-.tcyy{ width:90%; margin-left:5%; margin-right:5%; background: #fff; border-radius:30rpx;  position: relative; bottom:20%;}
+.tcyyzg{position:fixed;top:0;bottom:0;right:0;left:0;background-color:#333333d1;display:flex;
+align-items:flex-end;align-content:center; z-index: 999;}
+.tcyy{ width:90%; margin-left:5%; margin-right:5%; background: #fff; border-radius:30rpx;  position: fixed; top:8%;}
 .btyy{ width: 100%; height:100rpx; background: #3dc28e; color: #fff; text-align: center; border-top-left-radius:30rpx; border-top-right-radius: 30rpx; line-height:100rpx; font-size: 36rpx; font-weight: bold;}
 .appointment{padding:1% 5% 7% 5%; width:90%;}
 .project__input{ margin-top:30rpx; height:60rpx; padding-bottom:10rpx; border-bottom: 1px #ececec solid;}
 .project__input .xmmc{ float: left; font-size: 30rpx; width:160rpx; margin-right:25rpx; text-align: justify;text-justify:distribute-all-lines;}
 .xmmc:after {width: 100%;height: 0;margin: 0;display: inline-block;overflow: hidden;content: '';}
 .project__input input{ float: left; font-size: 30rpx; }
-.project__input textarea{ float: left; font-size: 30rpx; width:69%; }
+.project__input textarea{ float: left; font-size: 30rpx; width:69%; border: 2rpx solid #ececec;
+height: 185rpx;}
 .applyFor{ width:60%; height:80rpx; background: #2e72f1; line-height: 80rpx; text-align: center; font-size: 36rpx; color: #fff; margin-top: 40rpx;}
 .ShutDown{ font-size:40rpx; font-weight: bold; position: absolute; top: 20rpx; right: 20rpx; color: #fff;}
 /* 提醒授权开始 */
@@ -1130,6 +1302,10 @@ text-align: center;}
   color: #fff;
 }
 /* 遮罩层结束 */
-
-
+.codeBtn{width: 186rpx;height: 60rpx;line-height: 60rpx;background: #3dc28e;font-size: 26rpx; float: left;
+color: #fff;}
+.codeBtn::after{border: none;}
+.yzmInput{width: 237rpx;}
+.lookClass{font-size: 30rpx;}
+.borderNone{border-bottom: none !important;height: 185rpx !important;}
  </style>
