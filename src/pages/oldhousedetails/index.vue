@@ -372,8 +372,8 @@
                 <div class="xmmc">手机验证码</div>
                 <input id="name" type="text" placeholder="请输入验证码" placeholder-style="color: #aaa"
                 class="yzmInput" :value="yzm" @input="yzmVal($event)"/>
-                <button class='codeBtn' @click='getVerificationCode' :disabled="disabled">发送验证码</button>
-                <button class='codeBtn' disabled="true">{{time}}后重新发送</button>
+                <button class='codeBtn' @click='getVerificationCode' :disabled="disabled">{{timeText}}</button>
+                <!-- <button class='codeBtn' disabled="true">{{time}}后重新发送</button> -->
               </div>
               <!-- 预约描述 -->
               <div class="project__input">
@@ -393,7 +393,7 @@
                 <div class="xmmc">预约描述</div>
                 <textarea :value="yuText" @input="makeText($event)"></textarea>
               </div>
-              <div class="applyFor" @click="applyClick">立即申请</div>
+              <button class="applyFor" @click="applyClick">立即申请</button>
           </div>
           <div class="ShutDown" @click="ShutDown_gb">X</div>
         </div>
@@ -546,11 +546,19 @@ export default {
       tel:"",
       yzm:"",
       agentId:"",
+      timeText:"发送验证码",
       time:""
     }
   },
   onLoad(option) {
     const that = this;
+    that.name="";
+    that.tel="";
+    that.yzm="";
+    that.disabled=false;
+    that.timeText="发送验证码";
+    that.lookDate="请选择";
+    that.yuText="";
     var demo = new QQMapWX({ key: '5TJBZ-XDZCK-O5FJR-AWZUZ-C4YTJ-EUBD5' });
     
     that.domain=app.globalData.domain;
@@ -927,7 +935,7 @@ export default {
       method:"POST",
       data: {
         code:that.code,//将拼接好的字符串赋值给展示的code
-        phone:'15991156282',
+        phone:that.tel,
         type:6
       },
       header:{ 'Content-Type':'application/x-www-form-urlencoded' },
@@ -935,6 +943,19 @@ export default {
         console.log('data',data.data);
         if(data.data==0){
           that.disabled=true;
+          // that.timeText
+          var num = 61;
+          var timer = setInterval(function () {
+            num--;
+            if (num <= 0) {
+              clearInterval(timer);
+             that.timeText="重新发送";
+             that.disabled=false;
+  
+            } else {
+              that.timeText=num+"S";
+            }
+          }, 1000)
         }
 
       }
@@ -985,8 +1006,6 @@ export default {
     applyClick:function(){
       const that = this;
       var reg = /(1[3-9]\d{9}$)/;
-      console.log('输入的验证码',that.yzm);
-      console.log('随机生成四位数',that.code);
       //判断姓名是否为空
       if(that.name==""){
         console.log('姓名',that.name);
@@ -1001,15 +1020,6 @@ export default {
         Toast("请输入正确格式的手机号码!");
         return false;
       }
-      //手机验证码是否为空并且是否无误
-      // if (that.yzm == "") {
-      //   Toast("验证码不能为空");
-      //   return false;
-      // } else if (that.yzm!=that.code) {
-        
-      //   Toast("验证码有误");
-      //   return false;
-      // }
       //看房时间是否为空
       if (that.lookDate == ""||that.lookDate=="请选择") {
         Toast("看房时间不能为空");
@@ -1029,9 +1039,16 @@ export default {
       header:{ 'Content-Type':'application/json' },
       success (data) {
         console.log('预约状态',data);
-        if(data.data.code==0){
-          Toast("预约成功");
+        if(data.data.Code==0){
           that.yuyue_yc=false;
+          Toast("预约成功");
+          that.name="";
+          that.tel="";
+          that.yzm="";
+          that.disabled=false;
+          that.timeText="发送验证码";
+          that.lookDate="请选择";
+          that.yuText="";
         }
       }
        });

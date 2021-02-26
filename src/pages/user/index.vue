@@ -112,12 +112,14 @@ export default {
   },
   onShow(){
     const that = this;
+    //检查接口是否登录过
     wx.request({
         url:app.globalData.url +"WxLogin/CheckSessionKey" +"?sessionKey=" +app.globalData.sessionKey,
         success: function (res) {
-          
+          //假如登录过，并且个人中心数据不等于空代表已经登录过，清除掉按钮功能
           if(res.data==true && wx.getStorageSync('member') !=""){
             that.openType="";
+            //获取到网站信息之后更新个人信息
             wx.request({
         url:app.globalData.url +"Percenter/BandUserInfo" +"?sessionKey=" +app.globalData.sessionKey,
         success: function (data) {
@@ -130,6 +132,7 @@ export default {
           that.type=app.globalData.member.type;
         }
         })
+        //否则请登录
             }else{
             that.purePhoneNumber="请登录";
             that.openType="getPhoneNumber";
@@ -146,8 +149,10 @@ export default {
        //点击获取手机号
     getPhoneNumber(e){
       const that = this;      
-      console.log('手机号',e.mp);
+      console.log('手机号',e.mp); 
+      //获取手机号时点击允许
       if (e.mp.detail.errMsg == "getPhoneNumber:ok") {
+        //调用获取手机号接口传参
         wx.request({
       url: app.globalData.url +"WxLogin/getPhoneNumber?sessionKey="+app.globalData.sessionKey,
       method:"POST",
@@ -158,12 +163,13 @@ export default {
       header: {
         'content-type': 'application/json' // 默认值
       },
+      //成功获取到手机号，转换手机号类型
       success (res) {
         console.log('res',res.data.Context.phoneNumber);
         var obj = JSON.parse(res.data.Context.phoneNumber.trim());
         that.purePhoneNumber=obj;
-        
-          wx.request({
+      //获取到手机号后登录接口给后台传参
+       wx.request({
       url: app.globalData.url +"WxLogin/RegisterLogin" +"?sessionKey=" +app.globalData.sessionKey,
       method:"POST",
       data: {
@@ -174,8 +180,10 @@ export default {
       header: {
         'content-type': 'application/json' // 默认值
       },
+      //成功拿到个人中心数据 
       success (data) {
         console.log('data',data);
+        //如果code后台返回状态为0的话，已授权
         if(data.data.Code==0){
           wx.setStorageSync('member',data.data.Context.member);
           console.log('已授权');
