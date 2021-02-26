@@ -641,7 +641,7 @@ export default {
           }
           that.memberid=res.data.Context.agent.id;
           //是否关注该房源
-          that.state=res.data.Context.recordCount;
+          
           demo.geocoder({
     address: that.address,   //用户输入的地址（注：地址中请包含城市名称，否则会影响解析效果），如：'北京市海淀区彩和坊路海淀西大街74号'
     complete: data => {
@@ -672,10 +672,21 @@ export default {
       }
     }
     })
-          
         },
      
         fail: function (res) {},
+      });
+      //获取用户关注
+      wx.request({
+        url:app.globalData.url +"Percenter/BandUserInfoEsf" +"?sessionKey=" +app.globalData.sessionKey+'&houseId=' + option.id,
+        success: function (res) {
+          console.log('res',res);
+          if(res.data.Code==0){
+            that.state=res.data.Context.recordCount;
+          }else{
+            that.state=0;
+          }
+        }
       });
   },
   
@@ -699,7 +710,22 @@ export default {
      },
 
      anyy_dj(){
-       this.yuyue_yc = !this.yuyue_yc;
+          wx.request({
+        url:app.globalData.url +"Percenter/BandUserInfo" +"?sessionKey=" +app.globalData.sessionKey,
+        success: function (data) {
+          if(data.data.Code==0){
+            this.telHid=false;
+            this.maskHid=false;
+          wx.setStorageSync('member',data.data.Context.member);
+          app.globalData.member=data.data.Context.member;
+          }else{
+            this.telHid=true;
+            this.maskHid=true;
+          }
+          
+        }
+        })
+      //  this.yuyue_yc = !this.yuyue_yc;
      },
      ShutDown_gb(){
        this.yuyue_yc = false;
@@ -802,21 +828,22 @@ export default {
   //点击关注
   // 先判断是否登录授权手机号，如果未授权，跳转授权手机号页面进行授权，授权后返回详情页点击关注调用关注接口
   // 关注后弹出订阅消息弹框
-    priceNotice:function(){
-      const that = this;
-      //如果手机号未授权，跳转到授权手机号页面
-      if(app.globalData.member==""){
-        console.log('判断手机号',app.globalData.member);
-        that.telHid=true;
-        that.maskHid=true;
-      }else{
-        that.telHid=false;
-        that.maskHid=false;
-       that.msgFun();
-      }                                                                                                                                                                                                                                                                                                                                                                                      
-    },
+    // priceNotice:function(){
+    //   const that = this;
+    //   //如果手机号未授权，跳转到授权手机号页面
+    //   if(app.globalData.member==""){
+    //     console.log('判断手机号',app.globalData.member);
+    //     that.telHid=true;
+    //     that.maskHid=true;
+    //   }else{
+    //     console.log('判断手机号不为空',app.globalData.member);
+    //     that.telHid=false;
+    //     that.maskHid=false;
+    //    that.msgFun();
+    //   }                                                                                                                                                                                                                                                                                                                                                                                      
+    // },
     //点击关注
-    msgFun:function(){
+    priceNotice:function(){
       const that = this;
       //如果关注状态为0调用关注接口，如果为1调用取消关注接口
       if(that.state==0){
@@ -825,6 +852,8 @@ export default {
      
       success (res) {
         if(res.data.Code==0){
+          that.telHid=false;
+        that.maskHid=false;
           wx.showToast({
             title: '关注成功',
             icon: 'success',
@@ -842,6 +871,9 @@ export default {
         fail(res) {
         }
       });
+        }else{
+           that.telHid=true;
+        that.maskHid=true;
         }
       },
     });
@@ -906,7 +938,7 @@ export default {
            wx.setStorageSync('member',data.data.Context.member);
           that.openType="";
           app.globalData.member=data.data.Context.member;
-          that.msgFun();
+          that.priceNotice();
         }
       }
       })
@@ -1034,7 +1066,8 @@ export default {
         name:that.name,
         telephone:that.tel,
         createdate:that.lookDate,
-        intro:that.yuText
+        intro:that.yuText,
+        userid:app.globalData.member.id
       },
       header:{ 'Content-Type':'application/json' },
       success (data) {

@@ -10,12 +10,16 @@
       
         <!-- <button open-type="getUserInfo">获取昵称</button> -->
         <div class="userLeft">
-          <button class="kehuxx" :open-type="openType" @getphonenumber="getPhoneNumber"><image :src="img1" /></button>
+          <button class="kehuxx" :open-type="openType" @getphonenumber="getPhoneNumber"><image :src="openType==''?member.headpic:img1" /></button>
         </div>
         <div class="userRight">
-          <button :open-type="openType" @getphonenumber="getPhoneNumber">{{purePhoneNumber}}
+          <button :open-type="openType" @getphonenumber="getPhoneNumber">{{openType==""?member.mobile:'请登录'}}
             <span v-if="openType==''?true:false">{{type==1?'(普通用户)':'(经纪人)'}}</span></button>
-          <button>{{nickname}}</button>
+          <button>{{openType==""?member.nickname:''}}</button>
+          
+        </div>
+        <div class="outLogin" v-if="openType==''?true:false" @click="OutLogin">
+          退出登录
         </div>
     </div>
     <!-- 客户信息结束 -->
@@ -104,6 +108,7 @@ export default {
       img9:app.globalData.imgurl +"gy.png",
       openType:"getPhoneNumber",
       nickname :"",
+      member:app.globalData.member,
       type:1
  
 
@@ -112,33 +117,26 @@ export default {
   },
   onShow(){
     const that = this;
-    //检查接口是否登录过
-    wx.request({
-        url:app.globalData.url +"WxLogin/CheckSessionKey" +"?sessionKey=" +app.globalData.sessionKey,
-        success: function (res) {
-          //假如登录过，并且个人中心数据不等于空代表已经登录过，清除掉按钮功能
-          if(res.data==true && wx.getStorageSync('member') !=""){
-            that.openType="";
-            //获取到网站信息之后更新个人信息
             wx.request({
         url:app.globalData.url +"Percenter/BandUserInfo" +"?sessionKey=" +app.globalData.sessionKey,
         success: function (data) {
-          console.log("data",res);
+          if(data.data.Code==0){
+            // console.log("data",res);
           wx.setStorageSync('member',data.data.Context.member);
           app.globalData.member=data.data.Context.member;
-          that.purePhoneNumber=app.globalData.member.mobile;
-          that.img1=app.globalData.domain+app.globalData.member.headpic;
-          that.nickname=app.globalData.member.nickname;
+          that.member=data.data.Context.member;
+          // that.purePhoneNumber=app.globalData.member.mobile;
+          // that.img1=app.globalData.domain+app.globalData.member.headpic;
+          // that.nickname=app.globalData.member.nickname;
           that.type=app.globalData.member.type;
-        }
-        })
-        //否则请登录
-            }else{
+          that.openType="";
+          }else{
             that.purePhoneNumber="请登录";
             that.openType="getPhoneNumber";
           }
+          
         }
-    });
+        })
     
   },
   methods:{
@@ -173,9 +171,9 @@ export default {
       url: app.globalData.url +"WxLogin/RegisterLogin" +"?sessionKey=" +app.globalData.sessionKey,
       method:"POST",
       data: {
-        nickname:that.nickname,
-        headpic:that.headpic,
-        mobile:that.purePhoneNumber
+        nickname:that.member.nickname,
+        headpic:that.member.headpic,
+        mobile:that.member.mobile
       },
       header: {
         'content-type': 'application/json' // 默认值
@@ -189,10 +187,11 @@ export default {
           console.log('已授权');
           that.openType="";
           app.globalData.member=data.data.Context.member;
-          that.purePhoneNumber=app.globalData.member.mobile;
-          that.img1=app.globalData.member.headpic;
-          that.nickname=app.globalData.member.nickname;
-          that.type=app.globalData.member.type;
+          that.member=data.data.Context.member;
+          // that.purePhoneNumber=app.globalData.member.mobile;
+          // that.img1=app.globalData.member.headpic;
+          // that.nickname=app.globalData.member.nickname;
+          // that.type=app.globalData.member.type;
         }
       }
       })
@@ -200,6 +199,23 @@ export default {
         })
       }
     },
+    //退出登录
+    OutLogin:function(){
+      const that = this;
+       wx.request({
+      url: app.globalData.url +"WxLogin/OutLogin" +"?sessionKey=" +app.globalData.sessionKey,
+      //成功拿到个人中心数据 
+      success (data) {
+        
+        wx.setStorageSync('member',"");
+        that.member="";
+        app.globalData.member="";
+        console.log('缓存',wx.getStorageSync('member'));
+        console.log('全局',app.globalData.member);
+        that.openType="getPhoneNumber";
+      }
+       });
+    }
 
   }
 
@@ -254,4 +270,5 @@ export default {
 .anniu2 button::after{border: none;}
 .company{text-align: center;color: #8b919a;font-size: 26rpx !important;}
 .company>div{font-size: 26rpx !important;margin-top: 15rpx;}
+.outLogin{float: right;margin-top: 8%;color: #fff;font-size: 28rpx;margin-right: 5%;}
 </style>
