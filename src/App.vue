@@ -5,7 +5,7 @@ App({
     url: 'https://ltj.1fangtong.cn:451/api/',
     imgurl: 'https://ltj.1fangtong.cn:451/wximg/',
     sessionKey: '',
-    member:wx.getStorageSync('member')
+    member:null
   },
   onLaunch: function() {
     
