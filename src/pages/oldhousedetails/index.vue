@@ -547,7 +547,8 @@ export default {
       yzm:"",
       agentId:"",
       timeText:"发送验证码",
-      time:""
+      time:"",
+      clickSome:0   //0为点击关注  1为点击预约
     }
   },
   onLoad(option) {
@@ -710,17 +711,19 @@ export default {
      },
 
      anyy_dj(){
+       const that = this;
+       that.clickSome=1;
           wx.request({
         url:app.globalData.url +"Percenter/BandUserInfo" +"?sessionKey=" +app.globalData.sessionKey,
         success: function (data) {
           if(data.data.Code==0){
-            this.telHid=false;
-            this.maskHid=false;
+            that.telHid=false;
+            that.maskHid=false;
           wx.setStorageSync('member',data.data.Context.member);
           app.globalData.member=data.data.Context.member;
           }else{
-            this.telHid=true;
-            this.maskHid=true;
+            that.telHid=true;
+            that.maskHid=true;
           }
           
         }
@@ -845,6 +848,7 @@ export default {
     //点击关注
     priceNotice:function(){
       const that = this;
+      that.clickSome=0;
       //如果关注状态为0调用关注接口，如果为1调用取消关注接口
       if(that.state==0){
           wx.request({
@@ -938,7 +942,12 @@ export default {
            wx.setStorageSync('member',data.data.Context.member);
           that.openType="";
           app.globalData.member=data.data.Context.member;
-          that.priceNotice();
+          if(that.clickSome==0){
+             that.priceNotice();
+          }else{
+            that.yuyue_yc=true;
+          }
+         
         }
       }
       })

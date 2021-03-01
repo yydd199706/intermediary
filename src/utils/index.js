@@ -20,7 +20,7 @@ const formatNumber = n => {
 
 function initApp(needUserInfo) {
   wx.checkSession({
-    success: function(res) {
+    success: function (res) {
       //session_key 未过期，并且在本生命周期一直有效
       wx.request({
         url:
@@ -29,55 +29,52 @@ function initApp(needUserInfo) {
           "?sessionKey=" +
           wx.getStorageSync("sessionKey"),
         success: function (ck) {
-          if(ck.data == "true")
-          {
+          if (ck.data) {
             app.globalData.sessionKey = wx.getStorageSync("sessionKey");
-            typeof needUserInfo == "function" && needUserInfo(res);
-          }else{
+            typeof needUserInfo == "function" && needUserInfo(res);
+          } else {
             setLogin(needUserInfo);
           }
         }
       });
     },
-    fail: function() {
+    fail: function () {
       // session_key 已经失效，需要重新执行登录流程
       setLogin(needUserInfo);
     }
   })
 }
 
-function setLogin(needUserInfo)
-{
+function setLogin(needUserInfo) {
   wx.login({
-    success: function(res) {
+    success: function (res) {
       if (res.code) {
         //发起网络请求
         wx.request({
-          url: app.globalData.url+'WxLogin/GetSessionKey',
+          url: app.globalData.url + 'WxLogin/GetSessionKey',
           data: {
             code: res.code
           },
           method: 'POST',
-          success: function(res) {
-          
+          success: function (res) {
             app.globalData.sessionKey = res.data;
             wx.setStorage({
               key: 'sessionKey',
               data: res.data,
             })
-            typeof needUserInfo == "function" && needUserInfo(res);  
-          },fail: function (res) {
-            console.log("获取用户登录态失败！"+JSON.stringify(res));
+            typeof needUserInfo == "function" && needUserInfo(res);
+          }, fail: function (res) {
+            console.log("获取用户会话失败！" + JSON.stringify(res));
           }
         })
       } else {
-        console.log('登录失败！' + res.errMsg)
+        console.log('微信登录失败！' + res.errMsg)
       }
     }
   })
 }
 
-export{
+export {
   formatTime,
   initApp
 }
