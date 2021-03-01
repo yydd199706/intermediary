@@ -712,7 +712,7 @@ export default {
 
      anyy_dj(){
        const that = this;
-       that.clickSome=0;
+       that.clickSome=1;
           wx.request({
         url:app.globalData.url +"Percenter/BandUserInfo" +"?sessionKey=" +app.globalData.sessionKey,
         success: function (data) {
