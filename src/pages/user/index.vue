@@ -37,12 +37,12 @@
     <!-- 客户信息结束 -->
 
     <div class="anniu_h">
-      <button class="l_xiaoxi">
+      <button class="l_xiaoxi" @click="messageList">
         <image :src="img2" />
         <p>消息</p>
       </button>
 
-      <button class="l_xiaoxi">
+      <button class="l_xiaoxi" @click="FocusOnList">
         <image :src="img3" />
         <p>关注</p>
       </button>
@@ -54,7 +54,7 @@
     </div>
 
     <div class="anniu2">
-      <button class="liulan1">
+      <button class="liulan1" @click="browsingList">
         <div class="wzan_lelf">
           <image :src="img5" />
           <span>浏览记录</span>
@@ -62,7 +62,7 @@
         <div class="jt_right"><image :src="img6" /></div>
       </button>
 
-      <button class="liulan1">
+      <button class="liulan1" @click="serviceNoList">
         <div class="wzan_lelf">
           <image :src="img7" />
           <span>关注服务号</span>
@@ -78,7 +78,7 @@
         <div class="jt_right"><image :src="img6" /></div>
       </button>
 
-      <button class="liulan1">
+      <button class="liulan1" @click="aboutUsList">
         <div class="wzan_lelf">
           <image :src="img9" />
           <span>关于我们</span>
@@ -208,6 +208,30 @@ export default {
         },
       });
     },
+
+    //点击跳转消息页面
+    messageList:function(){
+      wx.navigateTo({ url: "/pages/message/main"});
+    },
+    //点击跳转关注列表页面
+    FocusOnList:function(){
+      wx.navigateTo({ url: "/pages/userguanzhu/main"});
+    },
+    //点击跳转浏览记录列表页面
+    browsingList:function(){
+      wx.navigateTo({ url: "/pages/userbrowsing/main"});
+    },
+    //点击跳转关注服务号页面
+    serviceNoList:function(){
+      wx.navigateTo({ url: "/pages/userService/main"});
+    },
+    //点击跳转关于我们页面
+    aboutUsList:function(){
+      wx.navigateTo({ url: "/pages/aboutUs/main"});
+    },
+    
+
+
   },
 };
 </script>

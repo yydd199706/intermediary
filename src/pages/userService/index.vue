@@ -29,12 +29,14 @@
 </template>
 
 <script>
+const app = getApp();
+const common = require("@/utils/index");
 export default {
   data () {
     return {
-      img1:"/static/images/zx.jpg",
-      img2:"/static/images/ewm.jpg",
-      img3:"/static/images/lc.jpg",
+      img1: app.globalData.imgurl +"zx.jpg",
+      img2: app.globalData.imgurl +"ewm.jpg",
+      img3: app.globalData.imgurl +"lc.jpg",
  
 
 
