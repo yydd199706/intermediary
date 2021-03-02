@@ -125,7 +125,6 @@
               <div class="youshi1" v-if="item.companyname==''?false:true">{{ item.companyname }}</div>
                
             </div>
-            <!-- <div class="clear"></div> -->
             <div class="m-x">
               <div class="money1">{{item.rent==""||item.rent==null?'价格待定':item.rent+'元/月'}}</div>
             </div>
@@ -159,17 +158,10 @@
               <div class="youshi2">{{item.PropertyTypeName}}</div>
               <div class="youshi2">{{item.Decorationname}}</div>
               <div class="youshi2">{{item.existingname}}</div>
-              <!-- <div class="youshi2">{{item.ContainApirlName}}</div> -->
             </div>
-            <!-- <div class="clear"></div> -->
 
             <div class="m-x">
               <p class="money">{{item.averageprice==""||item.averageprice==null?'价格待定':'均价'+item.averageprice+'元/m²'}}</p>
-              <!-- <image
-                :src="item.img8"
-                class="intention-image"
-                mode="scaleToFill"
-              /> -->
             </div>
           </div>
         </div>
@@ -239,12 +231,6 @@
             </div>
             <div class="m-x">
               <p class="money">{{ item.rent }}元/月</p>
-              <!-- <image
-                :src="item.img8"
-                class="intention-image"
-                mode="scaleToFill"
-              /> -->
-              <!-- <div class="clear"></div> -->
             </div>
           </div>
         </div>

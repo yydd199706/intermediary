@@ -29,12 +29,14 @@
 </template>
 
 <script>
+const app = getApp();
+const common = require("@/utils/index");
 export default {
   data () {
     return {
-      img1:"/static/images/zx.jpg",
-      img2:"/static/images/ewm.jpg",
-      img3:"/static/images/lc.jpg",
+      img1: app.globalData.imgurl +"gzfwh.png",
+      img2: app.globalData.imgurl +"gzh.jpg",
+      img3: app.globalData.imgurl +"lc.jpg",
  
 
 
@@ -62,7 +64,7 @@ export default {
 .hsxian{ width: 100%; height:20rpx; background: #f8f8fa;}
 .indexstyle{width: 100%; margin: 0 auto; background: #fff;}
 
-.beijing image{width: 140%; height:450rpx; position: absolute; left: -20%; top: 0; z-index: -1; content: ''; border-radius: 0 0 50% 50%; }
+.beijing image{width: 100%; height:450rpx; }
 .ewm{ position: absolute; top:20%; z-index: 999;}
 .ewm image{ width:300rpx; height:300rpx; display: block; margin-left:70%;box-shadow: 1px 1px 5px #d6d6d6;}
 .ewm h2{ font-size: 35rpx; margin-top: 10%; margin-left:75%; width: 100%; font-weight: bold;}

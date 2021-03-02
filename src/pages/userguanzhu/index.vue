@@ -5,157 +5,104 @@
     <div class="guanzhu">
        <!-- 上面部分开始 -->
        <div class="gz_lan">
-         <!-- 左边栏目切换 -->
+         <!-- 栏目切换 -->
          <div class="qh_l">
-           <div :class="{'houses1':tab === 1}" class="buy" @click="fangdj(1)">买房</div>
-           <div :class="{'houses1':tab === 2}" class="buy" @click="fangdj(2)">租房</div>
-           <div :class="{'houses1':tab === 3}" class="buy" @click="fangdj(3)">小区</div>
+           <div :class="{'houses1':tab === 1}" class="buy" @click="fangdj(1)">二手房</div>
+           <div :class="{'houses1':tab === 2}" class="buy" @click="fangdj(2)">新房</div>
+           <div :class="{'houses1':tab === 3}" class="buy" @click="fangdj(3)">租房</div>
          </div>
-         <!-- 右边编辑 -->
-         <div class="bj_r">编辑</div>
+
        </div>
        <!-- 上面部分结束 -->
 
        <!-- 下面内容开始 -->
        <div class="gz_list">
-         <!-- 买房内容开始 -->
+         <!-- 二手房内容开始 -->
          <div class="maifang" v-if="tab===1">
            <!-- 关注的房源显示开始 -->
            <div class="fang_list">
-
-             <div class="xiangmu" v-for="(item, index) in xmxslist" :key="index">
-                <!-- 图片轮播 -->
-                <div class="lunbo">
-                  <swiper class="swiper" @change="djimg">
-                    <block v-for="(item, ind) in item.movies" :key="ind">
-                      <swiper-item>
-                        <image :src="item.img1" class="slide-image" mode="scaleToFill"/>
-                      </swiper-item>
-                    </block>
-                  </swiper>
-                  <div class="imageCount">{{currentimg+1}}/{{item.movies.length}}</div>
-                </div>
-                <!-- 图片轮播 -->
-                <!-- 关注开始 -->
-                <div class="focuson">
-                  <button class="fanniu"  >
-                    <image :src="item.img3" /> 
-                    <span>{{num}}</span>关注
-                  </button>
-                </div> 
-                <!-- 关注结束 -->
-                <!-- 项目介绍开始 -->
-                <div class="xm_introduce">
-                  <h3><span>{{item.title}}</span><span>{{item.size}}</span></h3>
-                  <div class="fxs">
-                    <span>{{item.square}}m²</span>|
-                    <span>{{item.direction}}</span>|
-                    <span>{{item.web}}</span>
+              <div class="h-mt" v-for="(item, index) in newslist" :key="index" :data-id="item.id" @click="esfDetail(index,$event)">
+                <image :src="item.img3" class="new-image" mode="scaleToFill" />
+                <div class="r_wz">
+                  <div class="bt_s">{{ item.title}}</div>
+                  <div class="jieshao">
+                    <span>{{item.apirlroom}}室{{item.apirloffice}}厅{{item.apirloffice}}卫</span>/<span>{{item.area}}m²</span>/
+                    <span>{{item.Towardname}}</span>
                   </div>
-                  <div class="xm_money">{{item.money}}元/月</div>
+                  <div class="youshi">
+                    <div>{{item.Decorationname}}</div>
+                    <div>{{item.looktime}}</div>
+                  </div>
+                  <!-- <div class="clear"></div> -->
+                  <div class="m-x">
+                    <p class="money">{{item.price==""||item.price==null?'总价：暂无':item.price+'万'}}</p>
+                    <p class="average">{{item.averageprice==""||item.averageprice==null?'价格待定':item.averageprice+'元/平'}}</p>
+                  </div>
                 </div>
-                <!-- 项目介绍结束 -->
-             </div>
-             
+              </div>
            </div>
            <!-- 关注的房源显示结束 -->
-           <!-- 没有关注的房源开始 -->
-           <div class="fang_bxs">
-             <image :src="img2" />
-             <h1>您还没有关注的房源</h1>
-             <p>关注之后能获得更多的房源动态信息</p>
-           </div>
-           <!-- 没有关注的房源结束 -->
+           
          </div>
-         <!-- 买房内容结束 -->
+         <!-- 二手房内容结束 -->
 
-         <!-- 租房内容开始 -->
+         <!-- 新房内容开始 -->
          <div class="zufang" v-else-if="tab===2">
            <!-- 关注的房源显示开始 -->
            <div class="fang_list">
-
-             <div class="xiangmu" v-for="(item, index) in xmxslist" :key="index">
-                <!-- 图片轮播 -->
-                <div class="lunbo">
-                  <swiper class="swiper" @change="djimg">
-                    <block v-for="(item, ind) in item.movies" :key="ind">
-                      <swiper-item>
-                        <image :src="item.img1" class="slide-image" mode="scaleToFill"/>
-                      </swiper-item>
-                    </block>
-                  </swiper>
-                  <div class="imageCount">{{currentimg+1}}/{{item.movies.length}}</div>
-                </div>
-                <!-- 图片轮播 -->
-                <!-- 关注开始 -->
-                <div class="focuson">
-                  <button class="fanniu"  >
-                    <image :src="item.img3" /> 
-                    <span>{{num}}</span>关注
-                  </button>
-                </div> 
-                <!-- 关注结束 -->
-                <!-- 项目介绍开始 -->
-                <div class="xm_introduce">
-                  <h3><span>{{item.title}}</span><span>{{item.size}}</span></h3>
-                  <div class="fxs">
-                    <span>{{item.square}}m²</span>|
-                    <span>{{item.direction}}</span>|
-                    <span>{{item.web}}</span>
+              <div class="intention-mt" v-for="(item, index) in newHouse" :key="index">
+                <image :src="item.img7" class="new-image" mode="scaleToFill" />
+                <div class="intention-right">
+                  <div class="bt_ri">
+                    <div class="bt_s newHouse_name">{{ item.name }}</div>
+                    <div class="salestatename">{{item.salestatename}} </div>
                   </div>
-                  <div class="xm_money">{{item.money}}元/月</div>
+                  <div class="zonename">
+                    {{item.zonename}}
+                  </div>
+                  <div class="youshi">
+                    <div class="youshi2">{{item.PropertyTypeName}}</div>
+                    <div class="youshi2">{{item.Decorationname}}</div>
+                    <div class="youshi2">{{item.existingname}}</div>
+                  </div>
+
+                  <div class="m-x">
+                    <p class="money">{{item.averageprice==""||item.averageprice==null?'价格待定':'均价'+item.averageprice+'元/m²'}}</p>
+                  </div>
                 </div>
-                <!-- 项目介绍结束 -->
-             </div>
-             
+              </div>
+           </div>
+           <!-- 关注的房源显示结束 -->
+         </div>
+         <!-- 新房内容开始 -->
+
+         <!-- 租房内容开始 -->
+         <div class="xiaoqu" v-else>
+           <!-- 关注的房源显示开始 -->
+           <div class="fang_list">
+              <div class="h-mt" v-for="(item, index) in newslist" :key="index" :data-id="item.id" @click="esfDetail(index,$event)">
+                  <image :src="item.img3" class="new-image" mode="scaleToFill" />
+                  <div class="r_wz">
+                    <div class="bt_s">{{ item.title}}</div>
+                    <div class="jieshao">
+                      <span>{{item.apirlroom}}室{{item.apirloffice}}厅{{item.apirloffice}}卫</span>/<span>{{item.area}}m²</span>/
+                      <span>{{item.Towardname}}</span>
+                    </div>
+                    <div class="youshi">
+                      <div>{{item.Decorationname}}</div>
+                      <div>{{item.looktime}}</div>
+                    </div>
+                    <!-- <div class="clear"></div> -->
+                    <div class="m-x">
+                      <p class="money">{{item.price==""||item.price==null?'总价：暂无':item.price+'万'}}</p>
+                      <p class="average">{{item.averageprice==""||item.averageprice==null?'价格待定':item.averageprice+'元/平'}}</p>
+                    </div>
+                  </div>
+              </div>
            </div>
            <!-- 关注的房源显示结束 -->
          </div>
          <!-- 租房内容开始 -->
-
-         <!-- 小区内容开始 -->
-         <div class="xiaoqu" v-else>
-           <!-- 关注的房源显示开始 -->
-           <div class="fang_list">
-
-             <div class="xiangmu" v-for="(item, index) in xmxslist" :key="index">
-                <!-- 图片轮播 -->
-                <div class="lunbo">
-                  <swiper class="swiper" @change="djimg">
-                    <block v-for="(item, ind) in item.movies" :key="ind">
-                      <swiper-item>
-                        <image :src="item.img1" class="slide-image" mode="scaleToFill"/>
-                      </swiper-item>
-                    </block>
-                  </swiper>
-                  <div class="imageCount">{{currentimg+1}}/{{item.movies.length}}</div>
-                </div>
-                <!-- 图片轮播 -->
-                <!-- 关注开始 -->
-                <div class="focuson">
-                  <button class="fanniu"  >
-                    <image :src="item.img3" /> 
-                    <span>{{num}}</span>关注
-                  </button>
-                </div> 
-                <!-- 关注结束 -->
-                <!-- 项目介绍开始 -->
-                <div class="xm_introduce">
-                  <h3><span>{{item.title}}</span><span>{{item.size}}</span></h3>
-                  <div class="fxs">
-                    <span>{{item.square}}m²</span>|
-                    <span>{{item.direction}}</span>|
-                    <span>{{item.web}}</span>
-                  </div>
-                  <div class="xm_money">{{item.money}}元/月</div>
-                </div>
-                <!-- 项目介绍结束 -->
-             </div>
-             
-           </div>
-           <!-- 关注的房源显示结束 -->
-         </div>
-         <!-- 小区内容开始 -->
        </div>
        <!-- 下面内容结束 -->
 
@@ -164,7 +111,13 @@
     </div>
     <!-- 关注结束 -->
 
-  
+  <!-- 没有关注的房源开始 -->
+           <!-- <div class="fang_bxs">
+             <image :src="img2" />
+             <h1>您还没有关注的房源</h1>
+             <p>关注之后能获得更多的房源动态信息</p>
+           </div> -->
+           <!-- 没有关注的房源结束 -->
   
   
 
@@ -178,24 +131,17 @@ export default {
       tab: 1,
       currentimg: 0,
       img2:"/static/images/gz.jpg",
-      xmxslist: [
-        {
-          movies:[
-            {img1: 'http://vip.yijienet.com/tt/img1.jpg'},
-            {img1: 'http://vip.yijienet.com/tt/img1.jpg'},
-            {img1: 'http://vip.yijienet.com/tt/img1.jpg'},
-            {img1: 'http://vip.yijienet.com/tt/img1.jpg'}
-          ],
-          img3:"/static/images/xin.png",
-          num:5,
-          title:'整租▪兴安府',
-          size:'2室1厅1卫',
-          square:90,
-          direction:'南北',
-          web:'链家',
-          money:5600
+      newslist: [
+        { 
+          img3:'/static/images/tu.jpg', title:'城投佳境',apirlroom:3,apirloffice:2,apirloffice:1,area:120,Towardname:"南北通透",Decorationname:"毛坯",looktime:"随时",price:555, averageprice:6500,
         }
-      ]
+
+      ],
+      newHouse: [
+            { 
+              img7:'/static/images/tu.jpg', name:'城投佳境',salestatename:'最新开盘',zonename:'高新区',PropertyTypeName:'住宅',Decorationname:'毛坯',existingname:'期房',averageprice:6800,
+            }
+      ],
   
 
 
@@ -229,32 +175,126 @@ export default {
 .indexstyle{width: 100%; margin: 0 auto; background: #fff;}
  
 
-.guanzhu{ width: 90%; margin-left: 5%; margin-right: 5%;}
-.gz_lan{ margin-top:5%; overflow: hidden;}
-.qh_l{ float: left; display: flex; flex-direction: row; width:90%;}
-.qh_l .buy{ font-size: 32rpx; font-weight: bold; margin-right:10%; line-height:65rpx;}
-.houses1{ font-size: 40rpx !important; border-bottom:4rpx rgb(43, 186, 243) solid; line-height:45rpx;}
+/* .guanzhu{ width: 90%; margin-left: 5%; margin-right: 5%;} */
+ .gz_lan{/* margin-top:5%;*/ overflow: hidden;} 
+.qh_l{ display: flex; flex-direction: row; width:100%; border-bottom: 1px #e4e4e4 solid; padding-bottom: 16rpx;}
+.qh_l .buy{ font-size: 35rpx; font-weight: bold; margin-left:10%; margin-right: 10%; text-align: center; line-height:80rpx;}
+.houses1{ font-size: 35rpx !important; border-bottom:4rpx #3072f6 solid; color: #3072f6; font-weight: bold; line-height:80rpx;}
 
 /* 关注的房源显示开始 */
-.fang_list{ width: 100%; margin-top:5%;}
-.xiangmu{ margin-top: 3%; width: 100%; background:#fff;box-shadow: 1px 1px 5px #e6e6e6; border-radius:2%; margin-bottom: 5%;}
-.lunbo{ width: 100%; height:300rpx;}
-.swiper{ width: 100%; height: 100%;}
-.lunbo image{ width: 100%; height: 100%; border-radius:2%;}
-.imageCount {width:90rpx; height:45rpx; background-color: rgba(0, 0, 0, 0.4); border-radius:40rpx; line-height:50rpx; color:#fff; text-align:center; font-size:24rpx; position:relative; left:82%; bottom:60rpx;}
-/* 关注开始 */
-.focuson{ color: #000; position: absolute; top:13%; right:7%; border-radius:8rpx;background: #fff; }
-.focuson button{ width:120rpx; height:50rpx; padding: 0; line-height:50rpx; font-size: 28rpx;}
-.focuson button::after{border: none;}
-.fanniu image{ width:30rpx; height:30rpx; margin-right: 5%; position: relative; top:3%;}
-/* 项目介绍开始 */
-.xm_introduce{ width:92%; margin-left:4%; margin-right:4%; margin-top:3%; padding-bottom:5%;}
-.xm_introduce h3{ font-size: 32rpx; font-weight: bold;}
-.xm_introduce h3 span{ margin-right: 3%;}
-.fxs{ font-size: 26rpx !important; margin-top:1%; }
-.fxs span{ margin-right: 3%;}
-.xm_money{ font-size: 32rpx; color:#fa5741; margin-top:2%; font-weight: bold;}
+.fang_list{ width:90%; margin-top:5%; margin-left: 5%; margin-right: 5%; border-bottom: 1px #eeeeee solid; }
+.h-mt {overflow: hidden;margin-bottom:15rpx; margin-bottom:40rpx;}
+.h-mt image {
+  float: left;
+  width: 40%;
+  height: 200rpx;
+  border-radius: 10rpx;
+}
+.r_wz {float: right;width: 57%;}
+.bt_s{
+  font-size: 30rpx;
+  font-weight: bold;
+  margin-right: 10rpx;
+  white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis;
+}
+.jieshao {
+  font-size: 25rpx;
+  color: #333;
+  margin-top: 10rpx;
+}
+.youshi{overflow:hidden;}
+.youshi>div {
+  float: left;padding: 0 10rpx;
+  height: 40rpx;
+  line-height: 40rpx;
+  border-radius: 3px;
+  background: #edf0f3;
+  color: #849aae;
+  font-size: 25rpx;
+  text-align: center;
+  margin-top: 10rpx;
+  margin-right: 10rpx;
+}
+.m-x {
+  margin-top: 10rpx;
+  overflow: hidden;
+}
+.m-x p{ float: left;}
+.money {
+  color: #fa5741;
+  font-weight: 900;
+  margin-right: 5rpx;
+  font-size: 32rpx;
+}
+.average{color: #A1A1A1;margin-left:10rpx;font-size:26rpx; margin-top:4rpx;}
 
+/* 新房 */
+.intention-mt {
+  overflow: hidden;
+  margin-bottom: 15rpx;
+}
+.intention-mt image {
+  float: left;
+  width: 40%;
+  height: 190rpx;
+  border-radius: 10rpx;
+}
+.intention-mt .intention-right {
+  float: right;
+  width: 57%;
+  /* margin-top: 20rpx; */
+}
+.intention-mt .intention-right .bt_ri {
+  overflow: hidden;
+}
+.intention-mt .intention-right .bt_ri h1 {
+  float: left;
+  font-size: 34rpx;
+  font-weight: bold;
+  margin-right: 4rpx;
+}
+.salestatename {
+  float: right;
+  width: 115rpx;
+  height: 40rpx;
+  line-height: 40rpx;
+  background: #0a8de4;
+  text-align: center;
+  font-size: 25rpx;
+  margin-right: 10rpx;
+  color: #fff;
+  border-radius: 3px;
+}
+.youshi{overflow:hidden;}
+.youshi2 {
+  float: left;
+  padding-left: 10rpx;
+  padding-right: 10rpx;
+  height: 40rpx;
+  line-height: 40rpx;
+  border-radius: 3px;
+  border: 1rpx #efefef solid;
+  color: #6b7072;
+  font-size: 25rpx;
+  text-align: center;
+  margin-top: 15rpx;
+  margin-right: 10rpx;
+}
+.m-x image {
+  float: right;
+  width: 14px;
+  height: 8px;
+  margin-top: 5rpx;
+}
+.newHouse_name{float: left;}
+.zonename{color: #333;font-size: 25rpx;margin-top: 10rpx;}
+.proNew{overflow: hidden;margin-left: 3%;margin-right: 3%;margin-top: 20rpx;}
+.proNew>div{float: left;width: 66%;font-size: 30rpx;margin-top: 10rpx;}
+.proNew>image{float: left;width: 32%;height: 160rpx;margin-right: 2%;border-radius: 10rpx;}
+
+ 
 
 
 /* 没有关注的房源开始 */

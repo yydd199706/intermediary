@@ -191,6 +191,12 @@
           "pathName": "pages/agentList/main",
           "query": "",
           "scene": null
+        },
+        {
+          "name": "消息",
+          "pathName": "pages/message/main",
+          "query": "",
+          "scene": null
         }
       ]
     }
