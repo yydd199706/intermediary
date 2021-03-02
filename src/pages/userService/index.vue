@@ -2,7 +2,7 @@
   <div class="indexstyle">
     <!-- 顶部服务号开始 -->
     <div class="fuwh">
-      <div class="beijing"><image :src="img1s" /></div>
+      <div class="beijing"><image :src="img1" /></div>
       <div class="ewm">
         <image :src="img2" />
         <h2>关注<span>易房通</span>公众号</h2>
@@ -34,9 +34,9 @@ const common = require("@/utils/index");
 export default {
   data () {
     return {
-      img1s: app.globalData.imgurl +"gzfwh.png",
-      img2: app.globalData.imgurl +"gzh.jpg",
-      img3: app.globalData.imgurl +"lc.jpg",
+      img1: app.globalData.imgurl + "gzfwh.png", 
+      img2: app.globalData.imgurl + "gzh.jpg", 
+      img3: app.globalData.imgurl + "lc.jpg",
  
 
 
