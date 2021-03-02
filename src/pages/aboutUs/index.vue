@@ -1,10 +1,6 @@
 <template>
   <div class="indexstyle">
     <!-- 关于我们开始 -->
-    <!-- <div class="AboutUs">
-       <div class="ab_bt">关于我们</div>
-       <div class="ab_jj">易房通简介易房通简介易房通简介易房通简介易房通简介易房通简介易房通简介易房通简介易房通简介易房通简介易房通简介易房通简介易房通简介易房通简介易房通简介易房通简介易房通简介易房通简介</div>
-    </div> -->
     <div class="aboutusLogo">
       <image :src="logo" />
       <div class="title1">安康找房</div>
@@ -26,10 +22,12 @@
 </template>
 
 <script>
+const app = getApp();
+const common = require("@/utils/index");
 export default {
   data () {
     return {
-      logo:"/static/images/logo.png"
+      logo: app.globalData.imgurl +"logo.png"
  
  
 
