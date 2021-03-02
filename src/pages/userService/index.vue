@@ -34,9 +34,9 @@ const common = require("@/utils/index");
 export default {
   data () {
     return {
-      img1:"/static/images/gzfwh.png", 
-      img2:"/static/images/gzh.jpg", 
-      img3:"/static/images/lc.jpg",
+      img1: app.globalData.imgurl + "gzfwh.png", 
+      img2: app.globalData.imgurl + "gzh.jpg", 
+      img3: app.globalData.imgurl + "lc.jpg",
  
 
 
