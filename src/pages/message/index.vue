@@ -23,7 +23,7 @@ export default {
       img3:"/static/images/lc.jpg",
       message:[
         {title:'房价通知',abstract:'兴安府房价降价低价出售',time:'15：23'},
-        {title:'房价降价通知',abstract:'兴安府房价降价低价出售',time:'15：23'}
+        {title:'房价降价',abstract:'兴安府房价降价低价出售',time:'15：23'}
       ]
  
 
