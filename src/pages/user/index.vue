@@ -70,7 +70,7 @@
         <div class="jt_right"><image :src="img6" /></div>
       </button>
 
-      <button class="liulan1">
+      <button class="liulan1" @click="telClick">
         <div class="wzan_lelf">
           <image :src="img8" />
           <span>客服电话</span>
@@ -229,7 +229,12 @@ export default {
     aboutUsList:function(){
       wx.navigateTo({ url: "/pages/aboutUs/main"});
     },
-    
+    //点击客服电话
+    telClick:function(){
+      wx.makePhoneCall({
+        phoneNumber: "0915-8889993"
+      })
+    }
 
 
   },

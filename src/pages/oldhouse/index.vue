@@ -214,7 +214,7 @@ export default {
       img2:app.globalData.imgurl +"ss.png",
       img3:app.globalData.imgurl +"down_ra.png",
       img4:app.globalData.imgurl +"top_ra.png",
-      img5:app.globalData.imgurl +"null_data.jpg",
+      img5:app.globalData.imgurl +"null_data.png",
       img6:app.globalData.imgurl +"clear.png",
       regionType:[],
       priceType:[],

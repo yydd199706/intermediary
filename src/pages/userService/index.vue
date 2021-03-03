@@ -6,7 +6,7 @@
       <div class="ewm">
         <image :src="img2" />
         <h2>关注<span>易房通</span>公众号</h2>
-        <p>【点击保存二维码图片】</p>
+        <p @click="preClick(index,$event)">【点击保存二维码图片】</p>
       </div>
     </div>
     <!-- 顶部服务号结束 -->
@@ -37,13 +37,32 @@ export default {
       img1:app.globalData.imgurl + "gzfwh.png", 
       img2:app.globalData.imgurl + "gzh.jpg", 
       img3:app.globalData.imgurl + "lc.jpg",
- 
 
 
     }
   },
   methods: {
- 
+    //点击保存图片
+    preClick:function(){
+        const that = this;
+ wx.getImageInfo({
+    src: that.img2,
+    success: function (res) {
+      console.log('res',res);
+        var path = res.path;
+        wx.saveImageToPhotosAlbum({
+            filePath: path,
+            success(result) {
+                wx.showToast({
+              title: '保存成功',
+              icon: 'success',
+              duration: 2000
+            });
+            }
+        })
+    }
+})
+    }
   }
 
 

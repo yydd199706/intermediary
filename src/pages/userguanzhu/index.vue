@@ -4,15 +4,15 @@
     <!-- 关注开始 -->
     <div class="guanzhu">
        <!-- 上面部分开始 -->
-       <div class="gz_lan">
+       <!-- <div class="gz_lan"> -->
          <!-- 栏目切换 -->
-         <div class="qh_l">
+         <!-- <div class="qh_l">
            <div :class="{'houses1':tab === 1}" class="buy" @click="fangdj(1)">二手房</div>
            <div :class="{'houses1':tab === 2}" class="buy" @click="fangdj(2)">新房</div>
            <div :class="{'houses1':tab === 3}" class="buy" @click="fangdj(3)">租房</div>
          </div>
 
-       </div>
+       </div> -->
        <!-- 上面部分结束 -->
 
        <!-- 下面内容开始 -->
@@ -22,7 +22,7 @@
            <!-- 关注的房源显示开始 -->
            <div class="fang_list">
               <div class="h-mt" v-for="(item, index) in newslist" :key="index" :data-id="item.id" @click="esfDetail(index,$event)">
-                <image :src="item.img3" class="new-image" mode="scaleToFill" />
+                <image :src="domain+item.Imgurl" class="new-image" mode="scaleToFill" />
                 <div class="r_wz">
                   <div class="bt_s">{{ item.title}}</div>
                   <div class="jieshao">
@@ -31,7 +31,7 @@
                   </div>
                   <div class="youshi">
                     <div>{{item.Decorationname}}</div>
-                    <div>{{item.looktime}}</div>
+                    <div>{{item.Propertyname}}</div>
                   </div>
                   <!-- <div class="clear"></div> -->
                   <div class="m-x">
@@ -109,13 +109,19 @@
 
 
     </div>
+     <!-- -->
+     <div vv-if="overHid" class="over">加载完毕</div>
+    <div class="none" v-if="noneHid">
+      <image :src="img" class="new-image" mode="scaleToFill" />
+      <div>您还没有关注的房源~</div>
+    </div>
     <!-- 关注结束 -->
 
   <!-- 没有关注的房源开始 -->
            <!-- <div class="fang_bxs">
              <image :src="img2" />
-             <h1>您还没有关注的房源</h1>
-             <p>关注之后能获得更多的房源动态信息</p>
+             <h1></h1>
+             <p></p>
            </div> -->
            <!-- 没有关注的房源结束 -->
   
@@ -125,18 +131,21 @@
 </template>
 
 <script>
+const app = getApp();
+const common = require("@/utils/index");
 export default {
   data () {
     return {
+      domain:null,
+      noneHid:false,
+      overHid:false,
+      allPage:0,
+      pageNumber:1,
+      pageRecord:6,
       tab: 1,
       currentimg: 0,
-      img2:"/static/images/gz.jpg",
-      newslist: [
-        { 
-          img3:'/static/images/tu.jpg', title:'城投佳境',apirlroom:3,apirloffice:2,apirloffice:1,area:120,Towardname:"南北通透",Decorationname:"毛坯",looktime:"随时",price:555, averageprice:6500,
-        }
-
-      ],
+      img:app.globalData.imgurl +"null_data.png",
+      newslist: [],
       newHouse: [
             { 
               img7:'/static/images/tu.jpg', name:'城投佳境',salestatename:'最新开盘',zonename:'高新区',PropertyTypeName:'住宅',Decorationname:'毛坯',existingname:'期房',averageprice:6800,
@@ -147,14 +156,71 @@ export default {
 
     }
   },
+  onLoad(){
+    const that = this;
+    that.domain=app.globalData.domain;
+    that.pageNumber=1;
+    that.noneHid=false;
+    that.overHid=false;
+    that.esfList();
+  },
   methods: {
    fangdj(index){
      this.tab = index;
    },
    djimg(e) {
       this.currentimg = e.target.current;
+    },
+      //获取关注列表
+  esfList(){
+    const that = this;
+      wx.request({
+      url: app.globalData.url +"Percenter/BandEsfFollowList" +"?sessionKey=" +app.globalData.sessionKey,
+      method:"POST",
+      data: {
+        pageNumber:that.pageNumber,
+        pageRecord:that.pageRecord
+      },
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success (res) {
+        console.log('res==',res);
+        // that.newslist=res.data.Context.mmcList;
+         if (res.data.Context.mmcList.length > 0) {
+          for (var i = 0; i < res.data.Context.mmcList.length; i++) {
+           that.newslist.push(res.data.Context.mmcList[i]);
+          }
+        } else {
+          that.newslist=[];
+          that.noneHid = true;
+          
+        }
+        if (res.data.Context.recordCount == 0) {
+        } else {
+          that.allPage = res.data.Context.recordCount;
+        }
+      }
+      });
+  },
+  //点击跳转二手房详情
+  esfDetail:function(index,e){
+      console.log('e',e.mp.currentTarget.dataset.id);
+      wx.navigateTo({ url: "/pages/oldhousedetails/main?id=" + e.mp.currentTarget.dataset.id });
+  }
+  },
+    // 上拉加载，拉到底部触发
+  onReachBottom: function() {
+    const that = this;
+    that.pageNumber = that.pageNumber + 1;
+    if (that.pageNumber <= that.allPage) {
+      that.esfList();
+      that.overHid=false;
+    }else if(that.allPage==res.data.Context.mmcList.length){
+      that.overHid=true;
     }
   }
+
 
 
 
@@ -182,7 +248,7 @@ export default {
 .houses1{ font-size: 35rpx !important; border-bottom:4rpx #3072f6 solid; color: #3072f6; font-weight: bold; line-height:80rpx;}
 
 /* 关注的房源显示开始 */
-.fang_list{ width:90%; margin-top:5%; margin-left: 5%; margin-right: 5%; border-bottom: 1px #eeeeee solid; }
+.fang_list{ width:90%; margin-top:2%; margin-left: 5%; margin-right: 5%; }
 .h-mt {overflow: hidden;margin-bottom:15rpx; margin-bottom:40rpx;}
 .h-mt image {
   float: left;
@@ -306,9 +372,10 @@ text-overflow:ellipsis;
 
 
 .bj_r{ float: right; width:10%;}
-
-
-
+.none{width: 100%;margin-top: 150rpx;text-align: center;}
+.none>image{width: 200rpx;height: 200rpx;}
+.none>div{font-size: 28rpx;margin-top: 20rpx;color: #A1A1A1;}
+.over{font-size: 28rpx;color: #A1A1A1;text-align: center;padding-bottom: 30rpx;}
 
  
 

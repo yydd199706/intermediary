@@ -548,8 +548,36 @@ export default {
       agentId:"",
       timeText:"发送验证码",
       time:"",
-      clickSome:0   //0为点击关注  1为点击预约
+      clickSome:0,   //0为点击关注  1为点击预约
+      comeDate:"",
+      Imgurl:"",
+      lookList:[
+        {
+          time:"",
+					id: "",
+					title: "",
+					Imgurl: "",
+					apirlroom: "",
+          apirloffice:"",
+          apirltoilet:"",
+          area:"",
+          Towardname:"",
+          Decorationname:"",
+          Propertyname:"",
+          price:"",
+          averageprice:""
+
+        },
+    ],
+    array:[],
+    houseTemp:[],
+    houseList:[],
     }
+  },
+  mounted() {
+    const that=this;
+    // 设置时间
+    
   },
   onLoad(option) {
     const that = this;
@@ -560,6 +588,50 @@ export default {
     that.timeText="发送验证码";
     that.lookDate="请选择";
     that.yuText="";
+    let today = that.getToday();
+    that.comeDate = today;
+    
+     
+    // //用filter()将数组内pid为0的数据(外层)检索出来,重新赋值变量，现在regionArr为外层数据，先做保留
+        // var regionArr = res.filter(item => item.pid == 0);
+        //循环检索过的数组regionArr和原始数组res,item(regionArr内所有数组),ele(res所有数据),定义一个空数组,通过regionArr的id与res的pid对比
+        // 相等时将res内数据添加到相应数组数据中,并且赋值到regionArr内的chirld,打印出regionArr就得到了我们想要的数组格式 
+        // regionArr.forEach((item, index) => {
+        //     var chirld = []
+        //     res.forEach((ele, index) => {
+        //         if (item.id == ele.pid) {
+        //             chirld.push(ele);
+        //         }
+        //     })
+        //     item.chirld = chirld;
+        // });
+
+        // for (var i = 0; i < regionArr.length; i++) {
+        //     var tempArr = [{
+        //         label: '',
+        //         value: 0
+        //     }];
+        //     if (regionArr[i].chirld.length > 0) {
+        //         for (var k = 0; k < regionArr[i].chirld.length; k++) {
+        //             tempArr[k] = {
+        //                 label: regionArr[i].chirld[k].title,
+        //                 value: regionArr[i].chirld[k].id
+        //             }
+        //         }
+        //     }
+
+        //     regionValueArray[i] = {
+        //         label: regionArr[i].title,
+        //         value: regionArr[i].id,
+        //         children: tempArr
+        //     };
+        // }
+
+        // wx.setStorageSync("regionValueArray", regionValueArray);
+
+
+
+
     var demo = new QQMapWX({ key: '5TJBZ-XDZCK-O5FJR-AWZUZ-C4YTJ-EUBD5' });
     
     that.domain=app.globalData.domain;
@@ -599,6 +671,177 @@ export default {
           that.Specialname = res.data.Context.houseInfo.Specialname;
           that.companyname=res.data.Context.houseInfo.companyname;
           that.numVal=res.data.Context.houseInfo.id;
+
+
+         
+    // 往缓存内添加浏览记录
+    
+    // 第一层为时间缓存
+    // for(var i=0;i<that.lookList.length;i++){
+    //   that.lookList[i].time=that.comeDate;
+		// 			that.lookList[i].id= option.id;
+					// that.lookList[i].title= "",
+					// that.lookList[i].Imgurl= "",
+					// that.lookList[i].apirlroom= "",
+          // that.lookList[i].apirloffice="",
+          // that.lookList[i].apirltoilet="",
+          // that.lookList[i].area="",
+          // that.lookList[i].Towardname="",
+          // that.lookList[i].Decorationname="",
+          // that.lookList[i].Propertyname="",
+          // that.lookList[i].price="",
+          // that.lookList[i].averageprice=""
+      // var array = wx.getStorageSync('regionValueArray') || [];
+      // arr.forEach((item, index) => {
+            // var chirld = []
+            // res.forEach((ele, index) => {
+                // if (item.id == option.id) {
+                    // chirld.push(ele);
+                
+            // })
+            // item.chirld = chirld;
+        //             chirld.push(ele);
+      
+           
+      //     }
+          
+      //   }
+        // for(var i = 0;i<arr.length;i++){
+        //   
+        // }
+    let val={
+          time:that.comeDate,
+					id:option.id,
+					title:that.title,
+					Imgurl:res.data.Context.houseInfo.Imgurl,
+					apirlroom:that.apirlroom,
+          apirloffice:that.apirloffice,
+          apirltoilet:that.apirltoilet,
+          area:that.area,
+          Towardname:that.Towardname,
+          Decorationname:that.Decorationname,
+          Propertyname:that.Propertyname,
+          price:that.price,
+          averageprice:that.averageprice
+          };
+          that.array.push(val);
+          // wx.setStorageSync('array',array);
+          var regionValueArray = [];
+    // var time = "2021-03-02";
+    //  var regionArr = [];
+    // var regionArr = array.filter(item => item.time == that.comeDate);
+    //  regionArr.forEach((item, index) => {
+    //         var chirld = [];
+    //         array.forEach((ele, index) => {
+    //             if (item.time == ele.time) {
+    //             chirld.push(ele);   
+    //                 console.log('chirld',chirld);
+    //             }
+    //         })
+    //         item.chirld = chirld;
+    //         console.log('regionArr',regionArr);
+    //     });
+      that.array = that.array.reduce(function(arr, obj) {
+          let count = 0;
+          arr.forEach( function(item,key){
+            if(item.id == obj.id){
+              count = 1;
+              arr[key]=obj;
+            }
+          })
+          if(!count)arr.push(obj);
+          return arr;
+        },[]);
+          that.array.sort(that.compare('time',false));
+        wx.setStorageSync('array',that.array);
+          that.houseTemp = wx.getStorageSync('array');
+        that.houseTemp.reduce(function(arr, obj, index) {
+          let count = 0;
+          arr.forEach( function(item,key){
+            if(item.time == obj.time){
+              count = 1;
+              that.houseList[key].push(obj);
+            }
+          })
+          if(!count){
+            that.houseList[index] = new Array();
+            that.houseList[index].push(obj);
+          }
+         
+          arr.push(obj);
+          return arr;
+        },[]);
+         for(var i=0;i<that.houseList.length;i++){
+          
+          that.houseList = [{
+                time:that.houseList[i][i].time,
+                children: that.houseList[i]
+            }];
+            console.log('数组',that.houseList);
+             wx.setStorageSync('houseList',that.houseList);
+        }
+            //   that.houseList[index] = {
+            //     time:that.houseList[index].time,
+            //     children: that.houseList[index]
+            // };
+        console.log('houseTemp',that.houseTemp);
+         console.log('houseList',that.houseList);
+        
+        // for (var i = 0; i < regionArr.length; i++) {
+        //     var tempArr = [{
+        //         time: ""
+        //     }];
+        //     if (regionArr[i].chirld.length > 0) {
+        //         for (var k = 0; k < regionArr[i].chirld.length; k++) {
+        //             tempArr[k] = {
+        //               id:regionArr[i].chirld[k].id,
+        //               title:regionArr[i].chirld[k].title,
+        //               Imgurl:regionArr[i].chirld[k].Imgurl,
+        //               apirlroom:regionArr[i].chirld[k].apirlroom,
+        //               apirloffice:regionArr[i].chirld[k].apirloffice,
+        //               apirltoilet:regionArr[i].chirld[k].apirltoilet,
+        //               area:regionArr[i].chirld[k].area,
+        //               Towardname:regionArr[i].chirld[k].Towardname,
+        //               Decorationname:regionArr[i].chirld[k].Decorationname,
+        //               Propertyname:regionArr[i].chirld[k].Propertyname,
+        //               price:regionArr[i].chirld[k].price,
+        //               averageprice:regionArr[i].chirld[k].averageprice
+        //             }
+        //         }
+        //     }
+
+        //     regionValueArray[i] = {
+        //       time:regionArr[i].time,
+        //       children: tempArr
+        //     };
+        // }
+        // wx.setStorageSync("regionValueArray", regionValueArray);
+        //   var regionArr = arr.filter(item => item.time == that.comeDate);
+        //   console.log('当前时间判断',regionArr);
+        //   regionArr.forEach((item, index) => {
+        //     var chirld = []
+        //         if (item.time == that.comeDate) {
+        //             chirld.push(item);
+        //         }
+        //     item.chirld = chirld;
+        //     console.log('子数组',chirld);
+        // });
+      //  wx.setStorageSync('lookList',arr);
+       
+      //  }
+       
+        // });
+    // lookList.forEach(item => {
+      
+    //   wx.setStorageSync('lookList',lookList);
+    //   console.log('arr',wx.getStorageSync('lookList'));
+    // })
+
+
+
+
+
+
           //房源评价
           that.kspoint = res.data.Context.houseInfo.kspoint;
           that.comintro = res.data.Context.houseInfo.comintro;
@@ -692,6 +935,27 @@ export default {
   },
   
   methods: {
+    compare: function(attr,rev){ //第二个参数没有传递 默认升序排列 
+    if(rev == undefined){ rev = 1; }else{ rev = (rev) ? 1 : -1; } return function(a,b){ a = a[attr]; b = b[attr]; 
+    if(a < b){ return rev * -1; } if(a > b){ return rev * 1; } return 0; } },
+       getToday() {
+      let myDate = new Date();
+      let myMonth = myDate.getMonth() + 1;
+      let Hours = myDate.getHours()
+      let Minutes = myDate.getMinutes();
+      let Seconds = myDate.getSeconds();
+      if (myMonth < 10) {
+        myMonth = "0" + myMonth; //补齐
+      }
+      let mydate = myDate.getDate();
+      if (myDate.getDate() < 10) {
+        mydate = "0" + myDate.getDate(); //补齐
+      }
+      let today = myDate.getFullYear() + "-" + myMonth + "-" + mydate;
+      
+      return today;
+
+    },
     //图片轮播切换
     clickTab(e) {
       this.currentTab = e;
@@ -719,6 +983,7 @@ export default {
           if(data.data.Code==0){
             that.telHid=false;
             that.maskHid=false;
+            that.yuyue_yc = true;
           wx.setStorageSync('member',data.data.Context.member);
           app.globalData.member=data.data.Context.member;
           }else{
