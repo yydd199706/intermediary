@@ -37,7 +37,8 @@
     <!-- 客户信息结束 -->
 
     <div class="anniu_h">
-      <button class="l_xiaoxi" @click="messageList">
+      <button class="l_xiaoxi" @click="messageList" :open-type="openType"
+          @getphonenumber="getPhoneNumber">
         <image :src="img2" />
         <p>消息</p>
       </button>
@@ -48,10 +49,10 @@
         <p>关注</p>
       </button>
 
-      <button class="l_xiaoxi">
+      <!-- <button class="l_xiaoxi">
         <image :src="img4" />
         <p>收藏</p>
-      </button>
+      </button> -->
     </div>
 
     <div class="anniu2">
@@ -213,7 +214,10 @@ export default {
 
     //点击跳转消息页面
     messageList:function(){
+      const that = this;
+      if(that.openType==""){
       wx.navigateTo({ url: "/pages/message/main"});
+      }
     },
     //点击跳转关注列表页面
     FocusOnList:function(){

@@ -165,12 +165,30 @@ export default {
   },
   onLoad(){
     const that = this;
+    that.domain=app.globalData.domain;
     if(wx.getStorageSync('houseList')==[]){
       that.noneHid=true;
       that.browse=[];
     } else{
       that.noneHid=false;
       that.browse=wx.getStorageSync('houseList');
+      for(var i = 0;i<that.browse.length;i++){
+      let myDate = new Date(that.browse[i].time);
+      let myMonth = myDate.getMonth() + 1;
+      let Hours = myDate.getHours()
+      let Minutes = myDate.getMinutes();
+      let Seconds = myDate.getSeconds();
+      if (myMonth < 10) {
+        myMonth = "0" + myMonth; //补齐
+      }
+      let mydate = myDate.getDate();
+      if (myDate.getDate() < 10) {
+        mydate = "0" + myDate.getDate(); //补齐
+      }
+      let today = myDate.getFullYear() + "-" + myMonth + "-" + mydate;
+      that.browse[i].time=today;
+      return today;
+      }
     }
     
     that.domain=app.globalData.domain;
