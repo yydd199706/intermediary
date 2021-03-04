@@ -32,7 +32,8 @@
     "pages/Report/main",
     "pages/collection/main",
     "pages/agentList/main",
-    "pages/message/main"
+    "pages/message/main",
+    "pages/userRelease/main"
     
   ],
   "window": {

@@ -64,6 +64,14 @@
         <div class="jt_right"><image :src="img6" /></div>
       </button>
 
+      <button class="liulan1" @click="releaseList">
+        <div class="wzan_lelf">
+          <image :src="img5" />
+          <span>发布记录</span>
+        </div>
+        <div class="jt_right"><image :src="img6" /></div>
+      </button>
+
       <button class="liulan1" @click="serviceNoList">
         <div class="wzan_lelf">
           <image :src="img7" />
@@ -230,6 +238,10 @@ export default {
     //点击跳转浏览记录列表页面
     browsingList:function(){
       wx.navigateTo({ url: "/pages/userbrowsing/main"});
+    },
+    //点击跳转发布记录列表页面
+    releaseList:function(){
+      wx.navigateTo({ url: "/pages/userRelease/main"});
     },
     //点击跳转关注服务号页面
     serviceNoList:function(){
