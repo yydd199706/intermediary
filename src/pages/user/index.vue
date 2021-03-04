@@ -14,7 +14,7 @@
           :open-type="openType"
           @getphonenumber="getPhoneNumber"
         >
-          <image :src="member != null ? member.headpic : img1" />
+          <image :src="member != null ? domain+member.headpic : img1" />
         </button>
       </div>
       <div class="userRight">
@@ -42,7 +42,8 @@
         <p>消息</p>
       </button>
 
-      <button class="l_xiaoxi" @click="FocusOnList">
+      <button class="l_xiaoxi" @click="FocusOnList" :open-type="openType"
+          @getphonenumber="getPhoneNumber">
         <image :src="img3" />
         <p>关注</p>
       </button>
@@ -100,8 +101,7 @@ export default {
   data() {
     xianshi: false;
     return {
-      img1:
-        "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2435093970,3292456683&fm=26&gp=0.jpg",
+      img1:app.globalData.imgurl + "ren.png",
       purePhoneNumber: "请登录",
       img2: app.globalData.imgurl + "xx.png",
       img3: app.globalData.imgurl + "gz2.png",
@@ -113,10 +113,12 @@ export default {
       img9: app.globalData.imgurl + "gy.png",
       openType: "getPhoneNumber",
       member: null,
+      domain:null
     };
   },
   onShow() {
     const that = this;
+    that.domain=app.globalData.domain;
     wx.request({
       url:
         app.globalData.url +
@@ -215,7 +217,11 @@ export default {
     },
     //点击跳转关注列表页面
     FocusOnList:function(){
-      wx.navigateTo({ url: "/pages/userguanzhu/main"});
+      const that = this;
+      if(that.openType==""){
+        wx.navigateTo({ url: "/pages/userguanzhu/main"});
+      } 
+      
     },
     //点击跳转浏览记录列表页面
     browsingList:function(){
