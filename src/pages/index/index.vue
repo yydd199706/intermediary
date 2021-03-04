@@ -14,11 +14,12 @@
     <!-- 搜索开始 -->
     <div class="search">
       <div class="searchCon">
-        <input type="text" placeholder="您想住在哪里？" placeholder-style="font-size:14px; padding-left:10%;"/>
+        <input type="text" placeholder="您想住在哪里？" @click="searchUrl" placeholder-style="font-size:14px; padding-left:10%;"/>
         <image :src="img2" mode="scaleToFill" />
       </div>
     </div>
     <!-- 搜索结束 -->
+ 
 
     <!-- 二级导航开始 -->
     <div class="nav">
@@ -82,7 +83,7 @@
     <div class="hot-s" v-if="goodroom.length > 0 ? true : false">
       <div class="biaoti-new">
         <div class="wz-bt"><span></span>必看好房</div>
-        <div class="more">查看更多</div>
+        <div class="more" @click="goodHouseList">查看更多</div>
       </div>
       <div class="hot-nr">
         <scroll-view scroll-x="true" style="width: 100%" class="image-group">
@@ -399,10 +400,18 @@ export default {
       console.log('e',e.mp.currentTarget.dataset.id);
       wx.navigateTo({ url: "/pages/oldhousedetails/main?id=" + e.mp.currentTarget.dataset.id });
     },
-  //点击猜你想买的二手房查看更多
-  oldHose:function(){
-    wx.navigateTo({ url: "/pages/oldhouse/main"});
-  }
+    //点击猜你想买的二手房查看更多
+    oldHose:function(){
+      wx.navigateTo({ url: "/pages/oldhouse/main"});
+    },
+    //点击跳转必看好房
+    goodHouseList:function(){
+      wx.navigateTo({ url: "/pages/oldhouse/main"});
+    },
+    //点击跳转搜索页
+    searchUrl:function(){
+       wx.navigateTo({url:"/pages/search/main"});
+    },
   },
 };
 </script>

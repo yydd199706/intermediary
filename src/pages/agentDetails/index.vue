@@ -8,26 +8,27 @@
         <div class="nrjieshao">
           <div class="top_js">
             <div class="lelf_jj">
+              <div>
                 <h1>{{realname}}</h1>
                 <span>{{typename}}</span>
+              </div>
+              <div class="youshis"><p>自我评价：{{evaluation==""||evaluation==0?'暂无':evaluation}}</p></div>
             </div>
             <div class="right_jj">
               <image :src="domain+headpic" />
-              <p>{{companyname}}</p>
+              <div>{{companyname}}</div>
             </div>
           </div>
-          <div class="youshis">
-              <span>博学优秀</span>
-          </div>
+          
           <div class="pingjia">
             <ul>
               <li>
-                <h2>{{count==""||count==0?'暂无':count}}</h2>
-                <p>成交房源</p>
+                <h2>{{zonename==""||zonename==0?'暂无':zonename}}</h2>
+                <p>区域名称</p>
               </li>
               <li>
-                <h2>{{evaluation==""||evaluation==0?'暂无':evaluation}}</h2>
-                <p>自我评价</p>
+                <h2>{{count==""||count==0?'暂无':count}}</h2>
+                <p>成交房源</p>
               </li>
               <li>
                 <h2>{{overallscore==""||overallscore==0?'暂无':overallscore}}</h2>
@@ -153,6 +154,7 @@
     <!-- 暂无内容 -->
     <div class="tj_none" v-if="noneimgHid">
       <image :src="noneimg" class="new-image" mode="scaleToFill" />
+      <div class="NoContent">暂无内容哟~</div>
     </div>
 
 
@@ -160,14 +162,14 @@
     <!-- 底部按钮开始 -->
     <div class="foot-an">
       <div class="lelf_foot">
-        <button>
+        <button open-type="share" >
           <image :src="footimg1" class="slide-image" />
           <p>分享</p>
         </button>
       </div>
       <div class="right_foot">
         <div class="zixun">在线咨询</div>
-        <div class="dianhua">电话咨询</div>
+        <div class="dianhua" @click="clickService">电话咨询</div>
       </div>
     </div>
     <!-- 底部按钮结束 -->
@@ -196,13 +198,15 @@ export default {
       more_new: [],
       more_rent: [],
       footimg1: app.globalData.imgurl +"fx.png",
-      noneimg: app.globalData.imgurl +"null_data.jpg",
+      noneimg: app.globalData.imgurl +"null_data.png",
       count:"",
+      zonename:"",
       evaluation:"",
       overallscore:"",
       evaluatesum:"",
       noneimgHid:false,
-      bjtu:"/static/images/jjrbj.png"
+      bjtu:"/static/images/jjrbj.png",
+      mobile:"",
  
     }
   },
@@ -223,9 +227,11 @@ export default {
         that.companyname = res.data.Context.agentInfo.companyname;
 
         that.count = res.data.Context.count;
+        that.zonename = res.data.Context.agentInfo.zonename;
         that.evaluation = res.data.Context.agentInfo.evaluation;
         that.overallscore = res.data.Context.agentInfo.overallscore;
         that.evaluatesum = res.data.Context.agentInfo.evaluatesum;
+        that.mobile = res.data.Context.agentInfo.mobile
         
         //推荐二手房
         that.more_esf = res.data.Context.more_esf;
@@ -266,7 +272,24 @@ export default {
           that.noneimgHid=false;
         }
     }
-  } 
+  },
+  //拨打当前经纪人电话咨询
+    clickService:function(){
+      if(this.reservedtelphone!=""){  
+        wx.makePhoneCall({
+        phoneNumber: this.mobile,
+      })
+      }else{
+        wx.showToast({
+          title: '请先添加电话！',
+          icon: 'none',
+          duration: 2000
+        })
+      }
+      
+    },
+ 
+
  }
 
 
@@ -285,9 +308,9 @@ export default {
 .hsxian{ width: 100%; height:20rpx; background: #f8f8fa;}
 .indexstyle{width: 100%; margin: 0 auto; background: #fff;}
 /* 暂无内容 */
-.tj_none{width:70%;text-align: center;height:450rpx; margin: 0 auto;}
-.tj_none>image{width: 100%;height: 100%;}
-
+.tj_none{width:70%;text-align: center;height:450rpx; margin: 0 auto; margin-top:50rpx;}
+.tj_none>image{width:200rpx;height:200rpx;}
+.tj_none>div{ font-size: 28rpx; color: rgb(187, 187, 187); margin-top:20rpx;}
 /* 经纪人开始 */
 /* .jjr{width: 140%; height: 500rpx; position: absolute; left: -20%; top: 0; z-index: -1; content: ''; border-radius: 0 0 50% 50%; background: linear-gradient(#3b4671, #293359); } */
 /* .jjr_kuang{ width:64%; margin-left:18%; margin-right:18%; background: linear-gradient(#fef1d9, #f2ddb5); border-radius:3%; margin-top:10%; padding-bottom:7%; } */
@@ -298,21 +321,23 @@ export default {
 
 .nrjieshao{width:80%; position: absolute;top:80rpx;margin-left:10%; margin-right:10%;}
 .top_js{ width: 100%; overflow: hidden;  padding-top:10%;} 
-.lelf_jj{ float: left; display: flex; flex-direction: row; width: 60%; margin-top:6%;}
-.lelf_jj h1{ font-size:45rpx; font-weight: bold;}
-.lelf_jj span{ font-size:30rpx; margin-left: 3%; margin-top: 3%;}
+.lelf_jj{ float: left;width:70%; margin-top:4%;}
+.lelf_jj>div{ display: flex; flex-direction: row;}
+.lelf_jj>div h1{ font-size:45rpx; font-weight: bold;}
+.lelf_jj>div span{ font-size:30rpx; margin-left: 3%; margin-top: 3%;}
 
-.right_jj{ float: right; position: relative;   }
+.right_jj{ float: right; position: relative; padding-left: 12rpx; padding-right: 12rpx;display: table; }
 .right_jj image{ width: 150rpx; height: 150rpx; border-radius: 50%;}
-.right_jj p{ padding:3rpx 5rpx 3rpx 5rpx; text-align: center; background: linear-gradient(#fff4d9, #ffe7b1); border:2rpx #deca99 solid; color: #91783d; font-size: 22rpx;border-radius:150rpx; position: absolute; top:75%; left:7%;}
+.right_jj>div{ width: 145rpx; padding:3rpx 0px 3rpx 0rpx; text-align: center; background: linear-gradient(#fff4d9, #ffe7b1); border:2rpx #deca99 solid; color: #91783d; font-size: 22rpx;border-radius:150rpx; position: absolute; top:75%; }
 
-.youshis{ width: 100%;}
-.youshis span{ font-size: 27rpx;padding:3rpx 7rpx 3rpx 7rpx; border: 2rpx #eadabd solid; color: #6d5c3c; }
+.youshis{ width: 100%; margin-top:30rpx; height: 88rpx;}
+.youshis p{ font-size: 27rpx; color: #6d5c3c;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;
+-webkit-box-orient:vertical;-webkit-line-clamp:2; line-height:45rpx;}
 
 .pingjia{width: 100%; margin-top:9%;}
 .pingjia ul{ overflow: hidden;}
-.pingjia ul li{ width:18%; float: left; margin-left:3%; margin-right:3%; }
-.pingjia ul li h2{ font-size: 40rpx; font-weight: bold; color: #372b17; text-align: center;}
+.pingjia ul li{ width:20%; float: left; margin-left:3%; margin-right:2%; text-align: center; }
+.pingjia ul li h2{ font-size:38rpx; font-weight: bold; color: #372b17; text-align: center;}
 .pingjia ul li h2 span{ font-size: 24rpx; }
 .pingjia ul li p{ font-size: 26rpx; color: #877e67; margin-top:15rpx;}
 
