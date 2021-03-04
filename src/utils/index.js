@@ -73,8 +73,15 @@ function setLogin(needUserInfo) {
     }
   })
 }
+const ConvertTimestamp = date => {
+    const year = date.getFullYear()
+    const month = date.getMonth() + 1
+    const day = date.getDate()
+    return Date.parse(new Date([year, month, day].map(formatNumber).join('/')));
+  }
 
 export {
   formatTime,
-  initApp
+  initApp,
+  ConvertTimestamp
 }

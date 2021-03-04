@@ -710,7 +710,7 @@ export default {
         //   
         // }
     let val={
-          time:that.comeDate,
+          time:common.ConvertTimestamp(new Date()),
 					id:option.id,
 					title:that.title,
 					Imgurl:res.data.Context.houseInfo.Imgurl,
