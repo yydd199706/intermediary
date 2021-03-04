@@ -110,7 +110,7 @@
 
     </div>
      <!-- -->
-     <div vv-if="overHid" class="over">加载完毕</div>
+     <div v-if="overHid" class="over">加载完毕</div>
     <div class="none" v-if="noneHid">
       <image :src="img" class="new-image" mode="scaleToFill" />
       <div>您还没有关注的房源~</div>

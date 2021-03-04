@@ -189,6 +189,7 @@
     <!-- 暂无内容 -->
     <div class="none" v-if="esf.length==0?true:false">
       <image :src="img5" class="new-image" mode="scaleToFill" />
+      <div>暂无内容哟~</div>
     </div>
     <!-- 一键回到顶部 -->
     <div class="hujian" v-if="topHid" @click="goTop">
@@ -846,8 +847,9 @@ export default {
 <style scoped>
 .career{color:#3072F6;}
 .type{background: #EAF1FE !important;color: #3072F6;}
-.none{width: 100%;text-align: center;height: 675rpx;}
-.none>image{width: 100%;height: 100%;}
+ .none{width: 100%;text-align: center;/*height: 675rpx;*/ margin-top: 20%;} 
+.none>image{width:200rpx;height:200rpx;}
+.none>div{ font-size: 28rpx; color: #ccc; margin-top: 10rpx; text-align: center;}
 .clear {
   clear: both;
   height: 0;

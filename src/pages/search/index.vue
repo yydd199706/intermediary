@@ -41,13 +41,13 @@ const app = getApp();
         name:'',
         img2: app.globalData.imgurl +"ss.png",
         esfList:[],
-        search:[
-          {title:'天一城市之光',img1: "/static/images/sshot.png"},
-          {title:'兴安府',img1: "/static/images/sshot.png"},
-          {title:'天一城市之光',img1: "/static/images/sshot.png"},
-          {title:'天一城市之光'},
-          {title:'天一城市之光'}
-        ]
+        // search:[
+        //   {title:'天一城市之光',img1: "/static/images/sshot.png"},
+        //   {title:'兴安府',img1: "/static/images/sshot.png"},
+        //   {title:'天一城市之光',img1: "/static/images/sshot.png"},
+        //   {title:'天一城市之光'},
+        //   {title:'天一城市之光'}
+        // ]
       }
     },
     onShow(){
