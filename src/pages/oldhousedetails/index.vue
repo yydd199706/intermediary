@@ -24,7 +24,7 @@
             <p>{{looktime}}</p>
         </div>
         <!-- <div class="moredj" @click="priceNotice"><image :src="bjimg" /><span>变价提醒</span></div> -->
-        <div class="license"><image :src="yy_img" /><span>房源发布机构</span></div>
+        <!-- <div class="license"><image :src="yy_img" /><span>房源发布机构</span></div> -->
       </div>
       <div class="biaoti">{{title}}</div> 
       <div class="mianji">
@@ -195,11 +195,11 @@
     <div class="jingjiren" v-if="likes.length > 0 ? true : false">
       <div class="hx_bt">
         <p>猜你喜欢</p>
-        <span>查看更多</span>
+        <span @click="likeMore">查看更多</span>
       </div>
       <div class="xihuan">
         <scroll-view scroll-x="true" style="width: 100%" class="image-group">
-          <div class="likelist" v-for="(item, cai) in likes" :key="cai">
+          <div class="likelist" v-for="(item, cai) in likes" :key="cai" @click="likeDetail(index,$event)" :data-id="item.id">
             <div class="tupian_l">
               <image :src="domain+item.Imgurl" mode="scaleToFill"/>
               <div class="guanzhu" v-if="gznum > 0 ? true : false">{{item.gznum}}人关注</div>
@@ -278,7 +278,7 @@
       <div class="k2">
           <div class="hx_bt1">
             <p>同小区房源</p>
-            <span>查看更多</span>
+            <span @click="sameClick">查看更多</span>
           </div>
           <div class="fangyuan_list">
             <scroll-view scroll-x="true" style="width: 100%" class="image-group">
@@ -298,7 +298,8 @@
         <p>推荐房源</p>
       </div>
       <div class="nr-house">
-        <div class="h-mt" v-for="(item, index) in recommended" :key="index">
+        <div class="h-mt" v-for="(item, index) in recommended" :key="index" @click="likeDetail(index,$event)" 
+        :data-id="item.id">
           <image :src="domain+item.Imgurl" class="new-image" mode="scaleToFill" />
           <div class="r_wz">
             <div class="bt_s">{{ item.title}}</div>
@@ -1013,6 +1014,19 @@ export default {
         phoneNumber: e.currentTarget.dataset.telphone
       })
     },
+    //点击跳转详情页
+    likeDetail:function(index,e){
+      wx.navigateTo({ url: "/pages/oldhousedetails/main?id=" + e.mp.currentTarget.dataset.id});
+    },
+//点击跳转猜你喜欢查看更多
+likeMore:function(){
+  wx.navigateTo({ url: "/pages/oldhouse/main"});
+},
+//点击跳转同小区房源查看更多
+sameClick:function(){
+  const that = this;
+  wx.navigateTo({ url: "/pages/oldhouse/main?keyword="+that.projectname});
+},
     //拨打当前经纪人电话
     clickService:function(){
       if(this.reservedtelphone!=""){  
@@ -1447,7 +1461,7 @@ export default {
 .neirong{ float: left; width:70%; margin-top: 2%; }
 .neirong div h1{float: left; font-size:32rpx; font-weight: bold; margin-right:10rpx; }
 .neirong div span{ float: left; font-size: 22rpx; padding:1rpx 2rpx 1rpx 2rpx; border:2rpx #f86577 solid; color: #f86577; text-align: center; border-radius:6rpx; }
-.neirong p{ font-size: 27rpx; color: #969ca8; margin-top:2%;}
+.neirong p{ font-size: 27rpx; color: #969ca8; margin-top:2%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 
 .right_g{ float: right; margin-top:20rpx; width: 25%; overflow: hidden;}
 .right_g p.wxl{ float: left;}

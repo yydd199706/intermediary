@@ -66,7 +66,7 @@
 
       <button class="liulan1" @click="releaseList">
         <div class="wzan_lelf">
-          <image :src="img5" />
+          <image :src="img10" />
           <span>发布记录</span>
         </div>
         <div class="jt_right"><image :src="img6" /></div>
@@ -120,6 +120,7 @@ export default {
       img7: app.globalData.imgurl + "guan.png",
       img8: app.globalData.imgurl + "dh1.png",
       img9: app.globalData.imgurl + "gy.png",
+      img10:app.globalData.imgurl + "edit.png",
       openType: "getPhoneNumber",
       member: null,
       domain:null
