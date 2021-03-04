@@ -31,7 +31,7 @@
         v-if="member != null ? true : false"
         @click="OutLogin"
       >
-        退出登录
+        退出登录1111111111
       </div>
     </div>
     <!-- 客户信息结束 -->
