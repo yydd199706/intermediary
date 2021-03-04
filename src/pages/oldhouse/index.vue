@@ -189,7 +189,7 @@
     <!-- 暂无内容 -->
     <div class="none" v-if="esf.length==0?true:false">
       <image :src="img5" class="new-image" mode="scaleToFill" />
-      <div>暂无内容哟~</div>
+      <div>暂无内容哟~~</div>
     </div>
     <!-- 一键回到顶部 -->
     <div class="hujian" v-if="topHid" @click="goTop">

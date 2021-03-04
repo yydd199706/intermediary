@@ -60,7 +60,7 @@ export default {
       agentList: [],
       img9: app.globalData.imgurl + "wx.png",
       img10s: app.globalData.imgurl + "dh.png",
-      jjimg: app.globalData.imgurl + "jjlist.png"
+      jjimg:app.globalData.imgurl + "jjlist.png"
     };
   },
   onLoad(option) {

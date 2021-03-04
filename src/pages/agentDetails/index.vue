@@ -205,7 +205,7 @@ export default {
       overallscore:"",
       evaluatesum:"",
       noneimgHid:false,
-      bjtu: app.globalData.imgurl +"jjrbj.png",
+      bjtu:app.globalData.imgurl +"jjrbj.png",
       mobile:"",
  
     }
