@@ -725,22 +725,7 @@ export default {
           averageprice:that.averageprice
           };
           that.array.push(val);
-          // wx.setStorageSync('array',array);
           var regionValueArray = [];
-    // var time = "2021-03-02";
-    //  var regionArr = [];
-    // var regionArr = array.filter(item => item.time == that.comeDate);
-    //  regionArr.forEach((item, index) => {
-    //         var chirld = [];
-    //         array.forEach((ele, index) => {
-    //             if (item.time == ele.time) {
-    //             chirld.push(ele);   
-    //                 console.log('chirld',chirld);
-    //             }
-    //         })
-    //         item.chirld = chirld;
-    //         console.log('regionArr',regionArr);
-    //     });
       that.array = that.array.reduce(function(arr, obj) {
           let count = 0;
           arr.forEach( function(item,key){
