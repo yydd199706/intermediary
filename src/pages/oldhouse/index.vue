@@ -175,7 +175,7 @@
             </div>
             <div class="youshi">
               <div>{{item.Decorationname}}</div>
-              <div>{{item.looktime}}</div>
+              <div>{{item.Propertyname}}</div>
             </div>
             <!-- <div class="clear"></div> -->
             <div class="m-x">
@@ -885,8 +885,8 @@ export default {
 .youshi2{ float: left; padding-left:10rpx; padding-right:10rpx; height:40rpx; line-height: 40rpx; border-radius:6rpx; border: 2rpx #ccc solid; color: rgb(16, 61, 128); font-size: 22rpx; text-align: center; margin-top:15rpx; margin-right: 10rpx;}
 .m-x{ margin-top: 15rpx; }
 .m-x p{ float: left;}
-.m-x p.money{ font-size: 34rpx; color: rgb(192, 0, 0); font-weight: 900; margin-right: 5rpx;}
-.m-x p.money1{ font-size:26rpx; color:#ccc; margin-top: 10rpx; }
+.m-x p.money{ font-size: 34rpx; color: rgb(192, 0, 0); font-weight: 900; margin-right: 5rpx;float: left;}
+.m-x p.money1{ font-size:26rpx; color:#ccc; margin-top: 10rpx;}
 
 /* 筛选 */
 .shaixuan{ width: 100%;background: #fff; }
@@ -972,7 +972,7 @@ text-overflow:ellipsis;
 }
 .m-x {
   margin-top: 10rpx;
-  overflow: hidden;
+  overflow: hidden;height: 50rpx;line-height: 50rpx;
 }
 .money {
   font-size: 30rpx;
@@ -980,7 +980,7 @@ text-overflow:ellipsis;
   font-weight: 900;
   margin-right: 5rpx;
 }
-.average{color: #A1A1A1;margin-left: 20rpx;font-size: 28rpx;}
+.average{color: #A1A1A1;margin-left: 20rpx;font-size: 28rpx;float: left;}
 .hujian{width: 110rpx;height: 110rpx;position: fixed;right: 10rpx;bottom: 300rpx;}
 .hujian>image{width: 100%;height: 100%;}
 .sort{padding: 0 0 50rpx 40rpx;color: #333;font-size: 28rpx;box-sizing: border-box;}

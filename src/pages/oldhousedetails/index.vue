@@ -261,7 +261,7 @@
           </div>
           <div class="chengjiao_list">
             <ul>
-              <li v-for="(item, cj) in deal" :key="cj">
+              <li v-for="(item, cj) in deal" :key="cj" @click="likeDetail(index,$event)" :data-id="item.id">
                 <div class="cj_le">
                   <h2><span class="quan"></span><span>{{item.apirlroom}}室{{item.apirloffice}}厅{{item.apirltoilet}}卫</span>/<span>{{item.area}}平米</span>/<span>{{item.Towardname}}</span></h2>
                   <p><span>单价{{item.averageprice}}元/平</span>，<span>{{item.chengj5}}成交</span></p>
@@ -282,7 +282,7 @@
           </div>
           <div class="fangyuan_list">
             <scroll-view scroll-x="true" style="width: 100%" class="image-group">
-              <div class="fang_list" v-for="(item, index) in sameDistrict" :key="index">
+              <div class="fang_list" v-for="(item, index) in sameDistrict" :key="index" @click="likeDetail(index,$event)" :data-id="item.id">
                 <image :src="domain+item.Imgurl" class="slide-image" />
                 <h3><span>{{item.apirlroom}}室{{item.apirloffice}}厅{{item.apirltoilet}}卫</span>/<span>{{item.area}}m²</span>/<span>{{item.Towardname}}</span></h3>
                 <p><span class="dj1">{{item.price}}万元</span><span class="dj2">{{item.averageprice}}元/平</span></p>
@@ -766,68 +766,8 @@ export default {
             console.log('数组',that.houseList);
              wx.setStorageSync('houseList',that.houseList);
         }
-            //   that.houseList[index] = {
-            //     time:that.houseList[index].time,
-            //     children: that.houseList[index]
-            // };
         console.log('houseTemp',that.houseTemp);
          console.log('houseList',that.houseList);
-        
-        // for (var i = 0; i < regionArr.length; i++) {
-        //     var tempArr = [{
-        //         time: ""
-        //     }];
-        //     if (regionArr[i].chirld.length > 0) {
-        //         for (var k = 0; k < regionArr[i].chirld.length; k++) {
-        //             tempArr[k] = {
-        //               id:regionArr[i].chirld[k].id,
-        //               title:regionArr[i].chirld[k].title,
-        //               Imgurl:regionArr[i].chirld[k].Imgurl,
-        //               apirlroom:regionArr[i].chirld[k].apirlroom,
-        //               apirloffice:regionArr[i].chirld[k].apirloffice,
-        //               apirltoilet:regionArr[i].chirld[k].apirltoilet,
-        //               area:regionArr[i].chirld[k].area,
-        //               Towardname:regionArr[i].chirld[k].Towardname,
-        //               Decorationname:regionArr[i].chirld[k].Decorationname,
-        //               Propertyname:regionArr[i].chirld[k].Propertyname,
-        //               price:regionArr[i].chirld[k].price,
-        //               averageprice:regionArr[i].chirld[k].averageprice
-        //             }
-        //         }
-        //     }
-
-        //     regionValueArray[i] = {
-        //       time:regionArr[i].time,
-        //       children: tempArr
-        //     };
-        // }
-        // wx.setStorageSync("regionValueArray", regionValueArray);
-        //   var regionArr = arr.filter(item => item.time == that.comeDate);
-        //   console.log('当前时间判断',regionArr);
-        //   regionArr.forEach((item, index) => {
-        //     var chirld = []
-        //         if (item.time == that.comeDate) {
-        //             chirld.push(item);
-        //         }
-        //     item.chirld = chirld;
-        //     console.log('子数组',chirld);
-        // });
-      //  wx.setStorageSync('lookList',arr);
-       
-      //  }
-       
-        // });
-    // lookList.forEach(item => {
-      
-    //   wx.setStorageSync('lookList',lookList);
-    //   console.log('arr',wx.getStorageSync('lookList'));
-    // })
-
-
-
-
-
-
           //房源评价
           that.kspoint = res.data.Context.houseInfo.kspoint;
           that.comintro = res.data.Context.houseInfo.comintro;
@@ -853,7 +793,6 @@ export default {
              that.ImgUrl = res.data.Context.project.ImgUrl;
              that.id=res.data.Context.project.id;
              that.Termname = res.data.Context.project.propertycorp;
-             //wx.setStorageSync('id',res.data.Context.project.id);
           }
           //同小区成交
           that.deal = res.data.Context.deal;
@@ -895,9 +834,7 @@ export default {
             padding:8
         }
         }]
-        // that.mapHid=true;
       }else {
-        // that.mapHid=false;
         that.markers[0].callout.display="display:'none'";
       }
     }
@@ -949,9 +886,6 @@ export default {
     changeTab(e) {
       this.currentTab = e.mp.detail.current;
     },
-    // clickTab(index) {
-    //     this.currentTab = index;
-    // },
     jjchangTab(index) {
         this.tab = index;
     },
@@ -979,7 +913,6 @@ export default {
           
         }
         })
-      //  this.yuyue_yc = !this.yuyue_yc;
      },
      ShutDown_gb(){
        this.yuyue_yc = false;
@@ -1092,23 +1025,6 @@ sameClick:function(){
       complete: function(res) {},
     })
   },
-  //点击关注
-  // 先判断是否登录授权手机号，如果未授权，跳转授权手机号页面进行授权，授权后返回详情页点击关注调用关注接口
-  // 关注后弹出订阅消息弹框
-    // priceNotice:function(){
-    //   const that = this;
-    //   //如果手机号未授权，跳转到授权手机号页面
-    //   if(app.globalData.member==""){
-    //     console.log('判断手机号',app.globalData.member);
-    //     that.telHid=true;
-    //     that.maskHid=true;
-    //   }else{
-    //     console.log('判断手机号不为空',app.globalData.member);
-    //     that.telHid=false;
-    //     that.maskHid=false;
-    //    that.msgFun();
-    //   }                                                                                                                                                                                                                                                                                                                                                                                      
-    // },
     //点击关注
     priceNotice:function(){
       const that = this;
@@ -1132,6 +1048,7 @@ sameClick:function(){
         tmplIds: ["THIl9oVwY4TlDibEvG_2esn7Nxc9jtYo3RYayPJ9qDg"],
         success(res) {
            if(res["THIl9oVwY4TlDibEvG_2esn7Nxc9jtYo3RYayPJ9qDg"] == "accept"){
+             that.pushFun();
           } else if(res["THIl9oVwY4TlDibEvG_2esn7Nxc9jtYo3RYayPJ9qDg"] == "reject") {
               // Toast("允许后才可以订阅消息哦");
           }
@@ -1161,6 +1078,17 @@ sameClick:function(){
 
 
         
+    },
+
+    //发送推送消息接口
+    pushFun(){
+      const that = this;
+      wx.request({
+        url: app.globalData.url +"OldHouse/AddPriceChange?sessionKey=" +app.globalData.sessionKey+'&house_id=' + that.houserid,
+        success (res) {
+          console.log('点击推送',res);
+        }
+      })
     },
       //点击取消授权
   quxiao:function(){

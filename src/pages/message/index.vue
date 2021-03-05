@@ -5,30 +5,50 @@
       <div class="messageList" v-for="(item ,index) in message" :key="index">
         <div class="lelf_m">
           <div class="title">{{item.title}}</div>
-          <div class="abstract">{{item.abstract}}</div>
+          <div class="abstract">最新售价为{{item.newprice}}元/平</div>
         </div>
-        <div class="right_m">{{item.time}}</div>
+        <div class="right_m">{{item.createdate}}</div>
       </div>
     </div>
     <!-- 消息结束 -->
+    <div class="none" v-if="noneHid">
+      <image :src="img" class="new-image" mode="scaleToFill" />
+      <div>暂时还没有消息哦~</div>
+    </div>
   </div>
 </template>
 
 <script>
+const app = getApp();
+const common = require("@/utils/index");
 export default {
   data () {
     return {
-      img1:"/static/images/zx.jpg",
-      img2:"/static/images/ewm.jpg",
-      img3:"/static/images/lc.jpg",
+      noneHid:false,
       message:[
-        {title:'房价通知',abstract:'兴安府房价降价低价出售',time:'15：23'},
+        {title:'房价通知',abstract:'最新售价为6500',time:'15：23'},
         {title:'房价降价',abstract:'兴安府房价降价低价出售',time:'15：23'}
       ]
  
 
 
     }
+  },
+  onLoad(){
+    const that = this;
+     wx.request({
+        url:app.globalData.url +"Percenter/GetPriceChangeList" +"?sessionKey=" +app.globalData.sessionKey,
+        success: function (res) {
+          console.log('变价通知',res);
+          if(res.data.Context==null){
+            that.message=[];
+            that.noneHid=true;
+          }else{
+            that.message=res.data.Context.mpcList;
+            that.noneHid=true;
+          }
+        }
+        })
   },
   methods: {
  
@@ -59,6 +79,8 @@ export default {
 .title{ font-size: 30rpx; font-weight: bold;} 
 .abstract{ font-size:26rpx; color: rgb(143, 143, 143); margin-top:5rpx;}
 .right_m{ float: right; font-size: 24rpx; color: rgb(143, 143, 143);}
- 
+ .none{width: 100%;margin-top: 150rpx;text-align: center;}
+.none>image{width: 200rpx;height: 200rpx;}
+.none>div{font-size: 28rpx;margin-top: 20rpx;color: #A1A1A1;}
 
 </style>
