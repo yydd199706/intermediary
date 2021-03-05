@@ -9,26 +9,29 @@
    </div> -->
    <!-- 栏目切换结束 -->
    <div class="ll_xmnr">
+     
      <!-- 二手房开始 -->
      <div class="secondary" v-if="tab===1">
         <div class="sjd" v-for="(item,index) in browse" :key="index">
           <!-- 时间 -->
-          <div class="time">{{item.time}}</div>
+          <div class="time">{{item.createdate}}</div>
           <!-- 二手房列表开始 -->
-          <div class="h-mt" v-for="(data, ind) in item.children" :key="ind" :data-id="data.id" @click="esfDetail(index,$event)">
+          <div class="h-mt" v-for="(data, ind) in item.children" :key="ind" @click="esfDetail(index,$event)">
             <image :src="domain+data.Imgurl" class="new-image" mode="scaleToFill"/>
             <div class="r_wz">
               <div class="bt_s">{{data.title}}</div>
               <div class="jieshao">
-                <span>{{data.apirlroom}}室{{data.apirloffice}}厅{{data.apirloffice}}卫</span>/<span>{{data.area}}m²</span>/
-                    <span>{{data.Towardname}}</span>
+                <span>{{data.apirlroom }}室{{data.apirloffice }}厅{{data.apirltoilet}}卫</span>/<span>{{data.area}}m²</span>/
+                <span>{{data.Towardname}}</span>
               </div>
               <div class="youshi">
-                    <div>{{data.Decorationname}}</div>
-                    <div>{{data.Propertyname}}</div>
-                  </div>
-              <div class="m-x"><p class="money">{{data.price==""||data.price==null?'总价：暂无':data.price+'万'}}</p>
-                    <p class="average">{{data.averageprice==""||data.averageprice==null?'价格待定':data.averageprice+'元/平'}}</p></div>
+                <div>{{data.Decorationname}}</div>
+                <div>{{data.Propertyname}}</div>
+              </div>
+              <div class="m-x">
+                <p class="money">{{data.price==""||data.price==null?'总价：暂无':data.price+'万'}}</p>
+                <p class="average">{{data.averageprice==""||data.averageprice==null?'价格待定':data.averageprice+'元/平'}}</p>
+              </div>
             </div>
             <div class="clear"></div>
           </div>
@@ -36,6 +39,10 @@
         </div>
      </div>
      <!-- 二手房结束 -->
+
+
+
+
      <!-- 新房开始 -->
      <div class="newroom" v-else-if="tab===2">
        <!-- 新房列表开始 -->
@@ -157,6 +164,8 @@ export default {
 
       ],
       yigz:0,
+      pageNumber:1,
+      pageRecord:6,
        
 
 
@@ -166,33 +175,12 @@ export default {
   onLoad(){
     const that = this;
     that.domain=app.globalData.domain;
-    if(wx.getStorageSync('houseList')==[]){
-      that.noneHid=true;
-      that.browse=[];
-    } else{
-      that.noneHid=false;
-      that.browse=wx.getStorageSync('houseList');
-      for(var i = 0;i<that.browse.length;i++){
-      let myDate = new Date(that.browse[i].time);
-      let myMonth = myDate.getMonth() + 1;
-      let Hours = myDate.getHours()
-      let Minutes = myDate.getMinutes();
-      let Seconds = myDate.getSeconds();
-      if (myMonth < 10) {
-        myMonth = "0" + myMonth; //补齐
-      }
-      let mydate = myDate.getDate();
-      if (myDate.getDate() < 10) {
-        mydate = "0" + myDate.getDate(); //补齐
-      }
-      let today = myDate.getFullYear() + "-" + myMonth + "-" + mydate;
-      that.browse[i].time=today;
-      return today;
-      }
-    }
-    
-    that.domain=app.globalData.domain;
+    that.pageNumber=1;
+    that.esfList();
+
+
   },
+
   methods: {
     lldj(index){
       this.tab = index;
@@ -204,6 +192,39 @@ export default {
         this.yigz=1
       }
     },
+
+
+  //获取发布记录列表
+  esfList(){
+    const that = this;
+      wx.request({
+      url: app.globalData.url +"Percenter/BandEsfReleaseList" +"?sessionKey=" +app.globalData.sessionKey,
+      method:"POST",
+      data: {
+        pageNumber:that.pageNumber,
+        pageRecord:that.pageRecord
+      },
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success (res) {
+        console.log('发布记录',res);
+        // that.browse=res.data.Context.esfList;
+        var browse=[];
+        for(var i=0;i<res.data.Context.esfList.length;i++){
+          // console.log('i',that.browse[i]);
+          var children=[];
+          browse = [{
+                time:res.data.Context.esfList[i].createdate,
+                children: children.push(res.data.Context.esfList[i])
+            }];
+           
+        }
+         console.log('browse',browse);
+        }
+      });
+  },
+
      //点击跳转二手房详情
   esfDetail:function(index,e){
       console.log('e',e.mp.currentTarget.dataset.id);

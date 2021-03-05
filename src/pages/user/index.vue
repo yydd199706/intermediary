@@ -138,6 +138,7 @@ export default {
       success: function (data) {
         if (data.data.Code == 0) {
           app.globalData.member = data.data.Context.member;
+          console.log("member",app.globalData.member.id);
           that.member = app.globalData.member;
           that.openType = "";
         } else {
