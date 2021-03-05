@@ -167,7 +167,8 @@ export default {
   padding-right: 3%;
   padding-top: 4%;
   background: #fff;
-  border-radius: 3%;
+  /* border-radius: 3%; */
+  border-top-left-radius: 20rpx; border-top-right-radius: 20rpx;
   padding-bottom: 7%;
   position: relative;
   z-index: 999;
@@ -222,7 +223,10 @@ export default {
 .neirong p {
   font-size: 27rpx;
   color: #969ca8;
-  margin-top: 2%;
+  margin-top: 2%;    
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .right_g {
