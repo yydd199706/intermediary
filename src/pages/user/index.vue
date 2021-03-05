@@ -1,6 +1,7 @@
 <template>
   <div class="indexstyle">
     <!-- 客户信息开始 -->
+    <div class="bjtu"><image :src="beijing" /></div>
     <div class="user">
       <!-- <button class="kehuxx" :open-type="openType" @getphonenumber="getPhoneNumber">
         <image :src="img1" />
@@ -112,15 +113,16 @@ export default {
     return {
       img1:app.globalData.imgurl + "ren.png",
       purePhoneNumber: "请登录",
-      img2: app.globalData.imgurl + "xx.png",
-      img3: app.globalData.imgurl + "gz2.png",
-      img4: app.globalData.imgurl + "gz1.png",
-      img5: app.globalData.imgurl + "ll.png",
-      img6: app.globalData.imgurl + "jt1.jpg",
-      img7: app.globalData.imgurl + "guan.png",
-      img8: app.globalData.imgurl + "dh1.png",
-      img9: app.globalData.imgurl + "gy.png",
-      img10:app.globalData.imgurl + "edit.png",
+      img2:app.globalData.imgurl + "xx1_u.png",
+      img3:app.globalData.imgurl + "xx2.png",
+      img4:app.globalData.imgurl + "xx3.png",
+      img5:app.globalData.imgurl + "l1.png",
+      img6:app.globalData.imgurl + "jts.png",
+      img7:app.globalData.imgurl + "l3.png",
+      img8:app.globalData.imgurl + "l4.png",
+      img9:app.globalData.imgurl + "l5.png",
+      img10:app.globalData.imgurl + "l2.png",
+      beijing:"/static/tabs/grbj.jpg",
       openType: "getPhoneNumber",
       member: null,
       domain:null
@@ -287,9 +289,12 @@ export default {
   margin: 0 auto;
   overflow: hidden;
   box-sizing: border-box;
-  height: 310rpx;
-  background-image: linear-gradient(to right, #14affd, #016dfe);
+    position: absolute; top:20rpx;
+  /* background-image: linear-gradient(to right, #14affd, #016dfe); */
 }
+.bjtu{ width: 100%; height:330rpx;}
+.bjtu image{ width: 100%; height: 100%;}
+
 .kehuxx {
   width: 100%;
   padding-left: 5%;
@@ -347,16 +352,14 @@ export default {
 
 /* .anniu_h{width:82%; margin-left: 5%; margin-right: 5%; padding-left:3%; padding-right: 5%; margin-top:7%; padding-bottom:6%;  border-bottom: 10px #ececec solid; overflow: hidden; position: relative; top: -30rpx;  } */
 .anniu_h {
-  width: 90%;
-  margin-left: 5%;
-  margin-right: 5%;
-  padding-top: 30rpx;
-  padding-bottom: 30rpx;
-  position: absolute;
+  width:100%;
+  padding-top:10rpx; height: 160rpx;
+  border-bottom: 10px #f0f0f0 solid;
+  /* position: absolute;
   top: 220rpx;
   z-index: 999;
   background: #fff !important;
-  border-radius: 30rpx;
+  border-radius:15rpx;box-shadow: 1px 1px 15px #8f8f8f83;*/
 }
 
 .anniu_h .l_xiaoxi {
@@ -386,20 +389,19 @@ export default {
 }
 
 .anniu2 {
-  width: 90%;
-  padding-left: 5%;
-  padding-right: 5%;
-  margin-top: 100rpx;
+  width:86%;
+  padding-left:7%;
+  padding-right:7%;
   padding-bottom: 8%;
   overflow: hidden;
 }
 .liulan1 {
-  border-bottom: 1px rgb(241, 241, 241) solid;
+  border-bottom:1rpx rgb(241, 241, 241) solid;
   overflow: hidden;
   height: 120rpx;
-  line-height: 80rpx;
+  line-height: 120rpx;
   padding-top: 5%;
-  padding-right: 5%;
+  /* padding-right: 5%; */
 }
 .liulan1 .wzan_lelf {
   float: left;
@@ -407,9 +409,9 @@ export default {
 }
 .liulan1 .wzan_lelf image {
   float: left;
-  width: 48rpx;
-  height: 48rpx;
-  margin-top: 5%;
+  width: 43rpx;
+  height: 43rpx;
+  margin-top:47rpx;
   margin-right: 5%;
   display: block;
 }
@@ -422,16 +424,15 @@ export default {
   float: right;
 }
 .liulan1 .jt_right image {
-  width: 20rpx;
-  height: 20rpx;
+  width:30rpx;
+  height:30rpx; margin-top:9rpx;
 }
 .anniu2 button {
   border-radius: 0;
-  background: none;
-  border: 0;
+  background: none; padding: 0;
 }
 .anniu2 button::after {
-  border: none;
+  border: none; padding: 0;
 }
 .company {
   text-align: center;
