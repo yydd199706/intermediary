@@ -233,7 +233,7 @@ export default {
       isQu:false,
       isJg:false,
       isHx:false,
-      isGd:false,
+      isGd:false, 
       isPx:false,
       zoneArr:[],
       apirlroomArr:[],

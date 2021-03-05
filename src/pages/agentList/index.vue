@@ -69,7 +69,6 @@ export default {
     that.company = option.company;
     that.storename = option.storename;
     wx.request({
-      // url: app.globalData.url +"Agent/BandAgentList?sessionKey=" +app.globalData.sessionKey,
       url:
         app.globalData.url +
         "Agent/BandAgentList?sessionKey=" +
@@ -78,11 +77,6 @@ export default {
         that.company +
         "&store=" +
         that.storename,
-      // method:"POST",
-      // data: {
-      //   company: that.company,
-      //   storename: that.storename,
-      // },
       header: {
         "content-type": "application/json" // 默认值
       },
@@ -94,7 +88,6 @@ export default {
   methods: {
     //点击跳转经纪人名片
     agentInfo: function(index, e) {
-      console.log("e", e.mp.currentTarget.dataset.id);
       wx.navigateTo({
         url: "/pages/agentDetails/main?agentid=" + e.mp.currentTarget.dataset.id
       });
