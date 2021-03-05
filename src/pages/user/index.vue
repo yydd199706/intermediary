@@ -122,7 +122,7 @@ export default {
       img8:app.globalData.imgurl + "l4.png",
       img9:app.globalData.imgurl + "l5.png",
       img10:app.globalData.imgurl + "l2.png",
-      beijing:"/static/tabs/grbj.jpg",
+      beijing:app.globalData.imgurl +"grbj.jpg",
       openType: "getPhoneNumber",
       member: null,
       domain:null
