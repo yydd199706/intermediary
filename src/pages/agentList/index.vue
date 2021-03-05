@@ -106,7 +106,7 @@ export default {
         data: e.mp.currentTarget.dataset.wxid,
         success: function (res) {
           wx.showToast({
-              title: '复制成功'
+            title: '复制成功'
           })
         }
       })

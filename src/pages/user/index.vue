@@ -57,7 +57,7 @@
     </div>
 
     <div class="anniu2">
-      <button class="liulan1" @click="browsingList">
+      <button class="liulan1" @click="browsingList" v-if="member != null&&member.type == 1 ? true : false">
         <div class="wzan_lelf">
           <image :src="img5" />
           <span>浏览记录</span>
@@ -65,7 +65,8 @@
         <div class="jt_right"><image :src="img6" /></div>
       </button>
 
-      <button class="liulan1" @click="releaseList">
+      <button class="liulan1" @click="releaseList" v-if="member != null&&member.type == 2 ? true : false" 
+      :open-type="openType"@getphonenumber="getPhoneNumber">
         <div class="wzan_lelf">
           <image :src="img10" />
           <span>发布记录</span>
