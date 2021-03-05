@@ -179,8 +179,8 @@
             </div>
             <!-- <div class="clear"></div> -->
             <div class="m-x">
-              <p class="money">{{item.price==""||item.price==null?'总价：暂无':item.price+'万'}}</p>
-              <p class="average">{{item.averageprice==""||item.averageprice==null?'价格待定':item.averageprice+'元/平'}}</p>
+              <div class="money">{{item.price==""||item.price==null?'总价：暂无':item.price+'万'}}</div>
+              <div class="average">{{item.averageprice==""||item.averageprice==null?'价格待定':item.averageprice+'元/平'}}</div>
             </div>
           </div>
         </div>
