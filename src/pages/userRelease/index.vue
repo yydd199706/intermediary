@@ -12,31 +12,27 @@
      
      <!-- 二手房开始 -->
      <div class="secondary" v-if="tab===1">
-        <div class="sjd" v-for="(item,index) in browse" :key="index">
-          <!-- 时间 -->
-          <div class="time">{{item.createdate}}</div>
           <!-- 二手房列表开始 -->
-          <div class="h-mt" v-for="(data, ind) in item.children" :key="ind" @click="esfDetail(index,$event)">
-            <image :src="domain+data.Imgurl" class="new-image" mode="scaleToFill"/>
+          <div class="h-mt" v-for="(item,index) in browse" :key="item" @click="esfDetail(index,$event)">
+            <image :src="domain+item.Imgurl" class="new-image" mode="scaleToFill"/>
             <div class="r_wz">
-              <div class="bt_s">{{data.title}}</div>
+              <div class="bt_s">{{item.title}}</div>
               <div class="jieshao">
-                <span>{{data.apirlroom }}室{{data.apirloffice }}厅{{data.apirltoilet}}卫</span>/<span>{{data.area}}m²</span>/
-                <span>{{data.Towardname}}</span>
+                <span>{{item.apirlroom }}室{{item.apirloffice }}厅{{item.apirltoilet}}卫</span>/<span>{{item.area}}m²</span>/
+                <span>{{item.Towardname}}</span>
               </div>
               <div class="youshi">
-                <div>{{data.Decorationname}}</div>
-                <div>{{data.Propertyname}}</div>
+                <div>{{item.Decorationname}}</div>
+                <div>{{item.Propertyname}}</div>
               </div>
               <div class="m-x">
-                <p class="money">{{data.price==""||data.price==null?'总价：暂无':data.price+'万'}}</p>
-                <p class="average">{{data.averageprice==""||data.averageprice==null?'价格待定':data.averageprice+'元/平'}}</p>
+                <p class="money">{{item.price==""||item.price==null?'总价：暂无':item.price+'万'}}</p>
+                <p class="average">{{item.averageprice==""||item.averageprice==null?'价格待定':item.averageprice+'元/平'}}</p>
               </div>
             </div>
             <div class="clear"></div>
           </div>
           <!-- 二手房列表结束 -->
-        </div>
      </div>
      <!-- 二手房结束 -->
 
@@ -93,6 +89,8 @@
        <!-- 新房列表结束 -->
      </div>
      <!-- 新房结束 -->
+
+
      <!-- 租房开始 -->
      <div class="Renthouse" v-else>
        <div class="sjd" v-for="(item,index) in browse" :key="index">
@@ -121,10 +119,12 @@
         </div>
      </div>
      <!-- 租房结束 -->
-     <div class="none" v-if="noneHid">
+
+   </div>
+
+   <div class="none" v-if="noneHid">
       <image :src="img" class="new-image" mode="scaleToFill" />
-      <div>您还没有浏览过的房源~</div>
-    </div>
+      <div>您还没有发布的房源~</div>
    </div>
 
   
@@ -143,7 +143,6 @@ export default {
       tab:1,
       browse:[],
       domain:null,
-      noneHid:false,
       img:app.globalData.imgurl +"null_data.png",
       newslist: [
             { 
@@ -165,7 +164,10 @@ export default {
       ],
       yigz:0,
       pageNumber:1,
-      pageRecord:6,
+      pageRecord:5,
+      noneHid:false,
+      overHid:false,
+      allPage:0,
        
 
 
@@ -176,6 +178,8 @@ export default {
     const that = this;
     that.domain=app.globalData.domain;
     that.pageNumber=1;
+    that.noneHid=false;
+    that.overHid=false;
     that.esfList();
 
 
@@ -209,18 +213,20 @@ export default {
       },
       success (res) {
         console.log('发布记录',res);
-        // that.browse=res.data.Context.esfList;
-        var browse=[];
-        for(var i=0;i<res.data.Context.esfList.length;i++){
-          // console.log('i',that.browse[i]);
-          var children=[];
-          browse = [{
-                time:res.data.Context.esfList[i].createdate,
-                children: children.push(res.data.Context.esfList[i])
-            }];
-           
+        //that.browse=res.data.Context.esfList;
+        if (res.data.Context.recordCount > 0) {
+          for (var i = 0; i < res.data.Context.esfList.length; i++) {
+           that.browse.push(res.data.Context.esfList[i]);
+          }
+        } else {
+          that.browse=[];
+          that.noneHid = true;
+          
         }
-         console.log('browse',browse);
+        if (res.data.Context.recordCount == 0) {
+        } else {
+          that.allPage = res.data.Context.recordCount;
+        }
         }
       });
   },
@@ -231,9 +237,8 @@ export default {
       wx.navigateTo({ url: "/pages/oldhousedetails/main?id=" + e.mp.currentTarget.dataset.id });
   }
 
-  }
-
-
+  },
+ 
 
 
  
@@ -259,7 +264,7 @@ export default {
 /* 二手房开始 */
 .secondary{ width:100%; }
 .sjd{width:90%; padding-left: 5%; padding-right: 5%; height: 80rpx; background: #f4f4f7; line-height: 80rpx;}
-.h-mt{ margin-top:5%; width: 100%; border-bottom: 2rpx #f0f0f0 solid; padding-bottom: 5%;}
+.h-mt{ margin-top:5%;width:90%; padding-left: 5%; padding-right: 5%; border-bottom: 2rpx #f0f0f0 solid; padding-bottom: 5%;}
 .h-mt image{ float: left; width: 40%; height:200rpx; border-radius:3%;}
 .h-mt .r_wz{ float:right; width: 57%;}
 .h-mt .r_wz .bt_s{font-size: 30rpx;
