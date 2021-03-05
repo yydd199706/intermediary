@@ -25,6 +25,7 @@ export default {
   data () {
     return {
       noneHid:false,
+      img:app.globalData.imgurl +"null_data.png",
       message:[
         {title:'房价通知',abstract:'最新售价为6500',time:'15：23'},
         {title:'房价降价',abstract:'兴安府房价降价低价出售',time:'15：23'}
