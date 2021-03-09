@@ -14,7 +14,7 @@
     <!-- 搜索开始 -->
     <div class="search">
       <div class="searchCon">
-        <input type="text" placeholder="您想住在哪里？" @click="searchUrl" placeholder-style="font-size:14px; padding-left:10%;"/>
+        <input type="text" placeholder="qqqqqqqqq您想住在哪里？" @click="searchUrl" placeholder-style="font-size:14px; padding-left:10%;"/>
         <image :src="img2" mode="scaleToFill" />
       </div>
     </div>
