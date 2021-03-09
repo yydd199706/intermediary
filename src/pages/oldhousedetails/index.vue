@@ -763,11 +763,8 @@ export default {
                 time:that.houseList[i][i].time,
                 children: that.houseList[i]
             }];
-            console.log('数组',that.houseList);
              wx.setStorageSync('houseList',that.houseList);
         }
-        console.log('houseTemp',that.houseTemp);
-         console.log('houseList',that.houseList);
           //房源评价
           that.kspoint = res.data.Context.houseInfo.kspoint;
           that.comintro = res.data.Context.houseInfo.comintro;
@@ -847,7 +844,6 @@ export default {
       wx.request({
         url:app.globalData.url +"Percenter/BandUserInfoEsf" +"?sessionKey=" +app.globalData.sessionKey+'&houseId=' + option.id,
         success: function (res) {
-          console.log('res',res);
           if(res.data.Code==0){
             that.state=res.data.Context.recordCount;
           }else{
@@ -1067,7 +1063,6 @@ sameClick:function(){
       url: app.globalData.url +"OldHouse/BandEsfCancelFollow?sessionKey=" +app.globalData.sessionKey+'&houseId=' + that.houserid,
      
       success (res) {
-        console.log('取消关注',res);
           if(res.data.Code==0){
           that.state=0;
         }
@@ -1098,8 +1093,7 @@ sameClick:function(){
   },
        //点击获取手机号
     getPhoneNumber(e){
-      const that = this;      
-      console.log('手机号',e.mp);
+      const that = this;    
       if (e.mp.detail.errMsg == "getPhoneNumber:ok") {
         wx.request({
       url: app.globalData.url +"WxLogin/getPhoneNumber?sessionKey="+app.globalData.sessionKey,
@@ -1112,7 +1106,6 @@ sameClick:function(){
         'content-type': 'application/json' // 默认值
       },
       success (res) {
-        console.log('res',res.data.Context.phoneNumber);
         var obj = JSON.parse(res.data.Context.phoneNumber.trim());
         that.purePhoneNumber=obj;
           wx.request({
@@ -1127,7 +1120,6 @@ sameClick:function(){
         'content-type': 'application/json' // 默认值
       },
       success (data) {
-        console.log('data',data);
         if(data.data.Code==0){
           that.telHid=false;
           that.maskHid=false;
@@ -1162,7 +1154,6 @@ sameClick:function(){
       //字符串拼接 将每次随机的字符 进行拼接
       that.code += random[index];
     }
-      console.log('code',that.code);
            wx.request({
       url: app.globalData.domain +"ashx/SendYZM.ashx",
       method:"POST",
@@ -1173,7 +1164,6 @@ sameClick:function(){
       },
       header:{ 'Content-Type':'application/x-www-form-urlencoded' },
       success (data) {
-        console.log('data',data.data);
         if(data.data==0){
           that.disabled=true;
           // that.timeText
@@ -1241,7 +1231,6 @@ sameClick:function(){
       var reg = /(1[3-9]\d{9}$)/;
       //判断姓名是否为空
       if(that.name==""){
-        console.log('姓名',that.name);
         Toast("姓名不能为空");
         return false;
       }
@@ -1272,7 +1261,6 @@ sameClick:function(){
       },
       header:{ 'Content-Type':'application/json' },
       success (data) {
-        console.log('预约状态',data);
         if(data.data.Code==0){
           that.yuyue_yc=false;
           Toast("预约成功");

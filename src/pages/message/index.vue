@@ -40,13 +40,12 @@ export default {
      wx.request({
         url:app.globalData.url +"Percenter/GetPriceChangeList" +"?sessionKey=" +app.globalData.sessionKey,
         success: function (res) {
-          console.log('变价通知',res);
           if(res.data.Context==null){
             that.message=[];
             that.noneHid=true;
           }else{
             that.message=res.data.Context.mpcList;
-            that.noneHid=true;
+            that.noneHid=false;
           }
         }
         })

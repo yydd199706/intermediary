@@ -212,8 +212,6 @@ export default {
         'content-type': 'application/json' // 默认值
       },
       success (res) {
-        console.log('发布记录',res);
-        //that.browse=res.data.Context.esfList;
         if (res.data.Context.recordCount > 0) {
           for (var i = 0; i < res.data.Context.esfList.length; i++) {
            that.browse.push(res.data.Context.esfList[i]);
@@ -233,7 +231,6 @@ export default {
 
      //点击跳转二手房详情
   esfDetail:function(index,e){
-      console.log('e',e.mp.currentTarget.dataset.id);
       wx.navigateTo({ url: "/pages/oldhousedetails/main?id=" + e.mp.currentTarget.dataset.id });
   }
 

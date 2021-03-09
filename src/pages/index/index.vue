@@ -32,7 +32,7 @@
     <!-- 二级导航结束 -->
 
     <!-- 楼盘动态开始 -->
-    <div class="news-s" v-if="news.length > 0 ? true : false">
+    <!-- <div class="news-s" v-if="news.length > 0 ? true : false">
       <div class="biaoti-new">
         <div class="wz-bt"><span></span>楼盘动态</div>
         <div class="more" @click="lpdongtai">查看更多</div>
@@ -41,11 +41,11 @@
         <image :src="domain+item.imgurl" class="new-image" mode="scaleToFill" />
         <div>{{item.title}}</div>
       </div>
-    </div>
+    </div> -->
     <!-- 楼盘动态结束 -->
 
     <!-- 楼盘活动开始 -->
-    <div class="news-s" v-if="activity.length > 0 ? true : false">
+    <!-- <div class="news-s" v-if="activity.length > 0 ? true : false">
       <div class="biaoti-new">
         <div class="wz-bt"><span></span>楼盘活动</div>
         <div class="more">查看更多</div>
@@ -54,11 +54,11 @@
         <image :src="domain+item.imgurl" class="new-image" mode="scaleToFill" />
         <div>{{item.title}}</div>
       </div>
-    </div>
+    </div> -->
     <!-- 楼盘动态结束 -->
 
     <!-- 热门楼盘开始 -->
-    <div class="hot-s" v-if="hot.length > 0 ? true : false">
+    <!-- <div class="hot-s" v-if="hot.length > 0 ? true : false">
       <div class="biaoti-new">
         <div class="wz-bt"><span></span>热门楼盘</div>
         <div class="more">查看更多</div>
@@ -76,7 +76,7 @@
           </div>  
         </scroll-view>
       </div>
-    </div>
+    </div> -->
     <!-- 热门楼盘结束 -->
 
     <!-- 必看好房开始 -->
@@ -104,7 +104,7 @@
     <!-- 必看好房结束 -->
 
     <!-- 想住靓房开始 -->
-    <div class="house-s" v-if="house.length > 0 ? true : false">
+    <!-- <div class="house-s" v-if="house.length > 0 ? true : false">
       <div class="biaoti-new">
         <div class="wz-bt"><span></span>想住靓房</div>     
         <div class="more">查看更多</div>
@@ -134,11 +134,11 @@
       </div>
 
       <div class="more-house">查看更多</div>
-    </div>
+    </div> -->
     <!-- 想住靓房结束 -->
 
     <!-- 猜你意向的新房开始 -->
-    <div class="intention-house" v-if="newHouse.length > 0 ? true : false">
+    <!-- <div class="intention-house" v-if="newHouse.length > 0 ? true : false">
       <div class="biaoti-new">
         <div class="wz-bt"><span></span>猜你意向的新房</div>
         <div class="more">查看更多</div>
@@ -169,7 +169,7 @@
       </div>
 
       <div class="more-house"><span></span>查看更多</div>
-    </div>
+    </div> -->
     <!-- 猜你意向的新房结束 -->
 
     <!-- 猜你想买的二手房开始 -->
@@ -206,7 +206,7 @@
     <!-- 猜你想买的二手房结束 -->
 
     <!-- 猜你想租的房源开始 -->
-    <div class="intention-house">
+    <!-- <div class="intention-house">
       <div class="biaoti-new">
         <div class="wz-bt"><span></span>猜你想租的房源</div>
         <div class="more">查看更多</div>
@@ -235,10 +235,10 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> 
 
       <div class="more-house">查看更多</div>
-    </div>
+    </div> -->
     <!-- 猜你想租的房源结束 -->
   </div>
 </template>
@@ -258,9 +258,9 @@ export default {
           title: "二手房",
           url: "/pages/oldhouse/main"
         },
-        { img3: app.globalData.imgurl +"n2.png", title: "新房" ,url: "/pages/newhouse/main"},
-        { img3: app.globalData.imgurl +"n3.png", title: "租房" ,url: "/pages/oldhouse/main"},
-        { img3: app.globalData.imgurl +"n4.png", title: "房贷计算器",url: "/pages/syloans/main" },
+        // { img3: app.globalData.imgurl +"n2.png", title: "新房" ,url: "/pages/newhouse/main"},
+        // { img3: app.globalData.imgurl +"n3.png", title: "租房" ,url: "/pages/oldhouse/main"},
+        // { img3: app.globalData.imgurl +"n4.png", title: "房贷计算器",url: "/pages/syloans/main" },
       ],
       news: [],
       activity: [],
@@ -278,8 +278,7 @@ export default {
 
     that.domain=app.globalData.domain;
     
-    common.initApp(function (userInfo) {    
-      //console.log("res");
+    common.initApp(function (userInfo) { 
       //获取轮播图
       wx.request({
         url:
@@ -382,7 +381,6 @@ export default {
   methods: {
     //点击跳转banner
     bannerClick: function (index, e) {
-      console.log("e==", e.mp);
     },
     //点击查看更多楼盘动态
     bannerClick: function () {
@@ -397,7 +395,6 @@ export default {
     },
     //点击跳转二手房详情页
     esfDetail:function(index,e){
-      console.log('e',e.mp.currentTarget.dataset.id);
       wx.navigateTo({ url: "/pages/oldhousedetails/main?id=" + e.mp.currentTarget.dataset.id });
     },
     //点击猜你想买的二手房查看更多

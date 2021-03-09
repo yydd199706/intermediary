@@ -36,9 +36,7 @@ export default {
     return {
       img1:app.globalData.imgurl + "gzfwh.png",
       img2:app.globalData.imgurl + "gzh.jpg", 
-      img3:app.globalData.imgurl + "lc.jpg",
-
-
+      img3:app.globalData.imgurl + "lc.jpg"
     }
   },
   methods: {
@@ -48,7 +46,6 @@ export default {
  wx.getImageInfo({
     src: that.img2,
     success: function (res) {
-      console.log('res',res);
         var path = res.path;
         wx.saveImageToPhotosAlbum({
             filePath: path,

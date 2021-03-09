@@ -220,7 +220,6 @@ export default {
         'content-type': 'application/json' // 默认值
       },
       success (res) {
-        console.log(res.data);
         that.realname = res.data.Context.agentInfo.realname;
         that.typename = res.data.Context.agentInfo.typename;
         that.headpic = res.data.Context.agentInfo.headpic;

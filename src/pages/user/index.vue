@@ -141,7 +141,6 @@ export default {
       success: function (data) {
         if (data.data.Code == 0) {
           app.globalData.member = data.data.Context.member;
-          console.log("member",app.globalData.member.id);
           that.member = app.globalData.member;
           that.openType = "";
         } else {
@@ -153,7 +152,6 @@ export default {
   },
   methods: {
     authSetUser(res) {
-      console.log(res);
     },
     //点击获取手机号
     getPhoneNumber(e) {
@@ -194,7 +192,6 @@ export default {
               },
               //成功拿到个人中心数据
               success(data) {
-                console.log("data", data);
                 //如果code后台返回状态为0的话，已授权
                 if (data.data.Code == 0) {
                   that.openType = "";

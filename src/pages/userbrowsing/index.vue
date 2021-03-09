@@ -206,7 +206,6 @@ export default {
     },
      //点击跳转二手房详情
   esfDetail:function(index,e){
-      console.log('e',e.mp.currentTarget.dataset.id);
       wx.navigateTo({ url: "/pages/oldhousedetails/main?id=" + e.mp.currentTarget.dataset.id });
   }
 

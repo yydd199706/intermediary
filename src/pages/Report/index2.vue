@@ -60,10 +60,6 @@
         text : e.detail.value
         })
         that.data.lists[index][0] =that.data.text;
-        console.log("index1", index);
-        console.log("e", e.detail.value);
-        console.log("text", that.data.text);
-        console.log("value1", that.data.lists[index][0]);
         },
 
         bindKeyInput2: function (e) {
@@ -73,10 +69,6 @@
         text: e.detail.value
         })
         that.data.lists[index2][1] = that.data.text;
-        console.log("index2", index2);
-        console.log("e2", e.detail.value);
-        console.log("text", that.data.text);
-        console.log("value2", that.data.lists[index2][1]);
         },
  
 

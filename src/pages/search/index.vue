@@ -74,7 +74,6 @@ const app = getApp();
         'content-type': 'application/json' // 默认值
       },
         success: function (res) {
-          console.log('查询结果',res);
           that.esfList=res.data.Context.esfList;
         },
         fail: function (res) {},
@@ -83,9 +82,7 @@ const app = getApp();
     },
     //点击筛选
     searchClick:function(index,e){
-      console.log('e',e.mp.currentTarget.dataset.name);
       var word = e.mp.currentTarget.dataset.name;
-      // wx.setStorageSync('keyword',word);
       wx.navigateTo({url:"/pages/oldhouse/main?keyword="+word});
     }
     }

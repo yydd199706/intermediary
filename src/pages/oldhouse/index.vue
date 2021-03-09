@@ -287,7 +287,6 @@ export default {
   },
   onLoad(option){
     const that = this;
-    console.log('执行onLoad');
     that.domain=app.globalData.domain;
     that.keyword=option.keyword;
     //获取筛选条件
@@ -298,7 +297,6 @@ export default {
           "?sessionKey=" +
           app.globalData.sessionKey,
         success: function (res) {
-          console.log('筛选条件',res);
           that.regionType = res.data.Context.zone;
           that.priceType = res.data.Context.price;
           that.apirlroomType = res.data.Context.apirlroom;
@@ -329,7 +327,6 @@ export default {
   },
   onShow(){
     const that = this;
-    console.log('执行onShow');
     that.zoneArr=[];
     that.apirlroomArr=[];
     that.priceArr=[];
@@ -400,7 +397,6 @@ export default {
       if(that.xianshi_jg==true){
         that.maskHid=true;
         if(that.priceArr.length==0){
-          console.log('价格',that.priceArr);
           for (var j = 0; j < that.priceType.length; j++) {
             that.priceType[j].isJgtype=false;
           }
@@ -481,13 +477,11 @@ export default {
             if(that.regionType[j].isQytype==false){
               that.regionType[j].isQytype=true;
               that.zonearr.push(id);
-              console.log('添加数组',that.zonearr);
             }else if(that.regionType[j].isQytype==true){
               for(var i = 0;i<that.zonearr.length;i++){
                 if(that.regionType[j].Id==that.zonearr[i]){
                    that.regionType[j].isQytype=false;
                   that.zonearr.splice(i,1);
-                  console.log('删除数组',that.zonearr);
                 }
               }
             }
@@ -497,7 +491,6 @@ export default {
     //点击价格分类
     jgClick:function(index,e){
       const that = this;
-      console.log('点击价格');
       var priceId=e.mp.currentTarget.dataset.id;
       that.jgName="价格";
       that.isJg=true;
@@ -506,13 +499,11 @@ export default {
             if(that.priceType[j].isJgtype==false){
               that.priceType[j].isJgtype=true;
               that.pricearr.push(priceId);
-              console.log('添加数组',that.pricearr);
             }else if(that.priceType[j].isJgtype==true){
               for(var i = 0;i<that.pricearr.length;i++){
                 if(that.priceType[j].Id==that.pricearr[i]){
                    that.priceType[j].isJgtype=false;
                   that.pricearr.splice(i,1);
-                  console.log('删除数组',that.pricearr);
                 }
               }
             }
@@ -521,7 +512,6 @@ export default {
     },
     //点击户型分类
     hxClick:function(index,e){
-      console.log('区域id',e.mp.currentTarget.dataset.name);
       const that = this;
       that.apirlroomId=e.mp.currentTarget.dataset.id;
       for (var j = 0; j < that.apirlroomType.length; j++) {
@@ -529,13 +519,11 @@ export default {
             if(that.apirlroomType[j].isHxtype==false){
               that.apirlroomType[j].isHxtype=true;
               that.apirlroomarr.push(that.apirlroomId);
-              console.log('添加数组',that.apirlroomarr);
             }else if(that.apirlroomType[j].isHxtype==true){
               for(var i = 0;i<that.apirlroomarr.length;i++){
                 if(that.apirlroomType[j].Id==that.apirlroomarr[i]){
                    that.apirlroomType[j].isHxtype=false;
                   that.apirlroomarr.splice(i,1);
-                  console.log('删除数组',that.apirlroomarr);
                 }
               }
             }
@@ -544,7 +532,6 @@ export default {
     },
     //点击更多-面积分类
     areaClick:function(index,e){
-      console.log('区域id',e.mp.currentTarget.dataset.name);
       const that = this;
       that.areaId=e.mp.currentTarget.dataset.id;
          for (var j = 0; j < that.areaType.length; j++) {
@@ -552,13 +539,11 @@ export default {
             if(that.areaType[j].isAreatype==false){
               that.areaType[j].isAreatype=true;
               that.areaarr.push(that.areaId);
-              console.log('添加数组',that.areaarr);
             }else if(that.areaType[j].isAreatype==true){
               for(var i = 0;i<that.areaarr.length;i++){
                 if(that.areaType[j].Id==that.areaarr[i]){
                    that.areaType[j].isAreatype=false;
                   that.areaarr.splice(i,1);
-                  console.log('删除数组',that.areaarr);
                 }
               }
             }
@@ -567,7 +552,6 @@ export default {
     },
      //点击更多-房龄分类
     buildClick:function(index,e){
-      console.log('区域id',e.mp.currentTarget.dataset.name);
       const that = this;
       if(that.buildyear==null){
          that.buildyear=index;
@@ -579,7 +563,6 @@ export default {
     },
     //点击更多-中介分类
     companyClick:function(index,e){
-      console.log('区域id',e.mp.currentTarget.dataset.name);
       const that = this;
       if(that.company==null){
          that.company=index;
@@ -591,7 +574,6 @@ export default {
     },
     //点击更多-装修情况分类
     decorationClick:function(index,e){
-      console.log('区域id',e.mp.currentTarget.dataset.name);
       const that = this;
       if(that.decoration==null){
          that.decoration=index;
@@ -603,7 +585,6 @@ export default {
     },
     //点击更多-装修情况分类
     floorClick:function(index,e){
-      console.log('区域id',e.mp.currentTarget.dataset.name);
       const that = this;
       if(that.floor==null){
          that.floor=index;
@@ -615,7 +596,6 @@ export default {
     },
     //点击更多-特色分类
     specialClick:function(index,e){
-      console.log('区域id',e.mp.currentTarget.dataset.name);
       const that = this;
       if(that.special==null){
          that.special=index;
@@ -627,7 +607,6 @@ export default {
     },
     //点击更多-配套分类
     supportingClick:function(index,e){
-      console.log('区域id',e.mp.currentTarget.dataset.name);
       const that = this;
       if(that.supporting==null){
          that.supporting=index;
@@ -640,7 +619,6 @@ export default {
 
     //点击更多-朝向分类
     towardClick:function(index,e){
-      console.log('区域id',e.mp.currentTarget.dataset.name);
       const that = this;
       if(that.toward==null){
          that.toward=index;
@@ -652,7 +630,6 @@ export default {
     },
     //点击更多-朝向分类
     sortClick:function(index,e){
-      console.log('区域id',e.mp.currentTarget.dataset.name);
       const that = this;
       that.xianshi_sort=false;
       that.maskHid=false;
@@ -690,7 +667,6 @@ export default {
       that.xianshi_sx=false;
       that.maskHid=false;
       that.zoneArr=that.zonearr;
-      console.log('区域',that.zoneArr);
       that.apirlroomArr=that.apirlroomarr;
       that.priceArr=that.pricearr;
       that.areaArr=that.areaarr;
@@ -782,25 +758,15 @@ export default {
         'content-type': 'application/json' // 默认值
       },
       success (res) {
-        console.log('点击区域筛选',res.data);
          if (res.data.Context.esf.length > 0) {
           for (var i = 0; i < res.data.Context.esf.length; i++) {
            that.esf.push(res.data.Context.esf[i]);
           }
-          // that.waperHid=true;
-          // that.noneHid = false;
-        } else {
-          // that.esf=[];
-          // that.waperHid=false;
-          // that.noneHid = true;
-        }
+        } 
         if (res.data.Context.recordCount == 0) {
-          // that.noneHid = true;
         } else {
-          // that.noneHid = false;
           that.allPage = res.data.Context.recordCount;
         }
-        // that.esf=res.data.Context.esf;
       }
     })
     },
@@ -818,7 +784,6 @@ export default {
     },
     //点击跳转二手房详情页
     esfDetail:function(index,e){
-      console.log('e',e.mp.currentTarget.dataset.id);
       wx.navigateTo({ url: "/pages/oldhousedetails/main?id=" + e.mp.currentTarget.dataset.id });
     }
   },

@@ -94,7 +94,6 @@ export default {
     },
     //拨打经纪人电话
     telphoneClick: function(index, e) {
-      console.log("打电话", e.currentTarget.dataset.telphone);
       wx.makePhoneCall({
         phoneNumber: e.currentTarget.dataset.telphone
       });
