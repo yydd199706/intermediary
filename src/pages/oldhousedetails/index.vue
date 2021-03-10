@@ -5,7 +5,7 @@
       <swiper class="swiper" @change="djimg" >
         <block v-for="(item, index) in movies" :key="index">
           <swiper-item>
-            <image :src="domain+item.imgurl" class="slide-image" mode="scaleToFill" @click="previewImg(pro,$event)" 
+            <image v-if="domain" :src="domain+item.imgurl" class="slide-image" mode="scaleToFill" @click="previewImg(pro,$event)" 
             :data-src="domain+item.imgurl"/>
           </swiper-item>
         </block>
@@ -173,7 +173,7 @@
       <div class="guwen">
           <div class="guwen_list" v-for="(item, index) in agent" :key="index" >
             <div class="left_g" @click="agentlistJump(index,$event)" :data-id="item.id">
-              <image :src="domain+item.headpic" class="slide-image" mode="scaleToFill"/>
+              <image v-if="domain" :src="domain+item.headpic" class="slide-image" mode="scaleToFill"/>
               <div class="neirong">
                 <div>
                   <h1>{{item.realname}}</h1>
@@ -184,7 +184,8 @@
               </div>
             </div>
             <div class="right_g">
-              <p class="wxl"><image :src="img9" class="slide-image" mode="scaleToFill" /></p>
+              <p class="wxl"><image :src="img9" class="slide-image" mode="scaleToFill" :data-wxid="item.wxid==''?item.mobile:item.wxid"
+                  @click="wxhcopy(index,$event)" /></p>
               <p class="dhr"><image :src="img10s" class="slide-image" mode="scaleToFill" :data-telphone="item.mobile" @click="telphoneClick(index,$event)" /></p>
             </div>
           </div>
@@ -201,7 +202,7 @@
         <scroll-view scroll-x="true" style="width: 100%" class="image-group">
           <div class="likelist" v-for="(item, cai) in likes" :key="cai" @click="likeDetail(index,$event)" :data-id="item.id">
             <div class="tupian_l">
-              <image :src="domain+item.Imgurl" mode="scaleToFill"/>
+              <image v-if="domain" :src="domain+item.Imgurl" mode="scaleToFill"/>
               <div class="guanzhu" v-if="gznum > 0 ? true : false">{{item.gznum}}人关注</div>
             </div>
             <div class="wenzi_r">
@@ -246,7 +247,7 @@
               <p>土地使用年限：{{landyear}}年</p>
             </div>
             <div class="r_xiangmu">
-              <image :src="domain+ImgUrl" class="slide-image" />
+              <image v-if="domain" :src="domain+ImgUrl" class="slide-image" />
             </div>
           </div>
       </div>
@@ -283,7 +284,7 @@
           <div class="fangyuan_list">
             <scroll-view scroll-x="true" style="width: 100%" class="image-group">
               <div class="fang_list" v-for="(item, index) in sameDistrict" :key="index" @click="likeDetail(index,$event)" :data-id="item.id">
-                <image :src="domain+item.Imgurl" class="slide-image" />
+                <image v-if="domain" :src="domain+item.Imgurl" class="slide-image" />
                 <h3><span>{{item.apirlroom}}室{{item.apirloffice}}厅{{item.apirltoilet}}卫</span>/<span>{{item.area}}m²</span>/<span>{{item.Towardname}}</span></h3>
                 <p><span class="dj1">{{item.price}}万元</span><span class="dj2">{{item.averageprice}}元/平</span></p>
               </div>
@@ -300,7 +301,7 @@
       <div class="nr-house">
         <div class="h-mt" v-for="(item, index) in recommended" :key="index" @click="likeDetail(index,$event)" 
         :data-id="item.id">
-          <image :src="domain+item.Imgurl" class="new-image" mode="scaleToFill" />
+          <image v-if="domain" :src="domain+item.Imgurl" class="new-image" mode="scaleToFill" />
           <div class="r_wz">
             <div class="bt_s">{{ item.title}}</div>
             <div class="jieshao">
@@ -642,9 +643,11 @@ export default {
       wx.request({
         url:app.globalData.url +"OldHouse/BandEsfInfo" +"?sessionKey=" +app.globalData.sessionKey+'&houseid=' + option.id,
         success: function (res) {
+
           let patient = res.data;
           //房源轮播图
           that.movies = res.data.Context.carousel;
+
          for(var j = 0;j<that.movies.length;j++){
            that.imgArr.push(that.domain+that.movies[j].imgurl);
          }
@@ -852,7 +855,15 @@ export default {
         }
       });
   },
-  
+
+onShareAppMessage: function(res) {
+    return {
+      title: "二手房详情",
+      path: "/pages/oldhousedetails/main",
+      imageUrl: "",
+    };
+  },
+
   methods: {
     compare: function(attr,rev){ //第二个参数没有传递 默认升序排列 
     if(rev == undefined){ rev = 1; }else{ rev = (rev) ? 1 : -1; } return function(a,b){ a = a[attr]; b = b[attr]; 
@@ -956,20 +967,31 @@ sameClick:function(){
   const that = this;
   wx.navigateTo({ url: "/pages/oldhouse/main?keyword="+that.projectname});
 },
-    //拨打当前经纪人电话
-    clickService:function(){
-      if(this.reservedtelphone!=""){  
-        wx.makePhoneCall({
-        phoneNumber: this.reservedtelphone,
+//拨打当前经纪人电话
+clickService:function(){
+  if(this.reservedtelphone!=""){  
+    wx.makePhoneCall({
+      phoneNumber: this.reservedtelphone,
+    })
+  }else{
+    wx.showToast({
+      title: '请先添加电话！',
+      icon: 'none',
+      duration: 2000
+    })
+  }
+},
+    //经纪人列表点击复制微信号
+    wxhcopy: function(index, e) {
+      const that = this;
+      wx.setClipboardData({
+        data: e.mp.currentTarget.dataset.wxid,
+        success: function (res) {
+          wx.showToast({
+            title: '复制成功'
+          })
+        }
       })
-      }else{
-        wx.showToast({
-          title: '请先添加电话！',
-          icon: 'none',
-          duration: 2000
-        })
-      }
-      
     },
      //点击复制微信号
     copy(){
@@ -1478,20 +1500,20 @@ sameClick:function(){
 
 
 .footer{ width: 100%; height: 130rpx; background: #fff;position: fixed;bottom: 0; z-index: 999;}
-.left_foot{ float: left; width:39%;height: 120rpx; margin-top:10rpx; margin-right:3%; margin-left: 3%;}
+.left_foot{ float: left; width:39%;height: 120rpx; margin-top:23rpx; margin-right:3%; margin-left: 3%;}
 .left_foot .guanzhus{ float: left; width:33.3%; margin: 0 auto; background: #fff;overflow: inherit;border: none; 
 padding: 0 !important;}
 .left_foot .guanzhus image{ width:40rpx; height:40rpx;}
-.left_foot .guanzhus p{ font-size: 26rpx; color: #000; position: relative; top:-24rpx;
+.left_foot .guanzhus p{ font-size: 26rpx; color: #000; position: relative; top:-3rpx;
 height: 40rpx;line-height: 40rpx;}
  
 
 
 .left_foot .fenxiangs{ float: left; width:33.3%; height:50rpx; margin: 0 auto; background: #fff;overflow: inherit;border: none; padding: 0 !important;}
-.left_foot button{border: none; padding: 0 !important; padding-left: 0 !important; padding-right: 0 !important; background:none;}
+.left_foot button{border: none; padding: 0 !important; padding-left: 0 !important; padding-right: 0 !important; background:none; line-height: normal;}
 .left_foot button::after{border: none; padding: 0 !important;}
 .left_foot .fenxiangs image{ width:40rpx; height:40rpx;}
-.left_foot .fenxiangs p{ font-size: 26rpx; color: #000; position: relative; top: -37rpx;}
+ .left_foot .fenxiangs p{ font-size: 26rpx; color: #000;/* position: relative; top: -37rpx;*/} 
 
 
 

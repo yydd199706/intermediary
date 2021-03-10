@@ -15,7 +15,7 @@
               <div class="youshis"><p>自我评价：{{evaluation==""||evaluation==0?'暂无':evaluation}}</p></div>
             </div>
             <div class="right_jj">
-              <image :src="domain+headpic" />
+              <image v-if="domain" :src="domain+headpic" />
               <div>{{companyname}}</div>
             </div>
           </div>
@@ -64,7 +64,7 @@
           
           <div v-if="more_esf.length>0?true:false">
           <div class="h-mt" v-for="(item, index) in more_esf" :key="index">
-            <image :src="domain+item.Imgurl" class="new-image" mode="scaleToFill"/>
+            <image v-if="domain" :src="domain+item.Imgurl" class="new-image" mode="scaleToFill"/>
             <div class="r_wz">
               <div class="bt_s">{{item.title}}</div>
               <div class="jieshao">
@@ -91,7 +91,7 @@
           
           <div v-if="more_new.length>0?true:false">
           <div class="intention-mt" v-for="(item, index) in more_new" :key="index">
-            <image :src="domain+item.ImgUrl" class="new-image" mode="scaleToFill"/>
+            <image v-if="domain" :src="domain+item.ImgUrl" class="new-image" mode="scaleToFill"/>
             <div class="intention-right">
 
               <div class="bt_ri">
@@ -123,7 +123,7 @@
         <div class="Renthouse" v-else>
           <div v-if="more_rent.length>0?true:false">
           <div class="h-mt" v-for="(item, index) in more_rent" :key="index">
-            <image :src="domain+item.Imgurl" class="new-image" mode="scaleToFill"/>
+            <image v-if="domain" :src="domain+item.Imgurl" class="new-image" mode="scaleToFill"/>
             <div class="r_wz">
               <div class="bt_s">{{item.title}}</div>
               <div class="jieshao">
@@ -248,6 +248,15 @@ export default {
        }
     })
   },
+
+onShareAppMessage: function(res) {
+    return {
+      title: "经纪人名片",
+      path: "/pages/agentDetails/main",
+      imageUrl: "",
+    };
+},
+
  methods: {
   tuijian(index){
     const that = this;

@@ -1,9 +1,9 @@
 <script>
 App({
   globalData: {
-    domain: 'https://demo.1fangtong.cn:457/',
-    url: 'https://demo.1fangtong.cn:457/api/',
-    imgurl: 'https://demo.1fangtong.cn:457/wximg/',
+    domain: 'https://ltj.1fangtong.cn:451/',
+    url: 'https://ltj.1fangtong.cn:451/api/',
+    imgurl: 'https://ltj.1fangtong.cn:451/wximg/',
     sessionKey: '',
     member:null
   },
