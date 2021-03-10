@@ -80,8 +80,25 @@ const ConvertTimestamp = date => {
     return Date.parse(new Date([year, month, day].map(formatNumber).join('/')));
   }
 
+  //转换日期
+  const ConvertDate =timestamp=> {
+
+      let myDate = new Date(timestamp);
+      let myMonth = myDate.getMonth() + 1;
+      if (myMonth < 10) {
+        myMonth = "0" + myMonth; //补齐
+      }
+      let mydate = myDate.getDate();
+      if (myDate.getDate() < 10) {
+        mydate = "0" + myDate.getDate(); //补齐
+      }
+      let today = myDate.getFullYear() + "-" + myMonth + "-" + mydate;
+      return today;
+    }
+
 export {
   formatTime,
   initApp,
-  ConvertTimestamp
+  ConvertTimestamp,
+  ConvertDate 
 }

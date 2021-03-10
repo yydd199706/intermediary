@@ -13,9 +13,10 @@
      <div class="secondary" v-if="tab===1">
         <div class="sjd" v-for="(item,index) in browse" :key="index">
           <!-- 时间 -->
-          <div class="time">{{item.time}}</div>
+          <!-- <div class="time">{{item.time}}</div> -->
           <!-- 二手房列表开始 -->
-          <div class="h-mt" v-for="(data, ind) in item.children" :key="ind" :data-id="data.id" @click="esfDetail(index,$event)">
+          <div class="h-mt" v-for="(data, ind) in item" :key="ind" :data-id="data.id" @click="esfDetail(index,$event)">
+            <div class="time" v-if="ind==0">{{data.time}}</div>
             <image :src="domain+data.Imgurl" class="new-image" mode="scaleToFill"/>
             <div class="r_wz">
               <div class="bt_s">{{data.title}}</div>
@@ -30,7 +31,7 @@
               <div class="m-x"><p class="money">{{data.price==""||data.price==null?'总价：暂无':data.price+'万'}}</p>
                     <p class="average">{{data.averageprice==""||data.averageprice==null?'价格待定':data.averageprice+'元/平'}}</p></div>
             </div>
-            <div class="clear"></div>
+            <!-- <div class="clear"></div> -->
           </div>
           <!-- 二手房列表结束 -->
         </div>
@@ -160,36 +161,34 @@ export default {
       houseTemp: [] ,
       houseList:[[]],
 
-
     }
   },
   onLoad(){
     const that = this;
 
-    that.houseTemp = wx.getStorageSync('array');
-        that.houseTemp.reduce(function(arr, obj, index) {
-          let count = 0;
-          arr.forEach( function(item,key){
-            if(item.time == obj.time){
-              count = 1;
-              that.houseList[key].push(obj);
-            }
-          })
-          if(!count){
-            that.houseList[index] = new Array();
-            that.houseList[index].push(obj);
-          }
-          arr.push(obj);
-          return arr;
-        },[]);
-         for(var i=0;i<that.houseList.length;i++){
-          
-          that.houseList = [{
-                time:that.houseList[i][i].time,
-                children: that.houseList[i]
-            }];
-             
-        }
+    that.houseTemp = wx.getStorageSync("array");
+    
+    for(let i=0; i<that.houseTemp.length; i++)
+    {
+      that.houseTemp[i].time = common.ConvertDate(that.houseTemp[i].time); 
+    }
+    that.houseTemp.reduce(function (arr, obj, index) {
+      let count = 0;
+      arr.forEach(function (item, key) {
+        if (item.time == obj.time) {
+          count = 1;
+          that.houseList[key].push(obj);
+        }
+      });
+      if (!count) {
+        that.houseList[index] = new Array();
+        that.houseList[index].push(obj);
+      }
+      arr.push(obj);
+      return arr;
+    }, []);
+
+
 
     that.domain=app.globalData.domain;
     if(that.houseList.length==0){
@@ -198,23 +197,7 @@ export default {
     } else{
       that.noneHid=false;
       that.browse=that.houseList;
-      for(var i = 0;i<that.browse.length;i++){
-      let myDate = new Date(that.browse[i].time);
-      let myMonth = myDate.getMonth() + 1;
-      let Hours = myDate.getHours()
-      let Minutes = myDate.getMinutes();
-      let Seconds = myDate.getSeconds();
-      if (myMonth < 10) {
-        myMonth = "0" + myMonth; //补齐
-      }
-      let mydate = myDate.getDate();
-      if (myDate.getDate() < 10) {
-        mydate = "0" + myDate.getDate(); //补齐
-      }
-      let today = myDate.getFullYear() + "-" + myMonth + "-" + mydate;
-      that.browse[i].time=today;
-      return today;
-      }
+      
     }
     
     that.domain=app.globalData.domain;
@@ -234,7 +217,6 @@ export default {
   esfDetail:function(index,e){
       wx.navigateTo({ url: "/pages/oldhousedetails/main?id=" + e.mp.currentTarget.dataset.id });
   }
-
   }
 
 
@@ -262,8 +244,8 @@ export default {
 
 /* 二手房开始 */
 .secondary{ width:100%; }
-.sjd{width:90%; padding-left: 5%; padding-right: 5%; height: 80rpx; background: #f4f4f7; line-height: 80rpx;}
-.h-mt{ margin-top:5%; width: 100%; border-bottom: 2rpx #f0f0f0 solid; padding-bottom: 5%;}
+.sjd{width:90%; padding-left: 5%; padding-right: 5%;  background: #f4f4f7; line-height: 80rpx;}
+.h-mt{ margin-top:5%; width: 100%; border-bottom: 2rpx #f0f0f0 solid; padding-bottom: 5%; overflow: hidden;}
 .h-mt image{ float: left; width: 40%; height:200rpx; border-radius:3%;}
 .h-mt .r_wz{ float:right; width: 57%;}
 .h-mt .r_wz .bt_s{font-size: 30rpx;

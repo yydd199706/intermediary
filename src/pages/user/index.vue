@@ -15,7 +15,7 @@
           :open-type="openType"
           @getphonenumber="getPhoneNumber"
         >
-          <image :src="member != null ? domain+member.headpic : img1" />
+          <image v-if="domain" :src="member != null ? domain+member.headpic : img1" />
         </button>
       </div>
       <div class="userRight">
@@ -132,6 +132,7 @@ export default {
   onShow() {
     const that = this;
     that.domain=app.globalData.domain;
+    common.initApp(function (userInfo) { 
     wx.request({
       url:
         app.globalData.url +
@@ -149,6 +150,7 @@ export default {
         }
       },
     });
+    })
   },
   methods: {
     authSetUser(res) {

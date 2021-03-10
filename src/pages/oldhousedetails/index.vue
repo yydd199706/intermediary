@@ -646,6 +646,10 @@ export default {
         url:app.globalData.url +"OldHouse/BandEsfInfo" +"?sessionKey=" +app.globalData.sessionKey+'&houseid=' + option.id,
         success: function (res) {
 
+          if(wx.getStorageSync("array")){
+            that.array = wx.getStorageSync("array");
+          }
+
           let patient = res.data;
           //房源轮播图
           that.movies = res.data.Context.carousel;
@@ -744,7 +748,7 @@ export default {
           return arr;
         },[]);
           that.array.sort(that.compare('time',false));
-        wx.setStorageSync('array',that.array);
+          wx.setStorageSync('array',that.array);
 
         // that.houseTemp = wx.getStorageSync('array');
         // that.houseTemp.reduce(function(arr, obj, index) {
