@@ -385,11 +385,11 @@ onShareAppMessage: function(res) {
  
 /* 底部按钮开始 */
 .foot-an{ width: 96%; height: 100rpx; padding-top:15rpx; padding-bottom: 15rpx; padding-left:2%; padding-right:2%;background:#fff;position: fixed;bottom: 0; z-index: 9999; overflow: hidden;}
-.lelf_foot{ float: left; width:19%;}
-.lelf_foot button{border: none; padding: 0 !important; padding-left: 0 !important; padding-right: 0 !important; background:none;}
+.lelf_foot{ float: left; width:19%; margin-top:6rpx;}
+.lelf_foot button{border: none; padding: 0 !important; padding-left: 0 !important; padding-right: 0 !important; background:none; line-height: normal;}
 .lelf_foot button::after{border: none; padding: 0 !important;}
-.lelf_foot image{ width:45rpx; height: 45rpx; position: relative; top: -10rpx;}
-.lelf_foot p{ font-size:28rpx; position: relative; top: -50rpx;}
+.lelf_foot image{ width:45rpx; height: 45rpx; }
+ .lelf_foot p{ font-size:28rpx; position: relative;top: -5rpx;} 
 .right_foot{ float: right; width:81%; display: flex; flex-direction: row;}
 .zixun{ width: 46%; margin-left:2%; margin-right:2%; background: #3bc48b; color: #fff; height:80rpx; line-height: 80rpx; text-align: center; border-radius: 10rpx; margin-top: 10rpx;}
 .dianhua{ width: 46%; margin-left:4%; margin-right:4%; background: #3072f6; color: #fff; height: 80rpx; line-height: 80rpx; text-align: center; border-radius: 10rpx; margin-top: 10rpx;}

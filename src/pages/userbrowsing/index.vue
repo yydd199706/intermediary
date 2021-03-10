@@ -157,21 +157,47 @@ export default {
 
       ],
       yigz:0,
-       
-
+      houseTemp: [] ,
+      houseList:[[]],
 
 
     }
   },
   onLoad(){
     const that = this;
+
+    that.houseTemp = wx.getStorageSync('array');
+        that.houseTemp.reduce(function(arr, obj, index) {
+          let count = 0;
+          arr.forEach( function(item,key){
+            if(item.time == obj.time){
+              count = 1;
+              that.houseList[key].push(obj);
+            }
+          })
+          if(!count){
+            that.houseList[index] = new Array();
+            that.houseList[index].push(obj);
+          }
+          arr.push(obj);
+          return arr;
+        },[]);
+         for(var i=0;i<that.houseList.length;i++){
+          
+          that.houseList = [{
+                time:that.houseList[i][i].time,
+                children: that.houseList[i]
+            }];
+             
+        }
+
     that.domain=app.globalData.domain;
-    if(wx.getStorageSync('houseList')==[]){
+    if(that.houseList.length==0){
       that.noneHid=true;
       that.browse=[];
     } else{
       that.noneHid=false;
-      that.browse=wx.getStorageSync('houseList');
+      that.browse=that.houseList;
       for(var i = 0;i<that.browse.length;i++){
       let myDate = new Date(that.browse[i].time);
       let myMonth = myDate.getMonth() + 1;

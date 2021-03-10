@@ -681,7 +681,7 @@ text-overflow:ellipsis;
   overflow: hidden;
 }
 .m-x p {
-  float: left;
+  float: left; font-size: 32rpx;
 }
 .m-x p.money {
   font-size: 30rpx;

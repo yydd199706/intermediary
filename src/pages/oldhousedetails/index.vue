@@ -572,8 +572,8 @@ export default {
         },
     ],
     array:[],
-    houseTemp:[],
-    houseList:[],
+    // houseTemp:[],
+    // houseList:[],
     }
   },
   mounted() {
@@ -583,6 +583,8 @@ export default {
   },
   onLoad(option) {
     const that = this;
+    common.initApp(function (userInfo) { 
+    
     that.name="";
     that.tel="";
     that.yzm="";
@@ -730,7 +732,7 @@ export default {
           };
           that.array.push(val);
           var regionValueArray = [];
-      that.array = that.array.reduce(function(arr, obj) {
+          that.array = that.array.reduce(function(arr, obj) {
           let count = 0;
           arr.forEach( function(item,key){
             if(item.id == obj.id){
@@ -743,31 +745,32 @@ export default {
         },[]);
           that.array.sort(that.compare('time',false));
         wx.setStorageSync('array',that.array);
-          that.houseTemp = wx.getStorageSync('array');
-        that.houseTemp.reduce(function(arr, obj, index) {
-          let count = 0;
-          arr.forEach( function(item,key){
-            if(item.time == obj.time){
-              count = 1;
-              that.houseList[key].push(obj);
-            }
-          })
-          if(!count){
-            that.houseList[index] = new Array();
-            that.houseList[index].push(obj);
-          }
+
+        // that.houseTemp = wx.getStorageSync('array');
+        // that.houseTemp.reduce(function(arr, obj, index) {
+        //   let count = 0;
+        //   arr.forEach( function(item,key){
+        //     if(item.time == obj.time){
+        //       count = 1;
+        //       that.houseList[key].push(obj);
+        //     }
+        //   })
+        //   if(!count){
+        //     that.houseList[index] = new Array();
+        //     that.houseList[index].push(obj);
+        //   }
          
-          arr.push(obj);
-          return arr;
-        },[]);
-         for(var i=0;i<that.houseList.length;i++){
+        //   arr.push(obj);
+        //   return arr;
+        // },[]);
+        //  for(var i=0;i<that.houseList.length;i++){
           
-          that.houseList = [{
-                time:that.houseList[i][i].time,
-                children: that.houseList[i]
-            }];
-             wx.setStorageSync('houseList',that.houseList);
-        }
+        //   that.houseList = [{
+        //         time:that.houseList[i][i].time,
+        //         children: that.houseList[i]
+        //     }];
+        //      wx.setStorageSync('houseList',that.houseList);
+        // }
           //房源评价
           that.kspoint = res.data.Context.houseInfo.kspoint;
           that.comintro = res.data.Context.houseInfo.comintro;
@@ -854,6 +857,9 @@ export default {
           }
         }
       });
+  
+  
+  })
   },
 
 onShareAppMessage: function(res) {
@@ -1493,7 +1499,7 @@ clickService:function(){
 .jieshao {font-size: 25rpx;color: #333;margin-top: 10rpx;}
 .youshi1 {float: left;padding: 0 10rpx;height: 40rpx;line-height: 40rpx;border-radius: 3px;background: #edf0f3;color: #849aae;font-size: 25rpx;text-align: center;margin-top: 10rpx;margin-right: 10rpx;}
 .m-x {margin-top: 10rpx;overflow: hidden;}
-.m-x p {float: left;}
+.m-x p {float: left; font-size: 32rpx;}
 .m-x p.money {font-size: 30rpx;color: #fa5741;font-weight: 900;margin-right: 5rpx;}
 .money1 {font-size:30rpx;color: #fa5741;font-weight: 900;}
 .more-house {width: 94%;height: 70rpx;background: #e8edf3;border-radius: 5px;text-align: center;line-height: 70rpx;font-size: 28rpx;font-weight: bold;margin-left: 3%;margin-right: 3%;margin-top: 30rpx;color: #3072f6;}
