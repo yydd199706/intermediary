@@ -165,39 +165,35 @@ export default {
   },
   onLoad(){
     const that = this;
-
     that.houseTemp = wx.getStorageSync("array");
-    
-    for(let i=0; i<that.houseTemp.length; i++)
-    {
-      that.houseTemp[i].time = common.ConvertDate(that.houseTemp[i].time); 
-    }
-    that.houseTemp.reduce(function (arr, obj, index) {
-      let count = 0;
-      arr.forEach(function (item, key) {
-        if (item.time == obj.time) {
-          count = 1;
-          that.houseList[key].push(obj);
-        }
-      });
-      if (!count) {
-        that.houseList[index] = new Array();
-        that.houseList[index].push(obj);
-      }
-      arr.push(obj);
-      return arr;
-    }, []);
-
-
-
     that.domain=app.globalData.domain;
-    if(that.houseList.length==0){
+    if(that.houseTemp .length==0){
       that.noneHid=true;
       that.browse=[];
     } else{
+      
+      for(let i=0; i<that.houseTemp.length; i++)
+      {
+        that.houseTemp[i].time = common.ConvertDate(that.houseTemp[i].time); 
+      }
+      that.houseTemp.reduce(function (arr, obj, index) {
+        let count = 0;
+        
+        arr.forEach(function (item, key) {
+          if (item.time == obj.time) {
+            count = 1;
+            that.houseList[key].push(obj);
+          }
+        });
+        if (!count) {
+          that.houseList[index] = new Array();
+          that.houseList[index].push(obj);
+        }
+        arr.push(obj);
+        return arr;
+      }, []);
       that.noneHid=false;
       that.browse=that.houseList;
-      
     }
     
     that.domain=app.globalData.domain;
@@ -244,8 +240,9 @@ export default {
 
 /* 二手房开始 */
 .secondary{ width:100%; }
-.sjd{width:90%; padding-left: 5%; padding-right: 5%;  background: #f4f4f7; line-height: 80rpx;}
+.sjd{width:90%; padding-left: 5%; padding-right: 5%;  line-height: 80rpx;}
 .h-mt{ margin-top:5%; width: 100%; border-bottom: 2rpx #f0f0f0 solid; padding-bottom: 5%; overflow: hidden;}
+.h-mt .time{ background: #f1f1f1; margin-bottom:20rpx; padding-left: 15rpx; height:70rpx; line-height:70rpx;}
 .h-mt image{ float: left; width: 40%; height:200rpx; border-radius:3%;}
 .h-mt .r_wz{ float:right; width: 57%;}
 .h-mt .r_wz .bt_s{font-size: 30rpx;
