@@ -553,6 +553,7 @@ export default {
       clickSome:0,   //0为点击关注  1为点击预约
       comeDate:"",
       Imgurl:"",
+      timer:"",
       lookList:[
         {
           time:"",
@@ -583,6 +584,7 @@ export default {
   },
   onLoad(option) {
     const that = this;
+    clearInterval(that.timer);
     common.initApp(function (userInfo) { 
     
     that.name="";
@@ -594,48 +596,6 @@ export default {
     that.yuText="";
     let today = that.getToday();
     that.comeDate = today;
-    
-     
-    // //用filter()将数组内pid为0的数据(外层)检索出来,重新赋值变量，现在regionArr为外层数据，先做保留
-        // var regionArr = res.filter(item => item.pid == 0);
-        //循环检索过的数组regionArr和原始数组res,item(regionArr内所有数组),ele(res所有数据),定义一个空数组,通过regionArr的id与res的pid对比
-        // 相等时将res内数据添加到相应数组数据中,并且赋值到regionArr内的chirld,打印出regionArr就得到了我们想要的数组格式 
-        // regionArr.forEach((item, index) => {
-        //     var chirld = []
-        //     res.forEach((ele, index) => {
-        //         if (item.id == ele.pid) {
-        //             chirld.push(ele);
-        //         }
-        //     })
-        //     item.chirld = chirld;
-        // });
-
-        // for (var i = 0; i < regionArr.length; i++) {
-        //     var tempArr = [{
-        //         label: '',
-        //         value: 0
-        //     }];
-        //     if (regionArr[i].chirld.length > 0) {
-        //         for (var k = 0; k < regionArr[i].chirld.length; k++) {
-        //             tempArr[k] = {
-        //                 label: regionArr[i].chirld[k].title,
-        //                 value: regionArr[i].chirld[k].id
-        //             }
-        //         }
-        //     }
-
-        //     regionValueArray[i] = {
-        //         label: regionArr[i].title,
-        //         value: regionArr[i].id,
-        //         children: tempArr
-        //     };
-        // }
-
-        // wx.setStorageSync("regionValueArray", regionValueArray);
-
-
-
-
     var demo = new QQMapWX({ key: '5TJBZ-XDZCK-O5FJR-AWZUZ-C4YTJ-EUBD5' });
     
     that.domain=app.globalData.domain;
@@ -681,44 +641,6 @@ export default {
           that.Specialname = res.data.Context.houseInfo.Specialname;
           that.companyname=res.data.Context.houseInfo.companyname;
           that.numVal=res.data.Context.houseInfo.id;
-
-
-         
-    // 往缓存内添加浏览记录
-    
-    // 第一层为时间缓存
-    // for(var i=0;i<that.lookList.length;i++){
-    //   that.lookList[i].time=that.comeDate;
-		// 			that.lookList[i].id= option.id;
-					// that.lookList[i].title= "",
-					// that.lookList[i].Imgurl= "",
-					// that.lookList[i].apirlroom= "",
-          // that.lookList[i].apirloffice="",
-          // that.lookList[i].apirltoilet="",
-          // that.lookList[i].area="",
-          // that.lookList[i].Towardname="",
-          // that.lookList[i].Decorationname="",
-          // that.lookList[i].Propertyname="",
-          // that.lookList[i].price="",
-          // that.lookList[i].averageprice=""
-      // var array = wx.getStorageSync('regionValueArray') || [];
-      // arr.forEach((item, index) => {
-            // var chirld = []
-            // res.forEach((ele, index) => {
-                // if (item.id == option.id) {
-                    // chirld.push(ele);
-                
-            // })
-            // item.chirld = chirld;
-        //             chirld.push(ele);
-      
-           
-      //     }
-          
-      //   }
-        // for(var i = 0;i<arr.length;i++){
-        //   
-        // }
     let val={
           time:common.ConvertTimestamp(new Date()),
 					id:option.id,
@@ -749,32 +671,6 @@ export default {
         },[]);
           that.array.sort(that.compare('time',false));
           wx.setStorageSync('array',that.array);
-
-        // that.houseTemp = wx.getStorageSync('array');
-        // that.houseTemp.reduce(function(arr, obj, index) {
-        //   let count = 0;
-        //   arr.forEach( function(item,key){
-        //     if(item.time == obj.time){
-        //       count = 1;
-        //       that.houseList[key].push(obj);
-        //     }
-        //   })
-        //   if(!count){
-        //     that.houseList[index] = new Array();
-        //     that.houseList[index].push(obj);
-        //   }
-         
-        //   arr.push(obj);
-        //   return arr;
-        // },[]);
-        //  for(var i=0;i<that.houseList.length;i++){
-          
-        //   that.houseList = [{
-        //         time:that.houseList[i][i].time,
-        //         children: that.houseList[i]
-        //     }];
-        //      wx.setStorageSync('houseList',that.houseList);
-        // }
           //房源评价
           that.kspoint = res.data.Context.houseInfo.kspoint;
           that.comintro = res.data.Context.houseInfo.comintro;
@@ -865,7 +761,11 @@ export default {
   
     })
   },
-
+onShow(){
+  const that = this;
+  that.timeText="发送验证码";
+  clearInterval(that.timer);
+},
 onShareAppMessage: function(res) {
     return {
       title: "二手房详情",
@@ -913,16 +813,16 @@ onShareAppMessage: function(res) {
 
      anyy_dj(){
        const that = this;
+       that.timeText="发送验证码";
        that.clickSome=1;
           wx.request({
-        url:app.globalData.url +"Percenter/BandUserInfo" +"?sessionKey=" +app.globalData.sessionKey,
+        url:app.globalData.url +"WxLogin/CheckLogin" +"?sessionKey=" +app.globalData.sessionKey,
         success: function (data) {
-          if(data.data.Code==0){
+          console.log('333',data);
+          if(data.data==true){
             that.telHid=false;
             that.maskHid=false;
             that.yuyue_yc = true;
-          wx.setStorageSync('member',data.data.Context.member);
-          app.globalData.member=data.data.Context.member;
           }else{
             that.telHid=true;
             that.maskHid=true;
@@ -1200,10 +1100,10 @@ clickService:function(){
           that.disabled=true;
           // that.timeText
           var num = 61;
-          var timer = setInterval(function () {
+          that.timer = setInterval(function () {
             num--;
             if (num <= 0) {
-              clearInterval(timer);
+              clearInterval(that.timer);
              that.timeText="重新发送";
              that.disabled=false;
   
@@ -1260,6 +1160,7 @@ clickService:function(){
     //申请预约
     applyClick:function(){
       const that = this;
+      console.log('app.globalData.member.id',app.globalData.member);
       var reg = /(1[3-9]\d{9}$)/;
       //判断姓名是否为空
       if(that.name==""){
@@ -1288,8 +1189,7 @@ clickService:function(){
         name:that.name,
         telephone:that.tel,
         createdate:that.lookDate,
-        intro:that.yuText,
-        userid:app.globalData.member.id
+        intro:that.yuText
       },
       header:{ 'Content-Type':'application/json' },
       success (data) {
