@@ -58,7 +58,7 @@
       </button>
 
       <button class="liulan1" @click="releaseList" v-if="member != null&&member.type == 2 ? true : false" 
-      :open-type="openType"@getphonenumber="getPhoneNumber">
+      :open-type="openType" @getphonenumber="getPhoneNumber">
         <div class="wzan_lelf">
           <image :src="img10" />
           <span>发布记录</span>
@@ -126,6 +126,24 @@ export default {
     const that = this;
     that.domain=app.globalData.domain;
     common.initApp(function (userInfo) { 
+    //   wx.request({
+    //   url:
+    //     app.globalData.url +
+    //     "WxLogin/CheckLogin" +
+    //     "?sessionKey=" +
+    //     app.globalData.sessionKey,
+    //   success: function (data) {
+    //     console.log('登录状态',data);
+    //     if (data.data.Code == 0) {
+    //       app.globalData.member = data.data.Context.member;
+    //       that.member = app.globalData.member;
+    //       that.openType = "";
+    //     } else {
+    //       that.purePhoneNumber = "请登录";
+    //       that.openType = "getPhoneNumber";
+    //     }
+    //   },
+    // });
     wx.request({
       url:
         app.globalData.url +
