@@ -223,15 +223,6 @@ export default {
       that.overHid=false;
     }
   }
-
-
-
-
-
- 
-
-   
-
 }
 </script>
 
