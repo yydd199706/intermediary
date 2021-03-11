@@ -160,8 +160,16 @@ export default {
     const that = this;
     that.domain=app.globalData.domain;
     that.pageNumber=1;
-    that.noneHid=false;
+    
     that.overHid=false;
+    if(that.newslist.length==0){
+      that.noneHid=true;
+      console.log('空',that.newslist);
+    }else{
+      that.noneHid=false;
+      console.log('不为空',that.newslist);
+    }
+    that.newslist=[];
     that.esfList();
   },
   methods: {
@@ -185,18 +193,21 @@ export default {
         'content-type': 'application/json' // 默认值
       },
       success (res) {
-         if (res.data.Context.mmcList.length > 0) {
+        if(res.data.Code==0){
+           if (res.data.Context.mmcList.length > 0) {
           for (var i = 0; i < res.data.Context.mmcList.length; i++) {
            that.newslist.push(res.data.Context.mmcList[i]);
           }
         } else {
           that.newslist=[];
           that.noneHid = true;
-          
         }
+        
+        
         if (res.data.Context.recordCount == 0) {
         } else {
           that.allPage = res.data.Context.recordCount;
+        }
         }
       }
       });
