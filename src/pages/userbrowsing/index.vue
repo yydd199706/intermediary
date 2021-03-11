@@ -179,12 +179,19 @@ export default {
       that.houseTemp.reduce(function (arr, obj, index) {
         let count = 0;
         
-        arr.forEach(function (item, key) {
-          if (item.time == obj.time) {
-            count = 1;
-            that.houseList[key].push(obj);
-          }
-        });
+  //       arr.forEach(function (item, key) {
+  //         if (item.time == obj.time) {
+  //           count = 1;
+  //           that.houseList[key].push(obj);
+  //         }
+  //       });
+          for (let key in arr) {
+            if (arr[key].time == obj.time) {
+              count = 1;
+              that.houseList[key].push(obj);
+              break;
+            }
+          }
         if (!count) {
           that.houseList[index] = new Array();
           that.houseList[index].push(obj);

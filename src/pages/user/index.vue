@@ -10,29 +10,21 @@
 
       <!-- <button open-type="getUserInfo">获取昵称</button> -->
       <div class="userLeft">
-        <button
-          class="kehuxx"
-          :open-type="openType"
-          @getphonenumber="getPhoneNumber"
-        >
+        <button class="kehuxx" :open-type="openType" @getphonenumber="getPhoneNumber">
           <image v-if="domain" :src="member != null ? domain+member.headpic : img1" />
+          <div class="agentType" v-if="member != null ? true : false">{{member.type == 1 ? "(普通用户)" : "(经纪人)"}}</div>
         </button>
       </div>
       <div class="userRight">
         <button :open-type="openType" @getphonenumber="getPhoneNumber">
           {{ member != null ? member.mobile : "请登录" }}
-          <span v-if="member != null ? true : false">{{
-            member.type == 1 ? "(普通用户)" : "(经纪人)"
-          }}</span>
+          <!-- <span class="agentType" v-if="member != null ? true : false">{{member.type == 1 ? "(普通用户)" : "(经纪人)"}}</span> -->
         </button>
         <button>{{ member != null ? member.nickname : "" }}</button>
       </div>
-      <div
-        class="outLogin"
-        v-if="member != null ? true : false"
-        @click="OutLogin"
-      >
-        退出登录
+      <div class="outLogin" v-if="member != null ? true : false" @click="OutLogin" > 
+        <image :src="signOut" />
+        <div>退出</div>
       </div>
     </div>
     <!-- 客户信息结束 -->
@@ -126,7 +118,8 @@ export default {
       beijing:app.globalData.imgurl +"grbj.jpg",
       openType: "getPhoneNumber",
       member: null,
-      domain:null
+      domain:null,
+      signOut:"/static/tabs/tc.png"
     };
   },
   onShow() {
@@ -304,12 +297,12 @@ export default {
 }
 .kehuxx image {
   float: left;
-  width: 120rpx;
-  height: 120rpx;
+  width: 140rpx;
+  height: 140rpx; border:2rpx #deca99 solid;
   border-radius: 50%;
   margin-right: 5%;
-  width: 100%;
-  height: 100%;
+  /* width: 100%;
+  height: 100%; */
 }
 .kehuxx span {
   float: left;
@@ -322,18 +315,26 @@ export default {
 .userLeft {
   float: left;
   padding-left: 5%;
-  padding-top: 6%;
-  width: 120rpx;
-  height: 120rpx;
+  width: 140rpx;
+  padding-top:25rpx;
+   /*height: 150rpx; */
 }
 .userLeft > button {
   background: none;
-  width: 100%;
-  height: 100%;
+  width: 200rpx; height: 200rpx;
+  /* width: 100%;
+  height: 100%; */
 }
 .userLeft > button::after {
   border: none;
 }
+.agentType{ font-size: 22rpx; height:35rpx; line-height:38rpx; width: 140rpx; position: absolute; z-index: 99; top:120rpx; background: linear-gradient(#fff4d9, #ffe7b1); border: 2rpx #deca99 solid; color: #91783d;border-radius: 150rpx;}
+
+
+
+
+
+
 .userRight {
   float: left;
   padding-top: 8%;
@@ -343,7 +344,8 @@ export default {
   height: 50rpx;
   line-height: 50rpx;
   color: #fff;
-  font-size: 28rpx;
+  font-size: 30rpx;
+  font-weight: bold;
   text-align: left;
 }
 .userRight > button::after {
@@ -445,9 +447,11 @@ export default {
 }
 .outLogin {
   float: right;
-  margin-top: 8%;
+  margin-top:55rpx;
   color: #fff;
   font-size: 28rpx;
   margin-right: 5%;
 }
+.outLogin image{ width:40rpx; height: 40rpx; margin-left:6rpx; }
+.outLogin>div{font-size: 24rpx;letter-spacing:2px;}
 </style>
