@@ -192,7 +192,6 @@ export default {
           }
         } 
         else {
-          // that.newslist=[];
           that.noneHid = true;
         }
         
