@@ -160,15 +160,7 @@ export default {
     const that = this;
     that.domain=app.globalData.domain;
     that.pageNumber=1;
-    
     that.overHid=false;
-    if(that.newslist.length==0){
-      that.noneHid=true;
-      console.log('空',that.newslist);
-    }else{
-      that.noneHid=false;
-      console.log('不为空',that.newslist);
-    }
     that.newslist=[];
     that.esfList();
   },
@@ -198,8 +190,9 @@ export default {
           for (var i = 0; i < res.data.Context.mmcList.length; i++) {
            that.newslist.push(res.data.Context.mmcList[i]);
           }
-        } else {
-          that.newslist=[];
+        } 
+        else {
+          // that.newslist=[];
           that.noneHid = true;
         }
         
@@ -208,6 +201,10 @@ export default {
         } else {
           that.allPage = res.data.Context.recordCount;
         }
+        }else if(res.data.Code==1&&that.pageNumber==1){
+          that.noneHid = true;
+        }else{
+          that.noneHid = false;
         }
       }
       });
@@ -224,8 +221,6 @@ export default {
     if (that.pageNumber <= that.allPage) {
       that.esfList();
       that.overHid=false;
-    }else if(that.allPage==res.data.Context.mmcList.length){
-      that.overHid=true;
     }
   }
 
