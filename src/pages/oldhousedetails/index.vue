@@ -1287,7 +1287,7 @@ clickService:function(){
 .xq_l{color: rgb(160, 160, 160);float: left; font-size:29rpx; width:120rpx; text-align: justify;text-justify:distribute-all-lines;}
 .xq_l:after {width: 100%;height: 0;margin: 0;display: inline-block;overflow: hidden;content: '';}
 .maohao{float: left;color: rgb(160, 160, 160); position: relative; top:0rpx; }
-.xq_r{float: left; font-size:28rpx;}
+.xq_r{float: left; font-size:28rpx;  overflow:hidden; text-overflow:ellipsis;white-space:nowrap;width: 54%;}
 .bo_lp{ width: 100% !important;}
 /* .bo_lp span{ float: right;font-size:35rpx;color: rgb(185, 185, 185); position: relative; top: -10rpx;} */
 
@@ -1388,7 +1388,7 @@ clickService:function(){
 .fangyuan_list{ width: 100%; margin-top: 5%;}
 .fang_list{ overflow: hidden; margin-right:6%; width:58%; margin-right: 5%; height:380rpx;display: inline-block;}
 .fang_list image{ width: 100%; height: 260rpx;}
-.fang_list h3{ font-size: 30rpx; margin-top: 3%;}
+.fang_list h3{ font-size: 30rpx; margin-top: 3%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;}
 .fang_list p{ font-size: 26rpx; margin-top: 3%;}
 .fang_list p span.dj1{ font-size: 30rpx; font-weight: bold; color: rgb(253, 27, 27); margin-right: 2%;}
 .fang_list p span.dj2{ font-size: 27rpx; color: rgb(146, 146, 146);}
