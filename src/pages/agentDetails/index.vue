@@ -52,9 +52,9 @@
       <div class="tj_bt">
         <div class="bt_lelf">更多推荐</div>
         <div class="bt_right">
-          <div class="fang" :class="{'fz' :tab===1}" @click="tuijian(1)">二手房</div>
-          <div class="fang" :class="{'fz' :tab===2}" @click="tuijian(2)">新房</div>
-          <div class="fang" :class="{'fz' :tab===3}" @click="tuijian(3)">租房</div>
+          <!-- <div class="fang" :class="{'fz' :tab===1}" @click="tuijian(1)">二手房</div> -->
+          <!-- <div class="fang" :class="{'fz' :tab===2}" @click="tuijian(2)">新房</div>
+          <div class="fang" :class="{'fz' :tab===3}" @click="tuijian(3)">租房</div> -->
         </div>
       </div>
       <!-- 内容切换开始 -->
@@ -336,7 +336,10 @@ onShareAppMessage: function(res) {
 
 .right_jj{ float: right; position: relative; padding-left: 12rpx; padding-right: 12rpx;display: table; }
 .right_jj image{ width: 150rpx; height: 150rpx; border-radius: 50%;}
-.right_jj>div{ width: 145rpx; padding:3rpx 0px 3rpx 0rpx; text-align: center; background: linear-gradient(#fff4d9, #ffe7b1); border:2rpx #deca99 solid; color: #91783d; font-size: 22rpx;border-radius:150rpx; position: absolute; top:75%; }
+.right_jj>div{ width: 145rpx; padding:3rpx 0px 3rpx 0rpx; text-align: center; 
+background: linear-gradient(#fff4d9, #ffe7b1); border:2rpx #deca99 solid; color: #91783d;
+ font-size: 22rpx;border-radius:150rpx; position: absolute; top:75%; overflow:hidden;
+text-overflow:ellipsis;white-space:nowrap;}
 
 .youshis{ width: 100%; margin-top:30rpx; height: 88rpx;}
 .youshis p{ font-size: 27rpx; color: #6d5c3c;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;

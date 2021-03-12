@@ -11,7 +11,7 @@
       <!-- <button open-type="getUserInfo">获取昵称</button> -->
       <div class="userLeft">
         <button class="kehuxx" :open-type="openType" @getphonenumber="getPhoneNumber">
-          <image v-if="domain" :src="member != null ? domain+member.headpic : img1" />
+          <image v-if="domain" :src="member != null&&member.headpic!='' ? domain+member.headpic : img1" />
           <div class="agentType" v-if="member != null ? true : false">{{member.type == 1 ? "(普通用户)" : "(经纪人)"}}</div>
         </button>
       </div>
@@ -126,25 +126,16 @@ export default {
     const that = this;
     that.domain=app.globalData.domain;
     common.initApp(function (userInfo) { 
-    //   wx.request({
-    //   url:
-    //     app.globalData.url +
-    //     "WxLogin/CheckLogin" +
-    //     "?sessionKey=" +
-    //     app.globalData.sessionKey,
-    //   success: function (data) {
-    //     console.log('登录状态',data);
-    //     if (data.data.Code == 0) {
-    //       app.globalData.member = data.data.Context.member;
-    //       that.member = app.globalData.member;
-    //       that.openType = "";
-    //     } else {
-    //       that.purePhoneNumber = "请登录";
-    //       that.openType = "getPhoneNumber";
-    //     }
-    //   },
-    // });
-    wx.request({
+      wx.request({
+      url:
+        app.globalData.url +
+        "WxLogin/CheckLogin" +
+        "?sessionKey=" +
+        app.globalData.sessionKey,
+      success: function (data) {
+        console.log('登录状态',data);
+        if (data.data==true) {
+          wx.request({
       url:
         app.globalData.url +
         "Percenter/BandUserInfo" +
@@ -155,12 +146,16 @@ export default {
           app.globalData.member = data.data.Context.member;
           that.member = app.globalData.member;
           that.openType = "";
+        }
+      },
+    });
         } else {
           that.purePhoneNumber = "请登录";
           that.openType = "getPhoneNumber";
         }
       },
     });
+    
     })
   },
   methods: {
@@ -274,6 +269,24 @@ export default {
     }
 
 
+  },
+    onShareAppMessage: function(res) {
+    return {
+      title: "易房通房产网",
+      path: "/pages/tel/main",
+      imageUrl: "",
+      success: function(shareTickets) {
+        console.info(shareTickets + "成功");
+        // 转发成功
+      },
+      fail: function(res) {
+        console.log(res + "失败");
+        // 转发失败
+      },
+      complete: function(res) {
+        // 不管成功失败都会执行
+      }
+    };
   },
 };
 </script>
