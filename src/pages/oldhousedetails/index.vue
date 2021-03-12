@@ -765,6 +765,7 @@ onShow(){
   const that = this;
   that.timeText="发送验证码";
   clearInterval(that.timer);
+  that.movies="";
 },
 onShareAppMessage: function(res) {
     return {
@@ -1439,11 +1440,11 @@ align-items:flex-end;align-content:center; z-index: 999;}
 .tcyy{ width:90%; margin-left:5%; margin-right:5%; background: #fff; border-radius:30rpx;  position: fixed; top:8%;}
 .btyy{ width: 100%; height:100rpx; background: #3dc28e; color: #fff; text-align: center; border-top-left-radius:30rpx; border-top-right-radius: 30rpx; line-height:100rpx; font-size: 36rpx; font-weight: bold;}
 .appointment{padding:1% 5% 7% 5%; width:90%;}
-.project__input{ margin-top:30rpx; height:60rpx; padding-bottom:10rpx; border-bottom: 1px #ececec solid;}
-.project__input .xmmc{ float: left; font-size: 30rpx; width:160rpx; margin-right:25rpx; text-align: justify;text-justify:distribute-all-lines;}
+.project__input{ margin-top:30rpx; height:60rpx; padding-bottom:10rpx; border-bottom: 1px #f3f3f3 solid;}
+.project__input .xmmc{ float: left; font-size: 30rpx; width:25%; margin-right:25rpx; text-align: justify;text-justify:distribute-all-lines;}
 .xmmc:after {width: 100%;height: 0;margin: 0;display: inline-block;overflow: hidden;content: '';}
-.project__input input{ float: left; font-size: 30rpx; }
-.project__input textarea{ float: left; font-size: 30rpx; width:69%; border: 2rpx solid #ececec;
+.project__input input{ float: left; font-size: 30rpx; width: 68%; }
+.project__input textarea{ float: left; font-size: 30rpx; width:68%; border: 2rpx solid #ececec;
 height: 185rpx;}
 .applyFor{ width:60%; height:80rpx; background: #2e72f1; line-height: 80rpx; text-align: center; font-size: 36rpx; color: #fff; margin-top: 40rpx;}
 .ShutDown{ font-size:40rpx; font-weight: bold; position: absolute; top: 20rpx; right: 20rpx; color: #fff;}
@@ -1473,10 +1474,10 @@ text-align: center;}
   color: #fff;
 }
 /* 遮罩层结束 */
-.codeBtn{width: 186rpx;height: 60rpx;line-height: 60rpx;background: #3dc28e;font-size: 26rpx; float: left;
-color: #fff;}
+.codeBtn{width:33%;height: 60rpx;line-height: 60rpx;background: #3dc28e;font-size: 26rpx; float: left;
+color: #fff; position: relative; top: -10rpx;}
 .codeBtn::after{border: none;}
-.yzmInput{width: 237rpx;}
+.yzmInput{width:35% !important;}
 .lookClass{font-size: 30rpx;}
 .borderNone{border-bottom: none !important;height: 185rpx !important;}
  </style>
