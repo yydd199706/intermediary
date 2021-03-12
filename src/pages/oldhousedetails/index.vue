@@ -766,6 +766,28 @@ onShow(){
   that.timeText="发送验证码";
   clearInterval(that.timer);
   that.movies="";
+  that.Decorationname = "";
+  that.looktime = "";
+  that.title = "";
+  that.price = "";
+  that.apirlroom = "";
+  that.apirloffice = "";
+  that.apirltoilet = "";
+  that.area = "";
+  that.buildyear = "";
+  that.averageprice = "";
+  that.floor = "";
+  that.floorcount = "";
+  that.looktime = "";
+  that.companyname = "";
+  that.Towardname = "";
+  that.Propertyname = "";  
+  that.Zonename = "";
+  that.Decorationname = "";
+  that.Rightnaturename = "";
+  that.projectname = "";
+  that.address = "";
+  that.Supportingname = "";
 },
 onShareAppMessage: function(res) {
     return {
