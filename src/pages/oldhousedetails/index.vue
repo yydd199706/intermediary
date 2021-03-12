@@ -359,10 +359,10 @@
                 :value="name" @input="nameVal($event)"/>
               </div>
               <!-- 房源编号 -->
-              <div class="project__input">
+              <!-- <div class="project__input">
                 <div class="xmmc">房源编号</div>
                 <input id="name" type="text" :value="numVal" placeholder-style="color: #aaa" disabled="disabled"/>
-              </div>
+              </div> -->
               <!-- 手机号码 -->
               <div class="project__input">
                 <div class="xmmc">手机号码</div>
@@ -836,7 +836,10 @@ onShareAppMessage: function(res) {
 
      anyy_dj(){
        const that = this;
+       clearInterval(that.timer);
        that.timeText="发送验证码";
+       that.yzm="";
+       that.disabled=false;
        that.clickSome=1;
           wx.request({
         url:app.globalData.url +"WxLogin/CheckLogin" +"?sessionKey=" +app.globalData.sessionKey,
@@ -1101,35 +1104,36 @@ clickService:function(){
       //设置长度，这里看需求，我这里设置了4
       var codeLength = 4;
       //设置随机字符
-    var random = new Array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
-    //循环codeLength 我设置的4就是循环4次
-    for (var i = 0; i < codeLength; i++) {
-      //设置随机数范围,这设置为0 ~ 9
-      var index = Math.floor(Math.random() * 10);
-      //字符串拼接 将每次随机的字符 进行拼接
-      that.code += random[index];
-    }
-           wx.request({
-      url: app.globalData.domain +"ashx/SendYZM.ashx",
+      var random = new Array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
+      //循环codeLength 我设置的4就是循环4次
+      for (var i = 0; i < codeLength; i++) {
+        //设置随机数范围,这设置为0 ~ 9
+        var index = Math.floor(Math.random() * 10);
+        //字符串拼接 将每次随机的字符 进行拼接
+        that.code += random[index];
+      }
+      wx.request({
+      url: app.globalData.url +"OldHouse/SendYZM"+"?sessionKey=" +app.globalData.sessionKey,
       method:"POST",
       data: {
         code:that.code,//将拼接好的字符串赋值给展示的code
         phone:that.tel,
         type:6
       },
-      header:{ 'Content-Type':'application/x-www-form-urlencoded' },
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
       success (data) {
-        if(data.data==0){
+        if(data.data.Code==0){
           that.disabled=true;
           // that.timeText
           var num = 61;
           that.timer = setInterval(function () {
             num--;
             if (num <= 0) {
-              clearInterval(that.timer);
+             clearInterval(that.timer);
              that.timeText="重新发送";
-             that.disabled=false;
-  
+             that.disabled=false;  
             } else {
               that.timeText=num+"S";
             }
@@ -1201,6 +1205,13 @@ clickService:function(){
       //看房时间是否为空
       if (that.lookDate == ""||that.lookDate=="请选择") {
         Toast("看房时间不能为空");
+        return false;
+      }
+      if(that.yzm == ""){
+      Toast("验证码不能为空");
+      return false;
+      }else if(that.yzm != that.code){
+        Toast("验证码错误");
         return false;
       }
        wx.request({
