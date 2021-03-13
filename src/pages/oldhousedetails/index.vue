@@ -370,13 +370,12 @@
                  :value="tel" @input="telVal($event)"/>
               </div>
               <!-- 手机验证码 -->
-              <div class="project__input">
+              <!-- <div class="project__input">
                 <div class="xmmc">手机验证码</div>
                 <input id="name" type="text" placeholder="请输入验证码" placeholder-style="color: #aaa"
                 class="yzmInput" :value="yzm" @input="yzmVal($event)"/>
                 <button class='codeBtn' @click='getVerificationCode' :disabled="disabled">{{timeText}}</button>
-                <!-- <button class='codeBtn' disabled="true">{{time}}后重新发送</button> -->
-              </div>
+              </div> -->
               <!-- 预约描述 -->
               <div class="project__input">
                 <div class="xmmc">看房时间</div>
@@ -585,6 +584,8 @@ export default {
   onLoad(option) {
     const that = this;
     clearInterval(that.timer);
+   
+    // console.log('电话',app.globalData.member.mobile);
     common.initApp(function (userInfo) { 
     
     that.name="";
@@ -641,6 +642,9 @@ export default {
           that.Specialname = res.data.Context.houseInfo.Specialname;
           that.companyname=res.data.Context.houseInfo.companyname;
           that.numVal=res.data.Context.houseInfo.id;
+          
+          
+
     let val={
           time:common.ConvertTimestamp(new Date()),
 					id:option.id,
@@ -844,11 +848,24 @@ onShareAppMessage: function(res) {
           wx.request({
         url:app.globalData.url +"WxLogin/CheckLogin" +"?sessionKey=" +app.globalData.sessionKey,
         success: function (data) {
-          console.log('333',data);
           if(data.data==true){
             that.telHid=false;
             that.maskHid=false;
             that.yuyue_yc = true;
+            wx.request({
+              url:
+                app.globalData.url +
+                "Percenter/BandUserInfo" +
+                "?sessionKey=" +
+                app.globalData.sessionKey,
+              success: function (data) {
+                if (data.data.Code == 0) {
+                  app.globalData.member = data.data.Context.member;
+                  that.member = app.globalData.member;
+                  that.tel=app.globalData.member.mobile;
+                }
+              },
+            });
           }else{
             that.telHid=true;
             that.maskHid=true;
@@ -1084,9 +1101,11 @@ clickService:function(){
            wx.setStorageSync('member',data.data.Context.member);
           that.openType="";
           app.globalData.member=data.data.Context.member;
+
           if(that.clickSome==0){
              that.priceNotice();
           }else{
+            //that.tel=app.globalData.member.mobile;
             that.yuyue_yc=true;
           }
          
@@ -1207,13 +1226,13 @@ clickService:function(){
         Toast("看房时间不能为空");
         return false;
       }
-      if(that.yzm == ""){
-      Toast("验证码不能为空");
-      return false;
-      }else if(that.yzm != that.code){
-        Toast("验证码错误");
-        return false;
-      }
+      // if(that.yzm == ""){
+      // Toast("验证码不能为空");
+      // return false;
+      // }else if(that.yzm != that.code){
+      //   Toast("验证码错误");
+      //   return false;
+      // }
        wx.request({
       url: app.globalData.url +"OldHouse/BandEsfSubscribe?sessionKey="+app.globalData.sessionKey,
       method:"POST",
