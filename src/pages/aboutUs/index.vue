@@ -3,7 +3,7 @@
     <!-- 关于我们开始 -->
     <div class="aboutusLogo">
       <image :src="logo" />
-      <div class="title1">安康找房111</div>
+      <div class="title1">安康找房</div>
       <div class="title2">找易房通平台</div>
     </div>
     <div class="aboutusBottom">
