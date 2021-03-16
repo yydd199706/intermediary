@@ -852,20 +852,21 @@ onShareAppMessage: function(res) {
             that.telHid=false;
             that.maskHid=false;
             that.yuyue_yc = true;
-            wx.request({
-              url:
-                app.globalData.url +
-                "Percenter/BandUserInfo" +
-                "?sessionKey=" +
-                app.globalData.sessionKey,
-              success: function (data) {
-                if (data.data.Code == 0) {
-                  app.globalData.member = data.data.Context.member;
-                  that.member = app.globalData.member;
-                  that.tel=app.globalData.member.mobile;
-                }
-              },
-            });
+            that.tel=app.globalData.member.mobile;
+            // wx.request({
+            //   url:
+            //     app.globalData.url +
+            //     "Percenter/BandUserInfo" +
+            //     "?sessionKey=" +
+            //     app.globalData.sessionKey,
+            //   success: function (data) {
+            //     if (data.data.Code == 0) {
+            //       app.globalData.member = data.data.Context.member;
+            //       that.member = app.globalData.member;
+            //       that.tel=app.globalData.member.mobile;
+            //     }
+            //   },
+            // });
           }else{
             that.telHid=true;
             that.maskHid=true;
@@ -1105,7 +1106,7 @@ clickService:function(){
           if(that.clickSome==0){
              that.priceNotice();
           }else{
-            //that.tel=app.globalData.member.mobile;
+            that.tel=app.globalData.member.mobile;
             that.yuyue_yc=true;
           }
          
