@@ -33,10 +33,13 @@
                     <div>{{item.Decorationname}}</div>
                     <div>{{item.Propertyname}}</div>
                   </div>
+                  
                   <!-- <div class="clear"></div> -->
                   <div class="m-x">
                     <p class="money">{{item.price==""||item.price==null?'总价：暂无':item.price+'万'}}</p>
                     <p class="average">{{item.averageprice==""||item.averageprice==null?'价格待定':item.averageprice+'元/平'}}</p>
+                    <!--<div class="moredj"><image :src="bjimg" />变价通知</div>
+                     <div class="moredj" v-if="bianjia" @click="Message"><image :src="bjimg" /><span>取消提醒</span></div> -->
                   </div>
                 </div>
               </div>
@@ -370,6 +373,11 @@ text-overflow:ellipsis;
 .none>div{font-size: 28rpx;margin-top: 20rpx;color: #A1A1A1;}
 .over{font-size: 28rpx;color: #A1A1A1;text-align: center;padding-bottom: 30rpx;}
 
- 
+
+.moredj{float: right;font-size: 22rpx; }
+.moredj image{ width:33rpx; height:37rpx; margin-right:10rpx;}
+.moredj span{ position: relative; top: -10rpx;}
+
+
 
 </style>

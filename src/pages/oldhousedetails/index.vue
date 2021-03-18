@@ -23,7 +23,7 @@
             <p>{{Decorationname}}</p>
             <p>{{looktime}}</p>
         </div>
-        <!-- <div class="moredj" @click="priceNotice"><image :src="bjimg" /><span>变价提醒</span></div> -->
+        <div class="moredj" v-if="bianjia" @click="Message"><image :src="bjimg" /><span>{{priceStatus==0?'变价提醒':'取消提醒'}}</span></div>
         <!-- <div class="license"><image :src="yy_img" /><span>房源发布机构</span></div> -->
       </div>
       <div class="biaoti">{{title}}</div> 
@@ -452,6 +452,8 @@ export default {
         }
       }
       ],
+      priceStatus:"",
+      bianjia:false,
       latitude: '',
       longitude: '',
       id:"",
@@ -752,13 +754,25 @@ export default {
       });
       //获取用户关注
       wx.request({
-        url:app.globalData.url +"Percenter/BandUserInfoEsf" +"?sessionKey=" +app.globalData.sessionKey+'&houseId=' + option.id,
+        url:app.globalData.url +"Percenter/BandUserRelationEsf" +"?sessionKey=" +app.globalData.sessionKey+'&houseId=' + option.id,
         success: function (res) {
           if(res.data.Code==0){
-            that.state=res.data.Context.recordCount;
-          }else{
-            that.state=0;
+            
+            that.state=res.data.Context.isganzhu;
+            if(that.state>0){
+              that.bianjia=true;
+              if(res.data.Context.isdingyue>0){
+                 that.priceStatus=1;
+              }else{
+                that.priceStatus=0;
+              }
+            }else{
+              that.bianjia=false;
+            }
           }
+          // else{
+          //   that.state=0;
+          // }
         }
       });
   
@@ -1010,27 +1024,20 @@ clickService:function(){
         if(res.data.Code==0){
           that.telHid=false;
         that.maskHid=false;
+        that.state=1;
+        that.bianjia=true;
+        that.priceStatus=0;
           wx.showToast({
             title: '关注成功',
             icon: 'success',
             duration: 2000
           });
-          that.Message();
+          //that.Message();
         
       that.state=1;
         }else{
            that.telHid=true;
            that.maskHid=true;
-          //  wx.request({
-          //     url:app.globalData.url +"Percenter/BandUserInfoEsf" +"?sessionKey=" +app.globalData.sessionKey+'&houseId=' + option.id,
-          //     success: function (res) {
-          //       if(res.data.Code==0){
-          //         that.state=res.data.Context.recordCount;
-          //       }else{
-          //         that.state=0;
-          //       }
-          //     }
-          //   });
         }
       },
     });
@@ -1054,18 +1061,46 @@ clickService:function(){
     Message(){
       console.log('订阅消息执行');
       const that = this;
-       wx.requestSubscribeMessage({
-        tmplIds: ["THIl9oVwY4TlDibEvG_2eh4LWI-XBuXcj8U8Wgb_SVU"],
-        success(res) {
-           if(res["THIl9oVwY4TlDibEvG_2eh4LWI-XBuXcj8U8Wgb_SVU"] == "accept"){
-             that.pushFun();
-          } else if(res["THIl9oVwY4TlDibEvG_2eh4LWI-XBuXcj8U8Wgb_SVU"] == "reject") {
-              // Toast("允许后才可以订阅消息哦");
-          }
-        },
-        fail(res) {
-        }
-      });
+       
+          // if(that.priceStatus=1){
+            wx.request({
+              url:app.globalData.url +"Percenter/BandUserRelationEsf" +"?sessionKey=" +app.globalData.sessionKey+'&houseId=' + that.numVal,
+              success: function (res) {
+                console.log('订阅shu',res.data.Context.isdingyue)
+                 if(res.data.Context.isdingyue>0){
+                   wx.request({
+                    url:app.globalData.url +"OldHouse/DelPriceChange" +"?sessionKey=" +app.globalData.sessionKey+'&house_id=' + that.numVal,
+                    success: function (res) {
+                      that.priceStatus=0;
+                    }
+                   })
+
+                 }else{
+                   wx.requestSubscribeMessage({
+                    tmplIds: ["THIl9oVwY4TlDibEvG_2eh4LWI-XBuXcj8U8Wgb_SVU"],
+                    success(data) {
+                      if(data["THIl9oVwY4TlDibEvG_2eh4LWI-XBuXcj8U8Wgb_SVU"] == "accept"){
+                        
+                        that.pushFun();
+                        } else if(data["THIl9oVwY4TlDibEvG_2eh4LWI-XBuXcj8U8Wgb_SVU"] == "reject") {
+                            Toast("允许后才可以订阅消息哦");
+                        }
+                        
+                    }
+                   })
+
+
+                 }         
+              }
+            });
+            
+          // }else{
+            
+          // }
+           
+          //that.priceStatus=1;
+        
+      
     },
       
     //发送推送消息接口
@@ -1075,6 +1110,7 @@ clickService:function(){
         url: app.globalData.url +"OldHouse/AddPriceChange?sessionKey=" +app.globalData.sessionKey+'&house_id=' + that.houserid,
         success (res) {
           console.log('点击推送',res);
+          that.priceStatus=1;
         }
       })
     },
@@ -1123,17 +1159,22 @@ clickService:function(){
                     if(that.clickSome==0){
                       console.log('查询关注');
                       wx.request({
-                        url:app.globalData.url +"Percenter/BandUserInfoEsf" +"?sessionKey=" +app.globalData.sessionKey+'&houseId=' + that.numVal,
+                        url:app.globalData.url +"Percenter/BandUserRelationEsf" +"?sessionKey=" +app.globalData.sessionKey+'&houseId=' + that.numVal,
                         success: function (res) {
                           if(res.data.Code==0){
-                          if(res.data.Context.recordCount!=0){
-                            that.state=res.data.Context.recordCount;
+                            console.log(res.data.Context.isganzhu)
+                            if(res.data.Context.isganzhu>0){
+                              that.state=1;
+                              that.bianjia=true;
+                              if(res.data.Context.isdingyue >0){
+                                that.priceStatus=1;
+                              }else{
+                                that.priceStatus=0;
+                              }
                             }else{
-                              that.state=res.data.Context.recordCount;
+                              
+                              that.priceNotice();
                             }
-                          }else{
-                            that.state=0;
-                            
                           }
                           
                         }
@@ -1345,9 +1386,9 @@ clickService:function(){
 /* .features{ float: left;}
 .features>div {float: left; font-size: 24rpx; padding: 2rpx 10rpx 2rpx 10rpx; background: #edf0f3; color: #849aae; margin-right:6rpx; border-radius:6rpx;} */
 
-/* .moredj{float: right;font-size: 24rpx;}
+.moredj{float: right;font-size: 24rpx;}
 .moredj image{ width:33rpx; height:37rpx; margin-right:10rpx;}
-.moredj span{ position: relative; top: -10rpx;} */
+.moredj span{ position: relative; top: -10rpx;}
 .license{ float: right; font-size: 24rpx; color: rgb(124, 124, 124); display: flex; flex-direction: row; margin-bottom: 10rpx;}
 .license span{ display: block; margin-top: 3rpx;}
 .license image{ width:45rpx; height:33rpx; margin-top:5rpx; display: block; margin-right:10rpx;}
