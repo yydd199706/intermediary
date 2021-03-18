@@ -1015,22 +1015,22 @@ clickService:function(){
             icon: 'success',
             duration: 2000
           });
-          that.state=1;
-               wx.requestSubscribeMessage({
-        tmplIds: ["THIl9oVwY4TlDibEvG_2esn7Nxc9jtYo3RYayPJ9qDg"],
-        success(res) {
-           if(res["THIl9oVwY4TlDibEvG_2esn7Nxc9jtYo3RYayPJ9qDg"] == "accept"){
-             that.pushFun();
-          } else if(res["THIl9oVwY4TlDibEvG_2esn7Nxc9jtYo3RYayPJ9qDg"] == "reject") {
-              // Toast("允许后才可以订阅消息哦");
-          }
-        },
-        fail(res) {
-        }
-      });
+          that.Message();
+        
+      that.state=1;
         }else{
            that.telHid=true;
-        that.maskHid=true;
+           that.maskHid=true;
+          //  wx.request({
+          //     url:app.globalData.url +"Percenter/BandUserInfoEsf" +"?sessionKey=" +app.globalData.sessionKey+'&houseId=' + option.id,
+          //     success: function (res) {
+          //       if(res.data.Code==0){
+          //         that.state=res.data.Context.recordCount;
+          //       }else{
+          //         that.state=0;
+          //       }
+          //     }
+          //   });
         }
       },
     });
@@ -1050,7 +1050,24 @@ clickService:function(){
 
         
     },
-
+    //订阅消息
+    Message(){
+      console.log('订阅消息执行');
+      const that = this;
+       wx.requestSubscribeMessage({
+        tmplIds: ["THIl9oVwY4TlDibEvG_2eh4LWI-XBuXcj8U8Wgb_SVU"],
+        success(res) {
+           if(res["THIl9oVwY4TlDibEvG_2eh4LWI-XBuXcj8U8Wgb_SVU"] == "accept"){
+             that.pushFun();
+          } else if(res["THIl9oVwY4TlDibEvG_2eh4LWI-XBuXcj8U8Wgb_SVU"] == "reject") {
+              // Toast("允许后才可以订阅消息哦");
+          }
+        },
+        fail(res) {
+        }
+      });
+    },
+      
     //发送推送消息接口
     pushFun(){
       const that = this;
@@ -1072,48 +1089,64 @@ clickService:function(){
       const that = this;    
       if (e.mp.detail.errMsg == "getPhoneNumber:ok") {
         wx.request({
-      url: app.globalData.url +"WxLogin/getPhoneNumber?sessionKey="+app.globalData.sessionKey,
-      method:"POST",
-      data: {
-        encryptedData:e.mp.detail.encryptedData,
-        iv:e.mp.detail.iv
-      },
-      header: {
-        'content-type': 'application/json' // 默认值
-      },
-      success (res) {
-        var obj = JSON.parse(res.data.Context.phoneNumber.trim());
-        that.purePhoneNumber=obj;
-          wx.request({
-      url: app.globalData.url +"WxLogin/RegisterLogin" +"?sessionKey=" +app.globalData.sessionKey,
-      method:"POST",
-      data: {
-        nickname:that.nickname,
-        headpic:that.headpic,
-        mobile:that.purePhoneNumber
-      },
-      header: {
-        'content-type': 'application/json' // 默认值
-      },
-      success (data) {
-        if(data.data.Code==0){
-          that.telHid=false;
-          that.maskHid=false;
-           wx.setStorageSync('member',data.data.Context.member);
-          that.openType="";
-          app.globalData.member=data.data.Context.member;
+          url: app.globalData.url +"WxLogin/getPhoneNumber?sessionKey="+app.globalData.sessionKey,
+          method:"POST",
+          data: {
+            encryptedData:e.mp.detail.encryptedData,
+            iv:e.mp.detail.iv
+          },
+          header: {
+            'content-type': 'application/json' // 默认值
+          },
+          success (res) {
+            var obj = JSON.parse(res.data.Context.phoneNumber.trim());
+            that.purePhoneNumber=obj;
+              wx.request({
+                url: app.globalData.url +"WxLogin/RegisterLogin" +"?sessionKey=" +app.globalData.sessionKey,
+                method:"POST",
+                data: {
+                  nickname:that.nickname,
+                  headpic:that.headpic,
+                  mobile:that.purePhoneNumber
+                },
+                header: {
+                  'content-type': 'application/json' // 默认值
+                },
+                success (data) {
+                  if(data.data.Code==0){
+                    that.telHid=false;
+                    that.maskHid=false;
+                    wx.setStorageSync('member',data.data.Context.member);
+                    that.openType="";
+                    app.globalData.member=data.data.Context.member;
 
-          if(that.clickSome==0){
-             that.priceNotice();
-          }else{
-            that.tel=app.globalData.member.mobile;
-            that.yuyue_yc=true;
+                    if(that.clickSome==0){
+                      console.log('查询关注');
+                      wx.request({
+                        url:app.globalData.url +"Percenter/BandUserInfoEsf" +"?sessionKey=" +app.globalData.sessionKey+'&houseId=' + that.numVal,
+                        success: function (res) {
+                          if(res.data.Code==0){
+                          if(res.data.Context.recordCount!=0){
+                            that.state=res.data.Context.recordCount;
+                            }else{
+                              that.state=res.data.Context.recordCount;
+                            }
+                          }else{
+                            that.state=0;
+                            
+                          }
+                          
+                        }
+                      });
+                    }else{
+                      that.tel=app.globalData.member.mobile;
+                      that.yuyue_yc=true;
+                    }
+                  
+                  }
+                }
+              })
           }
-         
-        }
-      }
-      })
-      }
         })
       }
     },
