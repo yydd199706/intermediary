@@ -1048,7 +1048,9 @@ clickService:function(){
       success (res) {
           if(res.data.Code==0){
           that.state=0;
+          that.bianjia = false;
         }
+        
       }
       })
       }
@@ -1059,7 +1061,6 @@ clickService:function(){
     },
     //订阅消息
     Message(){
-      console.log('订阅消息执行');
       const that = this;
        
           // if(that.priceStatus=1){
@@ -1109,7 +1110,6 @@ clickService:function(){
       wx.request({
         url: app.globalData.url +"OldHouse/AddPriceChange?sessionKey=" +app.globalData.sessionKey+'&house_id=' + that.houserid,
         success (res) {
-          console.log('点击推送',res);
           that.priceStatus=1;
         }
       })
@@ -1157,7 +1157,6 @@ clickService:function(){
                     app.globalData.member=data.data.Context.member;
 
                     if(that.clickSome==0){
-                      console.log('查询关注');
                       wx.request({
                         url:app.globalData.url +"Percenter/BandUserRelationEsf" +"?sessionKey=" +app.globalData.sessionKey+'&houseId=' + that.numVal,
                         success: function (res) {
