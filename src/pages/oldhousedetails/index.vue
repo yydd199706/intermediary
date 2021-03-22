@@ -224,7 +224,7 @@
       <div class="hx_bt">
         <p>位置及周边配套</p>
       </div>
-      <div class="map_img">
+      <div class="map_img" >
           <map id="map" :longitude="longitude" :latitude="latitude" :scale="14" :controls="controls" 
           bindcontroltap="controltap" :markers="markers" :bindmarkertap="markertap" :polyline="polyline"
           :bindregionchange="regionchange" show-location style="width: 100%; height: 220px;"
@@ -783,6 +783,7 @@ onShow(){
   const that = this;
   that.timeText="发送验证码";
   clearInterval(that.timer);
+  
   that.movies="";
   that.Decorationname = "";
   that.looktime = "";
