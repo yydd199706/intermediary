@@ -223,9 +223,11 @@
     <div class="jingjiren">
       <div class="hx_bt">
         <p>位置及周边配套</p>
+
       </div>
-      <div class="map_img">
-          <map id="map" :longitude="longitude" :latitude="latitude" :scale="14" :controls="controls" 
+      <div class="map_img" v-if="location">
+
+          <map id="map" :longitude="location.lng" :latitude="location.lat" :scale="14" :controls="controls" 
           bindcontroltap="controltap" :markers="markers" :bindmarkertap="markertap" :polyline="polyline"
           :bindregionchange="regionchange" show-location style="width: 100%; height: 220px;"
           :enable-scroll="false" :enable-zoom="false" @click="clickAdress"></map>
@@ -433,6 +435,7 @@ export default {
   },
   data () {
     return {
+
       markers: [
         {
         id: 1,
@@ -454,8 +457,7 @@ export default {
       ],
       priceStatus:"",
       bianjia:false,
-      latitude: '',
-      longitude: '',
+      location:null,
       id:"",
       company:"",
       storename:"",
@@ -609,7 +611,7 @@ export default {
     that.projectname = "";
     that.address = "";
     that.Supportingname = "";
-    
+    that.location=null;
    
     // console.log('电话',app.globalData.member.mobile);
     common.initApp(function (userInfo) { 
@@ -623,7 +625,7 @@ export default {
     that.yuText="";
     let today = that.getToday();
     that.comeDate = today;
-    var demo = new QQMapWX({ key: '5TJBZ-XDZCK-O5FJR-AWZUZ-C4YTJ-EUBD5' });
+
     
     that.domain=app.globalData.domain;
     that.houserid=option.id;
@@ -743,17 +745,16 @@ export default {
           }
           that.memberid=res.data.Context.agent.id;
           //是否关注该房源
-          
-          demo.geocoder({
+          qqMap.geocoder({
     address: that.address,   //用户输入的地址（注：地址中请包含城市名称，否则会影响解析效果），如：'北京市海淀区彩和坊路海淀西大街74号'
     complete: data => {
       if(data.status==0){
-        that.latitude=data.result.location.lat;
-        that.longitude=data.result.location.lng;
+        that.location=data.result.location;
+      
         that.markers=[{
           id: 1,
-          latitude: data.result.location.lat,
-          longitude: data.result.location.lng,
+          latitude: that.location.lat,
+          longitude: that.location.lng,
           name: that.projectname,
           width: 30,
           height: 30,
@@ -1001,21 +1002,16 @@ clickService:function(){
     },
     //获取经纬度
     clickAdress(e){
-      qqMap.geocoder({
-        address: this.address,   //用户输入的地址（注：地址中请包含城市名称，否则会影响解析效果），如：'北京市海淀区彩和坊路海淀西大街74号'
-        complete: res => {
-          if(res.result.location!=""){
-            this.latitude=res.result.location.lat;
-            this.longitude=res.result.location.lng;
+     const that = this;
+          if(that.location!=null){
+
             wx.openLocation({
-              latitude: res.result.location.lat,
-              longitude: res.result.location.lng,
+              latitude: that.location.lat,
+              longitude: that.location.lng,
               name:this.projectname,
               address: this.address
             })
           }else {
-            this.latitude= "",
-            this.longitude= "";
             wx.showToast({
               title: '无法定位到该地址！',
               icon: 'none',
@@ -1023,8 +1019,8 @@ clickService:function(){
               
             })
           }
-        }
-        })
+        
+
     },
     //点击放大轮播图片
     previewImg:function(pro,e){

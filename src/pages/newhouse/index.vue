@@ -299,6 +299,7 @@ export default {
       apirlroomarr:[],
       pricearr:[],
       areaarr:[],
+      
       specialId:"",
       salestateId: [],
       propertytypeId: "",
@@ -652,49 +653,49 @@ export default {
         }
     },
      //点击更多-房龄分类
-    buildClick:function(index,e){
-      const that = this;
-      if(that.buildyear==null){
-         that.buildyear=index;
-         that.buildyearId=e.mp.currentTarget.dataset.id;
-      }else{
-        that.buildyear=null;
-        that.buildyearId="";
-      }
-    },
+    // buildClick:function(index,e){
+    //   const that = this;
+    //   if(that.buildyear==null){
+    //      that.buildyear=index;
+    //      that.buildyearId=e.mp.currentTarget.dataset.id;
+    //   }else{
+    //     that.buildyear=null;
+    //     that.buildyearId="";
+    //   }
+    // },
     //点击更多-中介分类
-    companyClick:function(index,e){
-      const that = this;
-      if(that.company==null){
-         that.company=index;
-         that.companyId=e.mp.currentTarget.dataset.id;
-      }else{
-        that.company=null;
-        that.companyId="";
-      }
-    },
+    // companyClick:function(index,e){
+    //   const that = this;
+    //   if(that.company==null){
+    //      that.company=index;
+    //      that.companyId=e.mp.currentTarget.dataset.id;
+    //   }else{
+    //     that.company=null;
+    //     that.companyId="";
+    //   }
+    // },
     //点击更多-装修情况分类
-    decorationClick:function(index,e){
-      const that = this;
-      if(that.decoration==null){
-         that.decoration=index;
-         that.decorationId=e.mp.currentTarget.dataset.id;
-      }else{
-        that.decoration=null;
-        that.decorationId="";
-      }
-    },
+    // decorationClick:function(index,e){
+    //   const that = this;
+    //   if(that.decoration==null){
+    //      that.decoration=index;
+    //      that.decorationId=e.mp.currentTarget.dataset.id;
+    //   }else{
+    //     that.decoration=null;
+    //     that.decorationId="";
+    //   }
+    // },
     //点击更多-装修情况分类
-    floorClick:function(index,e){
-      const that = this;
-      if(that.floor==null){
-         that.floor=index;
-         that.floorId=e.mp.currentTarget.dataset.id;
-      }else{
-        that.floor=null;
-        that.floorId="";
-      }
-    },
+    // floorClick:function(index,e){
+    //   const that = this;
+    //   if(that.floor==null){
+    //      that.floor=index;
+    //      that.floorId=e.mp.currentTarget.dataset.id;
+    //   }else{
+    //     that.floor=null;
+    //     that.floorId="";
+    //   }
+    // },
     //点击更多-特色分类
     specialClick:function(index,e){
       const that = this;
@@ -707,16 +708,16 @@ export default {
       }
     },
     //点击更多-配套分类
-    supportingClick:function(index,e){
-      const that = this;
-      if(that.supporting==null){
-         that.supporting=index;
-         that.supportingId=e.mp.currentTarget.dataset.id;
-      }else{
-        that.supporting=null;
-        that.supportingId="";
-      }
-    },
+    // supportingClick:function(index,e){
+    //   const that = this;
+    //   if(that.supporting==null){
+    //      that.supporting=index;
+    //      that.supportingId=e.mp.currentTarget.dataset.id;
+    //   }else{
+    //     that.supporting=null;
+    //     that.supportingId="";
+    //   }
+    // },
 
     //点击更多-朝向分类
     // towardClick:function(index,e){
@@ -742,12 +743,12 @@ export default {
         that.priceArr=[];
         that.areaArr=[];
         that.specialId="";
-        that.companyId="";
-        that.decorationId="";
-        that.buildyearId="";
-        that.towardId="";
-        that.floorId="";
-        that.supportingId="";
+        // that.companyId="";
+        // that.decorationId="";
+        // that.buildyearId="";
+        // that.towardId="";
+        // that.floorId="";
+        // that.supportingId="";
         that.orderById="";
         that.pageNumber=1;
         that.pageRecord=6;
@@ -820,18 +821,18 @@ export default {
       that.areaarr=[];
       that.special=="";
       that.specialId=="";
-      that.company=null;
-      that.companyId=="";
-      that.decoration=null;
-      that.decorationId=="";
-      that.buildyear=null;
-      that.buildyearId=="";
-      that.toward=null;
-      that.towardId=="";
-      that.floor=null;
-      that.floorId=="";
-      that.supporting=null;
-      that.supportingId=="";
+      // that.company=null;
+      // that.companyId=="";
+      // that.decoration=null;
+      // that.decorationId=="";
+      // that.buildyear=null;
+      // that.buildyearId=="";
+      // that.toward=null;
+      // that.towardId=="";
+      // that.floor=null;
+      // that.floorId=="";
+      // that.supporting=null;
+      // that.supportingId=="";
       that.orderBy=null;
       that.orderById="";
       for(var i=0;i<that.areaType.length;i++){

@@ -1,9 +1,13 @@
 <script>
 App({
   globalData: {
-    domain: 'https://ltj.1fangtong.cn:451/',
-    url: 'https://ltj.1fangtong.cn:451/api/',
-    imgurl: 'https://ltj.1fangtong.cn:451/wximg/',
+    // domain: 'https://ltj.1fangtong.cn:451/',
+    // url: 'https://ltj.1fangtong.cn:451/api/',
+    // imgurl: 'https://ltj.1fangtong.cn:451/wximg/',
+
+    domain: 'https://www.e-fangtong.com/',
+    url: 'https://www.e-fangtong.com/api/',
+    imgurl: 'https://www.e-fangtong.com/wximg/',
     sessionKey: '',
     member:null
   },
