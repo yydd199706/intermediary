@@ -139,7 +139,7 @@
     <!-- 想住靓房结束 -->
 
     <!-- 猜你意向的新房开始 -->
-    <!-- <div class="intention-house" v-if="newHouse.length > 0 ? true : false">
+    <div class="intention-house" v-if="newHouse.length > 0 ? true : false">
       <div class="biaoti-new">
         <div class="wz-bt"><span></span>猜你意向的新房</div>
         <div class="more">查看更多</div>
@@ -170,7 +170,7 @@
       </div>
 
       <div class="more-house"><span></span>查看更多</div>
-    </div> -->
+    </div>
     <!-- 猜你意向的新房结束 -->
 
     <!-- 猜你想买的二手房开始 -->

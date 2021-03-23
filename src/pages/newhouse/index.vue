@@ -2,7 +2,7 @@
   <div class="indexstyle">
     <!-- 搜索开始 -->
     <div class="search">
-      <input type="text" placeholder="请输入楼盘名或区域" placeholder-style="font-size:14px; padding-left:35px;">
+      <input type="text" placeholder="请输入楼盘名或区域" placeholder-style="font-size:14px; padding-left:35px;" :value="keyword">
       <image :src="img2" mode="scaleToFill"/>
     </div>
     <!-- 搜索结束 -->
@@ -40,8 +40,8 @@
              ?'career':'']">{{areaArr.length>1?'多选':'更多'}}
              <image :src='[xianshi_sx==false?img3:img4]' mode="scaleToFill"/>
            </div> -->
-           <div class="region_bt" @click="dianji_sx" :class="[areaArr.length>0||xianshi_sx==true||propertytypeId!=''||specialId!=''||
-             salestateId!=''?'career':'']">{{areaArr.length>1?'多选':'更多'}}
+           <div class="region_bt" @click="dianji_sx" :class="[propertytypeArr.length>0||xianshi_sx==true||specialId!=''||
+             salestateId!=''?'career':'']">{{propertytypeArr.length>1?'多选':'更多'}}
              <image :src='[xianshi_sx==false?img3:img4]' mode="scaleToFill"/>
            </div>
            <div class="region_bt" @click="dianji_sort" :class="[isPx||pxName!='排序'?'career':'']">{{pxName}}
@@ -108,10 +108,29 @@
 
         <!-- 筛选开始 -->
         <div class="region_xl" v-if="xianshi_sx">
-          <div class="huxing">
+          <!-- <div class="huxing">
             <h1>面积（m²）</h1>
             <p v-for="(item, index) in areaType" :key="index" :data-id="item.Id" :data-isAreatype="item.isAreatype"
               @click="areaClick(index,$event)" :data-name="item.Name" :class="[item.isAreatype?'type':'none']">{{item.Name}}</p>
+            <div class="clear"></div>
+          </div> -->
+          <div class="huxing">
+            <h1>类型</h1>
+            <p v-for="(item, index) in propertytypeType" :key="index" :data-id="item.Id" :data-isLxtype="item.isLxtype"
+              @click="propertytypeClick(index,$event)" :data-name="item.Name" :class="[item.isLxtype?'type':'none']">{{item.Name}}</p>
+            <div class="clear"></div>
+          </div>
+          <div class="huxing">
+            <h1>特色</h1>
+            <p v-for="(item, index) in specialType" :key="index" :data-id="item.Id"
+              @click="specialClick(index,$event)" :data-name="item.Name" :class="[special==index?'type':'']">{{item.Name}}</p>
+            <div class="clear"></div>
+          </div>
+          
+          <div class="huxing">
+            <h1>销售状态</h1>
+            <p v-for="(item, index) in salestateType" :key="index" :data-id="item.Id"
+              @click="salestateClick(index,$event)" :data-name="item.Name" :class="[salestate==index?'type':'']">{{item.Name}}</p>
             <div class="clear"></div>
           </div>
           <!-- <div class="huxing">
@@ -138,24 +157,19 @@
               @click="floorClick(index,$event)" :data-name="item.Name" :class="[floor==index?'type':'']">{{item.Name}}</p>
             <div class="clear"></div>
           </div> -->
-          <div class="huxing">
-            <h1>特色</h1>
-            <p v-for="(item, index) in specialType" :key="index" :data-id="item.Id"
-              @click="specialClick(index,$event)" :data-name="item.Name" :class="[special==index?'type':'']">{{item.Name}}</p>
-            <div class="clear"></div>
-          </div>
-          <div class="companywap">
+          
+          <!-- <div class="companywap">
             <h1>配套</h1>
             <p v-for="(item, index) in supportingType" :key="index" class="company" :data-id="item.Id"
               @click="supportingClick(index,$event)" :data-name="item.Name" :class="[supporting==index?'type':'']">{{item.Name}}</p>
             <div class="clear"></div>
-          </div>
-           <div class="huxing">
+          </div> -->
+           <!-- <div class="huxing">
             <h1>朝向</h1>
             <p v-for="(item, index) in towardType" :key="index" :data-id="item.Id"
               @click="towardClick(index,$event)" :data-name="item.Name" :class="[toward==index?'type':'']">{{item.Name}}</p>
             <div class="clear"></div>
-          </div>
+          </div> -->
           <div class="x_dibu">
             <div class="z_buxian" @click="gdReset">
               <div><image :src='img6' mode="scaleToFill"/></div>
@@ -184,40 +198,39 @@
  
     <!-- 筛选开始 -->
 
+    <!-- 遮罩层开始 -->
+    <div class="modalMask" v-if="maskHid"></div>
+    <!-- 遮罩层结束 -->
+
 
 
 
 
 
     <!-- 文章列表开始 -->
-    <div class="intention-house">
-      <div class="intention-nr">
-
+    <div class="intention-nr">
         <div class="intention-mt" v-for="(item, index) in newslist" :key="index">
-          <image :src="item.img7" class="new-image" mode="scaleToFill"/>
+          <image :src="domain+item.ImgUrl" class="new-image" mode="scaleToFill" />
           <div class="intention-right">
-
             <div class="bt_ri">
-              <h1>{{item.title}}</h1>
-              <p>在售</p>
-              <div class="clear"></div>
+              <div class="bt_s newHouse_name">{{item.name}}</div>
+              <div class="salestatename">{{item.salestatename}} </div>
+            </div>
+             <div class="zonename">
+              {{item.zonename}}
+            </div>
+            <div class="youshi">
+              <div class="youshi2">{{item.Decorationname}}</div>
+              <div class="youshi2">{{item.existingname}}</div>
+              <div class="youshi2">{{item.BS_Securityname}}</div>
             </div>
 
-            <div class="youshi" v-for="(f, inds) in item.advantage1" :key="inds">
-              <div class="youshi2" v-if="inds<2">{{f.id}}</div>
-            </div><div class="clear"></div>
-
-            <div class="m-x clear">
-              <p class="money">{{item.price}}元/m²</p><p class="money1">建面{{item.price1}}元/平</p>
+            <div class="m-x">
+              <p class="money">{{item.averageprice==""||item.averageprice==null?'价格待定':'均价'+item.averageprice+'元/m²'}}</p>
             </div>
-
           </div>
-          <div class="clear"></div> 
         </div>
-
- 
       </div>
-    </div> 
     <!-- 文章列表结束 -->
 
 
@@ -239,18 +252,7 @@ export default {
         { img3: app.globalData.imgurl + "qbxm3.png", title:'优惠项目'},
         { img3: app.globalData.imgurl + "qbxm4.png", title:'最新开盘'}
       ],
-      newslist: [
-        { 
-          img7:'http://vip.yijienet.com/tt/img1.jpg', title:'城投佳境',
-          advantage1: [
-            { id:'住宅'},
-            { id:'小户型'},
-            { id:'公交直达'}
-          ],
-          price:555, price1:6500,
-        }
-
-      ],
+      newslist: [],
 
       // xianshi_qy:false,
       // xianshi_dq:true,
@@ -276,14 +278,18 @@ export default {
       regionType:[],
       priceType:[],
       apirlroomType:[],
-      areaType:[],
-      buildyearType:[],
-      companyType:[],
-      decorationType:[],
-      floorType:[],
+      // areaType:[],
+
       specialType:[],
-      supportingType:[],
-      towardType:[],
+      propertytypeType:[],
+      salestateType:[],
+
+      // buildyearType:[],
+      // companyType:[],
+      // decorationType:[],
+      // floorType:[],
+      // supportingType:[],
+      // towardType:[],
       orderByType:[{Name:"默认排序"},{Name:"总价从低到高",id:"1|0"},{Name:"总价从高到低",id:"1|1"},
       {Name:"单价从低到高",id:"2|0"},{Name:"单价从高到低",id:"2|1"},{Name:"面积从大到小",id:"3|1"},{Name:"面积从小到大",id:"3|0"}],
       isQu:false,
@@ -294,15 +300,17 @@ export default {
       zoneArr:[],
       apirlroomArr:[],
       priceArr:[],
-      areaArr:[],
+      propertytypeArr: [],
+      // areaArr:[],
       zonearr:[],
       apirlroomarr:[],
       pricearr:[],
-      areaarr:[],
+      propertytypearr: [],
+      // areaarr:[],
       
       specialId:"",
       salestateId: [],
-      propertytypeId: "",
+      
 
 
       //companyId:"",
@@ -328,8 +336,7 @@ export default {
       jgName:"价格",
       hxName:"户型",
       gdName:"更多",
-      pxName:"排序",
-      esf:[],
+      pxName:"排序", 
       xianshi_qy:false,
       xianshi_dq:true,
       xianshi_dt:false,
@@ -368,7 +375,8 @@ export default {
           that.regionType = res.data.Context.zone;
           that.priceType = res.data.Context.price;
           that.apirlroomType = res.data.Context.apirlroom;
-          that.areaType = res.data.Context.area; 
+          // that.areaType = res.data.Context.area; 
+          that.propertytypeType = res.data.Context.propertytype; 
           for(var i=0;i<that.regionType.length;i++){
             that.regionType[i].isQytype=false;
           }
@@ -378,17 +386,19 @@ export default {
           for(var i=0;i<that.apirlroomType.length;i++){
             that.apirlroomType[i].isHxtype=false;
           }
-          for(var i=0;i<that.areaType.length;i++){
-            that.areaType[i].isAreatype=false;
-          }
-           
-          that.buildyearType = res.data.Context.buildyear;
-          that.companyType = res.data.Context.company;
-          that.decorationType = res.data.Context.decoration;
-          that.floorType = res.data.Context.floor;
+          for(var i=0;i<that.propertytypeType.length;i++){
+            that.propertytypeType[i].isLxtype=false;
+          } 
           that.specialType = res.data.Context.special;
-          that.supportingType = res.data.Context.supporting;
-          that.towardType = res.data.Context.toward;
+          // that.propertytypeType = res.data.Context.propertytype;
+          that.salestateType = res.data.Context.salestate;
+
+          // that.buildyearType = res.data.Context.buildyear;
+          // that.companyType = res.data.Context.company;
+          // that.decorationType = res.data.Context.decoration;
+          // that.floorType = res.data.Context.floor;
+          // that.supportingType = res.data.Context.supporting;
+          // that.towardType = res.data.Context.toward;
         },
         fail: function (res) {},
       });
@@ -398,15 +408,17 @@ export default {
     that.zoneArr=[];
     that.apirlroomArr=[];
     that.priceArr=[];
-    that.areaArr=[];
+    that.propertytypeArr= [];
+    // that.areaArr=[];
     that.zonearr=[];
     that.apirlroomarr=[];
     that.pricearr=[];
-    that.areaarr=[];
-    that.esf=[];
+    that.propertytypearr= [];
+    // that.areaarr=[];
+    that.newslist=[];
+
     that.specialId="";
-    that.salestate=[];
-    that.propertytype="";
+    that.salestateId=[];
     // that.companyId="";
     // that.decorationId="";
     // that.buildyearId="";
@@ -541,9 +553,9 @@ export default {
       that.xianshi_sx=!that.xianshi_sx;
       if(that.xianshi_sx==true){
         that.maskHid=true;
-        if(that.areaArr.length==0){
-          for (var j = 0; j < that.areaType.length; j++) {
-            that.areaType[j].isAreatype=false;
+        if(that.propertytypeArr.length==0){
+          for (var j = 0; j < that.propertytypeType.length; j++) {
+            that.propertytypeType[j].isLxtype=false;
           }
         }
       }else{
@@ -589,7 +601,7 @@ export default {
     },
     //点击价格分类
     jgClick:function(index,e){
-      const that = this;
+      const that = this; 
       var priceId=e.mp.currentTarget.dataset.id;
       that.jgName="价格";
       that.isJg=true;
@@ -633,24 +645,66 @@ export default {
 
 
     //点击更多-面积分类
-    areaClick:function(index,e){
+    // areaClick:function(index,e){
+    //   const that = this;
+    //   that.areaId=e.mp.currentTarget.dataset.id;
+    //      for (var j = 0; j < that.areaType.length; j++) {
+    //     if (that.areaType[j].Id == that.areaId) {
+    //         if(that.areaType[j].isAreatype==false){
+    //           that.areaType[j].isAreatype=true;
+    //           that.areaarr.push(that.areaId);
+    //         }else if(that.areaType[j].isAreatype==true){
+    //           for(var i = 0;i<that.areaarr.length;i++){
+    //             if(that.areaType[j].Id==that.areaarr[i]){
+    //                that.areaType[j].isAreatype=false;
+    //               that.areaarr.splice(i,1);
+    //             }
+    //           }
+    //         }
+    //       }
+    //     }
+    // },
+    //点击更多-面积分类
+    propertytypeClick:function(index,e){
       const that = this;
-      that.areaId=e.mp.currentTarget.dataset.id;
-         for (var j = 0; j < that.areaType.length; j++) {
-        if (that.areaType[j].Id == that.areaId) {
-            if(that.areaType[j].isAreatype==false){
-              that.areaType[j].isAreatype=true;
-              that.areaarr.push(that.areaId);
-            }else if(that.areaType[j].isAreatype==true){
-              for(var i = 0;i<that.areaarr.length;i++){
-                if(that.areaType[j].Id==that.areaarr[i]){
-                   that.areaType[j].isAreatype=false;
-                  that.areaarr.splice(i,1);
+      that.propertytypeId=e.mp.currentTarget.dataset.id;
+         for (var j = 0; j < that.propertytypeType.length; j++) {
+        if (that.propertytypeType[j].Id == that.propertytypeId) {
+            if(that.propertytypeType[j].isLxtype==false){
+              that.propertytypeType[j].isLxtype=true;
+              that.propertytypearr.push(that.areaId);
+            }else if(that.propertytypeType[j].isLxtype==true){
+              for(var i = 0;i<that.propertytypearr.length;i++){
+                if(that.propertytypeType[j].Id==that.propertytypearr[i]){
+                   that.propertytypeType[j].isLxtype=false;
+                  that.propertytypearr.splice(i,1);
                 }
               }
             }
           }
         }
+    },
+    //点击更多-特色分类
+    specialClick:function(index,e){
+      const that = this;
+      if(that.special==null){
+         that.special=index;
+         that.specialId=e.mp.currentTarget.dataset.id;
+      }else{
+        that.special=null;
+        that.specialId="";
+      }
+    },
+    //点击更多-销售状态分类
+    salestateClick:function(index,e){
+      const that = this;
+      if(that.salestate==null){
+         that.salestate=index;
+         that.salestateId=e.mp.currentTarget.dataset.id;
+      }else{
+        that.salestate=null;
+        that.salestateId="";
+      }
     },
      //点击更多-房龄分类
     // buildClick:function(index,e){
@@ -696,17 +750,19 @@ export default {
     //     that.floorId="";
     //   }
     // },
-    //点击更多-特色分类
-    specialClick:function(index,e){
-      const that = this;
-      if(that.special==null){
-         that.special=index;
-         that.specialId=e.mp.currentTarget.dataset.id;
-      }else{
-        that.special=null;
-        that.specialId="";
-      }
-    },
+    
+    //点击更多-建筑类型分类
+    // propertytypeClick:function(index,e){
+    //   const that = this;
+    //   if(that.propertytype==null){
+    //      that.propertytype=index;
+    //      that.propertytypeId=e.mp.currentTarget.dataset.id;
+    //   }else{
+    //     that.propertytype=null;
+    //     that.propertytypeId="";
+    //   }
+    // },
+    
     //点击更多-配套分类
     // supportingClick:function(index,e){
     //   const that = this;
@@ -730,19 +786,22 @@ export default {
     //     that.towardId="";
     //   }
     // },
-    //点击更多-朝向分类
+    //点击更多-排序分类
     sortClick:function(index,e){
       const that = this;
       that.xianshi_sort=false;
       that.maskHid=false;
       that.indAction=index;
-      that.esf=[];
+      that.newslist=[];
       if(that.indAction==0){
         that.zoneArr=[];
         that.apirlroomArr=[];
         that.priceArr=[];
-        that.areaArr=[];
+        that.propertytypeArr= [];
+        // that.areaArr=[];
         that.specialId="";
+        that.salestateId=[];
+        
         // that.companyId="";
         // that.decorationId="";
         // that.buildyearId="";
@@ -777,9 +836,9 @@ export default {
       that.zoneArr=that.zonearr;
       that.apirlroomArr=that.apirlroomarr;
       that.priceArr=that.pricearr;
-      that.areaArr=that.areaarr;
+      // that.areaArr=that.areaarr;
       that.pageNumber=1;
-      that.esf=[];
+      that.newslist=[];
       that.typeFun();
     },
     // 点击更多-确定
@@ -818,9 +877,11 @@ export default {
     // 点击更多-重置
     gdReset:function(){
       const that = this;
-      that.areaarr=[];
+      // that.areaarr=[];
       that.special=="";
       that.specialId=="";
+      that.salestateId==[];
+      that.propertytypeArr== [];
       // that.company=null;
       // that.companyId=="";
       // that.decoration=null;
@@ -835,34 +896,13 @@ export default {
       // that.supportingId=="";
       that.orderBy=null;
       that.orderById="";
-      for(var i=0;i<that.areaType.length;i++){
-        that.areaType[i].isAreatype=false;
+      for(var i=0;i<that.propertytypeType.length;i++){
+        that.propertytypeType[i].isLxtype=false;
       }
     },
     //筛选封装
     typeFun(){
       const that = this;
-      // wx.request({
-      //   url:
-      //     app.globalData.url +
-      //     "Project/BandProjectList" +
-      //     "?sessionKey=" +
-      //     app.globalData.sessionKey,
-      //   success: function (res) {
-      //     if (res.data.Context.esf.length > 0) {
-      //       for (var i = 0; i < res.data.Context.esf.length; i++) {
-      //       that.esf.push(res.data.Context.esf[i]);
-      //       }
-      //     } 
-      //     if (res.data.Context.recordCount == 0) {
-      //     } else {
-      //       that.allPage = res.data.Context.recordCount;
-      //     }
-      //   },
-      //   fail: function (res) {},
-      // });
-
-
      wx.request({
       url: app.globalData.url +"Project/BandProjectList" +"?sessionKey=" +app.globalData.sessionKey,
       method:"POST",
@@ -870,9 +910,9 @@ export default {
         zone: that.zoneArr,
         apirlroom: that.apirlroomArr,
         price: that.priceArr,
-        salestate: that.salestate, //销售状态
+        salestate: that.salestateId, //销售状态
         special: that.specialId,
-        propertytype: that.propertytype, //建筑类型
+        propertytype: that.propertytypeArr, //建筑类型
         orderBy: that.orderById,
         keyword:that.keyword,
         pageNumber:that.pageNumber,
@@ -882,9 +922,10 @@ export default {
         'content-type': 'application/json' 
       },
       success (res) {
-         if (res.data.Context.esf.length > 0) {
-          for (var i = 0; i < res.data.Context.esf.length; i++) {
-           that.esf.push(res.data.Context.esf[i]);
+        console.log('res',res)
+         if (res.data.Context.project.length > 0) {
+          for (var i = 0; i < res.data.Context.project.length; i++) {
+           that.newslist.push(res.data.Context.project[i]);
           }
         } 
         if (res.data.Context.recordCount == 0) {
@@ -906,10 +947,16 @@ export default {
 </script>
 
 <style scoped>
+.career{color:#3072F6;}
+.type{background: #EAF1FE !important;color: #3072F6;}
+ .none{width: 100%;text-align: center;/*height: 675rpx;*/ margin-top: 20%;} 
+.none>image{width:200rpx;height:200rpx;}
+.none>div{ font-size: 28rpx; color: #ccc; margin-top: 10rpx; text-align: center;}
 .clear {
   clear: both;
   height: 0;
   display: block;}
+.hsxian{ width: 100%; height:20rpx; background: #f8f8fa;}
 .indexstyle{width: 100%; margin: 0 auto; background: #fff;}
  
 
@@ -929,7 +976,89 @@ export default {
 
 
 /* 猜你意向的新房 */
-.intention-house{ width: 94%; margin-left: 3%; margin-right: 3%; background: #fff; margin: 0 auto; height:380rpx; padding-top:3%; margin-bottom:5%;}
+/* 猜你意向的新房 */
+.intention-house {
+  width: 94%;
+  padding-left: 3%;
+  padding-right: 3%;
+  margin-top: 5%;
+  padding-bottom: 5%;
+  border-bottom: 20rpx #efefef solid;
+}
+.intention-nr {
+  width: 94%;
+  margin-left: 3%;
+  margin-right: 3%;
+  margin-top: 15px;
+}
+.intention-mt {
+  overflow: hidden;
+  width: 94%;
+  margin-left: 3%;
+  margin-right: 3%;
+  margin-bottom: 15rpx;
+}
+.intention-nr image {
+  float: left;
+  width: 40%;
+  height: 190rpx;
+  border-radius: 10rpx;
+}
+.intention-nr .intention-right {
+  float: right;
+  width: 57%;
+  /* margin-top: 20rpx; */
+}
+.intention-nr .intention-right .bt_ri {
+  overflow: hidden;
+}
+.intention-nr .intention-right .bt_ri h1 {
+  float: left;
+  font-size: 34rpx;
+  font-weight: bold;
+  margin-right: 4rpx;
+}
+.salestatename {
+  float: right;
+  width: 115rpx;
+  height: 40rpx;
+  line-height: 40rpx;
+  background: #0a8de4;
+  text-align: center;
+  font-size: 25rpx;
+  margin-right: 10rpx;
+  color: #fff;
+  border-radius: 3px;
+}
+.youshi{overflow:hidden;}
+.youshi2 {
+  float: left;
+  padding-left: 10rpx;
+  padding-right: 10rpx;
+  height: 40rpx;
+  line-height: 40rpx;
+  border-radius: 3px;
+  border: 1rpx #efefef solid;
+  color: #6b7072;
+  font-size: 25rpx;
+  text-align: center;
+  margin-top: 15rpx;
+  margin-right: 10rpx;
+}
+.m-x image {
+  float: right;
+  width: 14px;
+  height: 8px;
+  margin-top: 5rpx;
+}
+.newHouse_name{float: left;}
+.zonename{color: #333;font-size: 25rpx;margin-top: 10rpx;}
+.average{color: #A1A1A1;margin-left: 20rpx;font-size: 28rpx;}
+.proNew{overflow: hidden;margin-left: 3%;margin-right: 3%;margin-top: 20rpx;}
+.proNew>div{float: left;width: 66%;font-size: 30rpx;margin-top: 10rpx;}
+.proNew>image{float: left;width: 32%;height: 160rpx;margin-right: 2%;border-radius: 10rpx;}
+
+/* .intention-house{ width: 94%; margin-left: 3%; margin-right: 3%; background: #fff; margin: 0 auto; height:380rpx; padding-top:3%; margin-bottom:5%;}
 .intention-nr{ width: 94%; margin-left: 3%; margin-right: 3%; margin-top:30rpx;}
 
 .intention-mt{ padding-bottom:30rpx; border-bottom: 1px rgb(236, 236, 236) solid; margin-top:30rpx;}
@@ -941,7 +1070,7 @@ export default {
 .m-x{ margin-top: 15rpx; }
 .m-x p{ float: left;}
 .m-x p.money{ font-size: 34rpx; color:#fa5741; font-weight: 900; margin-right: 5rpx;}
-.m-x p.money1{ font-size:26rpx; color:rgb(180, 180, 180); margin-top: 10rpx; }
+.m-x p.money1{ font-size:26rpx; color:rgb(180, 180, 180); margin-top: 10rpx; } */
 
 /* 筛选 */
 /* .shaixuan{ width: 100%; position: sticky; top: 0; height:80rpx; background: #fff; }
@@ -956,7 +1085,7 @@ export default {
 
 
 /* 筛选 */
-.shaixuan{ width: 100%;background: #fff; }
+.shaixuan{ width: 100%;background: #fff; padding-top: 20rpx; }
 .shang_sx{ width: 100%; clear: both;position: relative;}
 .s_lanmu{ width: 100%; border-bottom: 2rpx rgb(241, 241, 241) solid; height:60rpx;display: flex;
 justify-content: center;line-height: 60rpx;

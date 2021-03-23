@@ -188,6 +188,7 @@ export default {
         'content-type': 'application/json' // 默认值
       },
       success (res) {
+        console.log('1111',res)
         if(res.data.Code==0){
            if (res.data.Context.mmcList.length > 0) {
           for (var i = 0; i < res.data.Context.mmcList.length; i++) {
