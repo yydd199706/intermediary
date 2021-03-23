@@ -58,14 +58,15 @@
     <!-- 楼盘动态结束 -->
 
     <!-- 热门楼盘开始 -->
-    <!-- <div class="hot-s" v-if="hot.length > 0 ? true : false">
+    <div class="hot-s" v-if="hot.length > 0 ? true : false">
       <div class="biaoti-new">
         <div class="wz-bt"><span></span>热门楼盘</div>
         <div class="more">查看更多</div>
       </div>
       <div class="hot-nr">
         <scroll-view scroll-x="true" style="width: 100%" class="image-group">
-          <div class="loupanlist" v-for="(item, index) in hot" :key="index">
+          <div class="loupanlist" v-for="(item, index) in hot" :key="index" :data-id="item.id" 
+          @click="newDetail(index,$event)">
             <div class="loupanlist_top">
               <image :src="domain+item.ImgUrl" class="hot-image" mode="scaleToFill" />
               <div class="location">{{ item.zonename }}</div>
@@ -76,7 +77,7 @@
           </div>  
         </scroll-view>
       </div>
-    </div> -->
+    </div>
     <!-- 热门楼盘结束 -->
 
     <!-- 必看好房开始 -->
@@ -258,7 +259,7 @@ export default {
           title: "二手房",
           url: "/pages/oldhouse/main"
         },
-        // { img3: app.globalData.imgurl +"n2.png", title: "新房" ,url: "/pages/newhouse/main"},
+         { img3: app.globalData.imgurl +"n2.png", title: "新房" ,url: "/pages/newhouse/main"},
         // { img3: app.globalData.imgurl +"n3.png", title: "租房" ,url: "/pages/oldhouse/main"},
         // { img3: app.globalData.imgurl +"n4.png", title: "房贷计算器",url: "/pages/syloans/main" },
       ],
@@ -392,6 +393,11 @@ export default {
     // },
     navList:function(index,e){
       wx.navigateTo({ url: e.mp.currentTarget.dataset.url });
+    },
+    //点击跳转新房详情页
+    newDetail:function(index,e){
+      console.log("cc",e)
+      wx.navigateTo({ url: "/pages/newhousedetails/main?id=" + e.mp.currentTarget.dataset.id });
     },
     //点击跳转二手房详情页
     esfDetail:function(index,e){

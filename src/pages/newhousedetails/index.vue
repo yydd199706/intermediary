@@ -293,6 +293,8 @@
 </template>
 
 <script>
+const app = getApp();
+const common = require("@/utils/index");
 export default {
   data () {
     return {
@@ -309,17 +311,17 @@ export default {
           typess: '别墅',
           housetype: '3居',
           structure: '板楼',
-          img1: "/static/images/jt1.jpg",
+          img1: app.globalData.imgurl +"jt1.jpg",
           address:"",
-          img2: "/static/images/bj.png",
-          img3: "/static/images/kp.png",
-          img10: "/static/images/gz.png",
-          img11: "/static/images/fx.png",
-          img12: "/static/images/xin.png",
-          mf1:"/static/images/mf1.png",
-          mf2:"/static/images/mf2.png",
-          mf3:"/static/images/mf3.png",
-          mf4:"/static/images/mf4.png",
+          img2: app.globalData.imgurl +"bj.png",
+          img3: app.globalData.imgurl +"kp.png",
+          img10: app.globalData.imgurl +"gz.png",
+          img11: app.globalData.imgurl +"fx.png",
+          img12: app.globalData.imgurl +"xin.png",
+          mf1: app.globalData.imgurl +"mf1.png",
+          mf2: app.globalData.imgurl +"mf2.png",
+          mf3: app.globalData.imgurl +"mf3.png",
+          mf4: app.globalData.imgurl +"mf4.png",
           
           tabBar: [
                 { "title": "VP" },
@@ -327,15 +329,15 @@ export default {
             ],
           currentTab: 0,
           movies: [
-                {img4: 'http://vip.yijienet.com/tt/img1.jpg'},
-                {img4: 'http://vip.yijienet.com/tt/img1.jpg'}
+                {img4: 'https://ns-strategy.cdn.bcebos.com/ns-strategy/upload/fc_big_pic/part-00144-228.jpg'},
+                {img4: 'https://ns-strategy.cdn.bcebos.com/ns-strategy/upload/fc_big_pic/part-00144-228.jpg'}
           ],
 
-          img5: 'http://vip.yijienet.com/tt/img1.jpg',
-          img6: '/static/images/yh.png',
+          img5: 'https://ns-strategy.cdn.bcebos.com/ns-strategy/upload/fc_big_pic/part-00144-228.jpg',
+          img6: app.globalData.imgurl +"yh.png",
           housegengd: [
             {
-              img7:'http://vip.yijienet.com/tt/img1.jpg',title:'三室两厅1厨2卫',
+              img7:'https://ns-strategy.cdn.bcebos.com/ns-strategy/upload/fc_big_pic/part-00144-228.jpg',title:'三室两厅1厨2卫',
               yshi: [
                 { id:'花园'},
                 { id:'主卧带卫'}
@@ -344,7 +346,7 @@ export default {
 
               },
               {
-              img7:'http://vip.yijienet.com/tt/img1.jpg',title:'三室两厅1厨2卫',
+              img7:'https://ns-strategy.cdn.bcebos.com/ns-strategy/upload/fc_big_pic/part-00144-228.jpg',title:'三室两厅1厨2卫',
               yshi: [
                 { id:'花园'},
                 { id:'主卧带卫'}
@@ -355,7 +357,7 @@ export default {
           ],
           guwenlists: [
             {
-              img8:'http://vip.yijienet.com/tt/img1.jpg',name:'王先生',fraction:5,service1:400,service2:100,img9:'/static/images/zx.png',
+              img8:'https://ns-strategy.cdn.bcebos.com/ns-strategy/upload/fc_big_pic/part-00144-228.jpg',name:'王先生',fraction:5,service1:400,service2:100,img9: app.globalData.imgurl +"zx.png",
               pingjialist: [
                 {evaluate:'态度礼貌有亲和力'},
                 {evaluate:'形象整洁'},
@@ -369,7 +371,7 @@ export default {
           ],
           newslist: [
             { 
-              img7:'http://vip.yijienet.com/tt/img1.jpg', title:'城投佳境',
+              img7:'https://ns-strategy.cdn.bcebos.com/ns-strategy/upload/fc_big_pic/part-00144-228.jpg', title:'城投佳境',
               advantage1: [
                 { id:'别墅'},
                 { id:'小户型'},
@@ -390,6 +392,21 @@ export default {
 
 
     }
+  },
+  onLoad(option) {
+    const that = this;
+    that.domain=app.globalData.domain;
+    that.houserid=option.id;
+    //获取详情
+      wx.request({
+        url:app.globalData.url +"Project/BandProjectInfo" +"?sessionKey=" +app.globalData.sessionKey+'&projectId=' + option.id,
+        success: function (res) {
+          let patient = res.data;
+           
+        },
+        fail: function (res) {},
+      });
+
   },
  
   methods: {

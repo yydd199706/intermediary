@@ -224,7 +224,7 @@
       <div class="hx_bt">
         <p>位置及周边配套</p>
       </div>
-      <div class="map_img" >
+      <div class="map_img">
           <map id="map" :longitude="longitude" :latitude="latitude" :scale="14" :controls="controls" 
           bindcontroltap="controltap" :markers="markers" :bindmarkertap="markertap" :polyline="polyline"
           :bindregionchange="regionchange" show-location style="width: 100%; height: 220px;"
@@ -586,6 +586,30 @@ export default {
   onLoad(option) {
     const that = this;
     clearInterval(that.timer);
+    that.movies="";
+    that.Decorationname = "";
+    that.looktime = "";
+    that.title = "";
+    that.price = "";
+    that.apirlroom = "";
+    that.apirloffice = "";
+    that.apirltoilet = "";
+    that.area = "";
+    that.buildyear = "";
+    that.averageprice = "";
+    that.floor = "";
+    that.floorcount = "";
+    that.looktime = "";
+    that.companyname = "";
+    that.Towardname = "";
+    that.Propertyname = "";  
+    that.Zonename = "";
+    that.Decorationname = "";
+    that.Rightnaturename = "";
+    that.projectname = "";
+    that.address = "";
+    that.Supportingname = "";
+    
    
     // console.log('电话',app.globalData.member.mobile);
     common.initApp(function (userInfo) { 
@@ -784,29 +808,30 @@ onShow(){
   that.timeText="发送验证码";
   clearInterval(that.timer);
   
-  that.movies="";
-  that.Decorationname = "";
-  that.looktime = "";
-  that.title = "";
-  that.price = "";
-  that.apirlroom = "";
-  that.apirloffice = "";
-  that.apirltoilet = "";
-  that.area = "";
-  that.buildyear = "";
-  that.averageprice = "";
-  that.floor = "";
-  that.floorcount = "";
-  that.looktime = "";
-  that.companyname = "";
-  that.Towardname = "";
-  that.Propertyname = "";  
-  that.Zonename = "";
-  that.Decorationname = "";
-  that.Rightnaturename = "";
-  that.projectname = "";
-  that.address = "";
-  that.Supportingname = "";
+
+  // that.movies="";
+  // that.Decorationname = "";
+  // that.looktime = "";
+  // that.title = "";
+  // that.price = "";
+  // that.apirlroom = "";
+  // that.apirloffice = "";
+  // that.apirltoilet = "";
+  // that.area = "";
+  // that.buildyear = "";
+  // that.averageprice = "";
+  // that.floor = "";
+  // that.floorcount = "";
+  // that.looktime = "";
+  // that.companyname = "";
+  // that.Towardname = "";
+  // that.Propertyname = "";  
+  // that.Zonename = "";
+  // that.Decorationname = "";
+  // that.Rightnaturename = "";
+  // that.projectname = "";
+  // that.address = "";
+  // that.Supportingname = "";
 },
 onShareAppMessage: function(res) {
     return {
@@ -989,10 +1014,13 @@ clickService:function(){
               address: this.address
             })
           }else {
+            this.latitude= "",
+            this.longitude= "";
             wx.showToast({
               title: '无法定位到该地址！',
               icon: 'none',
-              duration: 2000
+              duration: 2000,
+              
             })
           }
         }

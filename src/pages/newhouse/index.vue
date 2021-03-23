@@ -23,10 +23,30 @@
       <div class="shang_sx">
 
         <div class="s_lanmu">
-           <div class="region_bt" @click="dianji_qy">区域</div>
-           <div class="region_bt" @click="dianji_jg">价格</div>
-           <div class="region_bt" @click="dianji_hx">户型</div>
-           <div class="region_bt" @click="dianji_sx">筛选</div>
+           <div class="region_bt" @click="dianji_qy" :class="[zoneArr.length>0||xianshi_qy==true?'career':'']">
+             {{zoneArr.length>1?'多选':'区域'}}
+             <image :src='[xianshi_qy==false?img3:img4]' mode="scaleToFill"/>
+            </div>
+            <div class="region_bt" @click="dianji_jg" :class="[priceArr.length>0||xianshi_jg==true?'career':'']">
+             {{priceArr.length>1?'多选':'价格'}}
+             <image :src='[xianshi_jg==false?img3:img4]' mode="scaleToFill"/>
+           </div>
+           <div class="region_bt" @click="dianji_hx" :class="[apirlroomArr.length>0||xianshi_hx==true?'career':'']">
+             {{apirlroomArr.length>1?'多选':'户型'}}
+             <image :src='[xianshi_hx==false?img3:img4]' mode="scaleToFill"/>
+           </div>
+           <!-- <div class="region_bt" @click="dianji_sx" :class="[areaArr.length>0||xianshi_sx==true||specialId!=''||
+             companyId!=''||decorationId!=''||buildyearId!=''||towardId!=''||floorId!=''||supportingId!=''
+             ?'career':'']">{{areaArr.length>1?'多选':'更多'}}
+             <image :src='[xianshi_sx==false?img3:img4]' mode="scaleToFill"/>
+           </div> -->
+           <div class="region_bt" @click="dianji_sx" :class="[areaArr.length>0||xianshi_sx==true||propertytypeId!=''||specialId!=''||
+             salestateId!=''?'career':'']">{{areaArr.length>1?'多选':'更多'}}
+             <image :src='[xianshi_sx==false?img3:img4]' mode="scaleToFill"/>
+           </div>
+           <div class="region_bt" @click="dianji_sort" :class="[isPx||pxName!='排序'?'career':'']">{{pxName}}
+             <image :src='[xianshi_sort==false?img3:img4]' mode="scaleToFill"/>
+           </div>
         </div>
 
 
@@ -34,87 +54,54 @@
 
         <!-- 区域开始 -->
         <div class="region_xl" v-if="xianshi_qy">
-          <div class="l_mingzi">
-            <p @click="dianji_dq">地区</p>
-            <p @click="dianji_dt">地铁</p>
+          <div class="huxing">
+            <p v-for="(item, index) in regionType" :key="index" :data-id="item.Id" :data-isQytype="item.isQytype"
+              @click="quClick(index,$event)" :data-name="item.Name" :class="[item.isQytype?'type':'none']"
+              :data-show="show">
+              {{item.Name}}</p>
+            <div class="clear"></div>
           </div>
-
-          <div class="r_neirong">
-            <div v-if="xianshi_dq">
-              <p>不限</p>
-              <p>东城</p>
-              <p>东城</p>
-              <p>东城</p>
-              <p>东城</p>
-              <p>东城</p>
-            </div>
-
-            <div v-if="xianshi_dt">
-              <p>不限</p>
-              <p>东城</p>
-              <p>东城</p>
-              <p>东城</p>
-              <p>东城</p>
-              <p>东城</p>
-            </div>
+          <div class="x_dibu" @click="qyReset">
+            <div class="z_buxian">
+              <div><image :src='img6' mode="scaleToFill"/></div>
+              <div>重置</div>
+              </div>
+            <div class="y_quding" @click="qySure">确定</div> 
           </div>
-
-          <div class="x_dibu">
-            <div class="z_buxian">不限条件</div>
-            <div class="y_quding">确定</div>
-          </div>
-
         </div>
         <!-- 区域开始 -->
 
         <!-- 价格开始 -->
         <div class="region_xl" v-if="xianshi_jg">
-          <div class="l_mingzi">
-            <p @click="dianji_zj">总价</p>
-            <p @click="dianji_dj">单价</p>
+          <div class="huxing">
+            <p v-for="(item, index) in priceType" :key="index" :data-id="item.Id" :data-isJgtype="item.isJgtype"
+              @click="jgClick(index,$event)" :data-name="item.Name" :class="[item.isJgtype?'type':'none']">{{item.Name}}</p>
+            <div class="clear"></div>
           </div>
-
-          <div class="r_neirong">
-            <div v-if="xianshi_zj">
-              <p>不限</p>
-                 <p>100万以下</p>
-                 <p>100万以下</p>
-                 <p>100万以下</p>
-                 <p>100万以下</p>
-                 <p>100万以下</p>
-            </div>
-
-            <div v-if="xianshi_dj">
-              <p>2000元/m²</p>
-                 <p>2000元/m²</p>
-                 <p>2000元/m²</p>
-                 <p>2000元/m²</p>
-                 <p>2000元/m²</p>
-                 <p>2000元/m²</p>
-            </div>
+          <div class="x_dibu" @click="jgReset">
+            <div class="z_buxian">
+              <div><image :src='img6' mode="scaleToFill"/></div>
+              <div>重置</div>
+              </div> 
+            <div class="y_quding" @click="qySure">确定</div>
           </div>
-
         </div>
         <!-- 价格开始 -->
 
         <!-- 户型开始 -->
         <div class="region_xl" v-if="xianshi_hx">
           <div class="huxing">
-            <p>不限</p>
-            <p>1居</p>
-            <p>2居</p>
-            <p>3居</p>
-            <p>4居</p>
-            <p>5居</p>
-            <p>5居+</p>
-            <div class="clear"></div>
+            <p v-for="(item, index) in apirlroomType" :key="index" :data-id="item.Id" :data-isHxtype="item.isHxtype"
+              @click="hxClick(index,$event)" :data-name="item.Name" :class="[item.isHxtype?'type':'none']">{{item.Name}}</p>
+          <div class="clear"></div>
           </div>
-
           <div class="x_dibu">
-            <div class="z_buxian">不限条件</div>
-            <div class="y_quding">确定</div>
+            <div class="z_buxian" @click="hxReset">
+              <div><image :src='img6' mode="scaleToFill"/></div>
+              <div>重置</div>
+            </div>
+            <div class="y_quding" @click="qySure">确定</div>
           </div>
-
         </div>
         <!-- 户型开始 -->
 
@@ -123,68 +110,73 @@
         <div class="region_xl" v-if="xianshi_sx">
           <div class="huxing">
             <h1>面积（m²）</h1>
-            <p>50m²以下</p>
-            <p>50-70m²</p>
-            <p>50-70m²</p>
-            <p>50-70m²</p>
-            <p>50-70m²</p>
-            <p>50-70m²</p>
-            <p>50-70m²</p>
+            <p v-for="(item, index) in areaType" :key="index" :data-id="item.Id" :data-isAreatype="item.isAreatype"
+              @click="areaClick(index,$event)" :data-name="item.Name" :class="[item.isAreatype?'type':'none']">{{item.Name}}</p>
             <div class="clear"></div>
           </div>
-
-          <div class="huxing">
-            <h1>类型</h1>
-            <p>住宅</p>
-            <p>别墅</p>
-            <p>别墅</p>
-            <p>别墅</p>
-            <p>别墅</p>
-            <p>别墅</p>
-            <p>别墅</p>
+          <!-- <div class="huxing">
+            <h1>房龄</h1>
+            <p v-for="(item, index) in buildyearType" :key="index" :data-id="item.Id"
+              @click="buildClick(index,$event)" :data-name="item.Name" :class="[buildyear==index?'type':'']">{{item.Name}}</p>
             <div class="clear"></div>
-          </div>
-
+          </div> -->
+          <!-- <div class="companywap">
+            <h1>中介</h1>
+            <p v-for="(item, index) in companyType" :key="index" class="company" :data-id="item.Id"
+              @click="companyClick(index,$event)" :data-name="item.Name" :class="[company==index?'type':'']">{{item.Name}}</p>
+            <div class="clear"></div>
+          </div> -->
+          <!-- <div class="huxing">
+            <h1>装修情况</h1>
+            <p v-for="(item, index) in decorationType" :key="index" :data-id="item.Id"
+              @click="decorationClick(index,$event)" :data-name="item.Name" :class="[decoration==index?'type':'']">{{item.Name}}</p>
+            <div class="clear"></div>
+          </div> -->
+          <!-- <div class="huxing">
+            <h1>楼层</h1>
+           <p v-for="(item, index) in floorType" :key="index" :data-id="item.Id"
+              @click="floorClick(index,$event)" :data-name="item.Name" :class="[floor==index?'type':'']">{{item.Name}}</p>
+            <div class="clear"></div>
+          </div> -->
           <div class="huxing">
             <h1>特色</h1>
-            <p>特价好房</p>
-            <p>特价好房</p>
-            <p>特价好房</p>
-            <p>特价好房</p>
-            <p>特价好房</p>
-            <p>特价好房</p>
-            <p>特价好房</p>
+            <p v-for="(item, index) in specialType" :key="index" :data-id="item.Id"
+              @click="specialClick(index,$event)" :data-name="item.Name" :class="[special==index?'type':'']">{{item.Name}}</p>
             <div class="clear"></div>
           </div>
-
-          <div class="huxing">
-            <h1>售卖状态</h1>
-            <p>在售</p>
-            <p>未开盘</p>
-            <p>售馨</p>
+          <div class="companywap">
+            <h1>配套</h1>
+            <p v-for="(item, index) in supportingType" :key="index" class="company" :data-id="item.Id"
+              @click="supportingClick(index,$event)" :data-name="item.Name" :class="[supporting==index?'type':'']">{{item.Name}}</p>
             <div class="clear"></div>
           </div>
-
-          <div class="huxing">
-            <h1>开盘时间</h1>
-            <p>近期开盘</p>
-            <p>近期开盘</p>
-            <p>近期开盘</p>
-            <p>近期开盘</p>
-            <p>近期开盘</p>
-            <p>近期开盘</p>
-            <p>近期开盘</p>
+           <div class="huxing">
+            <h1>朝向</h1>
+            <p v-for="(item, index) in towardType" :key="index" :data-id="item.Id"
+              @click="towardClick(index,$event)" :data-name="item.Name" :class="[toward==index?'type':'']">{{item.Name}}</p>
             <div class="clear"></div>
           </div>
-
           <div class="x_dibu">
-            <div class="z_buxian">不限条件</div>
-            <div class="y_quding">确定</div>
+            <div class="z_buxian" @click="gdReset">
+              <div><image :src='img6' mode="scaleToFill"/></div>
+              <div>重置</div>
+              </div>
+            <div class="y_quding" @click="qySure">确定</div>
           </div>
-
-
         </div>
         <!-- 筛选开始 -->
+
+        <!-- 排序分类开始 -->
+        <div class="region_xl" v-if="xianshi_sort">
+          <div class="sort">
+             <!-- :class="[item.isHxtype?'type':'none']" -->
+            <div v-for="(item, index) in orderByType" :key="index" :class="[indAction==index?'colors':'']"
+              @click="sortClick(index,$event)" :data-id="item.id">
+              {{item.Name}}</div>
+          <!-- <div class="clear"></div> -->
+          </div>
+        </div>
+        <!-- 排序分类结束 -->
         <div class="clear"></div>
 
       </div>
@@ -235,16 +227,17 @@
 </template>
 
 <script>
+const app = getApp();
+const common = require("@/utils/index");
 export default {
-  data () {
-    xianshi:false;
+  data () { 
     return {
-      img2: "/static/images/ss.png",
+      img2: app.globalData.imgurl + "ss.png",
       navs: [
-        { img3:'/static/images/qbxm1.png', title:'全部项目'},
-        { img3:'/static/images/qbxm2.png', title:'在售项目'},
-        { img3:'/static/images/qbxm3.png', title:'优惠项目'},
-        { img3:'/static/images/qbxm4.png', title:'最新开盘'}
+        { img3: app.globalData.imgurl + "qbxm1.png", title:'全部项目'},
+        { img3: app.globalData.imgurl + "qbxm2.png", title:'在售项目'},
+        { img3: app.globalData.imgurl + "qbxm3.png", title:'优惠项目'},
+        { img3: app.globalData.imgurl + "qbxm4.png", title:'最新开盘'}
       ],
       newslist: [
         { 
@@ -259,15 +252,99 @@ export default {
 
       ],
 
+      // xianshi_qy:false,
+      // xianshi_dq:true,
+      // xianshi_dt:false,
+      // xianshi_jg:false,
+      // xianshi_zj:true,
+      // xianshi_dj:false,
+
+      // xianshi_hx:false,
+      // xianshi_sx:false,
+      domain:null,
+      xianshi:false,
+      maskHid:false,
+      topHid:false,
+      pageNumber:1,
+      pageRecord:6,
+      img:app.globalData.imgurl +"hj.png",
+      img2:app.globalData.imgurl +"ss.png",
+      img3:app.globalData.imgurl +"down_ra.png",
+      img4:app.globalData.imgurl +"top_ra.png",
+      img5:app.globalData.imgurl +"null_data.png",
+      img6:app.globalData.imgurl +"clear.png",
+      regionType:[],
+      priceType:[],
+      apirlroomType:[],
+      areaType:[],
+      buildyearType:[],
+      companyType:[],
+      decorationType:[],
+      floorType:[],
+      specialType:[],
+      supportingType:[],
+      towardType:[],
+      orderByType:[{Name:"默认排序"},{Name:"总价从低到高",id:"1|0"},{Name:"总价从高到低",id:"1|1"},
+      {Name:"单价从低到高",id:"2|0"},{Name:"单价从高到低",id:"2|1"},{Name:"面积从大到小",id:"3|1"},{Name:"面积从小到大",id:"3|0"}],
+      isQu:false,
+      isJg:false,
+      isHx:false,
+      isGd:false, 
+      isPx:false,
+      zoneArr:[],
+      apirlroomArr:[],
+      priceArr:[],
+      areaArr:[],
+      zonearr:[],
+      apirlroomarr:[],
+      pricearr:[],
+      areaarr:[],
+      specialId:"",
+      salestateId: [],
+      propertytypeId: "",
+
+
+      //companyId:"",
+      // decorationId:"",
+      // buildyearId:"",
+      // towardId:"",
+      // floorId:"",
+      // supportingId:"",
+      
+      orderById:"",
+      keyword:"",
+      special:null,
+      company:null,
+      decoration:null,
+      buildyear:null,
+      toward:null,
+      floor:null,
+      supporting:null,
+      orderBy:null,
+      allPage:null,
+      indAction:null,
+      qyName:"区域",
+      jgName:"价格",
+      hxName:"户型",
+      gdName:"更多",
+      pxName:"排序",
+      esf:[],
       xianshi_qy:false,
       xianshi_dq:true,
       xianshi_dt:false,
       xianshi_jg:false,
       xianshi_zj:true,
       xianshi_dj:false,
-
       xianshi_hx:false,
       xianshi_sx:false,
+      xianshi_sort:false,
+      show: false,
+      qybtn:false,
+      jgbtn:false,
+      hxbtn:false,
+      gdbtn:false,
+      dqval: 0
+
 
 
 
@@ -275,35 +352,549 @@ export default {
 
     }
   },
+  onLoad(option){
+    const that = this;
+    that.domain=app.globalData.domain;
+    that.keyword=option.keyword;
+    //获取筛选条件
+      wx.request({
+        url:
+          app.globalData.url +
+          "Project/BandProjectScreenCondition" +
+          "?sessionKey=" +
+          app.globalData.sessionKey,
+        success: function (res) {
+          that.regionType = res.data.Context.zone;
+          that.priceType = res.data.Context.price;
+          that.apirlroomType = res.data.Context.apirlroom;
+          that.areaType = res.data.Context.area; 
+          for(var i=0;i<that.regionType.length;i++){
+            that.regionType[i].isQytype=false;
+          }
+          for(var i=0;i<that.priceType.length;i++){
+            that.priceType[i].isJgtype=false;
+          }
+          for(var i=0;i<that.apirlroomType.length;i++){
+            that.apirlroomType[i].isHxtype=false;
+          }
+          for(var i=0;i<that.areaType.length;i++){
+            that.areaType[i].isAreatype=false;
+          }
+           
+          that.buildyearType = res.data.Context.buildyear;
+          that.companyType = res.data.Context.company;
+          that.decorationType = res.data.Context.decoration;
+          that.floorType = res.data.Context.floor;
+          that.specialType = res.data.Context.special;
+          that.supportingType = res.data.Context.supporting;
+          that.towardType = res.data.Context.toward;
+        },
+        fail: function (res) {},
+      });
+  },
+  onShow(){
+    const that = this;
+    that.zoneArr=[];
+    that.apirlroomArr=[];
+    that.priceArr=[];
+    that.areaArr=[];
+    that.zonearr=[];
+    that.apirlroomarr=[];
+    that.pricearr=[];
+    that.areaarr=[];
+    that.esf=[];
+    that.specialId="";
+    that.salestate=[];
+    that.propertytype="";
+    // that.companyId="";
+    // that.decorationId="";
+    // that.buildyearId="";
+    // that.towardId="";
+    // that.floorId="";
+    // that.supportingId="";
+    that.orderById="";
+    that.pageNumber=1;
+    that.qyName="区域";
+    that.jgName="价格";
+    that.hxName="户型";
+    that.gdName="更多";
+    that.pxName="排序";
+    that.isQu=false;
+    that.isJg=false;
+    that.isHx=false;
+    that.isGd=false;
+    that.isPx=false;
+    that.xianshi_qy=false;
+    that.xianshi_jg=false;
+    that.xianshi_hx=false;
+    that.xianshi_sx=false;
+    that.maskHid=false;
+    that.typeFun();
+    wx.pageScrollTo({
+      scrollTop: 0,
+      duration: 300
+    });
+  },
 
 
 
   methods:{
-    dianji_qy:function(){
-      this.xianshi_qy=!this.xianshi_qy;
-    },
-    dianji_dq:function(){
-      this.xianshi_dq=!this.xianshi_dq;
-    },
-    dianji_dt:function(){
-      this.xianshi_dt=!this.xianshi_dt;
-    },
-    dianji_jg:function(){
-      this.xianshi_jg=!this.xianshi_jg;
-    },
-    dianji_zj:function(){
-      this.xianshi_zj=!this.xianshi_zj;
-    },
-    dianji_dj:function(){
-      this.xianshi_dj=!this.xianshi_dj;
-    },
+    // dianji_qy:function(){
+    //   this.xianshi_qy=!this.xianshi_qy;
+    // },
+    // dianji_dq:function(){
+    //   this.xianshi_dq=!this.xianshi_dq;
+    // },
+    // dianji_dt:function(){
+    //   this.xianshi_dt=!this.xianshi_dt;
+    // },
+    // dianji_jg:function(){
+    //   this.xianshi_jg=!this.xianshi_jg;
+    // },
+    // dianji_zj:function(){
+    //   this.xianshi_zj=!this.xianshi_zj;
+    // },
+    // dianji_dj:function(){
+    //   this.xianshi_dj=!this.xianshi_dj;
+    // },
     
+    // dianji_hx:function(){
+    //   this.xianshi_hx=!this.xianshi_hx;
+    // },
+    // dianji_sx:function(){
+    //   this.xianshi_sx=!this.xianshi_sx;
+    // },
+
+    //点击区域
+    dianji_qy:function(){
+      const that = this;
+      that.xianshi_qy=!that.xianshi_qy;
+      if(that.xianshi_qy==true){
+        that.maskHid=true;
+        if(that.zoneArr.length==0){
+          for (var j = 0; j < that.regionType.length; j++) {
+            that.regionType[j].isQytype=false;
+          }
+        }
+      }else{
+        that.maskHid=false;
+      }
+      that.xianshi_jg=false;
+      that.xianshi_hx=false;
+      that.xianshi_sx=false;
+      that.isQu=!that.isQu;
+      that.isJg=false;
+      that.isHx=false;
+      that.isGd=false;
+      that.isPx=false;
+    },
+    //点击价格
+    dianji_jg:function(){
+      const that = this;
+      that.xianshi_jg=!that.xianshi_jg;
+      if(that.xianshi_jg==true){
+        that.maskHid=true;
+        if(that.priceArr.length==0){
+          for (var j = 0; j < that.priceType.length; j++) {
+            that.priceType[j].isJgtype=false;
+          }
+        }
+      }else{
+        that.maskHid=false;
+      }
+      that.xianshi_qy=false;
+      that.xianshi_hx=false;
+      that.xianshi_sx=false;
+      that.isJg=!that.isJg;
+      that.isQu=false;
+      that.isHx=false;
+      that.isGd=false;
+      that.isPx=false;
+    },
+    //点击户型
     dianji_hx:function(){
-      this.xianshi_hx=!this.xianshi_hx;
+      const that = this;
+      that.xianshi_hx=!that.xianshi_hx;
+      if(that.xianshi_hx==true){
+        that.maskHid=true;
+        if(that.apirlroomArr.length==0){
+          for (var j = 0; j < that.apirlroomType.length; j++) {
+            that.apirlroomType[j].isHxtype=false;
+          }
+        }
+      }else{
+        that.maskHid=false;
+      }
+      that.xianshi_qy=false;
+      that.xianshi_jg=false;
+      that.xianshi_sx=false;
+       that.isHx=!that.isHx;
+       that.isQu=false;
+      that.isJg=false;
+      that.isGd=false;
+      that.isPx=false;
     },
+    //点击筛选
     dianji_sx:function(){
-      this.xianshi_sx=!this.xianshi_sx;
+      const that = this;
+      that.xianshi_sx=!that.xianshi_sx;
+      if(that.xianshi_sx==true){
+        that.maskHid=true;
+        if(that.areaArr.length==0){
+          for (var j = 0; j < that.areaType.length; j++) {
+            that.areaType[j].isAreatype=false;
+          }
+        }
+      }else{
+        that.maskHid=false;
+      }
+      that.xianshi_qy=false;
+      that.xianshi_jg=false;
+      that.xianshi_hx=false;
+      that.isGd=!that.isGd;
+      that.isQu=false;
+      that.isJg=false;
+      that.isHx=false;
+      that.isPx=false;
     },
+    //点击排序
+    dianji_sort:function(){
+      const that = this;
+      that.xianshi_sort=!that.xianshi_sort;
+      that.maskHid=!that.maskHid;
+      that.isPx=true;
+    },
+    //点击区域分类
+    quClick:function(index,e){
+      const that = this;
+      var id=e.mp.currentTarget.dataset.id;
+      that.qyName="区域";
+      that.isQu=true;
+      for (var j = 0; j < that.regionType.length; j++) {
+        if (that.regionType[j].Id == id) {
+            if(that.regionType[j].isQytype==false){
+              that.regionType[j].isQytype=true;
+              that.zonearr.push(id);
+            }else if(that.regionType[j].isQytype==true){
+              for(var i = 0;i<that.zonearr.length;i++){
+                if(that.regionType[j].Id==that.zonearr[i]){
+                   that.regionType[j].isQytype=false;
+                  that.zonearr.splice(i,1);
+                }
+              }
+            }
+          }
+        }
+    },
+    //点击价格分类
+    jgClick:function(index,e){
+      const that = this;
+      var priceId=e.mp.currentTarget.dataset.id;
+      that.jgName="价格";
+      that.isJg=true;
+      for (var j = 0; j < that.priceType.length; j++) {
+        if (that.priceType[j].Id == priceId) {
+            if(that.priceType[j].isJgtype==false){
+              that.priceType[j].isJgtype=true;
+              that.pricearr.push(priceId);
+            }else if(that.priceType[j].isJgtype==true){
+              for(var i = 0;i<that.pricearr.length;i++){
+                if(that.priceType[j].Id==that.pricearr[i]){
+                   that.priceType[j].isJgtype=false;
+                  that.pricearr.splice(i,1);
+                }
+              }
+            }
+          }
+        }
+    },
+    //点击户型分类
+    hxClick:function(index,e){
+      const that = this;
+      that.apirlroomId=e.mp.currentTarget.dataset.id;
+      for (var j = 0; j < that.apirlroomType.length; j++) {
+        if (that.apirlroomType[j].Id == that.apirlroomId) {
+            if(that.apirlroomType[j].isHxtype==false){
+              that.apirlroomType[j].isHxtype=true;
+              that.apirlroomarr.push(that.apirlroomId);
+            }else if(that.apirlroomType[j].isHxtype==true){
+              for(var i = 0;i<that.apirlroomarr.length;i++){
+                if(that.apirlroomType[j].Id==that.apirlroomarr[i]){
+                   that.apirlroomType[j].isHxtype=false;
+                  that.apirlroomarr.splice(i,1);
+                }
+              }
+            }
+          }
+        }
+    },
+
+
+
+    //点击更多-面积分类
+    areaClick:function(index,e){
+      const that = this;
+      that.areaId=e.mp.currentTarget.dataset.id;
+         for (var j = 0; j < that.areaType.length; j++) {
+        if (that.areaType[j].Id == that.areaId) {
+            if(that.areaType[j].isAreatype==false){
+              that.areaType[j].isAreatype=true;
+              that.areaarr.push(that.areaId);
+            }else if(that.areaType[j].isAreatype==true){
+              for(var i = 0;i<that.areaarr.length;i++){
+                if(that.areaType[j].Id==that.areaarr[i]){
+                   that.areaType[j].isAreatype=false;
+                  that.areaarr.splice(i,1);
+                }
+              }
+            }
+          }
+        }
+    },
+     //点击更多-房龄分类
+    buildClick:function(index,e){
+      const that = this;
+      if(that.buildyear==null){
+         that.buildyear=index;
+         that.buildyearId=e.mp.currentTarget.dataset.id;
+      }else{
+        that.buildyear=null;
+        that.buildyearId="";
+      }
+    },
+    //点击更多-中介分类
+    companyClick:function(index,e){
+      const that = this;
+      if(that.company==null){
+         that.company=index;
+         that.companyId=e.mp.currentTarget.dataset.id;
+      }else{
+        that.company=null;
+        that.companyId="";
+      }
+    },
+    //点击更多-装修情况分类
+    decorationClick:function(index,e){
+      const that = this;
+      if(that.decoration==null){
+         that.decoration=index;
+         that.decorationId=e.mp.currentTarget.dataset.id;
+      }else{
+        that.decoration=null;
+        that.decorationId="";
+      }
+    },
+    //点击更多-装修情况分类
+    floorClick:function(index,e){
+      const that = this;
+      if(that.floor==null){
+         that.floor=index;
+         that.floorId=e.mp.currentTarget.dataset.id;
+      }else{
+        that.floor=null;
+        that.floorId="";
+      }
+    },
+    //点击更多-特色分类
+    specialClick:function(index,e){
+      const that = this;
+      if(that.special==null){
+         that.special=index;
+         that.specialId=e.mp.currentTarget.dataset.id;
+      }else{
+        that.special=null;
+        that.specialId="";
+      }
+    },
+    //点击更多-配套分类
+    supportingClick:function(index,e){
+      const that = this;
+      if(that.supporting==null){
+         that.supporting=index;
+         that.supportingId=e.mp.currentTarget.dataset.id;
+      }else{
+        that.supporting=null;
+        that.supportingId="";
+      }
+    },
+
+    //点击更多-朝向分类
+    // towardClick:function(index,e){
+    //   const that = this;
+    //   if(that.toward==null){
+    //      that.toward=index;
+    //      that.towardId=e.mp.currentTarget.dataset.id;
+    //   }else{
+    //     that.toward=null;
+    //     that.towardId="";
+    //   }
+    // },
+    //点击更多-朝向分类
+    sortClick:function(index,e){
+      const that = this;
+      that.xianshi_sort=false;
+      that.maskHid=false;
+      that.indAction=index;
+      that.esf=[];
+      if(that.indAction==0){
+        that.zoneArr=[];
+        that.apirlroomArr=[];
+        that.priceArr=[];
+        that.areaArr=[];
+        that.specialId="";
+        that.companyId="";
+        that.decorationId="";
+        that.buildyearId="";
+        that.towardId="";
+        that.floorId="";
+        that.supportingId="";
+        that.orderById="";
+        that.pageNumber=1;
+        that.pageRecord=6;
+        that.typeFun();
+      }else{
+        that.orderById=e.mp.currentTarget.dataset.id;
+        that.pageNumber=1;
+        that.pageRecord=6;
+        that.typeFun();
+      }
+    },
+
+
+
+
+
+    
+    //点击区域-确定
+    qySure:function(index,e){
+      const that = this;
+      that.xianshi_qy=false;
+      that.xianshi_jg=false;
+      that.xianshi_hx=false;
+      that.xianshi_sx=false;
+      that.maskHid=false;
+      that.zoneArr=that.zonearr;
+      that.apirlroomArr=that.apirlroomarr;
+      that.priceArr=that.pricearr;
+      that.areaArr=that.areaarr;
+      that.pageNumber=1;
+      that.esf=[];
+      that.typeFun();
+    },
+    // 点击更多-确定
+    btnSure:function(){
+      const that = this;
+      that.xianshi_sx=false;
+      that.maskHid=false;
+      that.isGd=true;
+      
+      that.typeFun();
+    },
+    // 点击区域-重置
+    qyReset:function(){
+      const that = this;
+      that.zonearr=[];
+      for(var i=0;i<that.regionType.length;i++){
+        that.regionType[i].isQytype=false;
+      }
+    },
+     // 点击价格-重置
+    jgReset:function(){
+      const that = this;
+      that.pricearr=[];
+      for(var i=0;i<that.priceType.length;i++){
+        that.priceType[i].isJgtype=false;
+      }
+    },
+    // 点击户型-重置
+    hxReset:function(){
+      const that = this;
+      that.apirlroomarr=[];
+      for(var i=0;i<that.apirlroomType.length;i++){
+        that.apirlroomType[i].isHxtype=false;
+      }
+    },
+    // 点击更多-重置
+    gdReset:function(){
+      const that = this;
+      that.areaarr=[];
+      that.special=="";
+      that.specialId=="";
+      that.company=null;
+      that.companyId=="";
+      that.decoration=null;
+      that.decorationId=="";
+      that.buildyear=null;
+      that.buildyearId=="";
+      that.toward=null;
+      that.towardId=="";
+      that.floor=null;
+      that.floorId=="";
+      that.supporting=null;
+      that.supportingId=="";
+      that.orderBy=null;
+      that.orderById="";
+      for(var i=0;i<that.areaType.length;i++){
+        that.areaType[i].isAreatype=false;
+      }
+    },
+    //筛选封装
+    typeFun(){
+      const that = this;
+      // wx.request({
+      //   url:
+      //     app.globalData.url +
+      //     "Project/BandProjectList" +
+      //     "?sessionKey=" +
+      //     app.globalData.sessionKey,
+      //   success: function (res) {
+      //     if (res.data.Context.esf.length > 0) {
+      //       for (var i = 0; i < res.data.Context.esf.length; i++) {
+      //       that.esf.push(res.data.Context.esf[i]);
+      //       }
+      //     } 
+      //     if (res.data.Context.recordCount == 0) {
+      //     } else {
+      //       that.allPage = res.data.Context.recordCount;
+      //     }
+      //   },
+      //   fail: function (res) {},
+      // });
+
+
+     wx.request({
+      url: app.globalData.url +"Project/BandProjectList" +"?sessionKey=" +app.globalData.sessionKey,
+      method:"POST",
+      data: {
+        zone: that.zoneArr,
+        apirlroom: that.apirlroomArr,
+        price: that.priceArr,
+        salestate: that.salestate, //销售状态
+        special: that.specialId,
+        propertytype: that.propertytype, //建筑类型
+        orderBy: that.orderById,
+        keyword:that.keyword,
+        pageNumber:that.pageNumber,
+        pageRecord:that.pageRecord
+      },
+      header: {
+        'content-type': 'application/json' 
+      },
+      success (res) {
+         if (res.data.Context.esf.length > 0) {
+          for (var i = 0; i < res.data.Context.esf.length; i++) {
+           that.esf.push(res.data.Context.esf[i]);
+          }
+        } 
+        if (res.data.Context.recordCount == 0) {
+        } else {
+          that.allPage = res.data.Context.recordCount;
+        }
+      }
+    })
+    },
+
+
 
 
   },
@@ -352,7 +943,7 @@ export default {
 .m-x p.money1{ font-size:26rpx; color:rgb(180, 180, 180); margin-top: 10rpx; }
 
 /* 筛选 */
-.shaixuan{ width: 100%; position: sticky; top: 0; height:80rpx; background: #fff; }
+/* .shaixuan{ width: 100%; position: sticky; top: 0; height:80rpx; background: #fff; }
 .shang_sx{ width: 100%; clear: both;}
 .s_lanmu{ width: 100%; border-bottom:2rpx rgb(241, 241, 241) solid; height:60rpx; padding-top:5%;}
 .region_bt{ float: left; width: 25%; font-size:28rpx; text-align: center;}
@@ -360,15 +951,108 @@ export default {
 .l_mingzi{ float: left; width:25%; background: #fff; border-left:2rpx #ccc solid; margin-top:20rpx;}
 .l_mingzi p{ font-size:28rpx; text-align: center; height:80rpx; line-height:80rpx;}
 .r_neirong{ float: right; width:68%; background: #f8f8fa; padding-top:20rpx; padding-left:6%; padding-bottom:20rpx;}
-.r_neirong p{ font-size:28rpx;  height:80rpx; line-height:80rpx; }
+.r_neirong p{ font-size:28rpx;  height:80rpx; line-height:80rpx; } */
 
-.x_dibu{ width:90%; border-top:2rpx rgb(241, 241, 241) solid;  height:120rpx; clear: both; padding-left:5%; padding-right: 5%;}
-.z_buxian{ float: left; width:50%; margin-right:6%; height:80rpx; font-size:28rpx; line-height:80rpx; border-radius:10rpx; background:#f8f8fa; margin-top:20rpx; text-align: center;}
-.y_quding{ float: right; width:44%; height: 80rpx; line-height: 80rpx; font-size:28rpx; border-radius:10rpx; background: #2e72f1; text-align: center; margin-top:20rpx; color: #fff;}
+
+/* 筛选 */
+.shaixuan{ width: 100%;background: #fff; }
+.shang_sx{ width: 100%; clear: both;position: relative;}
+.s_lanmu{ width: 100%; border-bottom: 2rpx rgb(241, 241, 241) solid; height:60rpx;display: flex;
+justify-content: center;line-height: 60rpx;
+}
+/* .region_bt{ float: left; width: 25%; font-size: 14px; text-align: center;} */
+.region_bt{font-size: 28rpx;width: 25%;text-align: center;}
+.region_bt image{width: 24rpx;height: 24rpx;position: relative;top: 3rpx;}
+.region_xl{ width: 100%; background:#fff;position: relative;z-index: 99999;}
+.l_mingzi{ float: left; width:25%; background: #fff; border-left: 2rpx #ccc solid; margin-top: 20rpx;}
+.l_mingzi p{ font-size: 28rpx; text-align: center; height:80rpx; line-height:80rpx;}
+.r_neirong{ float: right; width:68%; background: #f8f8fa; padding-top:20rpx; padding-left:6%; padding-bottom: 20rpx;}
+.r_neirong p{ font-size: 28rpx;  height:80rpx; line-height:80rpx; }
+
+
+
+
+.x_dibu{ width:90%; border-top: 2rpx rgb(241, 241, 241) solid;  height: 120rpx; clear: both; padding-left:5%; padding-right: 5%;}
+.z_buxian{ float: left; width:50%; margin-right:6%; height:80rpx; font-size: 28rpx; line-height:80rpx; 
+border-radius: 10rpx; background:#f8f8fa; margin-top: 20rpx; text-align: center;display: flex;justify-content: center;}
+.z_buxian>div:first-child{width: 50rpx;height: 50rpx;float: left;line-height: 50rpx;margin-top: 15rpx;margin-right: 10rpx;}
+.z_buxian>div:last-child{float: left;font-size: 26rpx;}
+.z_buxian>div:first-child>image{width: 100%;height: 100%;}
+.y_quding{ float: right; width:44%; height: 80rpx; line-height: 80rpx; font-size: 28rpx; border-radius: 10rpx; background: #2e72f1; text-align: center; margin-top: 20rpx; color: #fff;}
 
 /* 户型 */
-.huxing{ width:90%; padding-left: 5%; padding-right: 5%; padding-top:20rpx; margin-bottom:20rpx; clear: both;}
-.huxing p{ float: left; width: 21%; margin-left: 2%; margin-right: 2%; height: 50rpx; line-height: 50rpx; text-align: center;background: #f8f8fa; margin-top:10rpx; margin-bottom:10rpx; font-size:26rpx;}
-.huxing h1{ margin-top:10rpx; margin-bottom:20rpx; font-size:28rpx; font-weight: bold;}
+.huxing{ width:90%; padding-left: 5%; padding-right: 5%; padding-top: 20rpx; margin-bottom:20rpx; clear: both;}
+.huxing p{ float: left; width: 21%; margin-left: 2%; margin-right: 2%; height: 50rpx; line-height: 50rpx; text-align: center;background: #f8f8fa; margin-top: 19rpx; margin-bottom: 10rpx; font-size: 24rpx;}
+.huxing h1{ margin-top: 10rpx; margin-bottom: 20rpx; font-size: 28rpx; font-weight: bold;}
+/* 遮罩层开始 */
+.modalMask {
+  width: 100% !important;
+  height: 100% !important;
+  position: fixed;
+  /* top: 0; */
+  left: 0;
+  opacity: 0.5;
+  background: #000 !important;
+  overflow: hidden;
+  z-index: 9000;
+  color: #fff;
+}
+/* 遮罩层结束 */
+/* .company{padding: 0 20rpx;width: 0;} */
+.companywap{ width:90%; padding-left: 5%; padding-right: 5%; padding-top: 20rpx; margin-bottom:20rpx; clear: both;}
 
+.companywap p{ float: left; margin-left: 2%; margin-right: 2%; height: 50rpx; line-height: 50rpx; 
+text-align: center;background: #f8f8fa; margin-top: 19rpx; 
+margin-bottom: 10rpx; font-size: 24rpx;padding: 0 20rpx;box-sizing: border-box;}
+.companywap h1{ margin-top: 10rpx; margin-bottom: 20rpx; font-size: 28rpx; font-weight: bold;}
+.h-mt {overflow: hidden;margin-bottom:15rpx;}
+.h-mt image {
+  float: left;
+  width: 40%;
+  height: 200rpx;
+  border-radius: 10rpx;
+}
+.r_wz {float: right;width: 57%;}
+.bt_s{
+  font-size: 30rpx;
+  font-weight: bold;
+  margin-right: 10rpx;
+  white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis;
+}
+.jieshao {
+  font-size: 25rpx;
+  color: #333;
+  margin-top: 10rpx;
+}
+.youshi{overflow:hidden;}
+.youshi>div {
+  float: left;padding: 0 10rpx;
+  height: 40rpx;
+  line-height: 40rpx;
+  border-radius: 3px;
+  background: #edf0f3;
+  color: #849aae;
+  font-size: 25rpx;
+  text-align: center;
+  margin-top: 10rpx;
+  margin-right: 10rpx;
+}
+.m-x {
+  margin-top: 10rpx;
+  overflow: hidden;height: 50rpx;line-height: 50rpx;
+}
+.money {
+  font-size: 30rpx;
+  color: #fa5741;
+  font-weight: 900;
+  margin-right: 5rpx;
+}
+.average{color: #A1A1A1;margin-left: 20rpx;font-size: 28rpx;float: left;}
+.hujian{width: 110rpx;height: 110rpx;position: fixed;right: 10rpx;bottom: 300rpx;}
+.hujian>image{width: 100%;height: 100%;}
+.sort{padding: 0 0 50rpx 40rpx;color: #333;font-size: 28rpx;box-sizing: border-box;}
+.sort>div{padding-top: 50rpx;}
+.colors{color: #3072F6;}
 </style>
