@@ -444,7 +444,7 @@ export default {
         name: '',
         width: 30,
         height: 30,
-        iconPath:'/static/images/map.png',
+        iconPath:app.globalData.imgurl +"map.png",
         callout: {
           content: '',
           color: '#333',
@@ -586,6 +586,9 @@ export default {
     
   },
   onLoad(option) {
+
+  
+
     const that = this;
     clearInterval(that.timer);
     that.movies="";
@@ -758,7 +761,7 @@ export default {
           name: that.projectname,
           width: 30,
           height: 30,
-          iconPath:'/static/images/map.png',
+          iconPath:app.globalData.imgurl +"map.png",
           callout: {
             content: that.projectname,
             color: '#333',
@@ -1263,7 +1266,7 @@ clickService:function(){
     },
     //获取看房时间
     bindDateChangeStart: function(e) {
-        this.lookDate = e.mp.detail.value;
+      this.lookDate = e.mp.detail.value;
       this.color = "color:#333";
     },
     //获取姓名

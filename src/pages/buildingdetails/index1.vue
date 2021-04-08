@@ -2,52 +2,57 @@
   <div class="indexstyle">
 
     <div class="building">
-      <div class="lp_beijing"><image :src="loubj" /></div>
-      <!-- 内容开始 -->
-      <div class="bd_neirong1" v-if="projectInfo">
-        <!-- 基础信息 -->
-        <div class="basic">
-          <h1>基础信息</h1>
-          <div class="b_js">
-            <div v-if="projectInfo.name!=''?true:false"><span>楼盘别名</span>{{projectInfo.name}}</div> 
-            <div v-if="projectInfo.averageprice!=''?true:false"><span>楼盘均价</span>{{projectInfo.averageprice}}元/㎡</div> 
-            <div v-if="projectInfo.opendate!=''?true:false"><span>最新开盘</span>{{projectInfo.opendate}}</div> 
-            <div v-if="projectInfo.Decorationname!=''?true:false"><span>装修情况</span>{{projectInfo.Decorationname}}</div> 
-            <div v-if="projectInfo.saletelephone!=''?true:false"><span>售楼电话</span>{{projectInfo.saletelephone}}</div> 
-            <div v-if="projectInfo.existingname!=''?true:false"><span>期房现房类型</span>{{projectInfo.existingname }}</div> 
-            <div v-if="projectInfo.address!=''?true:false"><span>项目地址</span>{{projectInfo.address}}</div>
-          </div>
-        </div>
-        <!-- 小区概况 -->
-        <div class="basic">
-          <h1>小区概况</h1>
-          <div class="b_js">
-            <div v-if="projectInfo.landyear!=''?true:false"><span>土地使用年限</span>{{projectInfo.landyear}}年</div> 
-            <div v-if="projectInfo.maxdistance!=''?true:false"><span>最大栋距</span>{{projectInfo.maxdistance}}米</div> 
-            <div v-if="projectInfo.mindistance!=''?true:false"><span>最小栋距</span>{{projectInfo.mindistance}}米</div> 
-            <div v-if="projectInfo.landarea!=''?true:false"><span>占地面积</span>{{projectInfo.landarea}}㎡</div> 
-            <div v-if="projectInfo.buildarea!=''?true:false"><span>建筑面积</span>{{projectInfo.buildarea}}㎡</div> 
-            <div v-if="projectInfo.parknumber!=''?true:false"><span>车位个数</span>{{projectInfo.parknumber}}</div> 
-            <div v-if="projectInfo.plotrate!=''?true:false"><span>容积率</span>{{projectInfo.plotrate}}</div> 
-            <div v-if="projectInfo.housecount!=''?true:false"><span>总套数</span>{{projectInfo.housecount}}套</div> 
-            <div v-if="projectInfo.greenrate!=''?true:false"><span>绿化率</span>{{projectInfo.greenrate}}%</div> 
-            <div v-if="projectInfo.propertycost!=''?true:false"><span>物业费</span>{{projectInfo.propertycost}}元/㎡</div> 
-          </div>
-        </div>
-        <!-- 周边配套 -->
-        <div class="basic paddbj">
-          <h1>周边配套</h1>
-          <div class="b_js">
-            <div v-if="projectInfo.sp_education!=''?true:false"><span>教育</span>{{projectInfo.sp_education}}</div> 
-            <div v-if="projectInfo.sp_traffic!=''?true:false"><span>交通</span>{{projectInfo.sp_traffic}}</div> 
-            <div v-if="projectInfo.sp_business!=''?true:false"><span>商业</span>{{projectInfo.sp_business}}</div> 
-            <div v-if="projectInfo.sp_shopping!=''?true:false"><span>购物</span>{{projectInfo.sp_shopping}}</div> 
-            <div v-if="projectInfo.sp_bank!=''?true:false"><span>银行</span>{{projectInfo.sp_bank}}</div> 
-            <div v-if="projectInfo.sp_catering!=''?true:false"><span>餐饮</span>{{projectInfo.sp_catering}}</div> 
-            <div v-if="projectInfo.sp_hospital!=''?true:false"><span>医疗</span>{{projectInfo.sp_hospital}}</div> 
-          </div>
-        </div>
+      <!-- 楼盘栏目开始 -->
+      <div class="bd_lanmu">
+        <div class="lm_xx" :class="(i.id)==currentTab?'tabbar-bottom':''" v-for="(i, index) in letters" :key="index" @click="lett(i.id)">
+          {{i.name}}</div>
       </div>
+      <!-- 楼盘栏目结束 -->
+      <!-- 内容开始 -->
+      <scroll-view class="bd_neirong" scroll-y :scroll-top='scrollTop' :scroll-into-view='toView' style="height:100vh">
+        <div v-for="(i, index) in letters" :key="index" :current="currentTab" @change="changeTab">
+          <div class="bd_neirong1" v-if="projectInfo">
+            
+            <div class="basic" :id="i.id">
+              <h1>{{i.name}}</h1>
+              <!-- 基础信息 -->
+              <div class="b_js" v-if="(i.id)=='A'">
+                <div v-if="projectInfo.name!=''?true:false"><span>楼盘别名</span>{{projectInfo.name}}</div> 
+                <div v-if="projectInfo.averageprice!=''?true:false"><span>楼盘均价</span>{{projectInfo.averageprice}}元/㎡</div> 
+                <div v-if="projectInfo.opendate!=''?true:false"><span>最新开盘</span>{{projectInfo.opendate}}</div> 
+                <div v-if="projectInfo.Decorationname!=''?true:false"><span>装修情况</span>{{projectInfo.Decorationname}}</div> 
+                <div v-if="projectInfo.saletelephone!=''?true:false"><span>售楼电话</span>{{projectInfo.saletelephone}}</div> 
+                <div v-if="projectInfo.existingname!=''?true:false"><span>期房现房类型</span>{{projectInfo.existingname }}</div> 
+                <div v-if="projectInfo.address!=''?true:false"><span>项目地址</span>{{projectInfo.address}}</div>
+              </div>
+              <!-- 小区概况 -->
+              <div class="b_js" v-else-if="(i.id)=='B'">
+                <div v-if="projectInfo.landyear!=''?true:false"><span>土地使用年限</span>{{projectInfo.landyear}}年</div> 
+                <div v-if="projectInfo.maxdistance!=''?true:false"><span>最大栋距</span>{{projectInfo.maxdistance}}米</div> 
+                <div v-if="projectInfo.mindistance!=''?true:false"><span>最小栋距</span>{{projectInfo.mindistance}}米</div> 
+                <div v-if="projectInfo.landarea!=''?true:false"><span>占地面积</span>{{projectInfo.landarea}}㎡</div> 
+                <div v-if="projectInfo.buildarea!=''?true:false"><span>建筑面积</span>{{projectInfo.buildarea}}㎡</div> 
+                <div v-if="projectInfo.parknumber!=''?true:false"><span>车位个数</span>{{projectInfo.parknumber}}</div> 
+                <div v-if="projectInfo.plotrate!=''?true:false"><span>容积率</span>{{projectInfo.plotrate}}</div> 
+                <div v-if="projectInfo.housecount!=''?true:false"><span>总套数</span>{{projectInfo.housecount}}套</div> 
+                <div v-if="projectInfo.greenrate!=''?true:false"><span>绿化率</span>{{projectInfo.greenrate}}%</div> 
+                <div v-if="projectInfo.propertycost!=''?true:false"><span>物业费</span>{{projectInfo.propertycost}}元/㎡</div> 
+              </div>
+              <!-- 周边配套 -->
+              <div class="b_js" v-else-if="(i.id)=='C'">
+                <div v-if="projectInfo.sp_education!=''?true:false"><span>教育</span>{{projectInfo.sp_education}}</div> 
+                <div v-if="projectInfo.sp_traffic!=''?true:false"><span>交通</span>{{projectInfo.sp_traffic}}</div> 
+                <div v-if="projectInfo.sp_business!=''?true:false"><span>商业</span>{{projectInfo.sp_business}}</div> 
+                <div v-if="projectInfo.sp_shopping!=''?true:false"><span>购物</span>{{projectInfo.sp_shopping}}</div> 
+                <div v-if="projectInfo.sp_bank!=''?true:false"><span>银行</span>{{projectInfo.sp_bank}}</div> 
+                <div v-if="projectInfo.sp_catering!=''?true:false"><span>餐饮</span>{{projectInfo.sp_catering}}</div> 
+                <div v-if="projectInfo.sp_hospital!=''?true:false"><span>医疗</span>{{projectInfo.sp_hospital}}</div> 
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </scroll-view>
       <!-- 内容结束 -->
     </div>
 
@@ -79,10 +84,10 @@ export default {
      return {
        scrollTop: 0,
        toView: '',
+       letters: [{id: 'A',name: '基础信息'}, {id: 'B',name: '销售信息'}, {id: 'C',name: '小区概况'}],
        currentTab:"A",
        projectInfo:null,
        footimg1: app.globalData.imgurl +"fx.png",
-       loubj:"/static/images/lou.png",
     }
   },
   onLoad(option) {
@@ -102,13 +107,6 @@ export default {
 
       
          
-  },
-  onShareAppMessage: function(res) {
-    return {
-      title: "楼盘信息详情页",
-      path: "/pages/buildingdetails/main",
-      imageUrl: "",
-    };
   },
   methods:{
     rjldj(){
@@ -159,15 +157,16 @@ export default {
   height: 0;
   display: block;}
 .hsxian{ width: 100%; height:20rpx; background: #f8f8fa;}
-.indexstyle{width: 100%; margin: 0 auto; background: #258bff;}
+.indexstyle{width: 100%; margin: 0 auto; background: #fff;}
  
  
 .building{ width: 100%;}
-.bd_neirong1{ width:100%; }
-.lp_beijing{ width: 100%;}
-.lp_beijing image{ width: 100%;}
-.bd_neirong1{ width:100%; position: absolute; top:180rpx;} 
-.basic{ width:86%; padding-left:4%; padding-right:4%; margin-left:3%; margin-right:3%; padding-bottom: 5%; margin-bottom: 30rpx; background: #fff; border-radius:20rpx; /*border-bottom:20rpx #efefef solid; */padding-top:5%;box-shadow: 2px 2px 10px rgba(11, 52, 114, 0.164);}
+.bd_lanmu{width:100%; line-height:84rpx;position: fixed;top: 0; z-index: 9999;overflow: hidden; white-space: nowrap; 
+border-bottom: 1px rgb(241, 241, 241) solid; background: #fff;} 
+.lm_xx{ float: left; width: 33.3%; color:#9399a5; display: inline-block; font-size: 30rpx; text-align: center;}
+
+.bd_neirong{ width:100%; margin-top: 10%;}
+.basic{ width: 90%; padding-left: 5%; padding-right: 5%; padding-bottom: 5%; border-bottom:20rpx #efefef solid; padding-top: 3%;}
 .basic h1{ font-size: 36rpx; color: #000; font-weight: bold;}
 .b_js div{ margin-top:4%; font-size: 30rpx; line-height: 55rpx;}
 .b_js div span{ color: #9399a5; margin-right: 3%;}
@@ -191,7 +190,6 @@ export default {
 
 .license{ width: 90%; padding-left: 5%; padding-right: 5%; padding-bottom: 5%; border-bottom:20rpx #efefef solid; margin-top: 3%;}
 .license h1{ font-size: 36rpx; color: #000; font-weight: bold;}
-.paddbj{ margin-bottom: 20%;}
 
 .tabbar-bottom {color: rgb(0, 148, 247); font-weight: bold;}
 

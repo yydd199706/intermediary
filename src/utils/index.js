@@ -19,6 +19,7 @@ const formatNumber = n => {
 
 
 function initApp(needUserInfo) {
+  
   wx.checkSession({
     success: function (res) {
       //session_key 未过期，并且在本生命周期一直有效
@@ -31,6 +32,7 @@ function initApp(needUserInfo) {
         success: function (ck) {
           if (ck.data) {
             app.globalData.sessionKey = wx.getStorageSync("sessionKey");
+            app.globalData.member = wx.getStorageSync("member");
             typeof needUserInfo == "function" && needUserInfo(res);
           } else {
             setLogin(needUserInfo);

@@ -204,6 +204,7 @@ export default {
                 if (data.data.Code == 0) {
                   that.openType = "";
                   app.globalData.member = data.data.Context.member;
+                  wx.setStorageSync("member", data.data.Context.member);
                   that.member = app.globalData.member;
                 }
               },

@@ -1,82 +1,40 @@
-
 <template>
   <div class="indexstyle">
-
     <div class="bd_lanmu">
-      <div class="lm_xx" :class="{'tabbar-bottom':letters==index}" v-for="(i, index) in letters" :key="index" @click="lett(i.id)">{{i.name}}</div>
+      <div class="lm_xx"  @click="lett" data-hash="ji1">
+        基础信息</div>
+        <div class="lm_xx"  @click="lett" data-hash="ji2">
+        销售信息</div>
+        <div class="lm_xx" @click="lett" data-hash="ji3">
+        小区概况</div>
     </div>
-    <scroll-view class="bd_neirong" scroll-y :scroll-top='scrollTop' :scroll-into-view='toView' style="height:100vh">
-      <div v-for="(i, index) in letters" :key="index" :current="currentTab" @change="changeTab">
-         <!-- 基础信息 -->
-         <div class="basic" :id="i.id" >
-           <h1>{{i.name}}</h1>
-           <div class="b_js">
-             <div><span>楼盘别名</span>{{name}}</div>
-             <div><span>楼盘别名</span>{{name}}</div>
-             <div><span>楼盘别名</span>{{name}}</div>
-             <div><span>楼盘别名</span>{{name}}</div>
-             <div><span>楼盘别名</span>{{name}}</div>
-             <div><span>楼盘别名</span>{{name}}</div>
-           </div>
-         </div>
+    <scroll-view class="bd_neirong" scroll-y ="true" :scroll-into-view="toView" style="height:{winHeight}">
+      <!-- <div v-for="(i, index) in letters" :key="index" :current="currentTab" @change="changeTab"> -->
+      
+      <!-- 基础信息 -->
+        <div class="basic" id="ji1" >基础信息111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111</div>
+        <!-- 销售信息 -->
+        <div class="sales" id="ji2">销售信息222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222</div>
+        <!-- 小区概况 -->
+        <div class="community" id="ji3">小区概况333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333
 
-         <!-- 销售信息 -->
-         <div class="sales" :id="i.id" >
-           <h1>{{i.name}}</h1>
-           <div class="b_js">
-             <div><span>售卖状态</span>{{state}}</div>
-             <div><span>售卖状态</span>{{state}}</div>
-             <div><span>售卖状态</span>{{state}}</div>
-             <div><span>售卖状态</span>{{state}}</div>
-             <div><span>售卖状态</span>{{state}}</div>
-             <div><span>售卖状态</span>{{state}}</div>
-             <div><span>售卖状态</span>{{state}}</div>
-           </div>
-         </div>
+        </div>
 
-         <!-- 小区概况 -->
-         <div class="community" :id="i.id" >
-           <h1>{{i.name}}</h1>
-           <div class="b_js">
-             <div><span>售卖状态</span>{{state}}</div> 
-             <div><span>售卖状态</span>{{state}}</div> 
-             <div><span>售卖状态</span>{{state}}</div> 
-             <div><span>售卖状态</span>{{state}}</div> 
-             <div><span>售卖状态</span>{{state}}</div> 
-             <div><span>售卖状态</span>{{state}}</div> 
 
-           </div>
-         </div>
-
-         <!-- 预售许可证 -->
-         <div class="license" :id="i.id" >
-           <h1>{{i.name}}</h1>
-           <div class="b_js">
-             <div><span>预售证</span>{{booking}}</div>
-             <div><span>预售证</span>{{booking}}</div> 
-             <div><span>预售证</span>{{booking}}</div> 
-             <div><span>预售证</span>{{booking}}</div> 
-             <div><span>预售证</span>{{booking}}</div> 
-             <div><span>预售证</span>{{booking}}</div> 
-             <div><span>预售证</span>{{booking}}</div> 
-           </div>
-         </div>
-         
-      </div>
+      <!-- </div> -->
     </scroll-view>
-
-
   </div>
 </template>
-
 
 <script>
 export default {
   data () {
      return {
-      toView: '',
+      winHeight:'100%',
+      toView: 'ji1',
+      currentTab:"A",
       scrollTop: 0,
-      letters: [{id: 'A',name: '基础信息'}, {id: 'B',name: '销售信息'}, {id: 'C',name: '小区概况'}, {id: 'D',name: '预售许可证'}],
+      letters: [{id: 'A',name: '基础信息'}, {id: 'B',name: '销售信息'}, {id: 'C',name: '小区概况'}],
       img1:"/static/images/xx1.png",
        img2:"/static/images/wen.png",
        name:"兴安府",
@@ -119,17 +77,29 @@ export default {
 
     }
   },
+
+  onLoad(){
+    let that = this;
+    wx.getSystemInfo({
+      success:function(res){
+        that.winHeight = res.windowHeight-(res.windowWidth*90/750)+'px';
+      }
+    })
+  },
+  
+
+
   methods:{
-    clickTab(e) {
-      this.currentTab = e;
-    },
-    changeTab(e) {
-      this.currentTab = e.mp.detail.current;
-    },
-     lett(l) {
-        this.toView = l;
-        console.log(this.toView)
-      },
+    lett:function(e){
+      console.log(e)
+      this.toView = e.target.dataset.hash;
+    }
+    
+    //  lett(l) {
+    //     this.toView = l; 
+    //     this.currentTab = l;       
+    //     console.log(this.toView)
+    //   },
 
 
   }
@@ -149,7 +119,7 @@ export default {
   height: 0;
   display: block;}
 .hsxian{ width: 100%; height:10px; background: #f8f8fa;}
-.indexstyle{width: 100%; margin: 0 auto; background: #fff;}
+.indexstyle{width: 100%; height: 100%; margin: 0 auto; background: #fff;}
  
  
 .building{ width: 100%;}
@@ -182,7 +152,7 @@ export default {
 .license{ width: 90%; padding-left: 5%; padding-right: 5%; padding-bottom: 5%; border-bottom: 10px #efefef solid; margin-top: 3%;}
 .license h1{ font-size: 36rpx; color: #000; font-weight: bold;}
 
- .tabbar-bottom {   background: #2196f3; color: #fff; font-weight: bold; }
+ .tabbar-bottom {color: rgb(0, 148, 247); font-weight: bold;}
 
 
 </style>

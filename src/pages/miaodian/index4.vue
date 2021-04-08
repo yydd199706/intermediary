@@ -1,226 +1,141 @@
 <template>
-  <div class="longinPage">
-    <div class="right_Letter">
-      <div class="Letter_list" v-for="(item,index) in LetterCity" :key="index" @click="addClassName(index,item.letter)" :class="{active:index == thatnum}">{{item.letter}}</div>
+  <div class="indexstyle">
+    <div class="bd_lanmu">
+      <div class="lm_xx" v-for="i in letters" :key="i" @click="lett(i.id)">{{i.name}}</div>
     </div>
-    
-    <scroll-view class="longinPage_scroll"  :scroll-y="true" @scrolltolower="scrolltolower" @scroll="scroll" :scroll-into-view="toView" :scroll-with-animation="true">
-      <div class="head_gps">
-        <div class="title">定位城市</div>
-        <div class="city_list">北京</div>
-      </div>
- 
-      <div class="head_gps">
-        <div class="title">热门城市</div>
-        <div class="hot_city">
-          <div class="city_list" v-for="(item,index) in hotCity" :key="index" @click="toHome(item.name,item.linkageid)">{{item.name}}</div>
-        </div>
-      </div>
-     
-      <div class="Letter_city" v-for="(item,index) in LetterCity" :key="index" :id="item.letter">
-        <div class="Letter_title">{{item.letter}}</div>
-        <div v-for="(item2,index2) in item.childArr" :key="index2">
-          <div class="Letter_province">{{item2.name}}</div>
-          <div class="hot_city">
-            <div class="city_list" v-for="(item3,index3) in item2.childArr" :key="index3" @click="toHome(item3.name,item3.linkageid)">{{item3.name}}</div>
-            <div class="placeholder"></div>
-          </div>  
-        </div>
-      </div>
- 
+    <scroll-view class="bd_neirong" scroll-y :scroll-top='scrollTop' :scroll-into-view='toView' style="height:300px">
+      <div v-for="i in letters" :key="i">
       
-      <div class="box"></div>
-     
+      <!-- 基础信息 -->
+        <div class="basic" :id="i.id" >
+          <h1>{{i.name}}</h1>
+          <div class="b_js">
+            <div v-for="(ii,ind) in i.sxxinxi" :key="ind"><span>{{ii.sxbm}}</span>{{ii.name}}<p class="youzj" v-if="ii.img1"><image :src="ii.img1" />咨询房贷首付</p></div>            
+          </div>
+        </div>    
+        
+       
+
+      </div>
     </scroll-view>
   </div>
- 
 </template>
- 
+
 <script>
-// import LetterCity from "@/../static/LetterCity.json"
- 
 export default {
   data () {
-    return {
-      LetterCity:"",
-      hotCity:[],
-      thatnum: 0,
-      scrollTop:0,
-      toView:'',
+     return {
+      toView: '',
+      scrollTop: 0,
+      letters: [
+        {id: 'A',name: '基础信息',
+        sxxinxi: [{sxbm: "楼盘别名",name:"兴安府"},{sxbm: "楼盘特色",name:"限竞房、视频看房、小户型",img1: "http://vip.yijienet.com/tt/img1.jpg"}]}, 
+        {id: 'B',name: '销售信息',
+        sxxinxi: [{sxbm: "售卖状态",name:"在售"}]}, 
+        {id: 'C',name: '小区概况',
+        sxxinxi: [{sxbm: "占地面积",name:"43000"}]}, 
+        {id: 'D',name: '预售许可证',
+        sxxinxi: [{sxbm: "预售证",name:"京房售证字（2020）10号"}]}
+      ],
+      // img1:"/static/images/xx1.png",
+      //  img2:"/static/images/wen.png",
+      //  name:"兴安府",
+      //  features:"限竞房、视频看房、小户型",
+      //  price:6500,
+      //  price1:200,
+      //  wytype:"住宅",
+      //  buildingss:"高层、板楼",
+      //  decorate:"精装修",
+      //  years:"70年",
+      //  brand:"",
+      //  developers:"长兴房地产",
+      //  area:"陕西安康",
+      //  address:"",
+      //  state:"在售",
+      //  sladdress:"",
+      //  build:"共20栋",
+      //  door:"2/3/4居",
+      //  time:"2020-01-21",
+      //  time1:"2022-12-21",
+      //  area1:43000,
+      //  area2:132000,
+      //  ratio:2.8,
+      //  Afforestation:35,
+      //  parking:"1:1.2",
+      //  planning:20,
+      //  model:2000,
+      //  property:"",
+      //  cost:4.3,
+      //  heating:"集中供暖",
+      //  water:"民水",
+      //  supply:"民电",
+      //  rjxs:false,
+      //  costxs:false,
+      //  gsxs:false,
+      //  gdxs:false,
+      //  booking:"京房售证字（2020）10号",
+      //  time3:"2020-01-19",
+      //  bangding:"6号楼，1号楼，2号楼，三号楼，四号楼，五号楼，六号楼" 
+
     }
   },
-  onLoad:function(options){
-    //标题
-    wx.setNavigationBarTitle({
-      title: '选择城市'
-    })
-    this.LetterCity=LetterCity
- 
-    //获取开通城市
-    this.$http.post({
-      url:"",
-      data:{
-        source:'2',
-      }  
-    })
-    .then(res => {
-      if(res.code==1000){
-        this.hotCity=res.data
-      }else{
-        wx.showToast({
-          title: res.message, 
-          icon: 'loading', 
-          duration: 2000, 
-          mask: true, 
-        });
+  methods:{
+    
+     lett(l) {
+        this.toView = l
+        console.log(this.toView) 
       }
-    })
- 
- 
-  },
-  methods: {
-    scrolltolower(){
- 
-    },
-    scroll(e) {
-      console.log(e.mp.detail.scrollTop)
-    }, 
-    //to首页
-    toHome(name,numID){
-      wx.setStorage({
-        key:'cityName',
-        data:name
-      })
-      wx.setStorage({
-        key:'cityId',
-        data:numID
-      })
-      wx.switchTab({url: "/pages/index/main"})
-    },
-    //选择字母
-    addClassName: function(index,id) {
-      this.Tips(id)
-      this.thatnum = index;
-      var that=this;
-      for (let i = 0; i < that.LetterCity.length; ++i) {
-        if (that.LetterCity[i].letter == id) {
-          that.toView= that.LetterCity[i].letter
-          break
-        }
-      }
-    },
-    //提示
-    Tips(text){
-      wx.showToast({
-        title: text,
-        icon: 'none',
-        duration: 500
-      });
-    },
+
+
   }
+ 
+
+
+ 
+
+   
+
 }
 </script>
- 
+
 <style scoped>
-.longinPage{
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 50;
-  width: 100%;
-  height: 100%;
-  background: #F7F7F7;
-  padding: 0 9% 0 3%;
-  box-sizing: border-box;
-  overflow: hidden;
-}
-.longinPage_scroll{
-  width: 100%;
-  height: 100%;
-  padding-top: 10px;
-}
-.bottom_text{
-  font-size: 20px;
-  color: #B5B5B5;
-  text-align: center;
-}
-.right_Letter{
-  position: fixed;
-  right: 10px;
-  top: 80px;
-  z-index: 100;
-  width: 25px;
-  overflow: hidden;
-}
-.Letter_list{
-  width: 25px;
-  height: 25px;
-  font-size: 14px;
-  color: #006A3C;
-  text-align: center;
-  line-height: 25px;
-  margin-bottom: 5px;
-}
-.head_gps{
-  margin-top: 10px;
-}
-.title{
-  font-size: 14px;
-  color: #333333;
-  margin-bottom: 10px;
-}
-.city_list{
-  width: 96px;
-  height: 27px;
-  border: 1px solid #CCCBCB;
-  border-radius: 2px;
-  line-height: 27px;
-  text-align: center;
-  margin-bottom: 10px;
-  font-size: 14px;
-  color: #6D6D6D;
-  overflow: hidden;
-  text-overflow:ellipsis;
-  white-space: nowrap;
-}
-.hot_city{
-  display: flex;
-  justify-content:space-between;
-  flex-wrap: wrap;
-}
-.Letter_title{
-  width: 22px;
-  height: 22px;
-  background: #006A3C;
-  border-radius: 50%;
-  font-size: 14px;
-  color: #FFFFFF;
-  text-align: center;
-  line-height: 22px;
-  margin: 15px 0;
-}
-.Letter_province{
-  font-size: 20px;
-}
-.placeholder {
-  width: 30%;
-  height: 0px;
-}
-.active{
-  background: #006A3C;
-  border-radius: 5px;
-  color: #fff;
-  font-size: 16px;
-}
-.box{
-  width: 100%;
-  height: 30px;
-}
- 
-/*隐藏滚动条*/
-.longinPage_scroll ::-webkit-scrollbar {
-  width: 0;
+.clear {
+  clear: both;
   height: 0;
-  color: transparent;
-}
+  display: block;}
+.hsxian{ width: 100%; height:10px; background: #f8f8fa;}
+.indexstyle{width: 100%; margin: 0 auto; background: #fff;}
+ 
+ 
+.building{ width: 100%;}
+.bd_lanmu{width:98%; line-height: 42px; position: relative; overflow: hidden; white-space: nowrap; margin-right:1%; margin-left:1%;} 
+.lm_xx{color:#9399a5; display: inline-block; margin-right:4%; margin-left:4%; font-size: 30rpx;}
+
+.bd_neirong{ width:100%;}
+.basic{ width: 90%; padding-left: 5%; padding-right: 5%; padding-bottom: 5%; border-bottom: 10px #efefef solid; margin-top: 3%;}
+.basic h1{ font-size: 36rpx; color: #000; font-weight: bold;}
+.b_js div{ margin-top:4%; font-size: 30rpx; line-height: 55rpx;}
+.b_js div span{ color: #9399a5; margin-right: 3%;}
+.b_js div p{ float: right; color: #a3a6a8; }
+.b_js div p.youzj{ position: relative; top: -7%; font-size: 26rpx; width:30%;}
+.youzj image{ width:32rpx; height:32rpx; margin-right:4%; margin-top:2%;}
+
+.sales{ width: 90%; padding-left: 5%; padding-right: 5%; padding-bottom: 5%; border-bottom: 10px #efefef solid; margin-top: 3%;}
+.sales h1{ font-size: 36rpx; color: #000; font-weight: bold;}
+
+.community{ width: 90%; padding-left: 5%; padding-right: 5%; padding-bottom: 5%; border-bottom: 10px #efefef solid; margin-top: 3%;}
+.community h1{ font-size: 36rpx; color: #000; font-weight: bold;}
+.community .b_js div image{ width: 30rpx; height: 30rpx; margin-left:2%;}
+/* 中间弹框 */
+.rj_kuang{position:fixed;top:0;bottom:0;right:0;left:0;background-color:#333333d1;display:flex;align-items:flex-end;align-content:center; z-index: 999999;}
+.rj_kuang div{ width:80%; margin-left: 5%; margin-right: 5%; padding: 5%; background: rgb(255, 255, 255); border-radius:2%; position: relative; bottom:35%;}
+.rj_kuang h2{ font-size: 30rpx; margin-bottom: 5%;}
+.rj_kuang p{font-size: 28rpx;  margin-bottom: 5%;}
+.rj_kuang button{ width: 90%; background: #07c160; color: #fff;}
+
+
+.license{ width: 90%; padding-left: 5%; padding-right: 5%; padding-bottom: 5%; border-bottom: 10px #efefef solid; margin-top: 3%;}
+.license h1{ font-size: 36rpx; color: #000; font-weight: bold;}
+
+
 </style>

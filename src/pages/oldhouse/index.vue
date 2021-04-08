@@ -1,14 +1,17 @@
 <template>
   <div class="indexstyle">
-    <!-- 搜索开始 -->
-    <div class="search">
-      <input type="text" placeholder="请输入楼盘名或区域"
-       disabled="disabled" @click="searchUrl" :value="keyword"/>
-      <image :src="img2" mode="scaleToFill"/>
+
+    <div class="heard">
+      <!-- 搜索开始 -->
+      <div class="search">
+        <input type="text" placeholder="请输入楼盘名或区域"
+        disabled="disabled" @click="searchUrl" :value="keyword"/>
+        <image :src="img2" mode="scaleToFill"/>
+      </div>
+      <!-- 搜索结束 -->
     </div>
-    <!-- 搜索结束 -->
-    <!-- 灰色线  -->
-    <div class="hsxian"></div>
+ 
+
     <!-- 筛选开始 -->
     <div class="shaixuan">
       <div class="shang_sx">
@@ -381,6 +384,7 @@ export default {
       }else{
         that.maskHid=false;
       }
+      that.xianshi_sort=false;
       that.xianshi_jg=false;
       that.xianshi_hx=false;
       that.xianshi_sx=false;
@@ -404,6 +408,7 @@ export default {
       }else{
         that.maskHid=false;
       }
+      that.xianshi_sort=false;
       that.xianshi_qy=false;
       that.xianshi_hx=false;
       that.xianshi_sx=false;
@@ -427,6 +432,7 @@ export default {
       }else{
         that.maskHid=false;
       }
+      that.xianshi_sort=false;
       that.xianshi_qy=false;
       that.xianshi_jg=false;
       that.xianshi_sx=false;
@@ -450,6 +456,7 @@ export default {
       }else{
         that.maskHid=false;
       }
+      that.xianshi_sort=false;
       that.xianshi_qy=false;
       that.xianshi_jg=false;
       that.xianshi_hx=false;
@@ -463,7 +470,17 @@ export default {
     dianji_sort:function(){
       const that = this;
       that.xianshi_sort=!that.xianshi_sort;
-      that.maskHid=!that.maskHid;
+      // that.maskHid=!that.maskHid;
+      // that.isPx=true;
+      if(that.xianshi_sort==true){
+        that.maskHid=true; 
+      }else{
+        that.maskHid=false; 
+      }
+      that.xianshi_qy=false;
+      that.xianshi_hx=false;
+      that.xianshi_jg=false;
+      that.xianshi_sx=false;
       that.isPx=true;
     },
     //点击区域分类
@@ -553,82 +570,125 @@ export default {
      //点击更多-房龄分类
     buildClick:function(index,e){
       const that = this;
-      if(that.buildyear==null){
-         that.buildyear=index;
-         that.buildyearId=e.mp.currentTarget.dataset.id;
-      }else{
+      if(that.buildyear==index){
         that.buildyear=null;
         that.buildyearId="";
+      }else{
+        that.buildyear=index;
+        that.buildyearId=e.mp.currentTarget.dataset.id;
       }
+      // if(that.buildyear==null){
+      //    that.buildyear=index;
+      //    that.buildyearId=e.mp.currentTarget.dataset.id;
+      // }else{
+      //   that.buildyear=null;
+      //   that.buildyearId="";
+      // }
     },
     //点击更多-中介分类
     companyClick:function(index,e){
       const that = this;
-      if(that.company==null){
-         that.company=index;
-         that.companyId=e.mp.currentTarget.dataset.id;
-      }else{
+      if(that.company==index){
         that.company=null;
         that.companyId="";
+      }else{
+        that.company=index;
+        that.companyId=e.mp.currentTarget.dataset.id;
       }
+      // if(that.company==null){
+      //    that.company=index;
+      //    that.companyId=e.mp.currentTarget.dataset.id;
+      // }else{
+      //   that.company=null;
+      //   that.companyId="";
+      // }
     },
     //点击更多-装修情况分类
     decorationClick:function(index,e){
       const that = this;
-      if(that.decoration==null){
-         that.decoration=index;
-         that.decorationId=e.mp.currentTarget.dataset.id;
-      }else{
+      if(that.decoration==index){
         that.decoration=null;
         that.decorationId="";
+      }else{
+        that.decoration=index;
+        that.decorationId=e.mp.currentTarget.dataset.id;
       }
+      // if(that.decoration==null){
+      //    that.decoration=index;
+      //    that.decorationId=e.mp.currentTarget.dataset.id;
+      // }else{
+      //   that.decoration=null;
+      //   that.decorationId="";
+      // }
     },
     //点击更多-装修情况分类
     floorClick:function(index,e){
       const that = this;
-      if(that.floor==null){
-         that.floor=index;
-         that.floorId=e.mp.currentTarget.dataset.id;
-      }else{
+      if(that.floor==index){
         that.floor=null;
         that.floorId="";
+      }else{
+        that.floor=index;
+        that.floorId=e.mp.currentTarget.dataset.id;
       }
+      // if(that.floor==null){
+      //    that.floor=index;
+      //    that.floorId=e.mp.currentTarget.dataset.id;
+      // }else{
+      //   that.floor=null;
+      //   that.floorId="";
+      // }
     },
     //点击更多-特色分类
     specialClick:function(index,e){
       const that = this;
-      if(that.special==null){
-         that.special=index;
-         that.specialId=e.mp.currentTarget.dataset.id;
-      }else{
+      if(that.special==index){
         that.special=null;
         that.specialId="";
+      }else{
+        that.special=index;
+        that.specialId=e.mp.currentTarget.dataset.id;
       }
+      // if(that.special==null){
+      //    that.special=index;
+      //    that.specialId=e.mp.currentTarget.dataset.id;
+      // }else{
+      //   that.special=null;
+      //   that.specialId="";
+      // }
     },
     //点击更多-配套分类
     supportingClick:function(index,e){
       const that = this;
-      if(that.supporting==null){
-         that.supporting=index;
-         that.supportingId=e.mp.currentTarget.dataset.id;
-      }else{
+      if(that.supporting==index){
         that.supporting=null;
         that.supportingId="";
+      }else{
+        that.supporting=index;
+        that.supportingId=e.mp.currentTarget.dataset.id;
       }
+      // if(that.supporting==null){
+      //    that.supporting=index;
+      //    that.supportingId=e.mp.currentTarget.dataset.id;
+      // }else{
+      //   that.supporting=null;
+      //   that.supportingId="";
+      // }
     },
 
     //点击更多-朝向分类
     towardClick:function(index,e){
       const that = this;
-      if(that.toward==null){
-         that.toward=index;
-         that.towardId=e.mp.currentTarget.dataset.id;
-      }else{
+      if(that.toward==index){
         that.toward=null;
         that.towardId="";
+      }else{
+        that.toward=index;
+        that.towardId=e.mp.currentTarget.dataset.id;
       }
+
     },
-    //点击更多-朝向分类
+    //点击排序分类
     sortClick:function(index,e){
       const that = this;
       that.xianshi_sort=false;
@@ -711,20 +771,20 @@ export default {
     gdReset:function(){
       const that = this;
       that.areaarr=[];
-      that.special=="";
-      that.specialId=="";
-      that.company=null;
-      that.companyId=="";
-      that.decoration=null;
-      that.decorationId=="";
       that.buildyear=null;
-      that.buildyearId=="";
-      that.toward=null;
-      that.towardId=="";
+      that.buildyearId="";
+      that.company=null;
+      that.companyId="";
+      that.decoration=null;
+      that.decorationId="";
       that.floor=null;
-      that.floorId=="";
+      that.floorId="";
+      that.special=null;
+      that.specialId="";
       that.supporting=null;
-      that.supportingId=="";
+      that.supportingId="";
+      that.toward=null;
+      that.towardId="";
       that.orderBy=null;
       that.orderById="";
       for(var i=0;i<that.areaType.length;i++){
@@ -822,9 +882,9 @@ export default {
 .hsxian{ width: 100%; height:20rpx; background: #f8f8fa;}
 .indexstyle{width: 100%; margin: 0 auto; background: #fff;}
  
-
+.heard{ background: #fff; position: relative; z-index: 999999; padding-bottom: 25rpx; }
 /* 搜索 */
-.search{ width: 90%;  margin: 25rpx auto; margin-left: 5%;position: relative;background: #f1f1f1; border-radius:60rpx;}
+.search{ width: 90%; margin: 0 auto; margin-left: 5%;position: relative;background: #f1f1f1; border-radius:60rpx;}
 .search input{ height:80rpx; line-height:80rpx;margin: 0 auto; width:80%;margin-left: 80rpx;font-size: 26rpx;  }
 .search image{ width: 40rpx; height: 40rpx; position: absolute; top:20rpx; left:3%; }
 
@@ -854,7 +914,7 @@ export default {
 .m-x p.money1{ font-size:26rpx; color:#ccc; margin-top: 10rpx;}
 
 /* 筛选 */
-.shaixuan{ width: 100%;background: #fff; }
+.shaixuan{ width: 100%;background: #fff; padding-top: 20rpx; position: relative; z-index: 99999;  border-top: 20rpx #f7f7f7 solid;}
 .shang_sx{ width: 100%; clear: both;position: relative;}
 .s_lanmu{ width: 100%; border-bottom: 2rpx rgb(241, 241, 241) solid; height:60rpx;display: flex;
 justify-content: center;line-height: 60rpx;
@@ -885,7 +945,7 @@ border-radius: 10rpx; background:#f8f8fa; margin-top: 20rpx; text-align: center;
   width: 100% !important;
   height: 100% !important;
   position: fixed;
-  /* top: 0; */
+  top: 0;
   left: 0;
   opacity: 0.5;
   background: #000 !important;

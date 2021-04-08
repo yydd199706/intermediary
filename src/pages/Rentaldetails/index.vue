@@ -241,6 +241,8 @@
 </template>
 
 <script>
+const app = getApp();
+const common = require("@/utils/index");
 export default {
   data () {
     return {
@@ -262,18 +264,18 @@ export default {
         {id:'精装修'},
       ],
       fangyuanlist:[
-        {img1:'/static/images/z1.png',name:'电视'},
-        {img1:'/static/images/z2.png',name:'冰箱'},
-        {img1:'/static/images/z3.png',name:'洗衣机'},
-        {img1:'/static/images/z4.png',name:'空调'},
-        {img1:'/static/images/z5.png',name:'热水器'},
-        {img1:'/static/images/z6.png',name:'床'},
-        {img1:'/static/images/z7.png',name:'暖气'},
-        {img1:'/static/images/z8.png',name:'宽带'},
-        {img1:'/static/images/z9.png',name:'衣柜'},
-        {img1:'/static/images/z10.png',name:'天然气'},
-        {img1:'/static/images/z11.png',name:'沙发'},
-        {img1:'/static/images/z12.png',name:'桌子'},
+        {img1: app.globalData.imgurl + "z1.png",name:'电视'},
+        {img1: app.globalData.imgurl + "z2.png",name:'冰箱'},
+        {img1: app.globalData.imgurl + "z3.png",name:'洗衣机'},
+        {img1: app.globalData.imgurl + "z4.png",name:'空调'},
+        {img1: app.globalData.imgurl + "z5.png",name:'热水器'},
+        {img1: app.globalData.imgurl + "z6.png",name:'床'},
+        {img1: app.globalData.imgurl + "z7.png",name:'暖气'},
+        {img1: app.globalData.imgurl + "z8.png",name:'宽带'},
+        {img1: app.globalData.imgurl + "z9.png",name:'衣柜'},
+        {img1: app.globalData.imgurl + "z10.png",name:'天然气'},
+        {img1: app.globalData.imgurl + "z11.png",name:'沙发'},
+        {img1: app.globalData.imgurl + "z12.png",name:'桌子'},
       ],
       guwenlists: [
             {
@@ -302,11 +304,11 @@ export default {
         {img11:'http://vip.yijienet.com/tt/img1.jpg',fangy1:'2室一厅',fangy2:80.5,fangy3:'北',fangy4:130,fangy5:6500.5},
         {img11:'http://vip.yijienet.com/tt/img1.jpg',fangy1:'2室一厅',fangy2:80.5,fangy3:'北',fangy4:130,fangy5:6500.5}
       ],
-      img12: "/static/images/gz.png",
-      img13: "/static/images/fx.png",
-      img14: "/static/images/yy.png",
-      img15: "/static/images/gz.png",
-      img16: "/static/images/xin.png",
+      img12: app.globalData.imgurl + "gz.png",
+      img13: app.globalData.imgurl + "fx.png",
+      img14: app.globalData.imgurl + "yy.png",
+      img15: app.globalData.imgurl + "gz.png",
+      img16: app.globalData.imgurl + "xin.png",
       yajin_xs:false,
       gztu_img:0,
  

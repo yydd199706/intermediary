@@ -143,6 +143,7 @@ export default {
     //获取详情
       wx.request({
         url:app.globalData.url +"Project/BandProjectInfo" +"?sessionKey=" +app.globalData.sessionKey+'&projectid=' + option.id,
+        
         success: function (res) {
           that.name = res.data.Context.projectInfo.name;
           that.address = res.data.Context.projectInfo.address;

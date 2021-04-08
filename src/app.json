@@ -33,7 +33,9 @@
     "pages/collection/main",
     "pages/agentList/main",
     "pages/message/main",
-    "pages/userRelease/main"
+    "pages/userRelease/main",
+    "pages/consultantDetails/main",
+    "pages/searchList/main"
     
   ],
   "window": {

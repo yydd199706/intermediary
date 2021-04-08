@@ -197,6 +197,18 @@
           "pathName": "pages/message/main",
           "query": "",
           "scene": null
+        },
+        {
+          "name": "置业顾问详情页",
+          "pathName": "pages/consultantDetails/main",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "搜索",
+          "pathName": "pages/searchList/main",
+          "query": "",
+          "scene": null
         }
       ]
     }
