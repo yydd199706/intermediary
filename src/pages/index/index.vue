@@ -61,7 +61,7 @@
     <div class="hot-s" v-if="hot.length > 0 ? true : false">
       <div class="biaoti-new">
         <div class="wz-bt"><span></span>热门楼盘</div>
-        <div class="more">查看更多</div>
+        <div class="more" @click="hotPropertyList">查看更多</div>
       </div>
       <div class="hot-nr">
         <scroll-view scroll-x="true" style="width: 100%" class="image-group">
@@ -105,7 +105,7 @@
     <!-- 必看好房结束 -->
 
     <!-- 想住靓房开始 -->
-    <!-- <div class="house-s" v-if="house.length > 0 ? true : false">
+    <div class="house-s" v-if="house.length > 0 ? true : false">
       <div class="biaoti-new">
         <div class="wz-bt"><span></span>想住靓房</div>     
         <div class="more">查看更多</div>
@@ -135,18 +135,19 @@
       </div>
 
       <div class="more-house">查看更多</div>
-    </div> -->
+    </div>
     <!-- 想住靓房结束 -->
 
     <!-- 猜你意向的新房开始 -->
     <div class="intention-house" v-if="newHouse.length > 0 ? true : false">
       <div class="biaoti-new">
         <div class="wz-bt"><span></span>猜你意向的新房</div>
-        <div class="more">查看更多</div>
+        <div class="more" @click="hotPropertyList">查看更多</div>
       </div>
 
       <div class="intention-nr">
-        <div class="intention-mt" v-for="(item, index) in newHouse" :key="index">
+        <div class="intention-mt" v-for="(item, index) in newHouse" :key="index" :data-id="item.id" 
+          @click="newDetail(index,$event)">
           <image :src="domain+item.ImgUrl" class="new-image" mode="scaleToFill" />
           <div class="intention-right">
             <div class="bt_ri">
@@ -207,7 +208,7 @@
     <!-- 猜你想买的二手房结束 -->
 
     <!-- 猜你想租的房源开始 -->
-    <!-- <div class="intention-house">
+    <div class="intention-house">
       <div class="biaoti-new">
         <div class="wz-bt"><span></span>猜你想租的房源</div>
         <div class="more">查看更多</div>
@@ -239,7 +240,7 @@
       </div> 
 
       <div class="more-house">查看更多</div>
-    </div> -->
+    </div>
     <!-- 猜你想租的房源结束 -->
   </div>
 </template>
@@ -254,14 +255,10 @@ export default {
       movies: [],
       img2: app.globalData.imgurl + "ss.png",
       navs: [
-        {
-          img3: app.globalData.imgurl + "n1.png",
-          title: "二手房",
-          url: "/pages/oldhouse/main"
-        },
+        {img3: app.globalData.imgurl + "n1.png",title: "二手房",url: "/pages/oldhouse/main"},
          { img3: app.globalData.imgurl +"n2.png", title: "新房" ,url: "/pages/newhouse/main"},
-         { img3: app.globalData.imgurl +"n3.png", title: "租房" ,url: "/pages/oldhouse/main"},
-        // { img3: app.globalData.imgurl +"n4.png", title: "房贷计算器",url: "/pages/syloans/main" },
+         { img3: app.globalData.imgurl +"n3.png", title: "租房" ,url: "/pages/Rental/main"},
+         { img3: app.globalData.imgurl +"n4.png", title: "房贷计算器",url: "/pages/syloans/main" },
       ],
       news: [],
       activity: [],
@@ -415,6 +412,11 @@ export default {
     searchUrl:function(){
        wx.navigateTo({url:"/pages/search/main"});
     },
+    //点击热门楼盘跳转列表页
+    hotPropertyList:function(){
+      wx.navigateTo({ url: "/pages/newhouse/main"});
+    }
+
   },
     onShareAppMessage: function(res) {
     return {

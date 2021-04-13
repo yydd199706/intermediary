@@ -813,7 +813,7 @@ export default {
         keyword:that.keyword,
         pageNumber:that.pageNumber,
         pageRecord:that.pageRecord,
-        publishtype:0
+        publishtype:1
       },
       header: {
         'content-type': 'application/json' // 默认值
@@ -845,7 +845,7 @@ export default {
     },
     //点击跳转二手房详情页
     esfDetail:function(index,e){
-      wx.navigateTo({ url: "/pages/oldhousedetails/main?id=" + e.mp.currentTarget.dataset.id });
+      wx.navigateTo({ url: "/pages/Rentaldetails/main?id=" + e.mp.currentTarget.dataset.id });
     }
   },
   onPageScroll: function(e) {

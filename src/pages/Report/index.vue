@@ -97,7 +97,7 @@
         <button @click="dj_tj(index)">
           <span>添加更多信息</span>
         </button>
-        <button class="Submit" @click="submitClick">
+        <button class="Submit" @click="submitClick(index)">
           <span>点击提交</span>
         </button>
       </div>
@@ -143,6 +143,10 @@ export default {
     that.mid = option.mid;
     that.bbList[0].mid=that.mid;
     that.bbList[0].pid=that.houserid;
+    that.bbList[0].cname="";
+    that.bbList[0].telphone="";
+    that.bbList[0].lookDate="请选择";
+    that.bbList[0].remarks="";
   },
   methods: {
     dj_tj: function(index) {
@@ -202,15 +206,36 @@ export default {
       that.bbList[index].remarks = e.mp.detail.value;
     },
     //点击提交
-    submitClick() {
+    submitClick: function(index) {
       const that = this;
+      var reg = /(1[3-9]\d{9}$)/;
+      //姓名是否为空
+      if (that.bbList[index].cname == "") {
+        Toast("姓名不能为空");
+        return false;
+      }
+      //手机号码是否为空并且格式无误
+      if (that.bbList[index].telphone == "") {
+        Toast("电话不能为空");
+        return false;
+      } else if (!reg.test(that.bbList[index].telphone)) {
+        Toast("请输入正确格式的手机号码!");
+        return false;
+      }
+      //带看时间是否为空
+      if (that.bbList[index].lookDate == "" || that.bbList[index].lookDate == "请选择") {
+        Toast("看房时间不能为空");
+        return false;
+      }
       wx.request({
         url:app.globalData.url + "Project/AddReportLook?sessionKey=" + app.globalData.sessionKey,
         method: "POST",
         data: that.bbList,
         header: { "Content-Type": "application/json" },
-        success(data) {
-          if(data.code == 0){
+        success(res) {
+          console.log("报备",res.data.Code)
+
+          if(res.data.Code == 0){
             wx.showToast({
             icon:'success',
             title:'报备成功！'
@@ -219,7 +244,7 @@ export default {
             wx.navigateBack({
               delta: 1 //返回上一级页面
             })
-            },2000)
+            },3000)
           }else{
             wx.showToast({
             icon:'none',

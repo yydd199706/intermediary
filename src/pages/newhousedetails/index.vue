@@ -12,8 +12,9 @@
       <swiper class="swiper" :current="currentTab" @change="changeTab">
         <!-- VR视频-->
         <swiper-item class="vrdajia">
+          <div class="play" v-if="vrimg != null && vrimg!='' ? true : false" @click="previewVr" ><image :src="bf" mode="scaleToFill"/></div>
           <div class="vrda">
-            <image :src="img5" class="vr-image" mode="scaleToFill"/>
+            <image :src="vrimg != null && vrimg!='' ? domain+vrimg : zwvr" class="vr-image" mode="scaleToFill"/>
           </div>
         </swiper-item>
 
@@ -116,9 +117,12 @@
     <!-- 介绍开始 -->
     <div class="rollnavs">
       <!-- 优惠开始 -->
-      <div class="Discount">
+      <div class="discountdiv" v-if="discountList.length > 0 ? true : false">
         <p>优惠信息</p>
-        <image :src="img6" class="yh-image" mode="scaleToFill"/>
+        <div class="discount" v-for="(item, index) in discountList" :key="index">
+          <h2>{{item.title }}</h2>
+          <h3>{{item.keyword}}<span>...[查看详情]</span></h3>
+        </div>
       </div>
       <!-- 优惠结束 -->
       
@@ -137,9 +141,7 @@
             <div class="yishi" >
               <div class="dg_hx" v-for="(item, index) in housegengdss" :key="index">
                 <image v-if="domain" :src="domain+item.imgurl" class="yh-image" mode="scaleToFill" @click="HousetypeImg(pro,$event)" :data-src="domain+item.imgurl"/>
-                <div class="bt_s">
-                  <h1>{{item.title}}</h1>
-                </div>
+                <div class="bt_s"><h1>{{item.title}}</h1></div>
               </div>
             </div>
            </scroll-view>
@@ -162,11 +164,11 @@
       </div>
       <!-- 位置及周边配套结束 -->
 
-      <!-- 置业顾问开始 -->
+      <!-- 置业顾问开始  -->
       <div class="huxingda">
         <div class="hx_bt">
           <p>置业顾问</p>
-          <span>更多顾问</span>
+          <span @click="consultant">更多顾问</span>
           <div class="clear"></div>
         </div>
         <div class="fuwu">
@@ -179,7 +181,7 @@
         <div class="guwen">
 
           <div class="guwen_list" v-for="(item, index) in guwenlists" :key="index" >
-            <div class="left_g" @click="agentlistJump(index,$event)" :data-id="item.id">
+            <div class="left_g" @click="consultantClick(index,$event)" :data-id="item.id">
               <image v-if="domain" :src="domain+item.imghead_url" class="slide-image" mode="scaleToFill"/>
               <div class="neirong">
                 <div>
@@ -191,30 +193,11 @@
               </div>
             </div>
             <div class="right_g">
-              <p class="wxl"><image :src="img9" class="slide-image" mode="scaleToFill" :data-wxid="item.wxid==''?item.mobile:item.wxid"
+              <p class="wxl"><image :src="img9" class="slide-image" mode="scaleToFill" :data-wxid="item.wxid==''?item.telphone:item.wxid"
                   @click="wxhcopy(index,$event)" /></p>
               <p class="dhr"><image :src="img10s" class="slide-image" mode="scaleToFill" :data-telphone="item.telphone" @click="telphoneClick(index,$event)" /></p>
             </div>
           </div>
-
-          <!-- <div class="guwen_list" v-for="(item, index) in guwenlists" :key="index">
-            <div class="left_g">
-              <image :src="item.img8" class="slide-image" mode="scaleToFill"/>
-              <div class="neirong">
-                <div>
-                  <h1>{{item.name}}</h1>
-                  <span>满意度{{item.fraction}}分</span>
-                  <div class="clear"></div>
-                </div>
-                <p>服务用户{{item.service1}}次 • 总带看{{item.service2}}次</p>
-              </div>
-            </div>
-            <div class="right_g"><image :src="item.img9" class="slide-image" mode="scaleToFill" /></div>
-
-            <div class="pingjia" v-for="(item, pj) in item.pingjialist" :key="pj">
-              <p v-if="pj<2">{{item.evaluate}}</p>
-            </div>
-          </div> -->
 
         </div>
          
@@ -366,74 +349,51 @@ export default {
       ],
       location:null,
       domain:null,
+      // vrurl:"",
+      vrimg:"",
       imgArr:[],
       ImgUrl:"",
+      img_url:"",
+      zwvr:app.globalData.imgurl +"vrsp.png",
+      bf:app.globalData.imgurl +"bf.png",
       projectInfo:null,
       newslikelist:[],
       houseArr:[], 
       housegengd:[],
       housegengdss:[],
+      listData:[],
       j:0,
       houserid:"",
       maskHid:false,
       telHid:false,
       code:"",
       state:"",
+      extnumber:"",
+      hostphone:"",
       clickSome:0,   //0为点击关注  
       HousetypeImgs:"", 
+      loupanid:"",
       guwenlists:[],
+      discountList:[],
       img9:app.globalData.imgurl +"wx.png",
       img10s: app.globalData.imgurl +"dh.png",
-      ys_house: [
-            { id:'VR看房'},
-            { id:'特价好房'},
-            { id:'小户型'},
-            { id:'商业类'}
-          ],
-          price:5800,
-          price1:120,
-          price2:'90-120',
-          opendate:"",
-          typess: '别墅',
-          housetype: '3居',
-          structure: '板楼',
-          img1: app.globalData.imgurl +"jt1.jpg",
-          address:"",
-          img2:"/static/images/bj.png",
-          img3:"/static/images/tx.png",
-          img10: app.globalData.imgurl +"gz.png",
-          img11: app.globalData.imgurl +"fx.png",
-          img12: app.globalData.imgurl +"xin.png",
-          mf1: app.globalData.imgurl +"mf1.png",
-          mf2: app.globalData.imgurl +"mf2.png",
-          mf3: app.globalData.imgurl +"mf3.png",
-          mf4: app.globalData.imgurl +"mf4.png",
-          
-          tabBar: [{ "title": "VP" },{ "title": "图片" }],
-          currentTab: 0,
-          movies: [],
-
-          img5: 'https://ns-strategy.cdn.bcebos.com/ns-strategy/upload/fc_big_pic/part-00144-228.jpg',
-          img6: app.globalData.imgurl +"yh.png",
-           
-          newsArr: [
-            {title:'周边环境介绍周边环境介绍',abstract:'周边环境介绍周边环境介绍周边环境介绍周边环境介绍周边环境介绍周边环境介绍周边环境介绍周边环境介绍',timesj:'2020年11月29日'}
-          ],
-          newslist: [
-            { 
-              img7:'https://ns-strategy.cdn.bcebos.com/ns-strategy/upload/fc_big_pic/part-00144-228.jpg', title:'城投佳境',
-              advantage1: [
-                { id:'别墅'},
-                { id:'小户型'},
-                { id:'公交直达'},
-                { id:'视频看房'}
-              ],
-              price:555, price1:6500,
-            }
-
-          ],
-          hxtab:1,
-          gztu_img:0,
+      address:"",
+      img1:app.globalData.imgurl +"ren.png",
+      img2:app.globalData.imgurl +"bj.png",
+      img3:app.globalData.imgurl +"tx.png",
+      img10: app.globalData.imgurl +"gz.png",
+      img11: app.globalData.imgurl +"fx.png",
+      img12: app.globalData.imgurl +"xin.png",
+      mf1: app.globalData.imgurl +"mf1.png",
+      mf2: app.globalData.imgurl +"mf2.png",
+      mf3: app.globalData.imgurl +"mf3.png",
+      mf4: app.globalData.imgurl +"mf4.png",
+      tabBar: [{ "title": "VR" },{ "title": "图片" }],
+      currentTab: 0,
+      movies: [], 
+      newsArr: [
+        {title:'周边环境介绍周边环境介绍',abstract:'周边环境介绍周边环境介绍周边环境介绍周边环境介绍周边环境介绍周边环境介绍周边环境介绍周边环境介绍',timesj:'2020年11月29日'}
+      ], 
           
 
 
@@ -445,6 +405,8 @@ export default {
   },
   onLoad(option) {
     const that = this;
+    that.movies="";
+    that.projectInfo="",
     that.domain=app.globalData.domain;
     that.houserid=option.id;
     that.imgArr=[];
@@ -454,12 +416,18 @@ export default {
         success: function (res) {
           console.log('详情',res)
           // 房源轮播图
+          that.movies = res.data.Context.pictureInfo;
           for(var i = 0;i<that.movies.length;i++){
             that.imgArr.push(that.domain+that.movies[i].imgurl); 
-          }
-          that.movies = res.data.Context.pictureInfo;
+          } 
           //房源基本信息详情
           that.projectInfo = res.data.Context.projectInfo;
+          that.loupanid = res.data.Context.projectInfo.id;  //楼盘id
+          that.extnumber = res.data.Context.projectInfo.extnumber;   //分机号
+          that.hostphone = res.data.Context.hostphone;   //400总号
+          that.vrimg = res.data.Context.projectInfo.vrimg;
+          //优惠信息
+          that.discountList = res.data.Context.offerinfo;
           // 猜你喜欢
           that.newslikelist = res.data.Context.guessInfo;
           // 户型图
@@ -469,7 +437,8 @@ export default {
           }
           that.housegengdss = that.housegengd[0]; 
           that.HousetypeImgs = that.housegengdss[0].imgurl;
-          console.log('户型图片',that.HousetypeImgs)
+          that.listData.push(that.domain+that.HousetypeImgs);
+          console.log('户型图片',that.listData)
           //置业顾问
           that.guwenlists = res.data.Context.managerList;
 
@@ -559,6 +528,7 @@ export default {
     const that = this;
     var index = pro;
     console.log('图片',e.target.dataset.src)
+    console.log('图片数组',that.imgArr)
     var img_url = e.target.dataset.src;
       wx.previewImage({
         current: img_url,     //当前图片地址
@@ -569,6 +539,12 @@ export default {
         complete: function(res) {},
       })
     },
+    //点击跳转vr
+    previewVr:function(){
+      const that = this;
+      wx.navigateTo({ url: "/pages/vrurl/main?projectId=" + that.loupanid});
+    },
+
     //变价通知
     newMessage(){
       const that = this;
@@ -807,18 +783,39 @@ export default {
       var img_url = e.target.dataset.src;
         wx.previewImage({
           current: img_url,     //当前图片地址
-          urls:that.HousetypeImgs,     //预览的图片的地址
+          urls:that.listData,     //预览的图片的地址
           success: function(res) {},
           fail: function(res) {
           },
           complete: function(res) {},
         })
     },
+    // 拨打400电话
+    clickService(){
+      const that = this;
+      wx.makePhoneCall({
+        phoneNumber:that.hostphone+","+that.extnumber //仅为示例，并非真实的电话号码
+        
+      })
+    },
     //拨打置业顾问电话
     telphoneClick:function(index,e){
       console.log('置业顾问电话',e.currentTarget.dataset.telphone)
       wx.makePhoneCall({
         phoneNumber: e.currentTarget.dataset.telphone
+      })
+    },
+    //置业顾问点击复制微信号
+    wxhcopy: function(index, e) {
+      const that = this;
+      console.log("置业顾问微信号",e.mp.currentTarget.dataset.wxid)
+      wx.setClipboardData({
+        data: e.mp.currentTarget.dataset.wxid,
+        success: function (res) {
+          wx.showToast({
+            title: '复制成功'
+          })
+        }
       })
     },
     //点击跳转新房详情页
@@ -844,12 +841,7 @@ export default {
         })
       }
     },
-    // 拨打400电话
-    clickService(){
-      wx.makePhoneCall({
-        phoneNumber: '1340000' //仅为示例，并非真实的电话号码
-      })
-    },
+    
     // 点击楼盘信息详情页
     moreDetails:function(index,e){
       wx.navigateTo({ url: "/pages/buildingdetails/main?id=" + e.mp.currentTarget.dataset.id });
@@ -878,7 +870,17 @@ export default {
           }
         }
       })
-    }
+    }, 
+    // 点击置业顾问跳转列表页
+    consultant:function(index,e){
+      const that = this;
+      wx.navigateTo({ url: "/pages/consultantList/main?projectId=" + that.loupanid});
+    },
+    //点击置业顾问跳转置业顾问名片
+    consultantClick:function(index,e){
+      console.log("置业顾问",e)
+      wx.navigateTo({ url: "/pages/consultantDetails/main?mid=" + e.mp.currentTarget.dataset.id});
+    },
 
 
 
@@ -916,12 +918,13 @@ export default {
    display: inline-block;
    color: #000;
  }
- .tabbar-bottom { width:80rpx; height:42rpx; line-height:42rpx; text-align: center; background: #2196f3; color: #fff; border-radius:40rpx; }
+.tabbar-bottom { width:80rpx; height:42rpx; line-height:42rpx; text-align: center; background: #2196f3; color: #fff; border-radius:40rpx; }
 .swiper{ height:480rpx;}
 .vrdajia{ height: 1200rpx;}
-.vrda{ width: 100%; height: 1200rpx;}
+.vrda{ width: 100%; height: 1200rpx; position: relative; z-index: 9;}
 .vr-image{ width: 100%; }
-
+.play{ width:150rpx; height: 150rpx; position: absolute; z-index: 999; left:42%; top:32%;}
+.play image{ width:150rpx; height: 150rpx; display: block; margin: 0 auto;}
 
 
 
@@ -971,9 +974,12 @@ margin-right:10rpx; margin-top:20rpx; font-size: 26rpx; }
 
 
 
-.Discount{width: 90%; padding-left: 5%; padding-right: 5%; margin-top: 5%; padding-bottom:5%;  border-bottom:20rpx #efefef solid;;}
-.Discount p{ font-size:35rpx; font-weight: bold; }
-.Discount image{ width:100%; height:120rpx; margin-top: 3%;}
+.discountdiv{width: 90%; padding-left: 5%; padding-right: 5%; margin-top: 5%; padding-bottom:5%;  border-bottom:20rpx #efefef solid;;}
+.discountdiv p{ font-size:35rpx; font-weight: bold; }
+.discountdiv .discount{ width: 100%; margin-top: 20rpx; border-bottom: 1px rgb(241, 241, 241) dotted; padding-bottom: 20rpx; } 
+.discountdiv .discount h2{ font-size: 30rpx;display: block;white-space: nowrap; overflow: hidden; text-overflow: ellipsis;  }
+.discountdiv .discount h3{ display: block; width: 100%; font-size:26rpx; margin-top:10rpx; color:#333;}
+.discountdiv .discount h3 span{ color: rgb(255, 97, 23);}
 
 .huxingda{width: 90%; padding-left: 5%; padding-right: 5%; margin-top: 5%; padding-bottom:6%;  border-bottom:20rpx #efefef solid;}
 .hx_bt{ width:100%; overflow: hidden;}

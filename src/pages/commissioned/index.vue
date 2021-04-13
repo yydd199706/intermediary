@@ -13,7 +13,7 @@
       <!-- 委托咨询结束 -->
 
       <!-- 在线委托开始 -->
-      <button class="wtzx2">在线委托</button>
+      <button class="wtzx2" @click="zxEntrust">在线委托</button>
       <!-- 在线委托结束 -->
     </div>
     <!-- 委托按钮结束 -->
@@ -81,6 +81,9 @@ export default {
     }
   },
    methods: {
+     zxEntrust(){
+      wx.navigateTo({ url: "pages/zxcommissioned/main"});
+    },
 
  
 

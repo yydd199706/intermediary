@@ -209,6 +209,12 @@
           "pathName": "pages/searchList/main",
           "query": "",
           "scene": null
+        },
+        {
+          "name": "vr",
+          "pathName": "pages/vrurl/main",
+          "query": "",
+          "scene": null
         }
       ]
     }
