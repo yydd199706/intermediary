@@ -165,7 +165,7 @@
       <!-- 位置及周边配套结束 -->
 
       <!-- 置业顾问开始  -->
-      <div class="huxingda">
+      <div class="huxingda" v-if="guwenlists.length > 0 ? true : false">
         <div class="hx_bt">
           <p>置业顾问</p>
           <span @click="consultant">更多顾问</span>

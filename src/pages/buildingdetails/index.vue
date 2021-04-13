@@ -82,7 +82,7 @@ export default {
        currentTab:"A",
        projectInfo:null,
        footimg1: app.globalData.imgurl +"fx.png",
-       loubj:"/static/images/lou.png",
+       loubj: app.globalData.imgurl +"lou.png",
     }
   },
   onLoad(option) {
