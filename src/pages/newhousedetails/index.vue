@@ -44,17 +44,17 @@
          <p>{{projectInfo.salestatename}}</p>
        </div>
        <div class="advantage">
-         <div>{{projectInfo.Decorationname==""?'暂无':projectInfo.Decorationname}}</div>
-         <div>{{projectInfo.existingname==""?'暂无':projectInfo.existingname}}</div>
-         <div>{{projectInfo.zonename==""?'暂无':projectInfo.zonename}}</div>
-         <div>{{projectInfo.BS_HotGasname==""?'暂无':projectInfo.BS_HotGasname}}</div>
-         <div>{{projectInfo.BS_Securityname==""?'暂无':projectInfo.BS_Securityname}}</div>
+         <div v-if="projectInfo.Decorationname==''?false:true">{{projectInfo.Decorationname}}</div>
+         <div v-if="projectInfo.existingname==''?false:true">{{projectInfo.existingname}}</div>
+         <div v-if="projectInfo.zonename==''?false:true">{{projectInfo.zonename}}</div>
+         <div v-if="projectInfo.BS_HotGasname==''?false:true">{{projectInfo.BS_HotGasname}}</div>
+         <div v-if="projectInfo.BS_Securityname==''?false:true">{{projectInfo.BS_Securityname}}</div>
        </div>
 
        <div class="price">
          <div class="lelf_p">
-           <h2>参考价格（均价/总价）</h2>
-           <div class="jiage"><span>{{projectInfo.averageprice==""||projectInfo.averageprice==null?'价格待定':projectInfo.averageprice+'元'}}</span>/<span>{{price1}}万</span></div>
+           <h2>参考均价</h2>
+           <div class="jiage">{{projectInfo.averageprice==""||projectInfo.averageprice==null?'价格待定':projectInfo.averageprice+'元/㎡'}}</div>
          </div>
          <div class="right_p">
            <h2>建面</h2>
@@ -134,18 +134,19 @@
 
         <div class="huxingqh" v-for="(item, index) in houseArr" :key="index">
           <div class="bthx" :class="{'selected':j === index}" @click="huxing(index)">{{item.Key}}</div>
-        </div>
-        
-        <div class="huxing">
+           <div class="huxing">
           <scroll-view scroll-x="true" style="width: 100%" class="image-group">
             <div class="yishi" >
-              <div class="dg_hx" v-for="(item, index) in housegengdss" :key="index">
-                <image v-if="domain" :src="domain+item.imgurl" class="yh-image" mode="scaleToFill" @click="HousetypeImg(pro,$event)" :data-src="domain+item.imgurl"/>
-                <div class="bt_s"><h1>{{item.title}}</h1></div>
+              <div class="dg_hx" v-for="(data, ind) in item.List" :key="ind">
+                <image v-if="domain" :src="domain+data.imgurl" class="yh-image" mode="scaleToFill" @click="HousetypeImg(pro,$event)" :data-src="domain+item.imgurl"/>
+                <div class="bt_s"><h1>{{data.title}}</h1></div>
               </div>
             </div>
            </scroll-view>
         </div>
+        </div>
+        
+       
 
       </div>
       <!-- 户型结束 -->
@@ -410,6 +411,7 @@ export default {
     that.domain=app.globalData.domain;
     that.houserid=option.id;
     that.imgArr=[];
+    that.state=0;
     //获取详情
       wx.request({
         url:app.globalData.url +"Project/BandProjectInfo" +"?sessionKey=" +app.globalData.sessionKey+'&projectId=' + option.id,
