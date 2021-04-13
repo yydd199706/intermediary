@@ -859,6 +859,7 @@ export default {
             if(app.globalData.member.type == 1){
               wx.showToast({
                 title: '你不是经纪人',
+                icon: 'none',
                 duration: 1000,
               })
             }else{

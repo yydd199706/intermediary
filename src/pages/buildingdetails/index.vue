@@ -81,6 +81,8 @@ export default {
        toView: '',
        currentTab:"A",
        projectInfo:null,
+       hostphone:"",
+       extnumber:"",
        footimg1: app.globalData.imgurl +"fx.png",
        loubj: app.globalData.imgurl +"lou.png",
     }
@@ -96,6 +98,8 @@ export default {
           console.log('楼盘详情',res)
           //房源基本信息详情
           that.projectInfo = res.data.Context.projectInfo;
+          that.extnumber = res.data.Context.projectInfo.extnumber;   //分机号
+          that.hostphone = res.data.Context.hostphone;   //400总号
         },
         fail: function (res) {},
       });
@@ -111,35 +115,15 @@ export default {
     };
   },
   methods:{
-    rjldj(){
-      this.rjxs = !this.rjxs;
+     
+
+    // 拨打400电话
+    clickService(){
+      const that = this;
+      wx.makePhoneCall({
+        phoneNumber:that.hostphone+","+that.extnumber //仅为示例，并非真实的电话号码
+      })
     },
-    rjyc(){
-      this.rjxs = false;
-    },
-    costdj(){
-      this.costxs = !this.costxs;
-    },
-    costyc(){
-      this.costxs = false;
-    },
-    gsdj(){
-      this.gsxs = !this.gsxs;
-    },
-    gsyc(){
-      this.gsxs = false;
-    },
-    gddj(){
-      this.gdxs = !this.gsxs;
-    },
-    gdyc(){
-      this.gdxs = false;
-    },
-    lett(l) {
-        this.toView = l;
-        this.currentTab = l; 
-        console.log(this.toView)
-      },
 
 
   }
