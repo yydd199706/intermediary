@@ -35,7 +35,7 @@
                 <h1>商贷年限</h1>
                 <div class="shuru1">
                   <input :value="sexText" @click="showPicker" disabled="disabled" placeholder="30年" />                  
-                  <mpvue-picker ref="mpvuePicker" :pickerValueDefault='pickerValueDefault' @onConfirm="oncallCancel" :pickerValueArray="sexValueArray"></mpvue-picker>
+                  <mpvue-picker ref="mpvuePicker" :pickerValueDefault='pickerValueDefault' @onConfirm="onConfirm" :pickerValueArray="sexValueArray"></mpvue-picker>
                   <span><image :src="img1" /></span></div>
               </div>
               <!--利率方式 -->
@@ -43,7 +43,7 @@
                 <h1>利率方式</h1>
                 <div class="shuru1">
                   <input :value="callText"  @click="lilvPicker" placeholder="按LPR" />                  
-                  <mpvue-picker ref="mpvue20Picker" :pickerValueDefault="pickerValueDefault" @onConfirm="oncallConfirm"  :pickerValueArray="sourceValueArray" ></mpvue-picker>
+                  <mpvue-picker ref="mpvue20Picker" :pickerValueArray="sourceValueArray" :pickerValueDefault="pickerValueDefault" @onConfirm="oncallConfirm" ></mpvue-picker>
                   <span><image :src="img1" /></span></div>
               </div>
               <!--历史LPR -->
@@ -698,8 +698,6 @@
 </template>
 
 <script>
-const app = getApp();
-const common = require("@/utils/index");
 import mpvuePicker from "@/../static/components/mpvue-picker/mpvuePicker.vue";// 商业贷款——按贷款总额——贷款年限
 import mpvue20Picker from "@/../static/components/mpvue-picker/mpvuePicker.vue";// 商业贷款——按贷款总额——利率方式
 import businessPickersd from "@/../static/components/mpvue-picker/mpvuePicker.vue";// 商业贷款——按贷款总额——商贷利率
@@ -764,34 +762,33 @@ import fund4Picker from "@/../static/components/mpvue-picker/mpvuePicker.vue";//
         antab:1,
         antaba:1,
         antabb:1,
-        img1:app.globalData.imgurl +"jt1.jpg",
-        img2:app.globalData.imgurl +"wen.png",
+        img1: "/static/images/jt1.jpg",
+        img2: "/static/images/wen.png",
         // 商业贷款——按贷款总额——贷款年限
-        pickerValueDefault: [1],
         sexValueArray:[{label:'15年',value:0},{label:'20年',value:1},{label:'25年',value:2},{label:'30年',value:3}],
-        
+        pickerValueDefault: [1],
         // 商业贷款——按贷款总额——利率方式
-        sourceValueArray:[{label:'按旧版基准利率',value:0},{label:'按LPR',value:1}],
+        sourceValueArray:[{label:'按旧版基准利率',value:0},{label:'按LPR',value:0}],
         // 商业贷款——按贷款总额——商贷利率
-        shangdaiValueArray:[{label:'4.65%（LPR+0基点）',value:0},{label:'5.2%（LPR+55基点）',value:1},{label:'5.7%（LPR+105基点）',value:2}],
+        shangdaiValueArray:[{label:'4.65%（LPR+0基点）',value:0},{label:'5.2%（LPR+55基点）',value:0},{label:'5.7%（LPR+105基点）',value:0}],
 
         // 商业贷款——按房屋总价——贷款年限
-        sex2ValueArray:[{label:'20年',value:0},{label:'20年',value:1},{label:'25年',value:2},{label:'30年',value:3}],
+        sex2ValueArray:[{label:'20年',value:0},{label:'20年',value:0},{label:'25年',value:0},{label:'30年',value:1}],
         // 商业贷款——按房屋总价——利率方式
-        source2ValueArray:[{label:'按旧版基准利率',value:0},{label:'按LPR',value:1}],
+        source2ValueArray:[{label:'按旧版基准利率',value:0},{label:'按LPR',value:0}],
         // 商业贷款——按房屋总价——商贷利率
-        shangdai2ValueArray:[{label:'4.65%（LPR+0基点）',value:0},{label:'5.2%（LPR+55基点）',value:1},{label:'5.7%（LPR+105基点）',value:2}],
+        shangdai2ValueArray:[{label:'4.65%（LPR+0基点）',value:0},{label:'5.2%（LPR+55基点）',value:0},{label:'5.7%（LPR+105基点）',value:0}],
         
         // 组合贷款——按贷款总额——公积金年限
-        fundyearsValueArray:[{label:'25年',value:0},{label:'26年',value:1},{label:'27年',value:2},{label:'28年',value:3},{label:'29年',value:4}],
+        fundyearsValueArray:[{label:'25年',value:0},{label:'26年',value:0},{label:'27年',value:0},{label:'28年',value:0},{label:'29年',value:0}],
         // 组合贷款——按贷款总额——公积金利率
-        fundValueArray:[{label:'最新基准利率（3.25%）',value:0},{label:'最新基准利率上浮10%（3.575%）',value:1}],
+        fundValueArray:[{label:'最新基准利率（3.25%）',value:0},{label:'最新基准利率上浮10%（3.575%）',value:0}],
         // 商业贷款——按贷款总额——贷款年限
-        sex3ValueArray:[{label:'20年',value:0},{label:'20年',value:1},{label:'25年',value:2},{label:'30年',value:3}],
+        sex3ValueArray:[{label:'20年',value:0},{label:'20年',value:0},{label:'25年',value:0},{label:'30年',value:1}],
         // 商业贷款——按贷款总额——利率方式
-        rateswayValueArray:[{label:'按旧版基准利率',value:0},{label:'按LPR',value:1}],
+        rateswayValueArray:[{label:'按旧版基准利率',value:0},{label:'按LPR',value:0}],
         // 商业贷款——按贷款总额——商贷利率
-        shangdai3ValueArray:[{label:'4.65%（LPR+0基点）',value:0},{label:'5.2%（LPR+55基点）',value:1},{label:'5.7%（LPR+105基点）',value:2}],
+        shangdai3ValueArray:[{label:'4.65%（LPR+0基点）',value:0},{label:'5.2%（LPR+55基点）',value:0},{label:'5.7%（LPR+105基点）',value:0}],
 
 
         // 组合贷款——按房屋总价——公积金年限
@@ -951,23 +948,7 @@ import fund4Picker from "@/../static/components/mpvue-picker/mpvuePicker.vue";//
       },
       zd_js(){
         this.lslpr_xianshi = false;
-      },
-
-    
-    //性别确认
-    onSexConfirm(e){
-       if (e.label == null) {
-        this.sex2 = false;
-        this.sex1 = true;
-      } else {
-        this.sex2 = true;
-        this.sex1 = false;
-        this.sexText=e.label;
-        this.sexIndex = e.value[0];
       }
-      this.show = true;
-      
-    },
   
 
 

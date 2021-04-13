@@ -70,20 +70,23 @@
 </template>
 
 <script>
+const app = getApp();
+const common = require("@/utils/index");
 export default {
   data () {
     return {
       img1:"http://vip.yijienet.com/tt/img1.jpg",
-      img2:"/static/images/quan.png",
+      img2:app.globalData.imgurl +"quan.png",
  
 
 
     }
   },
    methods: {
-     zxEntrust(){
-      wx.navigateTo({ url: "pages/zxcommissioned/main"});
+    zxEntrust:function(){
+      wx.navigateTo({ url: "/pages/zxcommissioned/main"});
     },
+
 
  
 

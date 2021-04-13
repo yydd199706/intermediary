@@ -5,7 +5,7 @@
       <!-- 搜索开始 -->
       <div class="search">
         <input type="text" placeholder="请输入楼盘名或区域"
-        disabled="disabled" @click="searchUrl" :value="keyword"/>
+        disabled="disabled" @click="searchUrl" :value="keyword"/> 
         <image :src="img2" mode="scaleToFill"/>
       </div>
       <!-- 搜索结束 -->
