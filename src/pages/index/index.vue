@@ -410,7 +410,7 @@ export default {
     },
     //点击跳转搜索页
     searchUrl:function(){
-       wx.navigateTo({url:"/pages/search/main"});
+       wx.navigateTo({url:"/pages/searchList/main"});
     },
     //点击热门楼盘跳转列表页
     hotPropertyList:function(){

@@ -7,12 +7,34 @@
       <image :src="img2" mode="scaleToFill"/>
     </div>
     <!-- 搜索结束 -->
-    <!-- 搜索列表展示开始 -->
+    <!-- 二手房搜索列表展示开始 -->
+    <div v-if="type=='esf'">
     <div v-if="esfList.length>0&&name.length>0?true:false" class="esfList">
-      <div v-for="(item, index) in esfList" :key="index" @click="searchClick(index,$event)" :data-name="item.projectname">
+      <div v-for="(item, index) in esfList" :key="index" @click="esfClick(index,$event)" :data-name="item.projectname">
         <div>{{item.projectname}}</div>
         <div>{{item.groupcount}}套</div>
       </div>
+    </div>
+    </div>
+
+    <!-- 新房搜索列表展示开始 -->
+    <div v-if="type=='project'">
+    <div class="esfList">
+      <div v-for="(item, index) in project" :key="index" @click="projectClick(index,$event)" :data-name="item.name">
+        <div>{{item.name}}</div>
+        <div>{{item.housecount}}套</div>
+      </div>
+    </div>
+    </div>
+
+    <!-- 租房搜索列表展示开始 -->
+    <div v-if="type=='rent'">
+    <div v-if="rentList.length>0?true:false" class="esfList">
+      <div v-for="(item, index) in rentList" :key="index" @click="rentClick(index,$event)" :data-name="item.projectname">
+        <div>{{item.projectname}}</div>
+        <div>{{item.groupcount}}套</div>
+      </div>
+    </div>
     </div>
 
      
@@ -43,6 +65,8 @@ const app = getApp();
         name:'',
         img2: app.globalData.imgurl +"ss.png",
         esfList:[],
+        project:[],
+        rentList:[],
         type:"",
         // search:[
         //   {title:'天一城市之光',img1: "/static/images/sshot.png"},
@@ -85,22 +109,27 @@ const app = getApp();
         success: function (res) {
           console.log("模糊词",res)
           that.esfList=res.data.Context.esfList;
+          that.project=res.data.Context.projectList;
+          that.rentList=res.data.Context.rentList;
         },
         fail: function (res) {},
       });
       }
     },
     //点击筛选
-    searchClick:function(index,e){
+    esfClick:function(index,e){
       const that = this;
-      if(that.type=="esf"){
-        wx.navigateTo({url:"/pages/oldhouse/main?keyword="+e.mp.currentTarget.dataset.name});
-      }else if(that.type=="project"){
-       wx.navigateTo({url:"/pages/newhouse/main?keyword="+e.mp.currentTarget.dataset.name}); 
-      }else if(that.type=="rent"){
-       wx.navigateTo({url:"/pages/Rental/main?keyword="+e.mp.currentTarget.dataset.name}); 
-      }
-    }
+      wx.navigateTo({url:"/pages/oldhouse/main?keyword="+e.mp.currentTarget.dataset.name});
+    },
+
+    projectClick:function(index,e){
+      const that = this;
+      wx.navigateTo({url:"/pages/newhouse/main?keyword="+e.mp.currentTarget.dataset.name});
+    },
+    rentClick:function(index,e){
+      const that = this;
+      wx.navigateTo({url:"/pages/Rental/main?keyword="+e.mp.currentTarget.dataset.name});
+    },
 
 
 
