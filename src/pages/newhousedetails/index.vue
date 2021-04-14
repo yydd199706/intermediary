@@ -149,18 +149,18 @@
 
         <div class="huxingqh" v-for="(item, index) in houseArr" :key="index">
           <div class="bthx" :class="{'selected':j === index}" @click="huxing(index)">{{item.Key}}</div>
-           <div class="huxing">
+         
+        </div>
+          <div class="huxing">
           <scroll-view scroll-x="true" style="width: 100%" class="image-group">
             <div class="yishi" >
-              <div class="dg_hx" v-for="(data, ind) in item.List" :key="ind">
-                <image v-if="domain" :src="domain+data.imgurl" class="yh-image" mode="scaleToFill" @click="HousetypeImg(pro,$event)" :data-src="domain+item.imgurl"/>
-                <div class="bt_s"><h1>{{data.title}}</h1></div>
+              <div class="dg_hx" v-for="(item, ind) in housegengdss" :key="ind">
+                <image v-if="domain" :src="domain+item.imgurl" class="yh-image" mode="scaleToFill" @click="HousetypeImg(pro,$event)" :data-src="domain+item.imgurl"/>
+                <div class="bt_s"><h1>{{item.title}}</h1></div>
               </div>
             </div>
            </scroll-view>
         </div>
-        </div>
-        
        
 
       </div>
