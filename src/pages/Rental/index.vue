@@ -841,7 +841,7 @@ export default {
     },
     //点击跳转搜索页
     searchUrl:function(){
-       wx.navigateTo({url:"/pages/search/main"});
+       wx.navigateTo({url:"/pages/search/main?type=" + "rent"});
     },
     //点击跳转二手房详情页
     esfDetail:function(index,e){

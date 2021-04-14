@@ -1,25 +1,40 @@
 <template>
   <div class="indexstyle">
      
+     <!-- 图片轮播 -->
+    <div class="lunbo">
+      <swiper class="swiper" @change="djimg" >
+        <block v-for="(item, index) in movies" :key="index">
+          <swiper-item>
+            <image v-if="domain" :src="domain+item.imgurl" class="slide-image" mode="scaleToFill" @click="previewImg(pro,$event)" :data-src="domain+item.imgurl"/>
+          </swiper-item>
+        </block>
+      </swiper>
+      <div class="lbvr" v-if="vrurl =='' ? false : true" @click="previewVr">
+        <image :src="img_vr" />
+      </div>
+      <div class="imageCount">{{current+1}}/{{movies.length}}</div>
+    </div>
+    <!-- 图片轮播 -->
      <!-- 轮播图开始 -->
-     <div class="contain">
+     <!-- <div class="contain">
       <scroll-view scroll-x class="top">
         <div class="tabbar" :class="{'tabbar-bottom':currentTab==index}" v-for="(item,index) in tabBar" :key="index" @click="clickTab(index)">
           {{item.title}}
         </div>
       </scroll-view>
 
-      <swiper class="swiper" :current="currentTab" @change="changeTab">
+      <swiper class="swiper" :current="currentTab" @change="changeTab"> -->
         <!-- VR视频-->
-        <swiper-item class="vrdajia">
+        <!-- <swiper-item class="vrdajia">
           <div class="play" v-if="vrimg != null && vrimg!='' ? true : false" @click="previewVr" ><image :src="bf" mode="scaleToFill"/></div>
           <div class="vrda">
             <image :src="vrimg != null && vrimg!='' ? domain+vrimg : zwvr" class="vr-image" mode="scaleToFill"/>
           </div>
-        </swiper-item>
+        </swiper-item> -->
 
         <!-- 图片-->
-        <swiper-item>
+        <!-- <swiper-item>
           <div>
             <swiper class="swiper">
               <block v-for="(item, index) in movies" :key="index">
@@ -33,7 +48,7 @@
         </swiper-item>
 
       </swiper>
-    </div>
+    </div> -->
     <!--轮播图结束 -->
 
 
@@ -348,14 +363,16 @@ export default {
         }
       }
       ],
+      current: 0,
       location:null,
       domain:null,
-      // vrurl:"",
+      vrurl:"",
       vrimg:"",
       imgArr:[],
       ImgUrl:"",
       img_url:"",
       zwvr:app.globalData.imgurl +"vrsp.png",
+      img_vr: app.globalData.imgurl +"VR.png",
       bf:app.globalData.imgurl +"bf.png",
       projectInfo:null,
       newslikelist:[],
@@ -370,8 +387,7 @@ export default {
       code:"",
       state:"",
       extnumber:"",
-      hostphone:"",
-      clickSome:0,   //0为点击关注  
+      hostphone:"", 
       HousetypeImgs:"", 
       loupanid:"",
       guwenlists:[],
@@ -428,6 +444,8 @@ export default {
           that.extnumber = res.data.Context.projectInfo.extnumber;   //分机号
           that.hostphone = res.data.Context.hostphone;   //400总号
           that.vrimg = res.data.Context.projectInfo.vrimg;
+          that.vrurl=res.data.Context.projectInfo.vrurl
+          
           //优惠信息
           that.discountList = res.data.Context.offerinfo;
           // 猜你喜欢
@@ -496,6 +514,18 @@ export default {
   },
   onShow(){
   const that = this;
+    wx.request({
+      url:app.globalData.url +"Percenter/BandUserRelationProject" +"?sessionKey=" +app.globalData.sessionKey+'&projectId=' + that.houserid,
+      success: function (res) {
+        if(res.data.Code==0){
+          if(res.data.Context.isganzhu>0){
+            that.state=1;
+          }else{
+            that.state=0;
+          }
+        }
+      }
+    });
   
   
   },
@@ -525,12 +555,13 @@ export default {
         this.gztu_img=1;
       }
     },
+    djimg(e) {
+       this.current = e.target.current;
+     },
     //点击放大轮播图片
     previewImg:function(pro,e){
     const that = this;
     var index = pro;
-    console.log('图片',e.target.dataset.src)
-    console.log('图片数组',that.imgArr)
     var img_url = e.target.dataset.src;
       wx.previewImage({
         current: img_url,     //当前图片地址
@@ -703,22 +734,20 @@ export default {
                     that.openType="";
                     app.globalData.member=data.data.Context.member; 
 
-                    if(that.clickSome==0){
+                      //检查是否关注
                       wx.request({
                         url:app.globalData.url +"Percenter/BandUserRelationProject" +"?sessionKey=" +app.globalData.sessionKey+'&projectId=' + that.houserid,
                         success: function (res) {
-                          console.log("是否关注",res)
                           if(res.data.Code==0){
                             if(res.data.Context.isganzhu>0){
                               that.state=1;
                             }else{
-                              that.followClick();
+                              that.state=0;
                             }
                           }
                           
                         }
                       });
-                    } 
  
                   
                   }
@@ -732,8 +761,7 @@ export default {
     //点击关注
     //如果关注状态为0调用关注接口，如果为1调用取消关注接口
     followClick(){
-      const that = this;
-      that.clickSome=0;
+      const that = this; 
       if(that.state==0){
          wx.request({
             url: app.globalData.url +"Project/BandProjectFollow?sessionKey=" +app.globalData.sessionKey+'&projectId=' + that.houserid,
@@ -764,7 +792,7 @@ export default {
                 that.state=0;
                 wx.showToast({
                   title: '取消关注',
-                  icon: 'success',
+                  icon: 'none',
                   duration: 2000
                 });
 
@@ -907,7 +935,26 @@ export default {
 .indexstyle{width: 100%; margin: 0 auto; background: #fff;}
 
 /* vr图片 */
-.top {
+.lunbo{ width: 100%; height: 500rpx; position: relative;}
+.swiper{ width: 100%; height: 100%;}
+.lunbo image{ width: 100%; height: 100%;}
+.imageCount {
+  width:100rpx;
+  height:45rpx;
+  background-color: rgba(0, 0, 0, 0.4);
+  border-radius:40rpx;
+  line-height:50rpx;
+  color:#fff;
+  text-align:center;
+  font-size:24rpx;
+  position:absolute;
+  left:80%;
+  bottom:30rpx;
+}
+.lbvr{ position: absolute; left:40%; top:200rpx; z-index: 999999;}
+.lbvr image{ width:130rpx; height:130rpx;}
+
+/* .top {
    width:160rpx; height:40rpx; border-radius:40rpx; 
    text-align: center;
    line-height:40rpx; margin: 0 auto; 
@@ -927,7 +974,7 @@ export default {
 .vrda{ width: 100%; height: 1200rpx; position: relative; z-index: 9;}
 .vr-image{ width: 100%; }
 .play{ width:150rpx; height: 150rpx; position: absolute; z-index: 999; left:42%; top:32%;}
-.play image{ width:150rpx; height: 150rpx; display: block; margin: 0 auto;}
+.play image{ width:150rpx; height: 150rpx; display: block; margin: 0 auto;} */
 
 
 

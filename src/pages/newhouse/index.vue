@@ -718,7 +718,7 @@ export default {
     },
     //点击跳转搜索页
     searchUrl:function(){
-       wx.navigateTo({url:"/pages/search/main"});
+       wx.navigateTo({url:"/pages/search/main?type=" + "project"});
     },
     //点击跳转新房详情页
     newDetail:function(index,e){

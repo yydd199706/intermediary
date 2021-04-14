@@ -14,6 +14,8 @@
         <div>{{item.groupcount}}套</div>
       </div>
     </div>
+
+     
     <!-- 搜索列表展示结束 -->
     <!-- 热门搜索开始 -->
     <!-- <div class="hotsousuo">
@@ -41,6 +43,7 @@ const app = getApp();
         name:'',
         img2: app.globalData.imgurl +"ss.png",
         esfList:[],
+        type:"",
         // search:[
         //   {title:'天一城市之光',img1: "/static/images/sshot.png"},
         //   {title:'兴安府',img1: "/static/images/sshot.png"},
@@ -49,6 +52,12 @@ const app = getApp();
         //   {title:'天一城市之光'}
         // ]
       }
+    },
+    onLoad(option){
+      const that = this;
+      console.log("111",option)
+      that.type = option.type;
+
     },
     onShow(){
       const that = this;
@@ -59,7 +68,7 @@ const app = getApp();
        //获取项目名称
     bindName:function(e){
       const that = this;
-      // that.projectArr=[];
+      // that.projectArr=[]; 
       that.name = e.mp.detail.value;
       if (that.name.length > 0) {
           //获取筛选条件
@@ -68,12 +77,13 @@ const app = getApp();
           method:"POST",
           data:{
             keyword:that.name,
-            type:'esf'
+            type:that.type,
           },
            header: {
         'content-type': 'application/json' // 默认值
       },
         success: function (res) {
+          console.log("模糊词",res)
           that.esfList=res.data.Context.esfList;
         },
         fail: function (res) {},
@@ -82,9 +92,18 @@ const app = getApp();
     },
     //点击筛选
     searchClick:function(index,e){
-      var word = e.mp.currentTarget.dataset.name;
-      wx.navigateTo({url:"/pages/oldhouse/main?keyword="+word});
+      const that = this;
+      if(that.type=="esf"){
+        wx.navigateTo({url:"/pages/oldhouse/main?keyword="+e.mp.currentTarget.dataset.name});
+      }else if(that.type=="project"){
+       wx.navigateTo({url:"/pages/newhouse/main?keyword="+e.mp.currentTarget.dataset.name}); 
+      }else if(that.type=="rent"){
+       wx.navigateTo({url:"/pages/Rental/main?keyword="+e.mp.currentTarget.dataset.name}); 
+      }
     }
+
+
+
     }
 
 
