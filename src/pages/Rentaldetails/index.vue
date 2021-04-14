@@ -1,17 +1,20 @@
 <template>
   <div class="indexstyle">
 
-
     <!-- 图片轮播 -->
     <div class="lunbo">
-      <swiper class="swiper" @change="djimg">
+      <swiper class="swiper" @change="djimg" >
         <block v-for="(item, index) in movies" :key="index">
           <swiper-item>
-            <image :src="item.img1" class="slide-image" mode="scaleToFill"/>
+            <image v-if="domain" :src="domain+item.imgurl" class="slide-image" mode="scaleToFill" @click="previewImg(pro,$event)" 
+            :data-src="domain+item.imgurl"/>
           </swiper-item>
         </block>
       </swiper>
-      <div class="imageCount">{{currentimg+1}}/{{movies.length}}</div>
+      <div class="lbvr" v-if="isshowvr == 1 ? true : false">
+        <image :src="bf" />
+      </div>
+      <div class="imageCount">{{current+1}}/{{movies.length}}</div>
     </div>
     <!-- 图片轮播 -->
 
@@ -21,32 +24,51 @@
     <!-- 租房信息开始 -->
     <div class="zfdetails">
       <div class="btjq">
-        <h1><span>{{monthly}}</span>元/月（季付）</h1>
+        <h1><span>{{houseInfo.rent}}</span>元/月</h1>
         <p>点击详情</p>
       </div>
-      <h2>{{name}}</h2>
+      <h2>{{houseInfo.title}}</h2>
       <div class="jieshao">
         <ul>
           <li>
-            <h3>{{orientation}}</h3>
+            <h3>{{houseInfo.Towardname}}</h3>
             <p>朝向</p>
           </li>
           <li>
-            <h3>{{area}}m²</h3>
+            <h3>{{houseInfo.area}}m²</h3>
             <p>面积</p>
           </li>
           <li>
-            <h3>{{floor}}层</h3>
+            <h3>{{houseInfo.floor}}层</h3>
             <p>楼层</p>
           </li>
           <li>
-            <h3>{{time}}</h3>
-            <p>入住时间</p>
+            <h3>{{houseInfo.Termname}}</h3>
+            <p>租期</p>
           </li>
         </ul>
       </div>
-      <div class="zf_ys" v-for="(item,yous) in youshilist" :key="yous">
-        <p>{{item.id}}</p>
+      <div class="zf_ys">
+        <p>{{houseInfo.Decorationname}}</p>
+        <p>{{houseInfo.Zonename}}</p>
+        <p>{{houseInfo.Rightnaturename}}</p>
+        <p>{{houseInfo.companyname}}</p>
+        <p>{{houseInfo.Propertyname}}</p>
+      </div>
+
+      <div class="information">
+         <div class="bfb" @click="clickAdress">
+            <div class="xq_l">地址</div>
+            <span class="maohao">：</span>
+            <div class="xq_rs">{{houseInfo.address}}</div>
+            <p>></p>
+         </div>
+         <div class="bfb" @click="moreDetails(index,$event)">
+            <div class="xq_l">更多</div>
+            <span class="maohao">：</span>
+            <div class="xq_rs">{{houseInfo.Specialname}}</div>
+            <p>></p>
+         </div>
       </div>
  
     </div>
@@ -113,24 +135,26 @@
     <div class="agent">
       <div class="hx_bt">
         <p>推荐经纪人</p>
+        <span @click="agentlists">查看更多</span>
       </div>
-
+      
       <div class="guwen">
-          <div class="guwen_list" v-for="(item, index) in guwenlists" :key="index">
-            <div class="left_g">
-              <image :src="item.img8" class="slide-image" mode="scaleToFill"/>
+          <div class="guwen_list" v-for="(item, index) in agentlist" :key="index" >
+            <div class="left_g" @click="agentlistJump(index,$event)" :data-id="item.id">
+              <image v-if="domain" :src="domain+item.headpic" class="slide-image" mode="scaleToFill"/>
               <div class="neirong">
                 <div>
-                  <h1>{{item.name}}</h1>
-                  <span>满意度{{item.fraction}}分</span>
+                  <h1>{{item.realname}}</h1>
+                  <span>{{item.companyname}}</span>
                   <div class="clear"></div>
                 </div>
-                <p>{{item.neirong}}</p>
+                <p>{{item.evaluation}}</p>
               </div>
             </div>
             <div class="right_g">
-              <p><image :src="item.img9" class="slide-image" mode="scaleToFill" /></p>
-              <p><image :src="item.img10" class="slide-image" mode="scaleToFill" /></p>
+              <p class="wxl"><image :src="img9" class="slide-image" mode="scaleToFill" :data-wxid="item.wxid==''?item.mobile:item.wxid"
+                  @click="wxhcopy(index,$event)" /></p>
+              <p class="dhr"><image :src="img10s" class="slide-image" mode="scaleToFill" :data-telphone="item.mobile" @click="telphoneClick(index,$event)" /></p>
             </div>
           </div>
       </div>
@@ -144,11 +168,8 @@
       <div class="hx_bt">
         <p>位置及周边地图</p>
       </div>
-      <div class="map_img">
-          <map id="map" :longitude="longitude" :latitude="latitude" :scale="14" :controls="controls" 
-          bindcontroltap="controltap" :markers="markers" :bindmarkertap="markertap" :polyline="polyline"
-          :bindregionchange="regionchange" show-location style="width: 100%; height: 220px;"
-          :enable-scroll="false" :enable-zoom="false" @click="clickAdress"></map>
+      <div class="map_img" v-if="location">
+        <map id="map" :longitude="location.lng" :latitude="location.lat" :scale="14" :controls="controls" bindcontroltap="controltap" :markers="markers" :bindmarkertap="markertap" :polyline="polyline" :bindregionchange="regionchange" show-location style="width: 100%; height: 220px;" :enable-scroll="false" :enable-zoom="false" @click="clickAdress"></map>
       </div>
 
     </div>
@@ -159,14 +180,15 @@
     <div class="ditu">
       <div class="hx_bt">
         <p>同小区房源</p>
+        <span @click="sameClick">查看更多</span>
       </div>
 
       <div class="houseyuan_list">
         <scroll-view scroll-x="true" style="width: 100%" class="image-group">
-          <div class="fangy_list" v-for="(item, fy) in fangyuanh" :key="fy">
-            <image :src="item.img11" class="slide-image" />
-            <h3><span>{{item.fangy1}}</span>/<span>{{item.fangy2}}m²</span>/<span>{{item.fangy3}}</span></h3>
-            <p><span class="dj1">{{item.fangy4}}万元</span><span class="dj2">{{item.fangy5}}元/平</span></p>
+          <div class="fangy_list" v-for="(item, index) in sameDistrict" :key="index" @click="SameDistrictclick(index,$event)" :data-id="item.id">
+            <image v-if="domain" :src="domain+item.Imgurl" class="slide-image" />
+                <h3><span>{{item.apirlroom}}室{{item.apirloffice}}厅{{item.apirltoilet}}卫</span>/<span>{{item.area}}m²</span>/<span>{{item.Towardname}}</span></h3>
+                <p><span class="dj1">{{item.rent==""||item.rent==null?'价格待定':item.rent+'元/月'}}</span></p>
           </div>
         </scroll-view>
       </div>
@@ -182,27 +204,24 @@
       </div>
 
       <div class="nr-house">
-
-        <div class="h-mt" v-for="(item, index) in house" :key="index">
-          <image :src="item.img6" class="new-image" mode="scaleToFill"/>
+        <div class="h-mt" v-for="(item, index) in recommended" :key="index" @click="likeDetail(index,$event)" :data-id="item.id">
+          <image v-if="domain" :src="domain+item.Imgurl" class="new-image" mode="scaleToFill" />
           <div class="r_wz">
             <div class="bt_s">{{item.title}}</div>
-            <div class="jieshao" v-for="(w, ind) in item.area" :key="ind">
-              <span>{{w.model}}</span>/
-              <span>{{w.size}}m²</span>/
-              <span>{{w.direction}}</span>/
-              <span>{{w.name}}</span>
+            <div class="jieshaot">
+              <span>{{item.apirlroom}}室{{item.apirloffice}}厅{{item.apirloffice}}卫</span>/<span>{{item.area}}m²</span>/
+              <span>{{item.Towardname}}</span>
             </div>
-            <div class="youshi" v-for="(f, inds) in item.advantage" :key="inds">
-              <div class="youshi1" v-if="inds<2">{{f.id}}</div>
+            <div class="youshi">
+              <div class="youshi1">{{item.Decorationname}}</div>
+              <div class="youshi1">{{item.Propertyname}}</div>
             </div>
             <div class="clear"></div>
-            <div class="m-x"><p class="money">{{item.price}}万</p><p class="money1">{{item.price1}}元/平</p></div>
+            <div class="m-x">
+              <p class="money">{{item.rent==""||item.rent==null?'价格待定':item.rent+'元/月'}}</p>
+            </div>
           </div>
-          <div class="clear"></div>
-
         </div>
-
       </div>
  
 
@@ -243,26 +262,51 @@
 <script>
 const app = getApp();
 const common = require("@/utils/index");
+import QQMapWX from "@/utils/qqmap-wx-jssdk.js";
+// 实例化API核心类 
+const qqMap = new QQMapWX({
+    key: '5TJBZ-XDZCK-O5FJR-AWZUZ-C4YTJ-EUBD5' // 必填
+});
 export default {
+  components: {
+    QQMapWX,
+  },
   data () {
     return {
-      movies: [
-        {img1: 'http://vip.yijienet.com/tt/img1.jpg'},
-        {img1: 'http://vip.yijienet.com/tt/img1.jpg'},
-        {img1: 'http://vip.yijienet.com/tt/img1.jpg'},
-        {img1: 'http://vip.yijienet.com/tt/img1.jpg'}
+      markers: [
+        {
+        id: 1,
+        latitude: '',
+        longitude: '',
+        name: '',
+        width: 30,
+        height: 30,
+        iconPath:app.globalData.imgurl +"map.png",
+        callout: {
+          content: '',
+          color: '#333',
+          fontSize: 12,
+          borderRadius: 5,
+          display: 'ALWAYS',
+          padding:8
+        }
+      }
       ],
-      currentimg: 0,
-      monthly:2000,
-      name:'整租 城投佳境 3室2厅',
-      orientation:'南北',
-      area:120,
-      floor:10,
-      time:'随时入住',
-      youshilist:[
-        {id:'近地铁'},
-        {id:'精装修'},
-      ],
+      domain:null,
+      current: 0,
+      movies: [],
+      imgArr:[],
+      bf:app.globalData.imgurl +"vr_icon.png",
+      houseInfo:null,
+      currentimg: 0, 
+      agentlist:[],
+      img9:app.globalData.imgurl +"wx.png",
+      img10s: app.globalData.imgurl +"dh.png",
+      location:null,
+      sameDistrict:[],
+      recommended:[],
+
+       
       // fangyuanlist:[
       //   {img1: app.globalData.imgurl + "z1.png",name:'电视'},
       //   {img1: app.globalData.imgurl + "z2.png",name:'冰箱'},
@@ -304,12 +348,7 @@ export default {
         {img1:app.globalData.imgurl + "f10.png",name:'天然气'},
         {img1:app.globalData.imgurl + "f11.png",name:'沙发'},
         {img1:app.globalData.imgurl + "f12.png",name:'桌子'},
-      ],
-      guwenlists: [
-            {
-              img8:'http://vip.yijienet.com/tt/img1.jpg',name:'王先生',fraction:5,neirong:'我带看过本房，清楚本房特色',img9:'/static/images/wx.png',img10:'/static/images/dh.png',
-            }
-      ],
+      ], 
  
       house: [
         { 
@@ -327,11 +366,7 @@ export default {
 
         }
       ],
-      fangyuanh:[
-        {img11:'http://vip.yijienet.com/tt/img1.jpg',fangy1:'2室一厅',fangy2:80.5,fangy3:'北',fangy4:130,fangy5:6500.5},
-        {img11:'http://vip.yijienet.com/tt/img1.jpg',fangy1:'2室一厅',fangy2:80.5,fangy3:'北',fangy4:130,fangy5:6500.5},
-        {img11:'http://vip.yijienet.com/tt/img1.jpg',fangy1:'2室一厅',fangy2:80.5,fangy3:'北',fangy4:130,fangy5:6500.5}
-      ],
+      
       img12: app.globalData.imgurl + "gz.png",
       img13: app.globalData.imgurl + "fx.png",
       img14: app.globalData.imgurl + "yy.png",
@@ -344,6 +379,68 @@ export default {
 
      }
   },
+
+  onLoad(option) {
+    const that = this;
+    that.domain=app.globalData.domain;
+    that.houserid=option.id;
+     //获取详情
+      wx.request({
+        url:app.globalData.url +"OldHouse/BandEsfInfo" +"?sessionKey=" +app.globalData.sessionKey+'&houseid=' + option.id,
+        success: function (res) {
+          console.log("租房详情",res)
+          //轮播图
+          that.movies = res.data.Context.carousel;
+          for(var i = 0;i<that.movies.length;i++ ){
+            that.imgArr.push(that.domain+that.movies[i].imgurl)
+          }
+          //房源介绍
+          that.houseInfo = res.data.Context.houseInfo;
+          //经纪人
+          that.agentlist = res.data.Context.agentList;
+          //同小区房源
+          that.sameDistrict = res.data.Context.sameDistrict;
+          that.recommended = res.data.Context.recommended;
+
+
+          // 地图
+          qqMap.geocoder({
+            address:that.houseInfo.address,   //用户输入的地址（注：地址中请包含城市名称，否则会影响解析效果），如：'北京市海淀区淀西大街74号'
+            complete: data => {
+              if(data.status==0){
+                that.location=data.result.location;
+                that.markers=[{
+                  id: 1,
+                  latitude: that.location.lat,
+                  longitude: that.location.lng,
+                  name: that.houseInfo.projectname,
+                  width: 30,
+                  height: 30,
+                  iconPath:app.globalData.imgurl +"map.png",
+                  callout: {
+                    content: that.houseInfo.projectname,
+                    color: '#333',
+                    fontSize: 12,
+                    borderRadius: 5,
+                    display: 'ALWAYS',
+                    padding:8
+                  }
+                }]
+              }else {
+                that.markers[0].callout.display="display:'none'";
+              }
+            }
+          })
+
+          
+
+
+        }
+      })
+  },
+
+
+
   methods: {
     djimg(e) {
       this.currentimg = e.target.current;
@@ -355,12 +452,74 @@ export default {
       this.yajin_xs=false;
     },
     gz_dj(){
-          if(this.gztu_img==1){
-            this.gztu_img=0;
-          }else{
-            this.gztu_img=1;
-          }
+      if(this.gztu_img==1){
+        this.gztu_img=0;
+      }else{
+        this.gztu_img=1;
+      }
+    },
+    //点击放大轮播图片
+    previewImg:function(pro,e){
+      const that = this;
+      var index = pro;
+      var img_url = e.target.dataset.src;
+      wx.previewImage({
+       current: img_url,     //当前图片地址
+       urls:that.imgArr,               //所有要预览的图片的地址集合 数组形式
+       success: function(res) {},
+       fail: function(res) {},
+       complete: function(res) {},
+      })
+    },
+    //点击加微信
+    wxhcopy:function(index,e){
+      const that = this; 
+      wx.setClipboardData({
+        data: e.mp.currentTarget.dataset.wxid,
+        success: function (res) {
+          wx.showToast({
+            title: '复制成功'
+          })
+        }
+      })
+
+    },
+    //点击打电话
+    telphoneClick:function(index,e){ 
+      wx.makePhoneCall({
+        phoneNumber: e.currentTarget.dataset.telphone
+      })
+    },
+    //获取经纬度
+    clickAdress(e){
+      const that = this;
+      if(that.location!=null){
+        wx.openLocation({
+          latitude: that.location.lat,
+          longitude: that.location.lng,
+          name:that.houseInfo.projectname,
+          address:that.houseInfo.address
+        })
+      }else {
+        wx.showToast({
+          title: '无法定位到该地址！',
+          icon: 'none',
+          duration: 2000,
+              
+        })
+      }
+    },
+    //同小区房源
+    SameDistrictclick:function(index,e){ 
+      wx.navigateTo({ url: "/pages/Rentaldetails/main?id=" + e.mp.currentTarget.dataset.id});
+    },
+    //点击查看更多同小区房源
+    sameClick:function(){
+      const that = this;
+      wx.navigateTo({ url: "/pages/oldhouse/main?keyword="+that.projectname});
     }
+
+
  
   }
 
@@ -393,24 +552,36 @@ export default {
   text-align:center;
   font-size:24rpx;
   position:relative;
-  left:42%;
+  left:82%;
   bottom:70rpx;
 }
 
 
 /* 租房信息  */
-.zfdetails{width: 90%; padding-left: 5%; padding-right: 5%; margin-top: 5%; padding-bottom: 8%;  border-bottom:20rpx #f8f8fa solid;}
+.zfdetails{width: 90%; padding-left: 5%; padding-right: 5%; margin-top:30rpx; padding-bottom:30rpx;  border-bottom:20rpx #f8f8fa solid;}
 .btjq{ width: 100%; overflow: hidden;}
-.btjq h1{ float: left; font-size:32rpx; color: rgb(255, 58, 58);}
-.btjq h1 span{ font-size: 38rpx;}
+.btjq h1{ float: left; font-size:36rpx; color: rgb(255, 58, 58); }
+.btjq h1 span{ font-size:52rpx; font-weight: bold; }
 .btjq p{ float: right; font-size: 28rpx; color: rgb(26, 154, 228);}
 .zfdetails h2{ font-size: 34rpx; font-weight: bold; margin-top:10rpx;}
-.jieshao{ margin-top:3%; width: 100%; overflow: hidden; padding-top:2%; padding-bottom:2%; border-top:2rpx rgb(236, 236, 236) solid; border-bottom:2rpx rgb(236, 236, 236) solid; }
+.jieshao{ margin-top:3%; width: 100%; overflow: hidden; padding-top:20rpx; padding-bottom:20rpx; border-bottom:2rpx rgb(236, 236, 236) solid; }
 .jieshao ul li{ float: left; width: 25%; text-align: center;}
 .jieshao ul li h3{ font-size: 32rpx; margin-bottom:10rpx;}
 .jieshao ul li p{ font-size: 28rpx; color: rgb(121, 121, 121); }
-.zf_ys{ width: 100%; margin-top: 3%; }
-.zf_ys p{ float: left; font-size: 26rpx; padding: 2rpx 10rpx 2rpx 10rpx; background: #edf0f3; color: #849aae; margin-right:6rpx; border-radius:6rpx;}
+.zf_ys{ width: 100%; margin-top:20rpx;  overflow: hidden; }
+.zf_ys p{ float: left; font-size: 26rpx; padding:0 15rpx 0 15rpx; height: 60rpx; line-height:60rpx; background: #f5f5f5; color: #6f6f6f; margin-right:10rpx; border-radius:6rpx; font-weight: bold;}
+
+.information{ width:100%; margin-top:30rpx; }
+.information .bfb{ width: 100%; color: #8d8c8c; font-size: 28rpx; height:60rpx; overflow: hidden;}
+.xq_l{color:#373737;float: left; font-size:34rpx; width:100rpx; text-align: justify;text-justify:distribute-all-lines; font-weight: 800;}
+.xq_l:after {width: 100%;height: 0;margin: 0;display: inline-block;overflow: hidden;content: '';}
+.maohao{float: left;color: rgb(160, 160, 160); position: relative; top:0rpx;font-size:34rpx; font-weight: 800;}
+.xq_r{float: left; font-size:30rpx; overflow:hidden; text-overflow:ellipsis;white-space:nowrap;width: 54%;}
+.bo_lp{ width: 100% !important;}
+.xq_rs{float: left; font-size:30rpx; overflow:hidden; text-overflow:ellipsis;white-space:nowrap;width:70%; color: #000; margin-top: 5rpx;}
+.information .bfb p{ float: right;color: #c5c5c5; }
+
+
 
 /* 房源简介 */
 .introduction{width: 90%; padding-left: 5%; padding-right: 5%; margin-top: 5%; padding-bottom: 5%; border-bottom:20rpx #efefef solid;}
@@ -440,8 +611,22 @@ export default {
 
 
 /* 推荐经纪人 */
-.agent{width: 90%; padding-left: 5%; padding-right: 5%; margin-top: 5%; padding-bottom: 5%; border-bottom:20rpx #efefef solid;}
+.agent{width: 90%; padding-left: 5%; padding-right: 5%; margin-top:30rpx; padding-bottom:20rpx; border-bottom:20rpx #efefef solid;}
 .guwen{ width:100%; margin-top:5%;}
+.guwen_list{ width: 100%; margin-top:2%; overflow: hidden; margin-bottom:30rpx;}
+
+.left_g{ float: left; width:75%;}
+.left_g image{ float: left; width:110rpx; height:110rpx; border-radius: 50%; margin-right: 2%;}
+.neirong{ float: left; width:70%; margin-top: 2%; }
+.neirong div h1{float: left; font-size:32rpx; font-weight: bold; margin-right:10rpx; }
+.neirong div span{ float: left; font-size: 22rpx; padding:1rpx 2rpx 1rpx 2rpx; border:2rpx #f86577 solid; color: #f86577; text-align: center; border-radius:6rpx; }
+.neirong p{ font-size: 27rpx; color: #969ca8; margin-top:2%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+
+.right_g{ float: right; margin-top:20rpx; width: 25%; overflow: hidden;}
+.right_g p.wxl{ float: left;}
+.right_g p.dhr{ float: right ;}
+.right_g image{ width:60rpx; height:60rpx;}
+/* .guwen{ width:100%; margin-top:5%;}
 .guwen_list{ width: 100%; margin-top:2%; overflow: hidden;}
 .left_g{ float: left; width:75%;}
 .left_g image{ float: left; width:110rpx; height:110rpx; border-radius: 50%; margin-right: 2%;}
@@ -452,11 +637,11 @@ export default {
 
 .right_g{ float: right; margin-top:20rpx; width: 25%; }
 .right_g p{ float: left;margin-left:10%;}
-.right_g image{ width:60rpx; height:60rpx;}
+.right_g image{ width:60rpx; height:60rpx;} */
 
 
 /* 位置及周边地图 */
-.ditu{width: 90%; padding-left: 5%; padding-right: 5%; margin-top: 5%; padding-bottom: 5%; border-bottom:20rpx #efefef solid;}
+.ditu{width: 90%; padding-left: 5%; padding-right: 5%; margin-top:30rpx; border-bottom:20rpx #efefef solid;}
 .map{background: rgba(255,255,255,0.8);padding: 20rpx;margin-top: 25rpx;
     box-sizing: border-box;border-radius: 10rpx;position: relative;top: -50rpx;}
 .map_img{width:100%; margin-bottom: 50rpx; margin-top: 3%;}
@@ -469,7 +654,7 @@ export default {
   white-space: nowrap;
   margin-top:10rpx;
 }
-.houseyuan_list{ width: 100%; margin-top: 5%;}
+.houseyuan_list{ width: 100%; margin-top: 5%; margin-bottom: 30rpx;}
 .fangy_list{ margin-right:6%; width:58%; margin-right: 5%; height:380rpx;display: inline-block;}
 .fangy_list image{ width: 100%; height: 260rpx;}
 .fangy_list h3{ font-size: 30rpx; margin-top: 3%;}
@@ -482,16 +667,29 @@ export default {
 
 /* 推荐房源 */
 .recommendfy{width: 90%; padding-left: 5%; padding-right: 5%; margin-top: 5%; padding-bottom: 5%; border-bottom:20rpx #f8f8fa solid;}
-.nr-house{ width:100%;  margin-top:30rpx;}
+.nr-house{ width:100%;  margin-top:30rpx; padding-bottom: 110rpx;}
+.h-mt {overflow: hidden;margin-bottom:15rpx;}
+.nr-house image {float: left;width: 40%;height: 200rpx;border-radius: 10rpx;}
+.nr-house .r_wz {float: right;width: 57%;}
+.bt_s {font-size: 30rpx;font-weight: bold;margin-right: 10rpx;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.jieshaot {font-size: 25rpx;color: #333;margin-top: 10rpx;}
+.youshi1 {float: left;padding: 0 10rpx;height: 40rpx;line-height: 40rpx;border-radius: 3px;background: #edf0f3;color: #849aae;font-size: 25rpx;text-align: center;margin-top: 10rpx;margin-right: 10rpx;}
+.m-x {margin-top: 10rpx;overflow: hidden;}
+.m-x p {float: left; font-size: 32rpx;}
+.m-x p.money {font-size: 30rpx;color: #fa5741;font-weight: 900;margin-right: 5rpx;}
+.money1 {font-size:30rpx;color: #fa5741;font-weight: 900;}
+.more-house {width: 94%;height: 70rpx;background: #e8edf3;border-radius: 5px;text-align: center;line-height: 70rpx;font-size: 28rpx;font-weight: bold;margin-left: 3%;margin-right: 3%;margin-top: 30rpx;color: #3072f6;}
+
+/* .nr-house{ width:100%;  margin-top:30rpx;}
 .nr-house image{ float: left; width: 40%; height: 180rpx;}
 .nr-house .r_wz{ float:right; width: 57%;}
 .nr-house .r_wz .bt_s{font-size: 34rpx; font-weight: bold; margin-right:10rpx;}
-.jieshao{ font-size: 26rpx; color: #000; margin-top:10rpx;}
+.jieshao{ font-size: 26rpx; color: #000; margin-top:15rpx;}
 .youshi1{ float: left; width:90rpx; height:40rpx; line-height: 40rpx; border-radius:6rpx; background: #edf0f3; color:#849aae; font-size: 25rpx; text-align: center; margin-top:10rpx; margin-right: 10rpx;}
 .m-x{ margin-top: 10rpx; }
 .m-x p{ float: left;}
 .m-x p.money{ font-size: 34rpx; color: rgb(192, 0, 0); font-weight: 900; margin-right: 5rpx;}
-.m-x p.money1{ font-size:26rpx; color:#ccc; margin-top: 10rpx; }
+.m-x p.money1{ font-size:26rpx; color:#ccc; margin-top: 10rpx; } */
 
 
 
