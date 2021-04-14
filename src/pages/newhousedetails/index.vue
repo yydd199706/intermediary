@@ -11,7 +11,7 @@
         </block>
       </swiper>
       <div class="lbvr" v-if="vrurl =='' ? false : true" @click="previewVr">
-        <image :src="img_vr" />
+        <image :src="bf" />
       </div>
       <div class="imageCount">{{current+1}}/{{movies.length}}</div>
     </div>
@@ -373,7 +373,7 @@ export default {
       img_url:"",
       zwvr:app.globalData.imgurl +"vrsp.png",
       img_vr: app.globalData.imgurl +"VR.png",
-      bf:app.globalData.imgurl +"bf.png",
+      bf:app.globalData.imgurl +"vr_icon.png",
       projectInfo:null,
       newslikelist:[],
       houseArr:[], 
