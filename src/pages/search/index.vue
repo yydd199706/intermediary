@@ -22,7 +22,7 @@
     <div class="esfList">
       <div v-for="(item, index) in project" :key="index" @click="projectClick(index,$event)" :data-name="item.name">
         <div>{{item.name}}</div>
-        <div>{{item.housecount}}套</div>
+        <!-- <div>{{item.housecount}}套</div> -->
       </div>
     </div>
     </div>
@@ -168,5 +168,5 @@ const app = getApp();
 .esfList>div{width: 100%;border-bottom: 2rpx solid #E4E6F0;overflow: hidden;height: 85rpx;line-height: 85rpx;font-size: 26rpx;
 }
 .esfList>div>div:first-child{float: left;}
-.esfList>div>div:last-child{float: right;}
+.esfList>div>div:nth-child(2){float: right;}
 </style>

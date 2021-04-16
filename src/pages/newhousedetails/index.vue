@@ -72,8 +72,8 @@
            <div class="jiage">{{projectInfo.averageprice==""||projectInfo.averageprice==null?'价格待定':projectInfo.averageprice+'元/㎡'}}</div>
          </div>
          <div class="right_p">
-           <h2>建面</h2>
-           <div class="jiage">{{projectInfo.buildarea==""||projectInfo.buildarea==null?'暂无信息':projectInfo.buildarea+'m²'}}</div>
+           <h2>开盘时间</h2>
+           <div class="jiage">{{projectInfo.opendate==""||projectInfo.opendate==null?'暂无信息':projectInfo.opendate}}</div>
          </div>
        </div>
 
@@ -109,7 +109,7 @@
          <div class="bfb" @click="moreDetails(index,$event)" :data-id="projectInfo.id">
             <div class="xq_l">更多</div>
             <span class="maohao">：</span>
-            <div class="xq_rs">暂无</div>
+            <div class="xq_rs">点击查看更多详情</div>
             <p>></p>
          </div>
        </div>
@@ -172,11 +172,13 @@
           <p>位置及周边配套</p>
         </div>
         <div class="map_img" v-if="location">
+          <div class="waper"></div>
           <map id="map" :longitude="location.lng" :latitude="location.lat" :scale="14" :controls="controls" 
           bindcontroltap="controltap" :markers="markers" :bindmarkertap="markertap" :polyline="polyline"
           :bindregionchange="regionchange" show-location style="width: 100%; height: 220px;"
           :enable-scroll="false" :enable-zoom="false" @click="clickAdress"></map>
          </div>
+         
       </div>
       <!-- 位置及周边配套结束 -->
 
@@ -198,7 +200,7 @@
 
           <div class="guwen_list" v-for="(item, index) in guwenlists" :key="index" >
             <div class="left_g" @click="consultantClick(index,$event)" :data-id="item.id">
-              <image v-if="domain" :src="domain+item.imghead_url" class="slide-image" mode="scaleToFill"/>
+              <image :src="item.imghead_url==''?img1:domain+item.imghead_url" class="slide-image" mode="scaleToFill"/>
               <div class="neirong">
                 <div>
                   <h1>{{item.realname}}</h1>
@@ -313,7 +315,7 @@
     </div>
     <!-- 提醒授权结束 -->
     <!-- 遮罩层开始 -->
-     <!--x -->
+     <!--x --> 
     <div class="modalMask" v-if="maskHid"></div>
     <!-- 遮罩层结束 -->
 
@@ -408,9 +410,7 @@ export default {
       tabBar: [{ "title": "VR" },{ "title": "图片" }],
       currentTab: 0,
       movies: [], 
-      newsArr: [
-        {title:'周边环境介绍周边环境介绍',abstract:'周边环境介绍周边环境介绍周边环境介绍周边环境介绍周边环境介绍周边环境介绍周边环境介绍周边环境介绍',timesj:'2020年11月29日'}
-      ], 
+      newsArr: [], 
           
 
 
@@ -427,6 +427,9 @@ export default {
     that.domain=app.globalData.domain;
     that.houserid=option.id;
     that.imgArr=[];
+    that.houseArr=[];
+    that.housegengd=[];
+    that.listData=[];
     that.state=0;
     //获取详情
       wx.request({
@@ -444,8 +447,8 @@ export default {
           that.extnumber = res.data.Context.projectInfo.extnumber;   //分机号
           that.hostphone = res.data.Context.hostphone;   //400总号
           that.vrimg = res.data.Context.projectInfo.vrimg;
-          that.vrurl=res.data.Context.projectInfo.vrurl
-          
+          that.vrurl=res.data.Context.projectInfo.vrurl;
+          that.newsArr=res.data.Context.salesnews;
           //优惠信息
           that.discountList = res.data.Context.offerinfo;
           // 猜你喜欢
@@ -1058,7 +1061,7 @@ text-overflow: ellipsis;}
 .map{background: rgba(255,255,255,0.8);padding: 20rpx;margin-top: 25rpx;box-sizing: border-box;border-radius: 10rpx; }
 .map_img{width:100%; margin-bottom: 50rpx; position: relative; top:20rpx; }
 .map_img>image{width: 100%;height: 100%; margin-top: 3%;}
-
+.waper{width: 100%;height: 100%;position: absolute;top: 0;left: 0;}
 
 .fuwu{ width:100%; margin-top: 3%;}
 .fuwu image{ width:28rpx; height:28rpx; margin-right:3%; display: block; margin-top: 3%; float: left;  }
