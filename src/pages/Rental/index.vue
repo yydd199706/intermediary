@@ -171,7 +171,7 @@
           @click="esfDetail(index,$event)">
           <image :src="domain+item.Imgurl" class="new-image" mode="scaleToFill" />
           <div class="r_wz">
-            <div class="bt_s">{{ item.title}}</div>
+            <div class="bt_s">{{item.title}}</div>
             <div class="jieshao">
               <span>{{item.apirlroom}}室{{item.apirloffice}}厅{{item.apirloffice}}卫</span>/<span>{{item.area}}m²</span>/
               <span>{{item.Towardname}}</span>
@@ -182,8 +182,7 @@
             </div>
             <!-- <div class="clear"></div> -->
             <div class="m-x">
-              <div class="money">{{item.price==""||item.price==null?'总价：暂无':item.price+'万'}}</div>
-              <div class="average">{{item.averageprice==""||item.averageprice==null?'价格待定':item.averageprice+'元/平'}}</div>
+              <div class="money">{{item.rent==""||item.rent==null?'价格待定':item.rent+'元/月'}}</div>
             </div>
           </div>
         </div>

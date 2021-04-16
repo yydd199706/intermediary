@@ -51,78 +51,13 @@
       <!-- 标题 -->
       <div class="tj_bt">
         <div class="bt_lelf">更多推荐</div>
-        <div class="bt_right">
-          <!-- <div class="fang" :class="{'fz' :tab===1}" @click="tuijian(1)">二手房</div> -->
-          <!-- <div class="fang" :class="{'fz' :tab===2}" @click="tuijian(2)">新房</div>
-          <div class="fang" :class="{'fz' :tab===3}" @click="tuijian(3)">租房</div> -->
-        </div>
       </div>
       <!-- 内容切换开始 -->
       <div class="nr_list">
-        <!-- 二手房开始 -->
-        <div class="secondary" v-if="tab===1">
-          
-          <div v-if="more_esf.length>0?true:false">
-          <div class="h-mt" v-for="(item, index) in more_esf" :key="index" @click="SameDistrictclick(index,$event)" :data-id="item.id">
-            <image v-if="domain" :src="domain+item.Imgurl" class="new-image" mode="scaleToFill"/>
-            <div class="r_wz">
-              <div class="bt_s">{{item.title}}</div>
-              <div class="jieshao">
-                <span>{{item.apirlroom}}室{{item.apirloffice }}厅{{item.apirltoilet }}卫</span>/
-                <span>{{item.area}}m²</span>/
-                <span>{{item.Towardname}}</span>/
-              </div>
-              <div class="youshiesf">
-                <div class="youshiesf1">{{item.Propertyname}}</div>
-                <div class="youshiesf1">{{item.Decorationname}}</div>
-                <div class="youshiesf1">{{item.looktime}}</div>
-              </div>
-              <div class="clear"></div>
-              <div class="m-x"><p class="money">{{item.price}}万</p><p class="money1">{{item.averageprice}}元/平</p></div>
-            </div>
-            <div class="clear"></div>
-          </div>
-          </div>
-
-        </div>
-        <!-- 二手房结束 -->
-        <!-- 新房开始 -->
-        <div class="newhouse" v-else-if="tab===2">
-          
-          <div v-if="more_new.length>0?true:false">
-          <div class="intention-mt" v-for="(item, index) in more_new" :key="index">
-            <image v-if="domain" :src="domain+item.ImgUrl" class="new-image" mode="scaleToFill"/>
-            <div class="intention-right">
-
-              <div class="bt_ri">
-                <h1>{{item.name}}</h1>
-                <p>{{item.salestatename}}</p>
-                <div class="clear"></div>
-              </div>
-
-              <div class="youshi">
-                <div class="youshi2">{{item.Decorationname}}</div>
-                <div class="youshi2">{{item.existingname}}</div>
-                <div class="youshi2">{{item.zonename}}</div>
-              </div>
-              <div class="clear"></div>
-
-              <div class="m-xq">
-                <p class="money">{{item.averageprice==""||item.averageprice==null?'价格待定':'均价'+item.averageprice+'元/m²'}}</p>
-              </div>
-
-            </div>
-            <div class="clear"></div> 
-          </div>
-          </div>
-
-
-        </div>
-        <!-- 新房结束 -->
         <!-- 租房开始 -->
-        <div class="Renthouse" v-else>
+        <div class="Renthouse">
           <div v-if="more_rent.length>0?true:false">
-          <div class="h-mt" v-for="(item, index) in more_rent" :key="index">
+          <div class="h-mt" v-for="(item, index) in more_rent" :key="index" @click="SameDistrictclick(index,$event)" :data-id="item.id">
             <image v-if="domain" :src="domain+item.Imgurl" class="new-image" mode="scaleToFill"/>
             <div class="r_wz">
               <div class="bt_s">{{item.title}}</div>
@@ -134,7 +69,7 @@
               <div class="youshiesf">
                 <div class="youshiesf1">{{item.Propertyname}}</div>
                 <div class="youshiesf1">{{item.Decorationname}}</div>
-                <div class="youshiesf1">{{item.looktime}}</div>
+                <div class="youshiesf1">{{item.Zonename}}</div>
               </div>
               <div class="clear"></div>
               <div class="m-x"><p class="money">{{item.rent==""||item.rent==null?'价格待定':item.rent+'元/月'}}</p></div>
@@ -232,18 +167,14 @@ export default {
         that.evaluatesum = res.data.Context.agentInfo.evaluatesum;
         that.mobile = res.data.Context.agentInfo.mobile
         
-        //推荐二手房
-        that.more_esf = res.data.Context.more_esf;
-        if(that.more_esf.length<=0){
+         
+        //推荐租房
+        that.more_rent = res.data.Context.more_rent;
+        if(that.more_rent.length<=0){
           that.noneimgHid=true;
         }else{
           that.noneimgHid=false;
         }
-        //推荐新房
-        that.more_new = res.data.Context.more_new;
-        //推荐租房
-        that.more_rent = res.data.Context.more_rent;
-        
         
         
        }
@@ -259,35 +190,13 @@ onShareAppMessage: function(res) {
 },
 
  methods: {
-  tuijian(index){
-    const that = this;
-    this.tab = index;
-    if(index==1){
-      if(that.more_esf.length<=0){
-          that.noneimgHid=true;
-        }else{
-          that.noneimgHid=false;
-        }
-    }if(index==2){
-      if(that.more_new.length<=0){
-          that.noneimgHid=true;
-        }else{
-          that.noneimgHid=false;
-        }
-    }if(index==3){
-      if(that.more_rent.length<=0){
-          that.noneimgHid=true;
-        }else{
-          that.noneimgHid=false;
-        }
-    }
-  },
+
   //同小区房源
   SameDistrictclick:function(index,e){ 
-    wx.navigateTo({ url: "/pages/oldhousedetails/main?id=" + e.mp.currentTarget.dataset.id});
+    wx.navigateTo({ url: "/pages/Rentaldetails/main?id=" + e.mp.currentTarget.dataset.id});
   },
   //拨打当前经纪人电话咨询
-    clickService:function(){
+  clickService:function(){
       if(this.reservedtelphone!=""){  
         wx.makePhoneCall({
         phoneNumber: this.mobile,
@@ -303,7 +212,7 @@ onShareAppMessage: function(res) {
     },
  
 
- }
+  }
 
 
  
@@ -372,7 +281,7 @@ text-overflow:ellipsis;white-space:nowrap;}
 .h-mt{ width:100%;  margin-top:30rpx; padding-bottom: 5%; border-bottom: 2rpx #e9e9e9 solid;}
 .h-mt image{ float: left; width:32%; height:210rpx; border-radius: 10rpx;}
 .h-mt .r_wz{ float:right; width:65%;}
-.h-mt .r_wz .bt_s{font-size: 32rpx; font-weight: bold; margin-right:10rpx;white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
+.h-mt .r_wz .bt_s{font-size: 32rpx; font-weight: bold; margin-right:10rpx; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
 .jieshao{ font-size: 26rpx; color: #000; margin-top:10rpx;}
  .youshiesf1{ float: left; /*width:90rpx;*/ padding-left: 10rpx; padding-right: 10rpx; height:40rpx; line-height: 40rpx; border-radius:6rpx; background: #edf0f3; color:#849aae; font-size: 25rpx; text-align: center; margin-top:10rpx; margin-right: 10rpx;} 
 .m-x{ margin-top: 10rpx; }

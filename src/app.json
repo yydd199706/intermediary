@@ -38,7 +38,10 @@
     "pages/consultantDetails/main",
     "pages/searchList/main",
     "pages/consultantList/main",
-    "pages/vrurl/main"
+    "pages/vrurl/main",
+    "pages/rentmoreDetails/main",
+    "pages/rentAgentList/main",
+    "pages/rentAgentDetails/main"
     
   ],
   "window": {

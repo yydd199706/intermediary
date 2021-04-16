@@ -215,6 +215,17 @@
           "pathName": "pages/vrurl/main",
           "query": "",
           "scene": null
+        },
+        {
+          "name": "租房更多详情",
+          "pathName": "pages/rentmoreDetails/main",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "租房经纪人列表",
+          "pathName": "pages/rentAgentList/main",
+          "scene": null
         }
       ]
     }

@@ -460,7 +460,7 @@ export default {
       location:null,
       id:"",
       company:"",
-      storename:"",
+      store:"",
       yuyue_yc:false,
       domain:null,
       Decorationname:"",
@@ -717,7 +717,7 @@ export default {
           that.agent = res.data.Context.agentList;
           for(var i =0;i<that.agent.length;i++){
             that.company = that.agent[i].company;
-            that.storename = that.agent[i].storename;
+            that.store = that.agent[i].store;
           }
           //猜你喜欢
           that.likes = res.data.Context.guessLike;
@@ -940,7 +940,7 @@ onShareAppMessage: function(res) {
     //点击跳转经纪人列表
     agentlists:function (){
       const that = this;
-      wx.navigateTo({ url: "/pages/agentList/main?company=" + that.company + "&storename=" + that.storename});
+      wx.navigateTo({ url: "/pages/agentList/main?company=" + that.company + "&store=" + that.store});
     },
     //点击跳转经纪人名片
     agentlistJump:function(index,e){

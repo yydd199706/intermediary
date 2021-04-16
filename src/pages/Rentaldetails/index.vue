@@ -22,10 +22,10 @@
 
 
     <!-- 租房信息开始 -->
-    <div class="zfdetails">
+    <div class="zfdetails" v-if="houseInfo">
       <div class="btjq">
-        <h1><span>{{houseInfo.rent}}</span>元/月</h1>
-        <p>点击详情</p>
+        <h1><span>{{houseInfo.rent==""||houseInfo.rent==null?'价格待定':houseInfo.rent+'元/月'}}</span></h1>
+        <p @click="moreDetails(index,$event)" :data-id="houseInfo.id">点击详情</p>
       </div>
       <h2>{{houseInfo.title}}</h2>
       <div class="jieshao">
@@ -63,7 +63,7 @@
             <div class="xq_rs">{{houseInfo.address}}</div>
             <p>></p>
          </div>
-         <div class="bfb" @click="moreDetails(index,$event)">
+         <div class="bfb" @click="moreDetails(index,$event)" :data-id="houseInfo.id">
             <div class="xq_l">更多</div>
             <span class="maohao">：</span>
             <div class="xq_rs">{{houseInfo.Specialname}}</div>
@@ -77,15 +77,17 @@
 
     <!-- 房源简介开始 -->
     <div class="introduction">
-      <div class="hx_bt">
+      <div class="fyhx_bt">
         <p>房源简介</p>
       </div>
 
       <div class="fyjieshao">
         <ul>
           <li v-for="(item, fay) in fangyuanlist" :key="fay">
-            <image :src="item.img1" class="slide-image" />
-            <p>{{item.name}}</p>
+            <div>
+              <image :src='[item.isshow==1?item.img1:item.img2]' class="slide-image" />
+              <p :class='[item.isshow==1?"words":"words_s"]'>{{item.name}}</p>
+            </div>
           </li>
         </ul>
       </div>
@@ -106,7 +108,7 @@
           <li>付款方式</li>
           <li>租金<p>(元/月)</p></li>
           <li>押金<image :src="img14" @click="yajin_dj" /><p>(元)</p></li>
-          <li>服务费<p>(元(一次收费))</p></li>
+          <li>服务费<p>(元)</p></li>
           <li>中介费<p>(元)</p></li>
         </ul>
         <ul>
@@ -140,7 +142,7 @@
       
       <div class="guwen">
           <div class="guwen_list" v-for="(item, index) in agentlist" :key="index" >
-            <div class="left_g" @click="agentlistJump(index,$event)" :data-id="item.id">
+            <div class="left_g" @click="agentInfo(index,$event)" :data-id="item.id">
               <image v-if="domain" :src="domain+item.headpic" class="slide-image" mode="scaleToFill"/>
               <div class="neirong">
                 <div>
@@ -204,7 +206,7 @@
       </div>
 
       <div class="nr-house">
-        <div class="h-mt" v-for="(item, index) in recommended" :key="index" @click="likeDetail(index,$event)" :data-id="item.id">
+        <div class="h-mt" v-for="(item, index) in recommended" :key="index" @click="SameDistrictclick(index,$event)" :data-id="item.id">
           <image v-if="domain" :src="domain+item.Imgurl" class="new-image" mode="scaleToFill" />
           <div class="r_wz">
             <div class="bt_s">{{item.title}}</div>
@@ -229,33 +231,90 @@
     <!-- 推荐房源结束 -->
 
 
+
     <!-- 底部按钮开始 -->
     <div class="footer">
       <div class="left_foot">
-
         <div class="guanzhus">
-          <button class="gzdianji" @click="gz_dj" v-if="gztu_img==0" ><image :src="img15" /></button>
-          <button class="gzxianshi" @click="gz_dj" v-else ><image :src="img16" /></button>
-          <p>关注</p>          
-        </div>
-
+          <button @click="priceNotice" >
+            <image :src='[state==0?img10:img12]' />
+            <p>关注</p>   
+          </button>       
+        </div> 
         <button open-type="share" class="fenxiangs">
           <image :src="img13" class="slide-image" />
           <p>分享</p>
         </button>
-        <button class="fenxiangs">
+        <button class="fenxiangs" @click="anyy_dj">
           <image :src="img14" class="slide-image" />
           <p>预约</p>
         </button>
       </div>
       <div class="right_foot">
-        <div class="Report">打电话</div>
-        <div class="Telephone">加微信</div>
+        <div class="Report" @click="clickService">打电话</div>
+        <div class="Telephone" @click="copy">加微信</div>
       </div>
     </div>
     <!-- 底部按钮开始 -->
 
- 
+    <!-- 弹出预约开始 -->
+    <div class="tcyyzg" v-if="yuyue_yc">
+        <div class="tcyy">
+          <div class="btyy">预约看房</div>
+          <div class="appointment">
+              <!-- 预约人 -->
+              <div class="project__input">
+                <div class="xmmc">预约人</div>
+                <input id="name" type="text" placeholder="请输入真实姓名" placeholder-style="color: #aaa"
+                :value="name" @input="nameVal($event)"/>
+              </div>
+              <!-- 手机号码 -->
+              <div class="project__input">
+                <div class="xmmc">手机号码</div>
+                <input id="name" type="text" placeholder="请输入手机号码" placeholder-style="color: #aaa"
+                 :value="tel" @input="telVal($event)"/>
+              </div>
+              <!-- 预约描述 -->
+              <div class="project__input">
+                <div class="xmmc">看房时间</div>
+                 <picker
+                  mode="date"
+                  :value="lookDate"
+                  :start="pickerStart"
+                  end="endDate"
+                  @change="bindDateChangeStart($event)"
+                  class="lookClass"
+                >
+                  <div id="birthday" :style="color">{{ lookDate }}</div>
+                </picker>
+              </div>
+              <div class="project__input borderNone">
+                <div class="xmmc">预约描述</div>
+                <textarea :value="yuText" @input="makeText($event)"></textarea>
+              </div>
+              <button class="applyFor" @click="applyClick">立即申请</button>
+          </div>
+          <div class="ShutDown" @click="ShutDown_gb">X</div>
+        </div>
+    </div>
+    <!-- 弹出预约结束 -->
+
+    <!-- 提醒授权开始 -->
+    <div class="authorization" v-if="telHid">
+      <div class="authorization_title">授权提示</div>
+      <div class="authorization_text">为了更好的为您提供服务，我们请求获取您的电话号码</div>
+      <div class="authorization_btn">
+        <button @click="quxiao">取消</button>
+        <button open-type="getPhoneNumber" @getphonenumber="getPhoneNumber" hover-class="none">允许</button>
+      </div>
+    </div>
+    <!-- 提醒授权结束 -->
+    <!-- 遮罩层开始 -->
+     <!--x -->
+    <div class="modalMask" v-if="maskHid"></div>
+    <!-- 遮罩层结束 -->
+   
+    <van-toast id="van-toast" />
   </div>
 </template>
 
@@ -263,6 +322,7 @@
 const app = getApp();
 const common = require("@/utils/index");
 import QQMapWX from "@/utils/qqmap-wx-jssdk.js";
+import Toast from "@/../static/vant/toast/toast";
 // 实例化API核心类 
 const qqMap = new QQMapWX({
     key: '5TJBZ-XDZCK-O5FJR-AWZUZ-C4YTJ-EUBD5' // 必填
@@ -270,6 +330,7 @@ const qqMap = new QQMapWX({
 export default {
   components: {
     QQMapWX,
+    Toast
   },
   data () {
     return {
@@ -305,75 +366,41 @@ export default {
       location:null,
       sameDistrict:[],
       recommended:[],
-
-       
-      // fangyuanlist:[
-      //   {img1: app.globalData.imgurl + "z1.png",name:'电视'},
-      //   {img1: app.globalData.imgurl + "z2.png",name:'冰箱'},
-      //   {img1: app.globalData.imgurl + "z3.png",name:'洗衣机'},
-      //   {img1: app.globalData.imgurl + "z4.png",name:'空调'},
-      //   {img1: app.globalData.imgurl + "z5.png",name:'热水器'},
-      //   {img1: app.globalData.imgurl + "z6.png",name:'床'},
-      //   {img1: app.globalData.imgurl + "z7.png",name:'暖气'},
-      //   {img1: app.globalData.imgurl + "z8.png",name:'宽带'},
-      //   {img1: app.globalData.imgurl + "z9.png",name:'衣柜'},
-      //   {img1: app.globalData.imgurl + "z10.png",name:'天然气'},
-      //   {img1: app.globalData.imgurl + "z11.png",name:'沙发'},
-      //   {img1: app.globalData.imgurl + "z12.png",name:'桌子'},
-      // ],
-      // fangyuanlist:[
-      //   {img1:"/static/images/z1.png",name:'电视'},
-      //   {img1:"/static/images/z2.png",name:'冰箱'},
-      //   {img1:"/static/images/z3.png",name:'洗衣机'},
-      //   {img1:"/static/images/z4.png",name:'空调'},
-      //   {img1:"/static/images/z5.png",name:'热水器'},
-      //   {img1:"/static/images/z6.png",name:'床'},
-      //   {img1:"/static/images/z7.png",name:'暖气'},
-      //   {img1:"/static/images/z8.png",name:'宽带'},
-      //   {img1:"/static/images/z9.png",name:'衣柜'},
-      //   {img1:"/static/images/z10.png",name:'天然气'},
-      //   {img1:"/static/images/z11.png",name:'沙发'},
-      //   {img1:"/static/images/z12.png",name:'桌子'},
-      // ],
+      projectname:"",
+      agentPhone:"",
+      wechat_num:"",
+      maskHid:false,
+      telHid:false,
+      clickSome:0,   //0为点击关注  1为点击预约
+      state:"",
+      img10: app.globalData.imgurl +"gz.png",
+      img12: app.globalData.imgurl +"xin.png",
+      numVal:"",
+      openType:"",
+      code:"",
+      yuyue_yc:"",
+      name:"",
+      tel:"",
+      lookDate:"请选择",
+      yuText:"",
       fangyuanlist:[
-        {img1:app.globalData.imgurl + "f1.png",name:'电视'},
-        {img1:app.globalData.imgurl + "f2.png",name:'冰箱'},
-        {img1:app.globalData.imgurl + "f3.png",name:'洗衣机'},
-        {img1:app.globalData.imgurl + "f4.png",name:'空调'},
-        {img1:app.globalData.imgurl + "f5.png",name:'热水器'},
-        {img1:app.globalData.imgurl + "f6.png",name:'床'},
-        {img1:app.globalData.imgurl + "f7.png",name:'暖气'},
-        {img1:app.globalData.imgurl + "f8.png",name:'宽带'},
-        {img1:app.globalData.imgurl + "f9.png",name:'衣柜'},
-        {img1:app.globalData.imgurl + "f10.png",name:'天然气'},
-        {img1:app.globalData.imgurl + "f11.png",name:'沙发'},
-        {img1:app.globalData.imgurl + "f12.png",name:'桌子'},
+        {img1:app.globalData.imgurl + "f1.png",img2:app.globalData.imgurl + "f1s.png",name:'电视',isshow:0},
+        {img1:app.globalData.imgurl + "f2.png",img2:app.globalData.imgurl + "f2s.png",name:'冰箱',isshow:0},
+        {img1:app.globalData.imgurl + "f3.png",img2:app.globalData.imgurl + "f3s.png",name:'洗衣机',isshow:0},
+        {img1:app.globalData.imgurl + "f4.png",img2:app.globalData.imgurl + "f4s.png",name:'空调',isshow:0},
+        {img1:app.globalData.imgurl + "f5.png",img2:app.globalData.imgurl + "f5s.png",name:'热水器',isshow:0},
+        {img1:app.globalData.imgurl + "f6.png",img2:app.globalData.imgurl + "f6s.png",name:'床',isshow:0},
+        {img1:app.globalData.imgurl + "f7.png",img2:app.globalData.imgurl + "f7s.png",name:'暖气',isshow:0},
+        {img1:app.globalData.imgurl + "f8.png",img2:app.globalData.imgurl + "f8s.png",name:'宽带',isshow:0},
+        {img1:app.globalData.imgurl + "f9.png",img2:app.globalData.imgurl + "f9s.png",name:'衣柜',isshow:0},
+        {img1:app.globalData.imgurl + "f10.png",img2:app.globalData.imgurl + "f10s.png",name:'天然气',isshow:0},
       ], 
- 
-      house: [
-        { 
-          img6:'http://vip.yijienet.com/tt/img1.jpg', title:'城投佳境',
-          area: [
-            { model:'2室1厅', size:90, direction:'西北', name:'城投佳境'}
-          ],
-          advantage: [
-            { id:'满五年'},
-            { id:'满五年'},
-            { id:'满五年'}
-          ],
-          price:555, price1:6500,
-
-
-        }
-      ],
-      
-      img12: app.globalData.imgurl + "gz.png",
       img13: app.globalData.imgurl + "fx.png",
       img14: app.globalData.imgurl + "yy.png",
       img15: app.globalData.imgurl + "gz.png",
       img16: app.globalData.imgurl + "xin.png",
       yajin_xs:false,
-      gztu_img:0,
+      // gztu_img:0,
  
 
 
@@ -396,11 +423,42 @@ export default {
           }
           //房源介绍
           that.houseInfo = res.data.Context.houseInfo;
+          that.projectname = res.data.Context.houseInfo.projectname;
+          that.numVal=res.data.Context.houseInfo.id; 
+          console.log("that.houseInfo",that.houseInfo.furnishings)
+          
+          // 房源简介陈设
+          // 拆分出后台数据组成数组
+          let arr=that.houseInfo.Furnishingsname.split(",");
+          console.log("that.Furnishingsname",arr)
+          for(var i=0;i<arr.length;i++){
+            // 循环对象
+            that.fangyuanlist.forEach(element => {
+              if(arr[i]==element.name){
+                element.isshow=1;
+              }
+            });
+          }
+
+           
           //经纪人
           that.agentlist = res.data.Context.agentList;
+          for(var i =0;i<that.agentlist.length;i++){
+            that.company = that.agentlist[i].company;
+            that.store = that.agentlist[i].store;
+          }
           //同小区房源
           that.sameDistrict = res.data.Context.sameDistrict;
+          //推荐房源
           that.recommended = res.data.Context.recommended;
+          // 当前经纪人
+          that.agentPhone = res.data.Context.agent.mobile;
+          if(res.data.Context.agent.wxid==""){
+            that.wechat_num=res.data.Context.agent.mobile;
+          }else{
+            that.wechat_num=res.data.Context.agent.wxid;
+          }
+          
 
 
           // 地图
@@ -437,9 +495,64 @@ export default {
 
         }
       })
+
+      //获取用户关注
+      wx.request({
+        url:app.globalData.url +"Percenter/BandUserRelationEsf" +"?sessionKey=" +app.globalData.sessionKey+'&houseId=' + option.id,
+        success: function (res) {
+          if(res.data.Code==0){
+            that.state=res.data.Context.isganzhu;
+            // if(that.state>0){
+            //   that.bianjia=true;
+            //   if(res.data.Context.isdingyue>0){
+            //      that.priceStatus=1;
+            //   }else{
+            //     that.priceStatus=0;
+            //   }
+            // }else{
+            //   that.bianjia=false;
+            // }
+          }
+          // else{
+          //   that.state=0;
+          // }
+        }
+      });
+
+
+
+  },
+
+  onShow(){
+    const that = this;
+    wx.request({
+      url:app.globalData.url +"Percenter/BandUserRelationEsf" +"?sessionKey=" +app.globalData.sessionKey+'&houseId=' + that.houserid,
+      success: function (res) {
+        if(res.data.Code==0){
+          if(res.data.Context.isganzhu>0){
+            that.state=1;
+          }else{
+            that.state=0;
+          }
+        }else{
+          that.state=0;
+        }
+      }
+    });
+    
+ 
+  
+  
   },
 
 
+  onShareAppMessage: function(res) {
+    return {
+      title: "租房详情",
+      path: "/pages/Rentaldetails/main",
+      imageUrl: "",
+    };
+  },
 
   methods: {
     djimg(e) {
@@ -451,13 +564,13 @@ export default {
     zhidao(){
       this.yajin_xs=false;
     },
-    gz_dj(){
-      if(this.gztu_img==1){
-        this.gztu_img=0;
-      }else{
-        this.gztu_img=1;
-      }
-    },
+    // gz_dj(){
+    //   if(this.gztu_img==1){
+    //     this.gztu_img=0;
+    //   }else{
+    //     this.gztu_img=1;
+    //   }
+    // },
     //点击放大轮播图片
     previewImg:function(pro,e){
       const that = this;
@@ -516,8 +629,284 @@ export default {
     //点击查看更多同小区房源
     sameClick:function(){
       const that = this;
-      wx.navigateTo({ url: "/pages/oldhouse/main?keyword="+that.projectname});
+      wx.navigateTo({ url: "/pages/Rental/main?keyword="+that.projectname});
+    },
+    // 点击楼盘信息详情页
+    moreDetails:function(index,e){
+      wx.navigateTo({ url: "/pages/rentmoreDetails/main?id=" + e.mp.currentTarget.dataset.id });
+    },
+    // 点击跳转经纪人列表
+    agentlists:function(){
+      const that = this;
+      wx.navigateTo({ url: "/pages/rentAgentList/main?company=" + that.company + "&store=" + that.store});
+    },
+    //点击跳转经纪人名片
+    agentInfo: function(index, e) {
+      wx.navigateTo({
+        url: "/pages/rentAgentDetails/main?agentid=" + e.mp.currentTarget.dataset.id
+      });
+    },
+    //拨打当前经纪人电话
+    clickService:function(){
+      const that = this;
+      if(that.agentPhone!=""){  
+        wx.makePhoneCall({
+          phoneNumber: that.agentPhone,
+        })
+      }else{
+        wx.showToast({
+          title: '请先添加电话！',
+          icon: 'none',
+          duration: 2000
+        })
+      }
+    },
+    //点击复制当前经纪人微信号
+    copy(){
+      const that = this;
+      wx.setClipboardData({
+        data: that.wechat_num,
+        success: function (res) {
+          wx.showToast({
+          title: '复制成功'
+          })
+        }
+      })
+    },
+    //点击取消授权
+    quxiao:function(){
+      const that = this;
+      that.telHid=false;
+      that.maskHid=false;
+    },
+    //点击获取手机号
+    getPhoneNumber(e){
+      const that = this;    
+      if (e.mp.detail.errMsg == "getPhoneNumber:ok") {
+        wx.request({
+          url: app.globalData.url +"WxLogin/getPhoneNumber?sessionKey="+app.globalData.sessionKey,
+          method:"POST",
+          data: {
+            encryptedData:e.mp.detail.encryptedData,
+            iv:e.mp.detail.iv
+          },
+          header: {
+            'content-type': 'application/json' // 默认值
+          },
+          success (res) {
+            var obj = JSON.parse(res.data.Context.phoneNumber.trim());
+            that.purePhoneNumber=obj;
+              wx.request({
+                url: app.globalData.url +"WxLogin/RegisterLogin" +"?sessionKey=" +app.globalData.sessionKey,
+                method:"POST",
+                data: {
+                  nickname:that.nickname,
+                  headpic:that.headpic,
+                  mobile:that.purePhoneNumber
+                },
+                header: {
+                  'content-type': 'application/json' // 默认值
+                },
+                success (data) {
+                  if(data.data.Code==0){
+                    that.telHid=false;
+                    that.maskHid=false;
+                    wx.setStorageSync('member',data.data.Context.member);
+                    that.openType="";
+                    app.globalData.member=data.data.Context.member;
+
+                    if(that.clickSome==0){
+                      wx.request({
+                        url:app.globalData.url +"Percenter/BandUserRelationEsf" +"?sessionKey=" +app.globalData.sessionKey+'&houseId=' + that.numVal,
+                        success: function (res) {
+                          if(res.data.Code==0){
+                            if(res.data.Context.isganzhu>0){
+                              that.state=1;
+                              // that.bianjia=true;
+                              // if(res.data.Context.isdingyue >0){
+                              //   that.priceStatus=1;
+                              // }else{
+                              //   that.priceStatus=0;
+                              // }
+                            }
+                            else{
+                              // that.priceNotice();
+                               that.state=0;
+                            }
+                          }
+                        }
+                      });
+                    }
+                    else{
+                      that.tel=app.globalData.member.mobile;
+                      that.yuyue_yc=true;
+                    }
+                  
+                  }
+                }
+              })
+          }
+        })
+      }
+    },
+    //点击关注
+    priceNotice:function(){
+      const that = this;
+      that.clickSome=0;
+      //如果关注状态为0调用关注接口，如果为1调用取消关注接口
+      if(that.state==0){
+        wx.request({
+          url: app.globalData.url +"OldHouse/BandEsfFollow?sessionKey=" +app.globalData.sessionKey+'&houseId=' + that.houserid,
+          success (res) {
+            console.log("关注接口",res)
+            if(res.data.Code==0){
+              that.telHid=false;
+              that.maskHid=false;
+              that.state=1;
+              // that.bianjia=true;
+              // that.priceStatus=0;
+              wx.showToast({
+                title: '关注成功',
+                icon: 'success',
+                duration: 2000
+              });
+              //that.Message();
+              // that.state=1;
+            }else{
+              that.telHid=true;
+              that.maskHid=true; 
+            }
+          },
+        });
+      }else{
+        wx.request({
+          url: app.globalData.url +"OldHouse/BandEsfCancelFollow?sessionKey=" +app.globalData.sessionKey+'&houseId=' + that.houserid,
+          success (res) {
+            if(res.data.Code==0){
+              that.state=0;
+              wx.showToast({
+                title: '取消关注',
+                icon: 'none',
+                duration: 2000
+              });
+              // that.bianjia = false;
+            }
+          }
+        })
+      }
+    },
+    // 点击预约
+    anyy_dj(){
+      const that = this;
+      // clearInterval(that.timer);
+      // that.timeText="发送验证码";
+      // that.yzm="";
+      that.disabled=false;
+      that.clickSome=1;
+      wx.request({
+        url:app.globalData.url +"WxLogin/CheckLogin" +"?sessionKey=" +app.globalData.sessionKey,
+        success: function (data) {
+          if(data.data==true){
+            that.telHid=false;
+            that.maskHid=false;
+            that.yuyue_yc = true;
+            that.tel=app.globalData.member.mobile;
+          }else{
+            that.telHid=true;
+            that.maskHid=true;
+          }
+          
+        }
+      })
+     },
+    ShutDown_gb(){
+      const that = this;
+      that.yuyue_yc =false;
+    },
+    // 获取姓名
+    nameVal:function(e){
+      console.log("姓名",e.mp.detail.value)
+      const that = this;
+      that.name = e.mp.detail.value;
+    },
+    // 获取手机号码
+    telVal:function(e){
+      const that = this;
+      that.tel = e.mp.detail.value;
+    },
+    // 获取看房时间
+    bindDateChangeStart:function(e){
+      const that = this;
+      that.color = "color:#333";
+      that.lookDate = e.mp.detail.value;
+    },
+    // 获取预约描述
+    makeText:function(e){
+      const that = this;
+      that.yuText = e.mp.detail.value;
+    },
+    //申请预约
+    applyClick:function(){
+      const that = this;
+      console.log('app.globalData.member.id',app.globalData.member);
+      var reg = /(1[3-9]\d{9}$)/;
+      //判断姓名是否为空
+      if(that.name==""){
+        Toast("姓名不能为空");
+        return false;
+      }
+      //手机号码是否为空并且格式无误
+      if (that.tel == "") {
+        Toast("电话不能为空");
+        return false;
+      } else if (!reg.test(that.tel)) {
+        Toast("请输入正确格式的手机号码!");
+        return false;
+      }
+      //看房时间是否为空
+      if (that.lookDate == ""||that.lookDate=="请选择") {
+        Toast("看房时间不能为空");
+        return false;
+      }
+      // if(that.yzm == ""){
+      // Toast("验证码不能为空");
+      // return false;
+      // }else if(that.yzm != that.code){
+      //   Toast("验证码错误");
+      //   return false;
+      // }
+      wx.request({
+        url: app.globalData.url +"OldHouse/BandEsfSubscribe?sessionKey="+app.globalData.sessionKey,
+        method:"POST",
+        data: {
+          houseid:that.numVal,
+          jjrid:that.agentId,
+          name:that.name,
+          telephone:that.tel,
+          createdate:that.lookDate,
+          intro:that.yuText
+        },
+        header:{ 'Content-Type':'application/json' },
+        success (data) {
+          if(data.data.Code==0){
+            that.yuyue_yc=false;
+            Toast("预约成功");
+            that.name="";
+            that.tel="";
+            that.yzm="";
+            that.disabled=false;
+            // that.timeText="发送验证码";
+            that.lookDate="请选择";
+            that.yuText="";
+          }
+        }
+       });
+
     }
+    
+
+
+
 
 
  
@@ -584,15 +973,20 @@ export default {
 
 
 /* 房源简介 */
-.introduction{width: 90%; padding-left: 5%; padding-right: 5%; margin-top: 5%; padding-bottom: 5%; border-bottom:20rpx #efefef solid;}
+.introduction{ width:100%; margin-top: 5%; padding-bottom: 5%; border-bottom:20rpx #efefef solid;}
 .hx_bt{ width:100%; overflow: hidden;}
 .hx_bt p{ float: left; font-size:35rpx; font-weight: bold;}
 .hx_bt span{ float: right; font-size:25rpx; color: #2e72f1; margin-top: 2%;}
+.fyhx_bt{width: 90%; padding-left: 5%; padding-right: 5%; overflow: hidden;}
+.fyhx_bt p{ float: left; font-size:35rpx; font-weight: bold;}
+.fyhx_bt span{ float: right; font-size:25rpx; color: #2e72f1; margin-top: 2%;}
 .fyjieshao{ width: 100%; margin-top: 5%;}
 .fyjieshao ul{ overflow: hidden;}
 .fyjieshao ul li{  display: inline-block; width: 20%; margin-bottom: 5%;}
-.fyjieshao ul li image{ width:60rpx; height:60rpx; display: block; margin: 0 auto;}
+.fyjieshao ul li image{ width:70rpx; height:70rpx; display: block; margin: 0 auto;}
 .fyjieshao ul li p{ font-size: 28rpx; margin-top:10rpx; text-align: center;}
+.words{ color: #222222;}
+.words_s{color: #b3b3b3;text-decoration:line-through}
 .yajin_tk button{ width: 50%; background: #07c160; color: #fff; height:70rpx; line-height: 70rpx;}
 
 /* 费用详情 */
@@ -694,23 +1088,66 @@ export default {
 
 
 
-/* 底部按钮 */
-.footer{ width: 100%; height: 120rpx; background: #fff;position: fixed;bottom: 0;}
-.left_foot{ float: left; width:39%;height: 120rpx; margin-right:3%; margin-left: 3%;}
-.left_foot .guanzhus{ float: left; width:33.3%; margin: 0 auto; background: #fff;overflow: inherit;border: none; padding: 0 !important;}
-.left_foot .guanzhus image{ width:36rpx; height:36rpx;}
-.left_foot .guanzhus p{ font-size: 26rpx; color: #000; position: relative; top:-24rpx; left:22%;}
-
+.footer{ width: 100%; height: 130rpx; background: #fff;position: fixed;bottom: 0; z-index: 999;}
+.left_foot{ float: left; width:39%;height: 120rpx; margin-top:23rpx; margin-right:3%; margin-left: 3%;}
+.left_foot .guanzhus{ float: left; width:33.3%; margin: 0 auto; background: #fff;overflow: inherit;border: none; 
+padding: 0 !important;}
+.left_foot .guanzhus image{ width:40rpx; height:40rpx;}
+.left_foot .guanzhus p{ font-size: 26rpx; color: #000; position: relative; top:-3rpx;
+height: 40rpx;line-height: 40rpx;}
+ 
 .left_foot .fenxiangs{ float: left; width:33.3%; height:50rpx; margin: 0 auto; background: #fff;overflow: inherit;border: none; padding: 0 !important;}
-.left_foot button{border: none; padding: 0 !important; padding-left: 0 !important; padding-right: 0 !important;}
+.left_foot button{border: none; padding: 0 !important; padding-left: 0 !important; padding-right: 0 !important; background:none; line-height: normal;}
 .left_foot button::after{border: none; padding: 0 !important;}
-.left_foot .fenxiangs image{ width:36rpx; height:36rpx;}
-.left_foot .fenxiangs p{ font-size: 26rpx; color: #000; position: relative; top: -40rpx;}
+.left_foot .fenxiangs image{ width:40rpx; height:40rpx;}
+ .left_foot .fenxiangs p{ font-size: 26rpx; color: #000;/* position: relative; top: -37rpx;*/} 
 
-.right_foot{ float: right; width:55%; margin-top:14rpx;}
+ .right_foot{ float: right; width:55%; margin-top:22rpx;}
 .Report{ float: left; width: 45%; background: #3dc28e; font-size: 28rpx; height:90rpx; line-height:90rpx; text-align: center; border-radius: 10rpx; color: #fff; margin-right: 5%;}
 .Telephone{ float: right; width: 45%; background: #2e72f1; font-size: 28rpx; height:90rpx; line-height:90rpx; text-align: center; border-radius:10rpx; color: #fff; margin-right: 5%;}
 
+/* 弹出预约开始 */
+.tcyyzg{position:fixed;top:0;bottom:0;right:0;left:0;background-color:#333333d1;display:flex;
+align-items:flex-end;align-content:center; z-index: 999;}
+.tcyy{ width:90%; margin-left:5%; margin-right:5%; background: #fff; border-radius:30rpx;  position: fixed; top:8%;}
+.btyy{ width: 100%; height:100rpx; background: #3dc28e; color: #fff; text-align: center; border-top-left-radius:30rpx; border-top-right-radius: 30rpx; line-height:100rpx; font-size: 36rpx; font-weight: bold;}
+.appointment{padding:1% 5% 7% 5%; width:90%;}
+.project__input{ margin-top:30rpx; height:60rpx; padding-bottom:10rpx; border-bottom: 1px #f3f3f3 solid;}
+.project__input .xmmc{ float: left; font-size: 30rpx; width:25%; margin-right:25rpx; text-align: justify;text-justify:distribute-all-lines;}
+.xmmc:after {width: 100%;height: 0;margin: 0;display: inline-block;overflow: hidden;content: '';}
+.project__input input{ float: left; font-size: 30rpx; width: 68%; }
+.project__input textarea{ float: left; font-size: 30rpx; width:68%; border: 2rpx solid #ececec;
+height: 185rpx;}
+.applyFor{ width:60%; height:80rpx; background: #2e72f1; line-height: 80rpx; text-align: center; font-size: 36rpx; color: #fff; margin-top: 40rpx;}
+.ShutDown{ font-size:40rpx; font-weight: bold; position: absolute; top: 20rpx; right: 20rpx; color: #fff;}
 
+/* 提醒授权开始 */
+.authorization{width: 80%;margin: 0 auto;position: fixed;top: 390rpx;left: 10%;z-index: 9999;
+background: #fff;padding: 30rpx 30rpx 60rpx 30rpx;box-sizing: border-box;border-radius: 10rpx;}
+.authorization_title{font-size: 32rpx;color: #040404;font-weight: 700;padding-bottom: 30rpx;
+text-align: center;}
+.authorization_text{font-size: 28rpx;}
+.authorization_btn{justify-content: center;display: flex;margin-top: 30rpx;}
+.authorization_btn>button:first-child{background: #EEEEEE;color: #2F2F2F;}
+.authorization_btn>button:nth-child(2){margin-right: 0;background: #2e72f1;color: #fff;}
+.authorization_btn>button{margin-right: 10%;margin-left: 0;padding: 0;width: 45%;font-size: 28rpx;}
+.authorization_btn>button::after{border: none;}
+/* 提醒授权结束 */
+/* 遮罩层开始 */
+.modalMask {
+  width: 100% !important;
+  height: 100% !important;
+  position: fixed;
+  top: 0;
+  left: 0;
+  opacity: 0.5;
+  background: #000 !important;
+  overflow: hidden;
+  z-index: 9000;
+  color: #fff;
+}
+/* 遮罩层结束 */
+
+.borderNone{border-bottom: none !important;height: 185rpx !important;}
 
  </style>

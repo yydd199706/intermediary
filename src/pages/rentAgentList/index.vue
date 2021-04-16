@@ -21,24 +21,8 @@
               </div>
             </div>
             <div class="right_g">
-              <p class="wxl">
-                <image
-                  :src="img9"
-                  class="slide-image"
-                  mode="scaleToFill"
-                  :data-wxid="item.wxid==''?item.mobile:item.wxid"
-                  @click="copy(index,$event)"
-                />
-              </p>
-              <p class="dhr">
-                <image
-                  :src="img10s"
-                  class="slide-image"
-                  mode="scaleToFill"
-                  :data-telphone="item.mobile"
-                  @click="telphoneClick(index,$event)"
-                />
-              </p>
+              <p class="wxl"><image :src="img9" class="slide-image" mode="scaleToFill" :data-wxid="item.wxid==''?item.mobile:item.wxid" @click="copy(index,$event)"/></p>
+              <p class="dhr"> <image :src="img10s" class="slide-image" mode="scaleToFill" :data-telphone="item.mobile" @click="telphoneClick(index,$event)" /></p>
             </div>
           </div>
         </div>
@@ -56,7 +40,7 @@ export default {
     return {
       domain: null,
       company: "",
-      store: "",
+      storename: "",
       agentList: [],
       img9: app.globalData.imgurl + "wx.png",
       img10s: app.globalData.imgurl + "dh.png",
@@ -69,14 +53,7 @@ export default {
     that.company = option.company;
     that.store = option.store;
     wx.request({
-      url:
-        app.globalData.url +
-        "Agent/BandAgentList?sessionKey=" +
-        app.globalData.sessionKey +
-        "&company=" +
-        that.company +
-        "&store=" +
-        that.store,
+      url:app.globalData.url +"Agent/BandAgentList?sessionKey=" +app.globalData.sessionKey +"&company=" +that.company +"&store=" +that.store,
       header: {
         "content-type": "application/json" // 默认值
       },
@@ -89,7 +66,7 @@ export default {
     //点击跳转经纪人名片
     agentInfo: function(index, e) {
       wx.navigateTo({
-        url: "/pages/agentDetails/main?agentid=" + e.mp.currentTarget.dataset.id
+        url: "/pages/rentAgentDetails/main?agentid=" + e.mp.currentTarget.dataset.id
       });
     },
     //拨打经纪人电话
@@ -152,7 +129,7 @@ export default {
 }
 .jjlist > image {
   width: 100%;
-  height: 560rpx;
+  /* height: 560rpx; */
 }
 .meiy {
   height: 100rpx;
