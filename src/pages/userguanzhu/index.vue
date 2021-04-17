@@ -4,15 +4,15 @@
     <!-- 关注开始 -->
     <div class="guanzhu">
        <!-- 上面部分开始 -->
-       <!-- <div class="gz_lan"> -->
+       <div class="gz_lan">
          <!-- 栏目切换 -->
-         <!-- <div class="qh_l">
+         <div class="qh_l">
            <div :class="{'houses1':tab === 1}" class="buy" @click="fangdj(1)">二手房</div>
            <div :class="{'houses1':tab === 2}" class="buy" @click="fangdj(2)">新房</div>
            <div :class="{'houses1':tab === 3}" class="buy" @click="fangdj(3)">租房</div>
          </div>
 
-       </div> -->
+       </div>
        <!-- 上面部分结束 -->
 
        <!-- 下面内容开始 -->
@@ -34,12 +34,9 @@
                     <div>{{item.Propertyname}}</div>
                   </div>
                   
-                  <!-- <div class="clear"></div> -->
                   <div class="m-x">
                     <p class="money">{{item.price==""||item.price==null?'总价：暂无':item.price+'万'}}</p>
                     <p class="average">{{item.averageprice==""||item.averageprice==null?'价格待定':item.averageprice+'元/平'}}</p>
-                    <!--<div class="moredj"><image :src="bjimg" />变价通知</div>
-                     <div class="moredj" v-if="bianjia" @click="Message"><image :src="bjimg" /><span>取消提醒</span></div> -->
                   </div>
                 </div>
               </div>
@@ -83,24 +80,23 @@
          <div class="xiaoqu" v-else>
            <!-- 关注的房源显示开始 -->
            <div class="fang_list">
-              <div class="h-mt" v-for="(item, index) in newslist" :key="index" :data-id="item.id" @click="esfDetail(index,$event)">
-                  <image :src="item.img3" class="new-image" mode="scaleToFill" />
-                  <div class="r_wz">
-                    <div class="bt_s">{{ item.title}}</div>
-                    <div class="jieshao">
-                      <span>{{item.apirlroom}}室{{item.apirloffice}}厅{{item.apirloffice}}卫</span>/<span>{{item.area}}m²</span>/
-                      <span>{{item.Towardname}}</span>
-                    </div>
-                    <div class="youshi">
-                      <div>{{item.Decorationname}}</div>
-                      <div>{{item.looktime}}</div>
-                    </div>
-                    <!-- <div class="clear"></div> -->
-                    <div class="m-x">
-                      <p class="money">{{item.price==""||item.price==null?'总价：暂无':item.price+'万'}}</p>
-                      <p class="average">{{item.averageprice==""||item.averageprice==null?'价格待定':item.averageprice+'元/平'}}</p>
-                    </div>
+              <div class="h-mt" v-for="(item, index) in rentList" :key="index" @click="SameDistrictclick(index,$event)" :data-id="item.id">
+                <image v-if="domain" :src="domain+item.Imgurl" class="new-image" mode="scaleToFill" />
+                <div class="r_wz">
+                  <div class="bt_s">{{item.title}}</div>
+                  <div class="jieshaot">
+                    <span>{{item.apirlroom}}室{{item.apirloffice}}厅{{item.apirloffice}}卫</span>/<span>{{item.area}}m²</span>/
+                    <span>{{item.Towardname}}</span>
                   </div>
+                  <div class="youshi">
+                    <div class="youshi1">{{item.Decorationname}}</div>
+                    <div class="youshi1">{{item.Propertyname}}</div>
+                  </div>
+                  <div class="clear"></div>
+                  <div class="m-x">
+                    <p class="money">{{item.rent==""||item.rent==null?'价格待定':item.rent+'元/月'}}</p>
+                  </div>
+                </div>
               </div>
            </div>
            <!-- 关注的房源显示结束 -->
@@ -149,11 +145,12 @@ export default {
       currentimg: 0,
       img:app.globalData.imgurl +"null_data.png",
       newslist: [],
-      newHouse: [
-            { 
-              img7:'/static/images/tu.jpg', name:'城投佳境',salestatename:'最新开盘',zonename:'高新区',PropertyTypeName:'住宅',Decorationname:'毛坯',existingname:'期房',averageprice:6800,
-            }
-      ],
+      rentList:[],
+      // newHouse: [
+      //       { 
+      //         img7:'/static/images/tu.jpg', name:'城投佳境',salestatename:'最新开盘',zonename:'高新区',PropertyTypeName:'住宅',Decorationname:'毛坯',existingname:'期房',averageprice:6800,
+      //       }
+      // ],
   
 
 
@@ -168,56 +165,76 @@ export default {
     that.esfList();
   },
   methods: {
-   fangdj(index){
-     this.tab = index;
-   },
-   djimg(e) {
-      this.currentimg = e.target.current;
+    fangdj(index){
+      this.tab = index;
     },
-      //获取关注列表
-  esfList(){
-    const that = this;
+    //  djimg(e) {
+    //     this.currentimg = e.target.current;
+    //   },
+    //获取关注列表
+    esfList(){
+      const that = this;
       wx.request({
-      url: app.globalData.url +"Percenter/BandEsfFollowList" +"?sessionKey=" +app.globalData.sessionKey,
-      method:"POST",
-      data: {
-        pageNumber:that.pageNumber,
-        pageRecord:that.pageRecord
-      },
-      header: {
-        'content-type': 'application/json' // 默认值
-      },
-      success (res) {
-        console.log('1111',res)
-        if(res.data.Code==0){
-           if (res.data.Context.mmcList.length > 0) {
-          for (var i = 0; i < res.data.Context.mmcList.length; i++) {
-           that.newslist.push(res.data.Context.mmcList[i]);
+        url: app.globalData.url +"Percenter/BandEsfFollowList" +"?sessionKey=" +app.globalData.sessionKey,
+        method:"POST",
+        data: {
+          pageNumber:that.pageNumber,
+          pageRecord:that.pageRecord
+        },
+        header: {
+          'content-type': 'application/json' // 默认值
+        },
+        success (res) {
+          console.log('关注',res)
+          // 二手房关注
+          if(res.data.Code==0){
+            if (res.data.Context.mmcListesf.length > 0||res.data.Context.mmcListrent.length > 0) {
+              that.newslist=res.data.Context.mmcListesf;
+              that.rentList=res.data.Context.mmcListrent;
+            }else{
+              that.noneHid = true;
+            }
+            if (res.data.Context.recordcuntEsf == 0||res.data.Context.recordcountRent == 0) {
+            } else {
+              that.allPage = res.data.Context.recordcuntEsf;
+              that.allPage = res.data.Context.recordcountRent;
+            }
+          }else if(res.data.Code==1&&that.pageNumber==1){
+            that.noneHid = true;
+          }else{
+            that.noneHid = false;
           }
-        } 
-        else {
-          that.noneHid = true;
+
+          // 租房关注
+          // if(res.data.Code==0){
+          //   if (res.data.Context.mmcListrent.length > 0) {
+          //     that.rentList=res.data.Context.mmcListrent;
+          //   }else{
+          //     that.noneHid = true;
+          //   }
+          //   if (res.data.Context.recordcountRent == 0) {
+          //   } else {
+          //     that.allPage = res.data.Context.recordcountRent;
+          //   }
+          // }else if(res.data.Code==1&&that.pageNumber==1){
+          //   that.noneHid = true;
+          // }else{
+          //   that.noneHid = false;
+          // }
+
+
+
+
         }
-        
-        
-        if (res.data.Context.recordCount == 0) {
-        } else {
-          that.allPage = res.data.Context.recordCount;
-        }
-        }else if(res.data.Code==1&&that.pageNumber==1){
-          that.noneHid = true;
-        }else{
-          that.noneHid = false;
-        }
-      }
       });
+    },
+    //点击跳转二手房详情
+    esfDetail:function(index,e){
+        wx.navigateTo({ url: "/pages/oldhousedetails/main?id=" + e.mp.currentTarget.dataset.id });
+    }
   },
-  //点击跳转二手房详情
-  esfDetail:function(index,e){
-      wx.navigateTo({ url: "/pages/oldhousedetails/main?id=" + e.mp.currentTarget.dataset.id });
-  }
-  },
-    // 上拉加载，拉到底部触发
+
+  // 上拉加载，拉到底部触发
   onReachBottom: function() {
     const that = this;
     that.pageNumber = that.pageNumber + 1;
@@ -245,7 +262,7 @@ export default {
 .houses1{ font-size: 35rpx !important; border-bottom:4rpx #3072f6 solid; color: #3072f6; font-weight: bold; line-height:80rpx;}
 
 /* 关注的房源显示开始 */
-.fang_list{ width:90%; margin-top:2%; margin-left: 5%; margin-right: 5%; }
+.fang_list{ width:90%; margin-top:40rpx; margin-left: 5%; margin-right: 5%; }
 .h-mt {overflow: hidden;margin-bottom:15rpx; margin-bottom:40rpx;}
 .h-mt image {
   float: left;
@@ -292,6 +309,22 @@ text-overflow:ellipsis;
   font-size: 32rpx;
 }
 .average{color: #A1A1A1;margin-left:10rpx;font-size:26rpx; margin-top:4rpx;}
+/* 租房 */
+.nr-house{ width:100%;  margin-top:30rpx; padding-bottom: 110rpx;}
+.h-mt {overflow: hidden;margin-bottom:15rpx;}
+.nr-house image {float: left;width: 40%;height: 200rpx;border-radius: 10rpx;}
+.nr-house .r_wz {float: right;width: 57%;}
+.bt_s {font-size: 30rpx;font-weight: bold;margin-right: 10rpx;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.jieshaot {font-size: 25rpx;color: #333;margin-top: 10rpx;}
+.youshi1 {float: left;padding: 0 10rpx;height: 40rpx;line-height: 40rpx;border-radius: 3px;background: #edf0f3;color: #849aae;font-size: 25rpx;text-align: center;margin-top: 10rpx;margin-right: 10rpx;}
+.m-x {margin-top: 10rpx;overflow: hidden;}
+.m-x p {float: left; font-size: 32rpx;}
+.m-x p.money {font-size: 30rpx;color: #fa5741;font-weight: 900;margin-right: 5rpx;}
+.money1 {font-size:30rpx;color: #fa5741;font-weight: 900;}
+.more-house {width: 94%;height: 70rpx;background: #e8edf3;border-radius: 5px;text-align: center;line-height: 70rpx;font-size: 28rpx;font-weight: bold;margin-left: 3%;margin-right: 3%;margin-top: 30rpx;color: #3072f6;}
+
+
+
 
 /* 新房 */
 .intention-mt {

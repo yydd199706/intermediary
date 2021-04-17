@@ -798,9 +798,9 @@ export default {
               that.bianjia=false;
             }
           }
-          // else{
-          //   that.state=0;
-          // }
+          else{
+            that.state=0;
+          }
         }
       });
   
@@ -811,6 +811,20 @@ onShow(){
   const that = this;
   that.timeText="发送验证码";
   clearInterval(that.timer);
+  // wx.request({
+  //     url:app.globalData.url +"Percenter/BandUserRelationEsf" +"?sessionKey=" +app.globalData.sessionKey+'&houseId=' + that.houserid,
+  //     success: function (res) {
+  //       if(res.data.Code==0){
+  //         if(res.data.Context.isganzhu>0){
+  //           that.state=1;
+  //         }else{
+  //           that.state=0;
+  //         }
+  //       }else{
+  //         that.state=0;
+  //       }
+  //     }
+  // });
   
 
   // that.movies="";
