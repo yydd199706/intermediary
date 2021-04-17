@@ -108,11 +108,11 @@
     <div class="house-s" v-if="house.length > 0 ? true : false">
       <div class="biaoti-new">
         <div class="wz-bt"><span></span>想住靓房</div>     
-        <div class="more">查看更多</div>
+        <div class="more" @click="rentList">查看更多</div>
       </div>
 
       <div class="nr-house">
-        <div class="h-mt" v-for="(item, index) in house" :key="index">
+        <div class="h-mt" v-for="(item, index) in house" :key="index" @click="rentClick(index,$event)" :data-id="item.id">
           <image :src="domain+item.Imgurl" class="new-image" mode="scaleToFill" />
           <div class="r_wz">
             <div class="bt_s">{{ item.title }}</div>
@@ -122,10 +122,8 @@
               <span>{{ item.Towardname }}</span>
             </div>
             <div class="youshi">
-              <div class="youshi1" v-if="item.Furnishingsname==''?false:true">{{ item.Furnishingsname }}</div>
+              <div class="youshi1" v-if="item.Decorationname==''?false:true">{{ item.Decorationname }}</div>
               <div class="youshi1" v-if="item.Termname==''?false:true">{{ item.Termname }}</div>
-              <div class="youshi1" v-if="item.companyname==''?false:true">{{ item.companyname }}</div>
-               
             </div>
             <div class="m-x">
               <div class="money1">{{item.rent==""||item.rent==null?'价格待定':item.rent+'元/月'}}</div>
@@ -211,11 +209,11 @@
     <div class="intention-house">
       <div class="biaoti-new">
         <div class="wz-bt"><span></span>猜你想租的房源</div>
-        <div class="more">查看更多</div>
+        <div class="more" @click="rentList"  >查看更多</div>
       </div>
 
       <div class="intention-nr">
-        <div class="intention-mt" v-for="(item, index) in renting" :key="index">
+        <div class="intention-mt" v-for="(item, index) in renting" :key="index" @click="rentClick(index,$event)" :data-id="item.id">
           <image :src="domain+item.Imgurl" class="new-image" mode="scaleToFill" />
           <div class="intention-right">
             <div class="bt_s">
@@ -228,9 +226,8 @@
               
             </div>
             <div class="youshi">
-              <div class="youshi1" v-if="item.Decorationname==''?false:true">{{item.Decorationname}}</div>
-              <div class="youshi1" v-if="item.looktime==''?false:true">{{item.looktime}}</div>
-              <div class="youshi1" v-if="item.companyname==''?false:true">{{ item.companyname }}</div>
+              <div class="youshi1" v-if="item.Decorationname==''?false:true">{{ item.Decorationname }}</div>
+              <div class="youshi1" v-if="item.Termname==''?false:true">{{ item.Termname }}</div>
             </div>
             <div class="m-x">
               <p class="money">{{ item.rent }}元/月</p>
@@ -415,7 +412,16 @@ export default {
     //点击热门楼盘跳转列表页
     hotPropertyList:function(){
       wx.navigateTo({ url: "/pages/newhouse/main"});
+    },
+    // 点击跳转想看靓房
+    rentClick:function(index,e){
+      wx.navigateTo({ url: "/pages/Rentaldetails/main?id=" + e.mp.currentTarget.dataset.id });
+    },
+    // 点击想看靓房的的查看更多
+    rentList:function(){
+      wx.navigateTo({ url: "/pages/Rental/main"});
     }
+
 
   },
     onShareAppMessage: function(res) {

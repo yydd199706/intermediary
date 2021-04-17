@@ -97,36 +97,13 @@
 
 
     <!-- 费用详情开始 -->
-    <div class="cost">
+    <div class="cost" v-if="feiyongList.length > 0 ? true:false">
       <div class="hx_bt">
         <p>费用详情</p>
-        <span>咨询更多费用明细</span>
       </div>
-      <div class="feiyong">
-        <h2>年租价（当租期不足1年时租金可能会上浮，详询管家）</h2>
-        <ul>
-          <li>付款方式</li>
-          <li>租金<p>(元/月)</p></li>
-          <li>押金<image :src="img14" @click="yajin_dj" /><p>(元)</p></li>
-          <li>服务费<p>(元)</p></li>
-          <li>中介费<p>(元)</p></li>
-        </ul>
-        <ul>
-          <li>季付</li>
-          <li>26000</li>
-          <li>52000</li>
-          <li>0</li>
-          <li>0</li>
-        </ul>
-        <!-- 中间弹框开始 -->
-        <div class="tan_yj" v-if="yajin_xs">
-          <div class="yajin_tk">
-            <h3>押金</h3>
-            <p>该房源押金包含：房屋押金</p>
-            <button @click="zhidao">知道了</button>
-          </div>
-        </div>
-        <!-- 中间弹框结束 -->
+      <div class="feiyong" v-for="(item, index) in feiyongList" :key="index">
+        <h2>{{item.Name}}</h2>
+        <h3>{{item.explain}}</h3>
       </div>
 
     </div>
@@ -134,7 +111,7 @@
 
 
     <!-- 推荐经纪人开始 -->
-    <div class="agent">
+    <div class="agent" v-if="agentlist.length > 0 ? true:false">
       <div class="hx_bt">
         <p>推荐经纪人</p>
         <span @click="agentlists">查看更多</span>
@@ -179,7 +156,7 @@
 
 
     <!-- 同小区房源开始 -->
-    <div class="ditu">
+    <div class="ditu" v-if="agentlist.sameDistrict > 0 ? true:false">
       <div class="hx_bt">
         <p>同小区房源</p>
         <span @click="sameClick">查看更多</span>
@@ -200,7 +177,7 @@
 
 
     <!-- 推荐房源开始 -->
-    <div class="recommendfy">
+    <div class="recommendfy" v-if="agentlist.recommended > 0 ? true:false">
       <div class="hx_bt">
         <p>推荐房源</p>
       </div>
@@ -399,7 +376,8 @@ export default {
       img14: app.globalData.imgurl + "yy.png",
       img15: app.globalData.imgurl + "gz.png",
       img16: app.globalData.imgurl + "xin.png",
-      yajin_xs:false,
+      feiyongList:"",
+      
       // gztu_img:0,
  
 
@@ -425,7 +403,8 @@ export default {
           that.houseInfo = res.data.Context.houseInfo;
           that.projectname = res.data.Context.houseInfo.projectname;
           that.numVal=res.data.Context.houseInfo.id; 
-          console.log("that.houseInfo",that.houseInfo.furnishings)
+          console.log("that.houseInfo",that.houseInfo.furnishings) 
+          that.feiyongList = res.data.Context.service ; 
           
           // 房源简介陈设
           // 拆分出后台数据组成数组
@@ -557,13 +536,7 @@ export default {
   methods: {
     djimg(e) {
       this.currentimg = e.target.current;
-    },
-    yajin_dj(){
-      this.yajin_xs = !this.yajin_xs;
-    },
-    zhidao(){
-      this.yajin_xs=false;
-    },
+    }, 
     // gz_dj(){
     //   if(this.gztu_img==1){
     //     this.gztu_img=0;
@@ -740,6 +713,7 @@ export default {
                     else{
                       that.tel=app.globalData.member.mobile;
                       that.yuyue_yc=true;
+                      that.state=1;
                     }
                   
                   }
@@ -798,9 +772,6 @@ export default {
     // 点击预约
     anyy_dj(){
       const that = this;
-      // clearInterval(that.timer);
-      // that.timeText="发送验证码";
-      // that.yzm="";
       that.disabled=false;
       that.clickSome=1;
       wx.request({
@@ -976,7 +947,7 @@ export default {
 .introduction{ width:100%; margin-top: 5%; padding-bottom: 5%; border-bottom:20rpx #efefef solid;}
 .hx_bt{ width:100%; overflow: hidden;}
 .hx_bt p{ float: left; font-size:35rpx; font-weight: bold;}
-.hx_bt span{ float: right; font-size:25rpx; color: #2e72f1; margin-top: 2%;}
+.hx_bt span{ float: right; font-size:25rpx; margin-top: 2%;}
 .fyhx_bt{width: 90%; padding-left: 5%; padding-right: 5%; overflow: hidden;}
 .fyhx_bt p{ float: left; font-size:35rpx; font-weight: bold;}
 .fyhx_bt span{ float: right; font-size:25rpx; color: #2e72f1; margin-top: 2%;}
@@ -991,12 +962,14 @@ export default {
 
 /* 费用详情 */
 .cost{width: 90%; padding-left: 5%; padding-right: 5%; margin-top: 5%; padding-bottom:5%; border-bottom:20rpx #efefef solid;}
-.feiyong{ width: 100%; margin-top:5%;}
-.feiyong h2{ font-size: 26rpx; margin-bottom: 5%;}
-.feiyong ul{ display: flex; flex-direction: row; margin-top:2%;}
-.feiyong ul li{ font-size: 26rpx; text-align: center; width: 20%; }
-.feiyong ul li p{ font-size: 21rpx; color: rgb(146, 146, 146); margin-top: 2%;}
-.feiyong ul li image{ width:25rpx; height: 25rpx; margin-left: 3%;}
+.feiyong{ width: 100%; margin-top: 20rpx; border-bottom: 1px rgb(241, 241, 241) dotted; padding-bottom: 20rpx; } 
+.feiyong h2{ font-size: 30rpx;display: block;white-space: nowrap; overflow: hidden; text-overflow: ellipsis;  }
+.feiyong h3{ display: block; width: 100%; font-size:26rpx; margin-top:10rpx; color:#333;}
+.feiyong h3 span{ color: rgb(255, 97, 23);}
+
+
+
+
 /* 中间弹框 */
 .tan_yj{position:fixed;top:0;bottom:0;right:0;left:0;background-color:#333333d1;display:flex;align-items:flex-end;align-content:center; z-index: 999999;}
 .yajin_tk{ width:70%; margin-left: 10%; margin-right: 10%; padding:5%; background: #fff; position: relative; bottom:35%; border-radius: 3%;}
