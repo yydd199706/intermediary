@@ -156,7 +156,7 @@
 
 
     <!-- 同小区房源开始 -->
-    <div class="ditu" v-if="agentlist.sameDistrict > 0 ? true:false">
+    <div class="ditu" v-if="sameDistrict.length > 0 ? true:false">
       <div class="hx_bt">
         <p>同小区房源</p>
         <span @click="sameClick">查看更多</span>
@@ -177,7 +177,7 @@
 
 
     <!-- 推荐房源开始 -->
-    <div class="recommendfy" v-if="agentlist.recommended > 0 ? true:false">
+    <div class="recommendfy" v-if="recommended.length > 0 ? true:false">
       <div class="hx_bt">
         <p>推荐房源</p>
       </div>
@@ -377,6 +377,25 @@ export default {
       img15: app.globalData.imgurl + "gz.png",
       img16: app.globalData.imgurl + "xin.png",
       feiyongList:"",
+      lookList:[
+        {
+          time:"",
+					id: "",
+					title: "",
+					Imgurl: "",
+					apirlroom: "",
+          apirloffice:"",
+          apirltoilet:"",
+          area:"",
+          Towardname:"",
+          Decorationname:"",
+          Propertyname:"",
+          price:"",
+          averageprice:""
+
+        },
+      ],
+      arrayzf:[],
       
       // gztu_img:0,
  
@@ -394,6 +413,7 @@ export default {
         url:app.globalData.url +"OldHouse/BandEsfInfo" +"?sessionKey=" +app.globalData.sessionKey+'&houseid=' + option.id,
         success: function (res) {
           console.log("租房详情",res)
+
           //轮播图
           that.movies = res.data.Context.carousel;
           for(var i = 0;i<that.movies.length;i++ ){
@@ -405,6 +425,45 @@ export default {
           that.numVal=res.data.Context.houseInfo.id; 
           console.log("that.houseInfo",that.houseInfo.furnishings) 
           that.feiyongList = res.data.Context.service ; 
+          
+          // 浏览记录
+          if(wx.getStorageSync("arrayzf")){
+            that.arrayzf = wx.getStorageSync("arrayzf");
+          }
+          let patient = res.data;
+
+          let val={
+            time:common.ConvertTimestamp(new Date()),
+            id:option.id,
+            title:that.houseInfo.title,
+            Imgurl:that.houseInfo.Imgurl,
+            apirlroom:that.houseInfo.apirlroom,
+            apirloffice:that.houseInfo.apirloffice,
+            apirltoilet:that.houseInfo.apirltoilet,
+            area:that.houseInfo.area,
+            Towardname:that.houseInfo.Towardname,
+            Decorationname:that.houseInfo.Decorationname,
+            Propertyname:that.houseInfo.Propertyname,
+            rent:that.houseInfo.rent,
+          };
+          that.arrayzf.push(val);
+          var regionValueArray = [];
+          that.arrayzf = that.arrayzf.reduce(function(arr, obj) {
+            let count = 0;
+            arr.forEach( function(item,key){
+              if(item.id == obj.id){
+                count = 1;
+                arr[key]=obj;
+              }
+            })
+            if(!count)arr.push(obj);
+            return arr;
+          },[]);
+          that.arrayzf.sort(that.compare('time',false));
+          wx.setStorageSync('arrayzf',that.arrayzf);
+
+
+
           
           // 房源简介陈设
           // 拆分出后台数据组成数组
@@ -534,6 +593,30 @@ export default {
   },
 
   methods: {
+    compare: function(attr,rev){ //第二个参数没有传递 默认升序排列 
+    if(rev == undefined){ rev = 1; }else{ rev = (rev) ? 1 : -1; } return function(a,b){ a = a[attr]; b = b[attr]; 
+    if(a < b){ return rev * -1; } if(a > b){ return rev * 1; } return 0; } },
+       getToday() {
+      let myDate = new Date();
+      let myMonth = myDate.getMonth() + 1;
+      let Hours = myDate.getHours()
+      let Minutes = myDate.getMinutes();
+      let Seconds = myDate.getSeconds();
+      if (myMonth < 10) {
+        myMonth = "0" + myMonth; //补齐
+      }
+      let mydate = myDate.getDate();
+      if (myDate.getDate() < 10) {
+        mydate = "0" + myDate.getDate(); //补齐
+      }
+      let today = myDate.getFullYear() + "-" + myMonth + "-" + mydate;
+      
+      return today;
+
+    },
+
+
+
     djimg(e) {
       this.currentimg = e.target.current;
     }, 

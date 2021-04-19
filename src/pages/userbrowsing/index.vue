@@ -2,11 +2,11 @@
   <div class="indexstyle">
   
    <!-- 栏目切换开始 -->
-   <!-- <div class="liulan">
+   <div class="liulan">
       <div :class="{'houses1':tab === 1}" class="ll_top" @click="lldj(1)">二手房</div>
       <div :class="{'houses1':tab === 2}" class="ll_top" @click="lldj(2)">新房</div>
       <div :class="{'houses1':tab === 3}" class="ll_top" @click="lldj(3)">租房</div>
-   </div> -->
+   </div>
    <!-- 栏目切换结束 -->
    <div class="ll_xmnr">
      <!-- 二手房开始 -->
@@ -40,76 +40,33 @@
      <!-- 新房开始 -->
      <div class="newroom" v-else-if="tab===2">
        <!-- 新房列表开始 -->
-       <div class="intention-mt" v-for="(item, index) in newslist" :key="index">
-          <image :src="item.img7" class="new-image" mode="scaleToFill"/>
-          <div class="intention-right">
-
-            <div class="bt_ri">
-              <h1>{{item.title}}</h1>
-              <p>在售</p>
-              <div class="clear"></div>
-            </div>
-
-            <div class="jieshao1" v-for="(w, inds) in item.area" :key="inds">
-              <span>{{w.dizhi}}</span>/
-              <span>建面{{w.jianmian}}m²</span>
-            </div>
-
-            <div class="youshi" v-for="(f, inds) in item.advantage1" :key="inds">
-              <div class="youshi2" v-if="inds<4">{{f.id}}</div>
-            </div>
-            <div class="clear"></div>
-
-            <div class="m-x1">
-              <p class="money">{{item.price}}元/m²</p>
-            </div>
-
-            <!-- 未关注 -->
-            <div class="wgz" @click="guanzhudj" v-if="yigz==0">
-              <button>
-                <image :src="item.img8" mode="scaleToFill"/>
-                <span>关注</span>
-              </button>
-            </div>
-            <!-- 已关注 -->
-            <div class="ygz" @click="guanzhudj" v-else>
-              <button>
-                <image :src="item.img9" mode="scaleToFill"/>
-                <span>已关注</span>
-              </button>
-            </div>
-
-          </div>
-          
-
-
-       </div>
+       
        <!-- 新房列表结束 -->
      </div>
      <!-- 新房结束 -->
      <!-- 租房开始 -->
      <div class="Renthouse" v-else>
-       <div class="sjd" v-for="(item,index) in browse" :key="index">
+        <div class="sjd" v-for="(item,index) in browseRent" :key="index">
           <!-- 时间 -->
-          <div class="time">{{item.time}}</div>
+          <!-- <div class="time">{{item.time}}</div> -->
           <!-- 二手房列表开始 -->
-          <div class="h-mt" v-for="(item, ind) in item.house" :key="ind">
-            <image :src="item.img6" class="new-image" mode="scaleToFill"/>
+          <div class="h-mt" v-for="(data, ind) in item" :key="ind" :data-id="data.id" @click="esfDetail(index,$event)">
+            <div class="time" v-if="ind==0">{{data.time}}</div>
+            <image :src="domain+data.Imgurl" class="new-image" mode="scaleToFill"/>
             <div class="r_wz">
-              <div class="bt_s">{{item.title}}</div>
-              <div class="jieshao" v-for="(w, inds) in item.area" :key="inds">
-                <span>{{w.model}}</span>/
-                <span>{{w.size}}m²</span>/
-                <span>{{w.direction}}</span>/
-                <span>{{w.name}}</span>
+              <div class="bt_s">{{data.title}}</div>
+              <div class="jieshao">
+                <span>{{data.apirlroom}}室{{data.apirloffice}}厅{{data.apirloffice}}卫</span>/<span>{{data.area}}m²</span>/
+                    <span>{{data.Towardname}}</span>
               </div>
-              <div class="youshi" v-for="(f, ind1s) in item.advantage" :key="ind1s">
-                <div class="youshi1" v-if="ind1s<2">{{f.id}}</div>
-              </div>
-              <div class="clear"></div>
-              <div class="m-x"><p class="money">{{item.price}}万</p><p class="money1">{{item.price1}}元/平</p></div>
+              <div class="youshi">
+                    <div>{{data.Decorationname}}</div>
+                    <div>{{data.Propertyname}}</div>
+                  </div>
+              <div class="m-x"><p class="money">{{data.price==""||data.price==null?'总价：暂无':data.price+'万'}}</p>
+                    <p class="average">{{data.averageprice==""||data.averageprice==null?'价格待定':data.averageprice+'元/平'}}</p></div>
             </div>
-            <div class="clear"></div>
+            <!-- <div class="clear"></div> -->
           </div>
           <!-- 二手房列表结束 -->
         </div>
@@ -136,62 +93,42 @@ export default {
     return {
       tab:1,
       browse:[],
+      browseRent:[],
+      newslist:[],
       domain:null,
       noneHid:false,
       img:app.globalData.imgurl +"null_data.png",
-      newslist: [
-            { 
-              img7:'http://vip.yijienet.com/tt/img1.jpg', title:'城投佳境',
-              area: [
-                { dizhi:'汉滨-兴安府', jianmian:'100-150'}
-              ],
-              advantage1: [
-                { id:'别墅'},
-                { id:'小户型'},
-                { id:'公交直达'},
-                { id:'视频看房'}
-              ],
-              price:555, price1:6500,
-              img8:'/static/images/xin1.png',
-              img9:'/static/images/xin.png',
-            }
-
-      ],
       yigz:0,
-      houseTemp: [] ,
+      houseTemp: [],
       houseList:[[]],
+      houseRent:[],
+      houseRentList:[[]],
 
     }
   },
   onLoad(){
     const that = this;
-    that.houseTemp = wx.getStorageSync("array");
+    that.houseTemp = wx.getStorageSync("array");
+    that.houseRent = wx.getStorageSync("arrayzf");
     that.domain=app.globalData.domain;
-    if(that.houseTemp .length==0){
+    // 二手房
+    if(that.houseTemp.length==0){
       that.noneHid=true;
       that.browse=[];
-    } else{
-      
-      for(let i=0; i<that.houseTemp.length; i++)
-      {
+    }
+    else{
+      for(let i=0; i<that.houseTemp.length; i++){
         that.houseTemp[i].time = common.ConvertDate(that.houseTemp[i].time); 
       }
       that.houseTemp.reduce(function (arr, obj, index) {
         let count = 0;
-        
-  //       arr.forEach(function (item, key) {
-  //         if (item.time == obj.time) {
-  //           count = 1;
-  //           that.houseList[key].push(obj);
-  //         }
-  //       });
-          for (let key in arr) {
-            if (arr[key].time == obj.time) {
-              count = 1;
-              that.houseList[key].push(obj);
-              break;
-            }
+        for (let key in arr) {
+          if (arr[key].time == obj.time) {
+            count = 1;
+            that.houseList[key].push(obj);
+            break;
           }
+        }
         if (!count) {
           that.houseList[index] = new Array();
           that.houseList[index].push(obj);
@@ -202,9 +139,40 @@ export default {
       that.noneHid=false;
       that.browse=that.houseList;
     }
+
+    // 租房
+    if(that.houseRent.length==0){
+      that.noneHid=true;
+      that.browseRent=[];
+    }
+    else{
+      for(let i=0; i<that.houseRent.length; i++){
+        that.houseRent[i].time = common.ConvertDate(that.houseRent[i].time); 
+      }
+      that.houseRent.reduce(function (arr, obj, index) {
+        let count = 0;
+        for (let key in arr) {
+          if (arr[key].time == obj.time) {
+            count = 1;
+            that.houseRentList[key].push(obj);
+            break;
+          }
+        }
+        if (!count) {
+          that.houseRentList[index] = new Array();
+          that.houseRentList[index].push(obj);
+        }
+        arr.push(obj);
+        return arr;
+      }, []);
+      that.noneHid=false;
+      that.browseRent=that.houseRentList;
+    }
     
     that.domain=app.globalData.domain;
   },
+
+
   methods: {
     lldj(index){
       this.tab = index;

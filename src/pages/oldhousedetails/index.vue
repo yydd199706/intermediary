@@ -676,7 +676,7 @@ export default {
           
           
 
-    let val={
+        let val={
           time:common.ConvertTimestamp(new Date()),
 					id:option.id,
 					title:that.title,
@@ -690,10 +690,10 @@ export default {
           Propertyname:that.Propertyname,
           price:that.price,
           averageprice:that.averageprice
-          };
-          that.array.push(val);
-          var regionValueArray = [];
-          that.array = that.array.reduce(function(arr, obj) {
+        };
+        that.array.push(val);
+        var regionValueArray = [];
+        that.array = that.array.reduce(function(arr, obj) {
           let count = 0;
           arr.forEach( function(item,key){
             if(item.id == obj.id){
@@ -704,8 +704,9 @@ export default {
           if(!count)arr.push(obj);
           return arr;
         },[]);
-          that.array.sort(that.compare('time',false));
-          wx.setStorageSync('array',that.array);
+        that.array.sort(that.compare('time',false));
+        wx.setStorageSync('array',that.array);
+        
           //房源评价
           that.kspoint = res.data.Context.houseInfo.kspoint;
           that.comintro = res.data.Context.houseInfo.comintro;
