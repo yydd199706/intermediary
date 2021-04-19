@@ -12,7 +12,7 @@
 
       <!-- 二级导航开始 -->
       <div class="nav">
-        <div class="navigation" v-for="(item, index) in navs" :key="index">
+        <div class="navigation" v-for="(item, index) in navs" :key="index" @click="navClick(index,$event)">
           <image :src="item.img3" mode="scaleToFill"/>
           <div class="biaoti">{{item.title}}</div>
         </div>
@@ -164,6 +164,7 @@
               <div class="bt_s newHouse_name">{{item.name}}</div>
               <div class="salestatename">{{item.salestatename}} </div>
             </div>
+            <div class="NewsTitle">{{item.NewsTitle==""?"暂无优惠":item.NewsTitle}}</div>
              <div class="zonename">
               {{item.zonename}}
             </div>
@@ -215,6 +216,7 @@ export default {
       xianshi:false,
       maskHid:false,
       topHid:false,
+      isdiscount:false,
       pageNumber:1,
       pageRecord:6,
       img:app.globalData.imgurl +"hj.png",
@@ -673,6 +675,61 @@ export default {
         that.propertytypeType[i].isLxtype=false;
       }
     },
+    //点击导航筛选
+    navClick:function(index,$event){
+      const that = this;
+      that.newslist=[];
+      if(index==0){
+         that.zoneArr=[];
+        that.apirlroomArr=[];
+        that.priceArr=[];
+        that.salestateId, //销售状态
+        that.specialId,
+        that.propertytypeArr=[];
+        that.orderById,
+        that.keyword="";
+        that.pageNumber=1;
+        that.isdiscount=false;
+        that.typeFun();
+      }else if(index==1){
+        that.zoneArr=[];
+        that.apirlroomArr=[];
+        that.priceArr=[];
+        that.salestateId="03";
+        that.specialId,
+        that.propertytypeArr=[];
+        that.orderById,
+        that.keyword="";
+        that.pageNumber=1;
+        that.isdiscount=false;
+        that.typeFun();
+      }else if(index==2){
+        that.zoneArr=[];
+        that.apirlroomArr=[];
+        that.priceArr=[];
+        that.salestateId="";
+        that.specialId="",
+        that.propertytypeArr=[];
+        that.orderById="",
+        that.keyword="";
+        that.pageNumber=1;
+        that.isdiscount=true;
+        that.typeFun();
+      }else if(index==3){
+        that.zoneArr=[];
+        that.apirlroomArr=[];
+        that.priceArr=[];
+        that.salestateId="02";
+        that.specialId="",
+        that.propertytypeArr=[];
+        that.orderById="",
+        that.keyword="";
+        that.pageNumber=1;
+        that.isdiscount=false;
+        that.typeFun();
+      }
+     
+    },
     //筛选封装
     typeFun(){
       const that = this;
@@ -689,7 +746,8 @@ export default {
         orderBy: that.orderById,
         keyword:that.keyword,
         pageNumber:that.pageNumber,
-        pageRecord:that.pageRecord
+        pageRecord:that.pageRecord,
+        isdiscount:that.isdiscount
       },
       header: {
         'content-type': 'application/json' 
@@ -755,6 +813,9 @@ export default {
 </script>
 
 <style scoped>
+.NewsTitle{font-size: 28rpx;color: #333;padding-top: 10rpx;overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;}
 .career{color:#3072F6;}
 .type{background: #EAF1FE !important;color: #3072F6;}
  .none{width: 100%;text-align: center;/*height: 675rpx;*/ margin-top: 20%;} 
@@ -794,26 +855,22 @@ export default {
 }
 .intention-nr {
   width: 94%;
-  margin-left: 3%;
-  margin-right: 3%;
-  margin-top: 15px;
+  margin: 30rpx auto;
 }
 .intention-mt {
   overflow: hidden;
-  width: 94%;
-  margin-left: 3%;
-  margin-right: 3%;
+  width: 100%;
   margin-bottom: 15rpx;
 }
 .intention-nr image {
   float: left;
-  width: 40%;
-  height: 190rpx;
+  width: 45%;
+  height: 234rpx;
   border-radius: 10rpx;
 }
 .intention-nr .intention-right {
   float: right;
-  width: 57%;
+  width: 52%;
   /* margin-top: 20rpx; */
 }
 .intention-nr .intention-right .bt_ri {
