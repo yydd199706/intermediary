@@ -167,8 +167,7 @@
     <!-- 遮罩层结束 -->
     <div class="intention-house" v-if="esf.length>0?true:false">
       <div class="intention-nr">
-        <div class="h-mt" v-for="(item, index) in esf" :key="index" :data-id="item.id" 
-          @click="esfDetail(index,$event)">
+        <div class="h-mt" v-for="(item, index) in esf" :key="index" :data-id="item.id" @click="esfDetail(index,$event)">
           <image :src="domain+item.Imgurl" class="new-image" mode="scaleToFill" />
           <div class="r_wz">
             <div class="bt_s">{{item.title}}</div>

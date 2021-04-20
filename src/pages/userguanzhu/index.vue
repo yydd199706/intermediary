@@ -7,9 +7,9 @@
        <div class="gz_lan">
          <!-- 栏目切换 -->
          <div class="qh_l">
-           <div :class="{'houses1':tab === 1}" class="buy" @click="fangdj(1)">二手房</div>
-           <div :class="{'houses1':tab === 2}" class="buy" @click="fangdj(2)">新房</div>
-           <div :class="{'houses1':tab === 3}" class="buy" @click="fangdj(3)">租房</div>
+           <div :class="{'houses1':tab === 0}" class="buy" @click="fangdj(0)">二手房</div>
+           <div :class="{'houses1':tab === 1}" class="buy" @click="fangdj(1)">新房</div>
+           <div :class="{'houses1':tab === 2}" class="buy" @click="fangdj(2)">租房</div>
          </div>
 
        </div>
@@ -18,10 +18,10 @@
        <!-- 下面内容开始 -->
        <div class="gz_list">
          <!-- 二手房内容开始 -->
-         <div class="maifang" v-if="tab===1">
+         <div class="maifang" v-if="tab===0">
            <!-- 关注的房源显示开始 -->
            <div class="fang_list">
-              <div class="h-mt" v-for="(item, index) in newslist" :key="index" :data-id="item.id" @click="esfDetail(index,$event)">
+              <div class="h-mt" v-for="(item, index) in oldList" :key="index" :data-id="item.id" @click="esfDetail(index,$event)">
                 <image :src="domain+item.Imgurl" class="new-image" mode="scaleToFill" />
                 <div class="r_wz">
                   <div class="bt_s">{{ item.title}}</div>
@@ -47,30 +47,29 @@
          <!-- 二手房内容结束 -->
 
          <!-- 新房内容开始 -->
-         <div class="zufang" v-else-if="tab===2">
+         <div class="zufang" v-else-if="tab===1">
            <!-- 关注的房源显示开始 -->
            <div class="fang_list">
-              <div class="intention-mt" v-for="(item, index) in newHouse" :key="index">
-                <image :src="item.img7" class="new-image" mode="scaleToFill" />
+            <div class="intention-mt" v-for="(item, index) in newList" :key="index" :data-id="item.id" @click="newDetail(index,$event)" >
+                <image :src="domain+item.ImgUrl" class="new-image" mode="scaleToFill" />
                 <div class="intention-right">
                   <div class="bt_ri">
-                    <div class="bt_s newHouse_name">{{ item.name }}</div>
+                    <div class="bt_s newHouse_name">{{item.name}}</div>
                     <div class="salestatename">{{item.salestatename}} </div>
                   </div>
                   <div class="zonename">
                     {{item.zonename}}
                   </div>
                   <div class="youshi">
-                    <div class="youshi2">{{item.PropertyTypeName}}</div>
-                    <div class="youshi2">{{item.Decorationname}}</div>
-                    <div class="youshi2">{{item.existingname}}</div>
+                    <div class="youshi2">{{item.Decorationname==""||item.Decorationname==null?'暂无':item.Decorationname}}</div>
+                    <div class="youshi2">{{item.existingname==""||item.existingname==null?'暂无':item.existingname}}</div> 
                   </div>
 
                   <div class="m-x">
                     <p class="money">{{item.averageprice==""||item.averageprice==null?'价格待定':'均价'+item.averageprice+'元/m²'}}</p>
                   </div>
                 </div>
-              </div>
+            </div>
            </div>
            <!-- 关注的房源显示结束 -->
          </div>
@@ -80,7 +79,7 @@
          <div class="xiaoqu" v-else>
            <!-- 关注的房源显示开始 -->
            <div class="fang_list">
-              <div class="h-mt" v-for="(item, index) in rentList" :key="index" @click="SameDistrictclick(index,$event)" :data-id="item.id">
+              <div class="h-mt" v-for="(item, index) in rentList" :key="index" :data-id="item.id" @click="rentDetail(index,$event)">
                 <image v-if="domain" :src="domain+item.Imgurl" class="new-image" mode="scaleToFill" />
                 <div class="r_wz">
                   <div class="bt_s">{{item.title}}</div>
@@ -108,9 +107,9 @@
 
 
     </div>
-     <!-- -->
-     <div v-if="overHid" class="over">加载完毕~</div>
-    <div class="none" v-if="noneHid">
+    <!-- -->
+    <div v-if="overHid" class="over">加载完毕~</div>
+    <div class="none" v-if="listarr[tab]==0">
       <image :src="img" class="new-image" mode="scaleToFill" />
       <div>您还没有关注的房源~</div>
     </div>
@@ -136,21 +135,19 @@ export default {
   data () {
     return {
       domain:null,
+      tab:0,
       noneHid:false,
       overHid:false,
       allPage:0,
       pageNumber:1,
       pageRecord:6,
-      tab: 1,
+       
       currentimg: 0,
       img:app.globalData.imgurl +"null_data.png",
-      newslist: [],
+      oldList:[],
+      newList:[],
       rentList:[],
-      // newHouse: [
-      //       { 
-      //         img7:'/static/images/tu.jpg', name:'城投佳境',salestatename:'最新开盘',zonename:'高新区',PropertyTypeName:'住宅',Decorationname:'毛坯',existingname:'期房',averageprice:6800,
-      //       }
-      // ],
+      listarr:[],
   
 
 
@@ -161,7 +158,6 @@ export default {
     that.domain=app.globalData.domain;
     that.pageNumber=1;
     that.overHid=false;
-    that.newslist=[];
     that.esfList();
   },
   methods: {
@@ -175,7 +171,7 @@ export default {
     esfList(){
       const that = this;
       wx.request({
-        url: app.globalData.url +"Percenter/BandEsfFollowList" +"?sessionKey=" +app.globalData.sessionKey,
+        url: app.globalData.url +"Percenter/BandPerFollowList" +"?sessionKey=" +app.globalData.sessionKey,
         method:"POST",
         data: {
           pageNumber:that.pageNumber,
@@ -186,35 +182,25 @@ export default {
         },
         success (res) {
           console.log('关注',res)
-          // 二手房关注
           if(res.data.Code==0){
-            if (res.data.Context.mmcListesf.length > 0||res.data.Context.mmcListrent.length > 0) {
-              that.newslist=res.data.Context.mmcListesf;
-              that.rentList=res.data.Context.mmcListrent;
-            }else{
-              that.noneHid = true;
-            }
-            if (res.data.Context.recordcuntEsf == 0||res.data.Context.recordcountRent == 0) {
-            } else {
-              that.allPage = res.data.Context.recordcuntEsf;
-              that.allPage = res.data.Context.recordcountRent;
-            }
-          }else if(res.data.Code==1&&that.pageNumber==1){
-            that.noneHid = true;
-          }else{
-            that.noneHid = false;
+            that.oldList=res.data.Context.mmcListesf;
+            that.newList=res.data.Context.projectList;
+            that.rentList=res.data.Context.mmcListrent;
+            that.listarr[0]=that.oldList.length;
+            that.listarr[1]=that.newList.length;
+            that.listarr[2]=that.rentList.length;
           }
-
-          // 租房关注
+          
+          // 二手房关注
           // if(res.data.Code==0){
-          //   if (res.data.Context.mmcListrent.length > 0) {
-          //     that.rentList=res.data.Context.mmcListrent;
+          //   if (res.data.Context.mmcListesf.length > 0) {
+          //     that.oldList=res.data.Context.mmcListesf;
           //   }else{
           //     that.noneHid = true;
           //   }
-          //   if (res.data.Context.recordcountRent == 0) {
+          //   if (res.data.Context.recordcuntEsf == 0) {
           //   } else {
-          //     that.allPage = res.data.Context.recordcountRent;
+          //     that.allPage = res.data.Context.recordcuntEsf;
           //   }
           // }else if(res.data.Code==1&&that.pageNumber==1){
           //   that.noneHid = true;
@@ -230,8 +216,19 @@ export default {
     },
     //点击跳转二手房详情
     esfDetail:function(index,e){
-        wx.navigateTo({ url: "/pages/oldhousedetails/main?id=" + e.mp.currentTarget.dataset.id });
+      wx.navigateTo({ url: "/pages/oldhousedetails/main?id=" + e.mp.currentTarget.dataset.id });
+    },
+    //点击跳转新房详情
+    newDetail:function(index,e){
+      wx.navigateTo({ url: "/pages/newhousedetails/main?id=" + e.mp.currentTarget.dataset.id });
+    },
+    //点击跳转租房详情
+    rentDetail:function(index,e){
+      wx.navigateTo({ url: "/pages/Rentaldetails/main?id=" + e.mp.currentTarget.dataset.id });
     }
+
+
+
   },
 
   // 上拉加载，拉到底部触发

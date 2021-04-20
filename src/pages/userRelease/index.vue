@@ -2,127 +2,69 @@
   <div class="indexstyle">
   
    <!-- 栏目切换开始 -->
-   <!-- <div class="liulan">
-      <div :class="{'houses1':tab === 1}" class="ll_top" @click="lldj(1)">二手房</div>
-      <div :class="{'houses1':tab === 2}" class="ll_top" @click="lldj(2)">新房</div>
-      <div :class="{'houses1':tab === 3}" class="ll_top" @click="lldj(3)">租房</div>
-   </div> -->
+   <div class="liulan">
+      <div :class="{'houses1':tab === 0}" class="ll_top" @click="lldj(0)">二手房</div>
+      <div :class="{'houses1':tab === 1}" class="ll_top" @click="lldj(1)">租房</div>
+   </div>
    <!-- 栏目切换结束 -->
    <div class="ll_xmnr">
      
      <!-- 二手房开始 -->
-     <div class="secondary" v-if="tab===1">
-          <!-- 二手房列表开始 -->
-          <div class="h-mt" v-for="(item,index) in browse" :key="item" @click="esfDetail(index,$event)">
-            <image :src="domain+item.Imgurl" class="new-image" mode="scaleToFill"/>
-            <div class="r_wz">
-              <div class="bt_s">{{item.title}}</div>
-              <div class="jieshao">
-                <span>{{item.apirlroom }}室{{item.apirloffice }}厅{{item.apirltoilet}}卫</span>/<span>{{item.area}}m²</span>/
-                <span>{{item.Towardname}}</span>
-              </div>
-              <div class="youshi">
-                <div>{{item.Decorationname}}</div>
-                <div>{{item.Propertyname}}</div>
-              </div>
-              <div class="m-x">
-                <p class="money">{{item.price==""||item.price==null?'总价：暂无':item.price+'万'}}</p>
-                <p class="average">{{item.averageprice==""||item.averageprice==null?'价格待定':item.averageprice+'元/平'}}</p>
-              </div>
+     <div class="secondary" v-if="tab===0">
+       <div class="esf-house">
+        <div class="h-mt" v-for="(item, index) in oldBrowse" :key="index" @click="oldDetail(index,$event)" :data-id="item.id">
+          <image v-if="domain" :src="domain+item.Imgurl" class="new-image" mode="scaleToFill" />
+          <div class="r_wz">
+            <div class="bt_s">{{ item.title}}</div>
+            <div class="jieshao">
+              <span>{{item.apirlroom}}室{{item.apirloffice}}厅{{item.apirloffice}}卫</span>/<span>{{item.area}}m²</span>/
+              <span>{{item.Towardname}}</span>
+            </div>
+            <div class="youshi">
+              <div class="youshi1">{{item.Decorationname}}</div>
+              <div class="youshi1">{{item.Propertyname}}</div>
             </div>
             <div class="clear"></div>
+            <div class="m-x">
+              <p class="money">{{item.price==""||item.price==null?'总价：暂无':item.price+'万'}}</p>
+              <p class="average">{{item.averageprice==""||item.averageprice==null?'价格待定':item.averageprice+'元/平'}}</p>
+            </div>
           </div>
-          <!-- 二手房列表结束 -->
+        </div>
+      </div>
      </div>
      <!-- 二手房结束 -->
 
 
 
-
-     <!-- 新房开始 -->
-     <div class="newroom" v-else-if="tab===2">
-       <!-- 新房列表开始 -->
-       <div class="intention-mt" v-for="(item, index) in newslist" :key="index">
-          <image :src="item.img7" class="new-image" mode="scaleToFill"/>
-          <div class="intention-right">
-
-            <div class="bt_ri">
-              <h1>{{item.title}}</h1>
-              <p>在售</p>
-              <div class="clear"></div>
-            </div>
-
-            <div class="jieshao1" v-for="(w, inds) in item.area" :key="inds">
-              <span>{{w.dizhi}}</span>/
-              <span>建面{{w.jianmian}}m²</span>
-            </div>
-
-            <div class="youshi" v-for="(f, inds) in item.advantage1" :key="inds">
-              <div class="youshi2" v-if="inds<4">{{f.id}}</div>
-            </div>
-            <div class="clear"></div>
-
-            <div class="m-x1">
-              <p class="money">{{item.price}}元/m²</p>
-            </div>
-
-            <!-- 未关注 -->
-            <div class="wgz" @click="guanzhudj" v-if="yigz==0">
-              <button>
-                <image :src="item.img8" mode="scaleToFill"/>
-                <span>关注</span>
-              </button>
-            </div>
-            <!-- 已关注 -->
-            <div class="ygz" @click="guanzhudj" v-else>
-              <button>
-                <image :src="item.img9" mode="scaleToFill"/>
-                <span>已关注</span>
-              </button>
-            </div>
-
-          </div>
-          
-
-
-       </div>
-       <!-- 新房列表结束 -->
-     </div>
-     <!-- 新房结束 -->
-
-
      <!-- 租房开始 -->
      <div class="Renthouse" v-else>
-       <div class="sjd" v-for="(item,index) in browse" :key="index">
-          <!-- 时间 -->
-          <div class="time">{{item.time}}</div>
-          <!-- 二手房列表开始 -->
-          <div class="h-mt" v-for="(item, ind) in item.house" :key="ind">
-            <image :src="item.img6" class="new-image" mode="scaleToFill"/>
-            <div class="r_wz">
-              <div class="bt_s">{{item.title}}</div>
-              <div class="jieshao" v-for="(w, inds) in item.area" :key="inds">
-                <span>{{w.model}}</span>/
-                <span>{{w.size}}m²</span>/
-                <span>{{w.direction}}</span>/
-                <span>{{w.name}}</span>
-              </div>
-              <div class="youshi" v-for="(f, ind1s) in item.advantage" :key="ind1s">
-                <div class="youshi1" v-if="ind1s<2">{{f.id}}</div>
-              </div>
-              <div class="clear"></div>
-              <div class="m-x"><p class="money">{{item.price}}万</p><p class="money1">{{item.price1}}元/平</p></div>
+       <div class="nr-house">
+        <div class="h-mt" v-for="(item, index) in rentBrowse" :key="index" @click="rentDetail(index,$event)" :data-id="item.id">
+          <image v-if="domain" :src="domain+item.Imgurl" class="new-image" mode="scaleToFill" />
+          <div class="r_wz">
+            <div class="bt_s">{{item.title}}</div>
+            <div class="jieshaot">
+              <span>{{item.apirlroom}}室{{item.apirloffice}}厅{{item.apirloffice}}卫</span>/<span>{{item.area}}m²</span>/
+              <span>{{item.Towardname}}</span>
+            </div>
+            <div class="youshi">
+              <div class="youshi1">{{item.Decorationname}}</div>
+              <div class="youshi1">{{item.Propertyname}}</div>
             </div>
             <div class="clear"></div>
+            <div class="m-x">
+              <p class="money">{{item.rent==""||item.rent==null?'价格待定':item.rent+'元/月'}}</p>
+            </div>
           </div>
-          <!-- 二手房列表结束 -->
         </div>
+      </div>
      </div>
      <!-- 租房结束 -->
 
    </div>
 
-   <div class="none" v-if="noneHid">
+   <div class="none" v-if="arrList[tab]==0">
       <image :src="img" class="new-image" mode="scaleToFill" />
       <div>您还没有发布的房源~</div>
    </div>
@@ -140,34 +82,19 @@ const common = require("@/utils/index");
 export default {
   data () {
     return {
-      tab:1,
-      browse:[],
+      tab:0,
+      oldBrowse:[],
+      rentBrowse:[],
+      newList:[],
       domain:null,
       img:app.globalData.imgurl +"null_data.png",
-      newslist: [
-            { 
-              img7:'http://vip.yijienet.com/tt/img1.jpg', title:'城投佳境',
-              area: [
-                { dizhi:'汉滨-兴安府', jianmian:'100-150'}
-              ],
-              advantage1: [
-                { id:'别墅'},
-                { id:'小户型'},
-                { id:'公交直达'},
-                { id:'视频看房'}
-              ],
-              price:555, price1:6500,
-              img8:'/static/images/xin1.png',
-              img9:'/static/images/xin.png',
-            }
-
-      ],
       yigz:0,
       pageNumber:1,
       pageRecord:5,
       noneHid:false,
       overHid:false,
       allPage:0,
+      arrList:[],
        
 
 
@@ -202,7 +129,7 @@ export default {
   esfList(){
     const that = this;
       wx.request({
-      url: app.globalData.url +"Percenter/BandEsfReleaseList" +"?sessionKey=" +app.globalData.sessionKey,
+      url: app.globalData.url +"Percenter/BandPerReleaseList" +"?sessionKey=" +app.globalData.sessionKey,
       method:"POST",
       data: {
         pageNumber:that.pageNumber,
@@ -212,27 +139,64 @@ export default {
         'content-type': 'application/json' // 默认值
       },
       success (res) {
-        if (res.data.Context.recordCount > 0) {
-          for (var i = 0; i < res.data.Context.esfList.length; i++) {
-           that.browse.push(res.data.Context.esfList[i]);
-          }
+        console.log("ssss",res.data.Context.rentList)
+        if (res.data.Context.esfList.length > 0||res.data.Context.rentList.length > 0) {
+          that.oldBrowse = res.data.Context.esfList;
+          that.rentBrowse = res.data.Context.rentList;
         } else {
-          that.browse=[];
+          that.oldBrowse=[];
+          that.rentBrowse=[];
           that.noneHid = true;
-          
         }
-        if (res.data.Context.recordCount == 0) {
+        if (res.data.Context.recordCountEsf == 0||res.data.Context.recordCountRent == 0) {
         } else {
-          that.allPage = res.data.Context.recordCount;
+          that.allPage = res.data.Context.recordCountEsf;
+          that.allPage = res.data.Context.recordCountRent;
         }
+
+        that.oldBrowse = res.data.Context.esfList;
+        that.rentBrowse = res.data.Context.rentList;
+        that.arrList[0] = that.oldBrowse;
+        that.arrList[1] = that.rentBrowse
+
+        // 二手房
+        // if (res.data.Context.esfList.length > 0) {
+        //   that.oldBrowse = res.data.Context.esfList;
+        // } else {
+        //   that.oldBrowse=[];
+        //   that.noneHid = true;
+        // }
+        // if (res.data.Context.recordCountEsf == 0) {
+        // } else {
+        //   that.allPage = res.data.Context.recordCountEsf;
+        // }
+
+        // 租房
+        // if (res.data.Context.rentList.length > 0) {
+        //   that.rentBrowse = res.data.Context.rentList;
+        // } else {
+        //   that.rentBrowse=[];
+        //   that.noneHid = true;
+        // }
+        // if (res.data.Context.recordCountRent == 0) {
+        // } else {
+        //   that.allPage = res.data.Context.recordCountRent;
+        // }
+
+
+
+
         }
       });
   },
 
-     //点击跳转二手房详情
-  esfDetail:function(index,e){
-      wx.navigateTo({ url: "/pages/oldhousedetails/main?id=" + e.mp.currentTarget.dataset.id });
-  }
+  //点击跳转二手房详情
+  oldDetail:function(index,e){
+    wx.navigateTo({ url: "/pages/oldhousedetails/main?id=" + e.mp.currentTarget.dataset.id });
+  },
+  rentDetail:function(index,e){
+    wx.navigateTo({ url: "/pages/Rentaldetails/main?id=" + e.mp.currentTarget.dataset.id });
+  },
 
   },
  
@@ -254,72 +218,45 @@ export default {
 .indexstyle{width: 100%; margin: 0 auto; background: #fff;}
  
 
-.liulan{ display: flex; flex-direction: row; width:90%; padding-left: 5%; padding-right: 5%; padding-bottom: 3%; border-bottom:2rpx #f0f0f0 solid;}
-.liulan .ll_top{ font-size: 35rpx; line-height:65rpx; width:15.3%; margin-left:9%; margin-right:9%; text-align: center;}
+.liulan{ display: flex; flex-direction: row; width:55%; padding-left:25%; padding-right:20%; padding-bottom: 3%; border-bottom:2rpx #f0f0f0 solid;}
+ .liulan .ll_top{ font-size: 35rpx; line-height:65rpx; /*width:30%;*/ margin-left:10%; margin-right:10%; text-align: center;} 
 .houses1{ border-bottom:4rpx #3072f6 solid; color:#3072f6; font-weight: bold; }
 
 /* 二手房开始 */
 .secondary{ width:100%; }
-.sjd{width:90%; padding-left: 5%; padding-right: 5%; height: 80rpx; background: #f4f4f7; line-height: 80rpx;}
-.h-mt{ margin-top:5%;width:90%; padding-left: 5%; padding-right: 5%; border-bottom: 2rpx #f0f0f0 solid; padding-bottom: 5%;}
-.h-mt image{ float: left; width: 40%; height:200rpx; border-radius:3%;}
-.h-mt .r_wz{ float:right; width: 57%;}
-.h-mt .r_wz .bt_s{font-size: 30rpx;
-  font-weight: bold;
-  margin-right: 10rpx;
-  white-space:nowrap;
-overflow:hidden;
-text-overflow:ellipsis;line-height: 40rpx;}
-.jieshao{ font-size: 26rpx; color: #000; margin-top:10rpx;line-height: 40rpx;}
-.youshi1{ float: left; width:90rpx; height:40rpx; line-height: 40rpx; border-radius:6rpx; background: #edf0f3; color:#849aae; font-size: 25rpx; text-align: center; margin-top:10rpx; margin-right: 10rpx;}
-.m-x{ margin-top:5rpx; line-height:40rpx; }
-.m-x p{ float: left;}
-.money {
-  color: #fa5741;
-  font-weight: 900;
-  margin-right: 5rpx;
-  font-size: 32rpx;
-}
-.average{color: #A1A1A1;margin-left:10rpx;font-size:26rpx; margin-top:4rpx;}
-.m-x p.money1{ font-size:26rpx; color:#ccc; margin-top: 10rpx; }
  
-/* 新房开始 */
-.newroom{ width:90%; padding-left: 5%; padding-right: 5%;}
-.intention-mt{ padding-bottom:30rpx; border-bottom: 2rpx rgb(236, 236, 236) solid; margin-top:30rpx; overflow: hidden;}
-.intention-mt image{ float: left; width:35%; height:230rpx; border-radius:3%;}
-.intention-mt .intention-right{ float:right; width:62%; }
-.intention-mt .intention-right .bt_ri h1{ float: left; font-size: 34rpx; font-weight: bold; margin-right:4rpx;}
-.intention-mt .intention-right .bt_ri p{ float: right; width:70rpx; height:30rpx; line-height: 30rpx; background: #5f94ff; text-align: center; font-size:26rpx;  margin-right:10rpx; color: #fff; border-radius:6rpx;}
-.jieshao1{ font-size: 24rpx; color:#999999; margin-top:5rpx; line-height:40rpx;}
-.youshi2{ float: left; padding: 3rpx 8rpx 3rpx 8rpx; border-radius:6rpx; border: 2rpx #f0eded solid; color:#979799; font-size: 24rpx; text-align: center; margin-top:5rpx; margin-right:5rpx;}
-.m-x1{ margin-top:5rpx; }
-.m-x1 p.money{ font-size: 34rpx; color:#df573d; font-weight: 900; margin-right: 5rpx;}
-/* 未关注 */
-.wgz{ margin-top:2%; }
-.wgz image{ width:26rpx; height:26rpx; margin-right: 3%; margin-left:13%; margin-top:8%;}
-.wgz span{ font-size:28rpx; color: #999999; position: relative; left: -5%; top: -7%;}
-.wgz button{ padding:0; width:150rpx; height:50rpx; line-height:50rpx; border: 2rpx #f0eded solid; color:#979799; border-radius:50rpx; display: inline-block;}
-.wgz button::after{border: none;}
+.esf-house{width:90%; padding-left: 5%; padding-right: 5%;  margin-top:30rpx; }
+.esf-house .h-mt {overflow: hidden;margin-bottom:15rpx;}
+.esf-house image {float: left;width: 40%;height: 200rpx;border-radius: 10rpx;}
+.esf-house .r_wz {float: right;width: 57%;}
+.esf-house .bt_s {font-size: 30rpx;font-weight: bold;margin-right: 10rpx;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.esf-house .jieshao {font-size: 25rpx;color: #333;margin-top: 10rpx;}
+.esf-house .youshi1 {float: left;padding: 0 10rpx;height: 40rpx;line-height: 40rpx;border-radius: 3px;background: #edf0f3;color: #849aae;font-size: 25rpx;text-align: center;margin-top: 10rpx;margin-right: 10rpx;}
+.esf-house .m-x {margin-top: 10rpx;overflow: hidden;}
+.esf-house .m-x p {float: left; font-size: 30rpx;}
+.esf-house .m-x p.money {font-size: 30rpx;color: #fa5741;font-weight: 900;margin-right: 5rpx;}
+.esf-house .money1 {font-size:30rpx;color: #fa5741;font-weight: 900;}
+.esf-house .more-house {width: 94%;height: 70rpx;background: #e8edf3;border-radius: 5px;text-align: center;line-height: 70rpx;font-size: 28rpx;font-weight: bold;margin-left: 3%;margin-right: 3%;margin-top: 30rpx;color: #3072f6;}
 
-/* 已关注 */
-.ygz{ margin-top: 2%;}
-.ygz image{ width:26rpx; height:26rpx; margin-right: 3%; margin-left:6%; margin-top:8%;}
-.ygz span{ font-size:26rpx; color: #999999; position: relative; left: -5%; top: -7%;}
-.ygz button{ padding:0; width:150rpx; height:50rpx; line-height:50rpx; border: 2rpx #f0eded solid; color:#979799; border-radius:50rpx;display: inline-block;}
-.ygz button::after{border: none;}
-.youshi{overflow:hidden;}
-.youshi>div {
-  float: left;padding: 0 10rpx;
-  height: 40rpx;
-  line-height: 40rpx;
-  border-radius: 3px;
-  background: #edf0f3;
-  color: #849aae;
-  font-size: 25rpx;
-  text-align: center;
-  margin-top: 10rpx;
-  margin-right: 10rpx;
-}
+
+/* 租房 */
+.nr-house{width:90%; padding-left: 5%; padding-right: 5%;  margin-top:30rpx; }
+.nr-house .h-mt {overflow: hidden;margin-bottom:15rpx;}
+.nr-house image {float: left;width: 40%;height: 200rpx;border-radius: 10rpx;}
+.nr-house .r_wz {float: right;width: 57%;}
+.nr-house .bt_s {font-size: 30rpx;font-weight: bold;margin-right: 10rpx;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.nr-house .jieshaot {font-size: 25rpx;color: #333;margin-top: 10rpx;}
+.nr-house .youshi1 {float: left;padding: 0 10rpx;height: 40rpx;line-height: 40rpx;border-radius: 3px;background: #edf0f3;color: #849aae;font-size: 25rpx;text-align: center;margin-top: 10rpx;margin-right: 10rpx;}
+.nr-house .m-x {margin-top: 10rpx;overflow: hidden;}
+.nr-house .m-x p {float: left; font-size: 32rpx;}
+.nr-house .m-x p.money {font-size: 30rpx;color: #fa5741;font-weight: 900;margin-right: 5rpx;}
+.nr-house .money1 {font-size:30rpx;color: #fa5741;font-weight: 900;}
+.nr-house .more-house {width: 94%;height: 70rpx;background: #e8edf3;border-radius: 5px;text-align: center;line-height: 70rpx;font-size: 28rpx;font-weight: bold;margin-left: 3%;margin-right: 3%;margin-top: 30rpx;color: #3072f6;}
+
+
+
+
+ 
 .none{width: 100%;margin-top: 150rpx;text-align: center;}
 .none>image{width: 200rpx;height: 200rpx;}
 .none>div{font-size: 28rpx;margin-top: 20rpx;color: #A1A1A1;}

@@ -272,7 +272,7 @@
                 </div>
               </div>
             </div>
-          </div>
+        </div>
         
       </div>
       <!-- 猜你喜欢结束 -->
@@ -410,7 +410,22 @@ export default {
       tabBar: [{ "title": "VR" },{ "title": "图片" }],
       currentTab: 0,
       movies: [], 
-      newsArr: [], 
+      newsArr: [],
+      lookList:[
+        {
+          time:"",
+					id: "",
+					name: "",
+					ImgUrl: "",
+          salestatename:"",
+          zonename:"",
+          Decorationname:"",
+          existingname:"",
+          averageprice:"",
+
+        },
+      ], 
+      arrayxf:[],
           
 
 
@@ -449,6 +464,42 @@ export default {
           that.vrimg = res.data.Context.projectInfo.vrimg;
           that.vrurl=res.data.Context.projectInfo.vrurl;
           that.newsArr=res.data.Context.salesnews;
+
+
+          // 浏览记录
+          if(wx.getStorageSync("arrayxf")){
+            that.arrayxf = wx.getStorageSync("arrayxf");
+          }
+          let patient = res.data;
+
+          let val={
+            time:common.ConvertTimestamp(new Date()),
+            id:option.id,
+            name:that.projectInfo.name,
+            ImgUrl:that.projectInfo.ImgUrl,
+            salestatename:that.projectInfo.salestatename,
+            zonename:that.projectInfo.zonename,
+            Decorationname:that.projectInfo.Decorationname,
+            existingname:that.projectInfo.existingname,
+            averageprice:that.projectInfo.averageprice
+          };
+          that.arrayxf.push(val);
+          var regionValueArray = [];
+          that.arrayxf = that.arrayxf.reduce(function(arr, obj) {
+            let count = 0;
+            arr.forEach( function(item,key){
+              if(item.id == obj.id){
+                count = 1;
+                arr[key]=obj;
+              }
+            })
+            if(!count)arr.push(obj);
+            return arr;
+          },[]);
+          that.arrayxf.sort(that.compare('time',false));
+          wx.setStorageSync('arrayxf',that.arrayxf);
+
+
           //优惠信息
           that.discountList = res.data.Context.offerinfo;
           // 猜你喜欢
@@ -541,6 +592,31 @@ export default {
   },
  
   methods: {
+    // 浏览记录
+    compare: function(attr,rev){ //第二个参数没有传递 默认升序排列 
+    if(rev == undefined){ rev = 1; }else{ rev = (rev) ? 1 : -1; } return function(a,b){ a = a[attr]; b = b[attr]; 
+    if(a < b){ return rev * -1; } if(a > b){ return rev * 1; } return 0; } },
+       getToday() {
+      let myDate = new Date();
+      let myMonth = myDate.getMonth() + 1;
+      let Hours = myDate.getHours()
+      let Minutes = myDate.getMinutes();
+      let Seconds = myDate.getSeconds();
+      if (myMonth < 10) {
+        myMonth = "0" + myMonth; //补齐
+      }
+      let mydate = myDate.getDate();
+      if (myDate.getDate() < 10) {
+        mydate = "0" + myDate.getDate(); //补齐
+      }
+      let today = myDate.getFullYear() + "-" + myMonth + "-" + mydate;
+      
+      return today;
+
+    },
+
+
+
     clickTab(e) {
       this.currentTab = e;
     },

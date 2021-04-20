@@ -392,7 +392,6 @@ export default {
           Propertyname:"",
           price:"",
           averageprice:""
-
         },
       ],
       arrayzf:[],
@@ -448,16 +447,16 @@ export default {
           };
           that.arrayzf.push(val);
           var regionValueArray = [];
-          that.arrayzf = that.arrayzf.reduce(function(arr, obj) {
+          that.arrayzf = that.arrayzf.reduce(function(arrRent, objRent) {
             let count = 0;
-            arr.forEach( function(item,key){
-              if(item.id == obj.id){
+            arrRent.forEach( function(item,key){
+              if(item.id == objRent.id){
                 count = 1;
-                arr[key]=obj;
+                arrRent[key]=objRent;
               }
             })
-            if(!count)arr.push(obj);
-            return arr;
+            if(!count)arrRent.push(objRent);
+            return arrRent;
           },[]);
           that.arrayzf.sort(that.compare('time',false));
           wx.setStorageSync('arrayzf',that.arrayzf);
