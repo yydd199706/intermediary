@@ -42,10 +42,10 @@
         <p>关注</p>
       </button>
 
-      <!-- <button class="l_xiaoxi">
+      <button class="l_xiaoxi">
         <image :src="img4" />
         <p>收藏</p>
-      </button> -->
+      </button>
     </div>
 
     <div class="anniu2">
@@ -57,9 +57,9 @@
         <div class="jt_right"><image :src="img6" /></div>
       </button>
 
-      <button class="liulan1" @click="releaseList" :open-type="openType" @getphonenumber="getPhoneNumber">
-      <!-- <button class="liulan1" @click="releaseList" v-if="member != null&&member.type == 2 ? true : false" 
-      :open-type="openType" @getphonenumber="getPhoneNumber"> -->
+      <!-- <button class="liulan1" @click="releaseList" :open-type="openType" @getphonenumber="getPhoneNumber"> -->
+      <button class="liulan1" @click="releaseList" v-if="member != null&&member.type == 2 ? true : false" 
+      :open-type="openType" @getphonenumber="getPhoneNumber">
         <div class="wzan_lelf">
           <image :src="img10" />
           <span>发布记录</span>

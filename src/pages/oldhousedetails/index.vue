@@ -644,8 +644,7 @@ export default {
 
           let patient = res.data;
           //房源轮播图
-          that.movies = res.data.Context.carousel;
-
+          that.movies = res.data.Context.carousel; 
          for(var j = 0;j<that.movies.length;j++){
            that.imgArr.push(that.domain+that.movies[j].imgurl);
          }
@@ -673,6 +672,7 @@ export default {
           that.Specialname = res.data.Context.houseInfo.Specialname;
           that.companyname=res.data.Context.houseInfo.companyname;
           that.numVal=res.data.Context.houseInfo.id;
+          console.log("id",that.numVal)
           
           
 
@@ -785,10 +785,12 @@ export default {
       wx.request({
         url:app.globalData.url +"Percenter/BandUserRelationEsf" +"?sessionKey=" +app.globalData.sessionKey+'&houseId=' + option.id,
         success: function (res) {
+          console.log("检查关注",res)
           if(res.data.Code==0){
             
             that.state=res.data.Context.isganzhu;
-            if(that.state>0){
+            if(res.data.Context.isganzhu>0){
+              that.state=1;
               that.bianjia=true;
               if(res.data.Context.isdingyue>0){
                  that.priceStatus=1;
@@ -797,10 +799,12 @@ export default {
               }
             }else{
               that.bianjia=false;
+              that.state=0;
             }
           }
           else{
             that.state=0;
+            that.bianjia=false;
           }
         }
       });
@@ -810,48 +814,11 @@ export default {
   },
 onShow(){
   const that = this;
-  that.timeText="发送验证码";
+  that.timeText="发送验证码"; 
   clearInterval(that.timer);
-  // wx.request({
-  //     url:app.globalData.url +"Percenter/BandUserRelationEsf" +"?sessionKey=" +app.globalData.sessionKey+'&houseId=' + that.houserid,
-  //     success: function (res) {
-  //       if(res.data.Code==0){
-  //         if(res.data.Context.isganzhu>0){
-  //           that.state=1;
-  //         }else{
-  //           that.state=0;
-  //         }
-  //       }else{
-  //         that.state=0;
-  //       }
-  //     }
-  // });
-  
-
-  // that.movies="";
-  // that.Decorationname = "";
-  // that.looktime = "";
-  // that.title = "";
-  // that.price = "";
-  // that.apirlroom = "";
-  // that.apirloffice = "";
-  // that.apirltoilet = "";
-  // that.area = "";
-  // that.buildyear = "";
-  // that.averageprice = "";
-  // that.floor = "";
-  // that.floorcount = "";
-  // that.looktime = "";
-  // that.companyname = "";
-  // that.Towardname = "";
-  // that.Propertyname = "";  
-  // that.Zonename = "";
-  // that.Decorationname = "";
-  // that.Rightnaturename = "";
-  // that.projectname = "";
-  // that.address = "";
-  // that.Supportingname = "";
 },
+
+
 onShareAppMessage: function(res) {
     return {
       title: "二手房详情",
@@ -907,9 +874,10 @@ onShareAppMessage: function(res) {
           wx.request({
         url:app.globalData.url +"WxLogin/CheckLogin" +"?sessionKey=" +app.globalData.sessionKey,
         success: function (data) {
+          console.log("1111",data)
           if(data.data==true){
             that.telHid=false;
-            that.maskHid=false;
+            that.maskHid=false; 
             that.yuyue_yc = true;
             that.tel=app.globalData.member.mobile;
             // wx.request({
@@ -929,6 +897,7 @@ onShareAppMessage: function(res) {
           }else{
             that.telHid=true;
             that.maskHid=true;
+
           }
           
         }
@@ -1069,7 +1038,7 @@ clickService:function(){
         that.maskHid=false;
         that.state=1;
         that.bianjia=true;
-        that.priceStatus=0;
+        // that.priceStatus=0;
           wx.showToast({
             title: '关注成功',
             icon: 'success',
@@ -1077,7 +1046,7 @@ clickService:function(){
           });
           //that.Message();
         
-      that.state=1;
+      // that.state=1;
         }else{
            that.telHid=true;
            that.maskHid=true;
@@ -1089,7 +1058,12 @@ clickService:function(){
       url: app.globalData.url +"OldHouse/BandEsfCancelFollow?sessionKey=" +app.globalData.sessionKey+'&houseId=' + that.houserid,
      
       success (res) {
-          if(res.data.Code==0){
+        wx.showToast({
+          title: '取消关注',
+          icon: 'none',
+          duration: 2000
+        });
+        if(res.data.Code==0){
           that.state=0;
           that.bianjia = false;
         }
@@ -1116,6 +1090,11 @@ clickService:function(){
                     url:app.globalData.url +"OldHouse/DelPriceChange" +"?sessionKey=" +app.globalData.sessionKey+'&house_id=' + that.numVal,
                     success: function (res) {
                       that.priceStatus=0;
+                      wx.showToast({
+                        title: '取消订阅',
+                        icon: 'none',
+                        duration: 2000
+                      });
                     }
                    })
 
@@ -1123,12 +1102,14 @@ clickService:function(){
                    wx.requestSubscribeMessage({
                     tmplIds: ["THIl9oVwY4TlDibEvG_2eh4LWI-XBuXcj8U8Wgb_SVU"],
                     success(data) {
+                      // 表示授权
                       if(data["THIl9oVwY4TlDibEvG_2eh4LWI-XBuXcj8U8Wgb_SVU"] == "accept"){
-                        
                         that.pushFun();
-                        } else if(data["THIl9oVwY4TlDibEvG_2eh4LWI-XBuXcj8U8Wgb_SVU"] == "reject") {
-                            Toast("允许后才可以订阅消息哦");
-                        }
+                      }
+                      // 表示取消授权 
+                      else if(data["THIl9oVwY4TlDibEvG_2eh4LWI-XBuXcj8U8Wgb_SVU"] == "reject") {
+                        Toast("允许后才可以订阅消息哦");
+                      }
                         
                     }
                    })
@@ -1154,6 +1135,11 @@ clickService:function(){
         url: app.globalData.url +"OldHouse/AddPriceChange?sessionKey=" +app.globalData.sessionKey+'&house_id=' + that.houserid,
         success (res) {
           that.priceStatus=1;
+          wx.showToast({
+            title: '订阅成功',
+            icon: 'success',
+            duration: 2000
+          });
         }
       })
     },
@@ -1214,7 +1200,6 @@ clickService:function(){
                                 that.priceStatus=0;
                               }
                             }else{
-                              
                               that.priceNotice();
                             }
                           }
@@ -1224,6 +1209,16 @@ clickService:function(){
                     }else{
                       that.tel=app.globalData.member.mobile;
                       that.yuyue_yc=true;
+                      wx.request({
+                        url:app.globalData.url +"Percenter/BandUserRelationEsf" +"?sessionKey=" +app.globalData.sessionKey+'&houseId=' + that.numVal,
+                        success: function (res) {
+                          if(res.data.Context.isganzhu>0){
+                            that.state=1;
+                            that.bianjia=true;
+                          }
+                        }
+                      })
+                      
                     }
                   
                   }

@@ -2,12 +2,14 @@
   <div class="indexstyle">
 
     <!-- 文章详情开始 -->
-    <div class="wenzhang">
-      <div class="bt_title">{{title}}</div>
+    <div class="wenzhang" v-if="newsModel">
+      <div class="bt_title">{{newsModel.title}}</div>
 
       <div class="fabu">
-          <h1>{{name}}</h1><span>{{pub_time}}</span>
+          <h1>{{newsModel.source}}</h1><span>{{newsModel.publishdate}}</span>
       </div>
+
+      <div class="articleContent"><wxParse :content="newsModel.content" @preview="preview" @navigate="navigate" /></div>
 
      
 
@@ -66,12 +68,12 @@
 
     <!-- 底部按钮开始 -->
     <div class="footer">
-      <div class="left_foot">
+      <button class="left_foot">
         <div class="Report">收藏</div>
-      </div>
-      <div class="right_foot">
+      </button>
+      <button  open-type="share" class="right_foot">
         <div class="Telephone">分享</div>
-      </div>
+      </button>
     </div>
     <!-- 底部按钮开始 -->
 
@@ -91,14 +93,18 @@
 </template>
 
 <script>
+const app = getApp();
+const common = require("@/utils/index");
+import wxParse from 'mpvue-wxparse';
 export default {
+  components: {
+    wxParse
+  },
+  
   data () {
-    xianshi:false;
     return {
-      title:'深圳房价均价为什么比北京高20%？',
-      img1:'http://vip.yijienet.com/tt/img1.jpg',
-      name:'装修网',
-      pub_time:'2020-12-6',
+      newId:"",
+      newsModel:null,
       moretjlist:[
         {
         name:'装修网',
@@ -131,6 +137,26 @@ export default {
     }
   },
 
+  onLoad(option) {
+    const that = this;
+    that.domain=app.globalData.domain;
+    that.newId=option.id;
+    wx.request({
+        url:app.globalData.url +"News/BandNewsInfo" +"?sessionKey=" +app.globalData.sessionKey+'&newId=' + option.id,
+        success: function (res) {
+          console.log('新闻文章',res)
+          that.newsModel = res.data.Context.newsModel
+        }
+    })
+  },
+  onShareAppMessage: function(res) {
+    return {
+      title: "文章页",
+      path: "/pages/articledetails/main",
+      imageUrl: "",
+    };
+  },
+
 
  
 
@@ -153,6 +179,7 @@ export default {
 .fabu{margin-top:1%; width: 100%; display: flex; flex-direction: row;}
 .fabu h1{ font-size:32rpx; margin-top:16rpx; margin-right:1%;}
 .fabu span{ font-size:28rpx; color: rgb(165, 165, 165);margin-top:20rpx;}
+.articleContent{ margin-top: 50rpx; }
 
 .more_list{width:90%; margin-top: 5%;  padding-left: 5%; padding-right: 5%; padding-bottom: 5%; border-bottom: 20rpx #efefef solid; }
 .more_list h2{ font-size:38rpx; font-weight: bold;}
@@ -181,6 +208,8 @@ export default {
 
 /* 底部按钮 */
 .footer{ width:94%;  padding-left: 3%; padding-right: 3%; padding-top: 3%; height: 120rpx; background: #fff;position: fixed;bottom: 0; overflow: hidden;}
+.footer button{border: none; padding: 0 !important; padding-left: 0 !important; padding-right: 0 !important; background:none; line-height: normal;}
+.footer button::after{border: none; padding: 0 !important;}
 .left_foot{ float: left; width:44%;height: 120rpx; margin-left: 3%; margin-right: 3%;}
 .Report{width:100%; background: #3dc28e; font-size: 28rpx; height:90rpx; line-height:90rpx; text-align: center; border-radius:10rpx; color: #fff; margin-right: 5%;}
 

@@ -169,8 +169,8 @@
               {{item.zonename}}
             </div>
             <div class="youshi">
-              <div class="youshi2">{{item.Decorationname}}</div>
-              <div class="youshi2">{{item.existingname}}</div> 
+              <div class="youshi2" v-if="item.Decorationname==''?false:true">{{item.Decorationname}}</div>
+              <div class="youshi2" v-if="item.existingname==''?false:true">{{item.existingname}}</div> 
             </div>
 
             <div class="m-x">

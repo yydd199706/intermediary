@@ -134,7 +134,7 @@ export default {
 }
 .jjlist > image {
   width: 100%;
-  height: 560rpx;
+  /* height: 560rpx; */
 }
 .meiy {
   height: 100rpx;

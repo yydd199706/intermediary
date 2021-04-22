@@ -1,24 +1,28 @@
 <template>
   <div class="indexstyle">
+    <div class="sybeij"><image :src="beijing" mode="scaleToFill" /></div>
+
+    <!-- 搜索开始 -->
+    <div class="search">
+      <div class="searchCon">
+        <input type="text" placeholder="您想住在哪里？" @click="searchUrl" class="searchinput" placeholder-style="font-size:14px; color: #fff;"/>
+        <image :src="img2" mode="scaleToFill" />
+      </div>
+    </div>
+    <!-- 搜索结束 -->
+
     <!-- 轮播图开始 -->
     <div class="bannar">
       <swiper class="swiper" indicator-dots="true" autoplay="true" interval="3000" duration="1000" easing-function="easeInOutCubic">
         <block v-for="(item, index) in movies" :key="index">
           <swiper-item>
-            <image :src="domain+item.imgurl" class="slide-image" mode="scaleToFill" @click="bannerClick(index, $event)" :data-linkurl="item.linkurl"/>
+            <image :src="domain+item.imgurl" class="slide-lbimage" mode="scaleToFill" @click="bannerClick(index, $event)" :data-linkurl="item.linkurl"/>
           </swiper-item>
         </block>
       </swiper>
     </div>
     <!-- 轮播图结束 -->
-    <!-- 搜索开始 -->
-    <div class="search">
-      <div class="searchCon">
-        <input type="text" placeholder="您想住在哪里？" @click="searchUrl" placeholder-style="font-size:14px; padding-left:10%;"/>
-        <image :src="img2" mode="scaleToFill" />
-      </div>
-    </div>
-    <!-- 搜索结束 -->
+    
  
 
     <!-- 二级导航开始 -->
@@ -32,7 +36,7 @@
     <!-- 二级导航结束 -->
 
     <!-- 楼盘动态开始 -->
-    <!-- <div class="news-s" v-if="news.length > 0 ? true : false">
+    <div class="news-s" v-if="news.length > 0 ? true : false">
       <div class="biaoti-new">
         <div class="wz-bt"><span></span>楼盘动态</div>
         <div class="more" @click="lpdongtai">查看更多</div>
@@ -41,11 +45,11 @@
         <image :src="domain+item.imgurl" class="new-image" mode="scaleToFill" />
         <div>{{item.title}}</div>
       </div>
-    </div> -->
+    </div>
     <!-- 楼盘动态结束 -->
 
     <!-- 楼盘活动开始 -->
-    <!-- <div class="news-s" v-if="activity.length > 0 ? true : false">
+    <div class="news-s" v-if="activity.length > 0 ? true : false">
       <div class="biaoti-new">
         <div class="wz-bt"><span></span>楼盘活动</div>
         <div class="more">查看更多</div>
@@ -54,7 +58,7 @@
         <image :src="domain+item.imgurl" class="new-image" mode="scaleToFill" />
         <div>{{item.title}}</div>
       </div>
-    </div> -->
+    </div>
     <!-- 楼盘动态结束 -->
 
     <!-- 热门楼盘开始 -->
@@ -249,13 +253,20 @@ export default {
   data() {
     return {
       domain:null,
+      beijing:"/static/images/sybj.png",
       movies: [],
-      img2: app.globalData.imgurl + "ss.png",
+      img2:"/static/images/ssou.png",
+      // navs: [
+      //   {img3: app.globalData.imgurl + "n1.png",title: "二手房",url: "/pages/oldhouse/main"},
+      //   { img3: app.globalData.imgurl +"n2.png", title: "新房" ,url: "/pages/newhouse/main"},
+      //   { img3: app.globalData.imgurl +"n3.png", title: "租房" ,url: "/pages/Rental/main"},
+      //   { img3: app.globalData.imgurl +"n4.png", title: "房贷计算器",url: "/pages/syloans/main" },
+      // ],
       navs: [
-        {img3: app.globalData.imgurl + "n1.png",title: "二手房",url: "/pages/oldhouse/main"},
-         { img3: app.globalData.imgurl +"n2.png", title: "新房" ,url: "/pages/newhouse/main"},
-         { img3: app.globalData.imgurl +"n3.png", title: "租房" ,url: "/pages/Rental/main"},
-         { img3: app.globalData.imgurl +"n4.png", title: "房贷计算器",url: "/pages/syloans/main" },
+        {img3:"/static/images/meun1.png",title: "二手房",url: "/pages/oldhouse/main"},
+        { img3:"/static/images/meun2.png", title: "新房" ,url: "/pages/newhouse/main"},
+        { img3:"/static/images/meun3.png", title: "租房" ,url: "/pages/Rental/main"},
+        { img3:"/static/images/meun4.png", title: "房贷计算器",url: "/pages/syloans/main" },
       ],
       news: [],
       activity: [],
@@ -457,32 +468,40 @@ export default {
   margin: 0 auto;
   background: #fff;
 }
-.slide-image {
-  width: 100%;
-  height: 100%;
-}
+
+
+
+
+
+.sybeij{ width: 100%; height:350rpx; }
+.sybeij image{ width: 100%; height: 100%;}
 .bannar {
-  width: 100%;
+  width:92%; position: absolute;top:160rpx;left:4%;
+  /* box-shadow: 1rpx 1rpx 30rpx #7f90a77a; */
+  box-shadow: 1rpx 1rpx 30rpx rgba(6, 40, 85, 0.3);
   margin: 0 auto;
-  height: 300rpx;
+  height:280rpx; border-radius: 20rpx;
 }
 .bannar > swiper {
-  height: 100%;
+  height: 100%; border-radius: 20rpx;
 }
 .banner image {
   width: 100%;
-  height: 100%;
+  height: 100%; border-radius: 20rpx;
+}
+.slide-lbimage {
+  width: 100%;
+  height: 100%; border-radius: 20rpx;
 }
 
- 
 /* 搜索框开始 */
 .search {
-  width: 90%;
+  width:90%; 
   position: absolute;
   z-index: 9999;
   top: 40rpx;
   margin: 0 auto;
-  margin-left: 5%;
+  margin-left:5%;
 }
 .searchCon {
   /* overflow: hidden; */
@@ -490,19 +509,22 @@ export default {
 }
 .searchCon>div{position: absolute;top: 53rpx; width: 100%;text-align: center;}
 .searchCon > input {
-  float: left;background: rgba(255, 255, 255, 0.9);
-  width: 600rpx;
-  border-radius:20px;
+  float: left;
+  background:rgba(255, 255, 255, 0.5);
+  width:90%; 
+  border-radius: 10rpx;
   height:70rpx;
-  line-height:70rpx;
-  padding-left: 71rpx;
-  font-size: 13px;
+  line-height:70rpx; 
+  font-size: 13px; 
 }
  .searchCon > image {
-  position: absolute;top: 17rpx;left: 25rpx;
+  position: absolute;top: 17rpx;left: 25rpx; 
   float: left;
   width: 35rpx;
   height: 35rpx;
+}
+.searchinput{padding-left:10%;
+
 }
 
 /* 搜索框结束 */
@@ -511,10 +533,10 @@ export default {
 
 /* 导航 */
 .nav {
-  width: 100%;
+  width: 100%;position: relative;top:110rpx; height:290rpx;
   margin-top: 5%;
-  padding-bottom:3%;
-  border-bottom: 20rpx #efefef solid;
+  /* padding-bottom:3%;
+  border-bottom: 20rpx #efefef solid; */
   overflow: hidden;
 }
 .navigation {

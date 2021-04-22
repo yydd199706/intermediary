@@ -197,7 +197,7 @@
             </div>
             <div class="clear"></div>
             <div class="m-x">
-              <p class="money">{{item.rent==""||item.rent==null?'价格待定':item.rent+'元/月'}}</p>
+              <p class="money">{{item.rent==""||item.rent==null||item.rent==0?'价格待定':item.rent+'元/月'}}</p>
             </div>
           </div>
         </div>
@@ -405,6 +405,22 @@ export default {
 
   onLoad(option) {
     const that = this;
+    that.movies = "";
+    that.houseInfo = "";
+    that.fangyuanlist = [
+        {img1:app.globalData.imgurl + "f1.png",img2:app.globalData.imgurl + "f1s.png",name:'电视',isshow:0},
+        {img1:app.globalData.imgurl + "f2.png",img2:app.globalData.imgurl + "f2s.png",name:'冰箱',isshow:0},
+        {img1:app.globalData.imgurl + "f3.png",img2:app.globalData.imgurl + "f3s.png",name:'洗衣机',isshow:0},
+        {img1:app.globalData.imgurl + "f4.png",img2:app.globalData.imgurl + "f4s.png",name:'空调',isshow:0},
+        {img1:app.globalData.imgurl + "f5.png",img2:app.globalData.imgurl + "f5s.png",name:'热水器',isshow:0},
+        {img1:app.globalData.imgurl + "f6.png",img2:app.globalData.imgurl + "f6s.png",name:'床',isshow:0},
+        {img1:app.globalData.imgurl + "f7.png",img2:app.globalData.imgurl + "f7s.png",name:'暖气',isshow:0},
+        {img1:app.globalData.imgurl + "f8.png",img2:app.globalData.imgurl + "f8s.png",name:'宽带',isshow:0},
+        {img1:app.globalData.imgurl + "f9.png",img2:app.globalData.imgurl + "f9s.png",name:'衣柜',isshow:0},
+        {img1:app.globalData.imgurl + "f10.png",img2:app.globalData.imgurl + "f10s.png",name:'天然气',isshow:0},
+      ], 
+
+
     that.domain=app.globalData.domain;
     that.houserid=option.id;
      //获取详情
@@ -1006,8 +1022,10 @@ export default {
 .btjq h1 span{ font-size:52rpx; font-weight: bold; }
 .btjq p{ float: right; font-size: 28rpx; color: rgb(26, 154, 228);}
 .zfdetails h2{ font-size: 34rpx; font-weight: bold; margin-top:10rpx;}
-.jieshao{ margin-top:3%; width: 100%; overflow: hidden; padding-top:20rpx; padding-bottom:20rpx; border-bottom:2rpx rgb(236, 236, 236) solid; }
-.jieshao ul li{ float: left; width: 25%; text-align: center;}
+.jieshao{ margin-top:3%; width: 100%; overflow: hidden; padding-top:20rpx; padding-bottom:20rpx; background: #f8f8fa; 
+/* border-bottom:2rpx rgb(236, 236, 236) solid;  */
+}
+.jieshao ul li{ float: left; width: 25%; text-align: center;} 
 .jieshao ul li h3{ font-size: 32rpx; margin-bottom:10rpx;}
 .jieshao ul li p{ font-size: 28rpx; color: rgb(121, 121, 121); }
 .zf_ys{ width: 100%; margin-top:20rpx;  overflow: hidden; }

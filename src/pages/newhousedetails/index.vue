@@ -11,7 +11,7 @@
         </block>
       </swiper>
       <div class="lbvr" v-if="vrurl =='' ? false : true" @click="previewVr">
-        <image :src="bf" />
+        <image v-if="current==0? true : false" :src="bf" />
       </div>
       <div class="imageCount">{{current+1}}/{{movies.length}}</div>
     </div>
@@ -200,7 +200,7 @@
 
           <div class="guwen_list" v-for="(item, index) in guwenlists" :key="index" >
             <div class="left_g" @click="consultantClick(index,$event)" :data-id="item.id">
-              <image :src="item.imghead_url==''?img1:domain+item.imghead_url" class="slide-image" mode="scaleToFill"/>
+              <image v-if="domain" :src="item.imghead_url==''?img1:domain+item.imghead_url" class="slide-image" mode="scaleToFill"/>
               <div class="neirong">
                 <div>
                   <h1>{{item.realname}}</h1>
@@ -233,8 +233,8 @@
           <ul>
             <li v-for="(item, index) in newsArr" :key="index">
               <h2>{{item.title}}</h2>
-              <p>{{item.abstract}}</p>
-              <span>{{item.timesj}}</span>
+              <p>{{item.intro}} </p>
+              <span>{{item.publishdate}}</span>
             </li>
           </ul>
         </div>
@@ -263,8 +263,8 @@
                   {{item.zonename}}
                 </div>
                 <div class="youshi">
-                  <div class="youshi2">{{item.Decorationname==""||item.Decorationname==null?'暂无':item.Decorationname}}</div>
-                  <div class="youshi2">{{item.existingname==""||item.existingname==null?'暂无':item.existingname}}</div> 
+                  <div class="youshi2" v-if="item.Decorationname==''?false:true">{{item.Decorationname}}</div>
+                  <div class="youshi2" v-if="item.existingname==''?false:true">{{item.existingname}}</div> 
                 </div>
 
                 <div class="m-x">
@@ -455,7 +455,8 @@ export default {
           that.movies = res.data.Context.pictureInfo;
           for(var i = 0;i<that.movies.length;i++){
             that.imgArr.push(that.domain+that.movies[i].imgurl); 
-          } 
+          }
+          console.log("轮播",that.imgArr[0])
           //房源基本信息详情
           that.projectInfo = res.data.Context.projectInfo;
           that.loupanid = res.data.Context.projectInfo.id;  //楼盘id
@@ -1107,7 +1108,7 @@ margin-right:10rpx; margin-top:20rpx; font-size: 26rpx; }
 .discountdiv p{ font-size:35rpx; font-weight: bold; }
 .discountdiv .discount{ width: 100%; margin-top: 20rpx; border-bottom: 1px rgb(241, 241, 241) dotted; padding-bottom: 20rpx; } 
 .discountdiv .discount h2{ font-size: 30rpx;display: block;white-space: nowrap; overflow: hidden; text-overflow: ellipsis;  }
-.discountdiv .discount h3{ display: block; width: 100%; font-size:26rpx; margin-top:10rpx; color:#333;}
+.discountdiv .discount h3{ display: block; width: 100%; font-size:26rpx; margin-top:10rpx; color:#828282;}
 .discountdiv .discount h3 span{ color: rgb(255, 97, 23);}
 
 .huxingda{width: 90%; padding-left: 5%; padding-right: 5%; margin-top: 5%; padding-bottom:6%;  border-bottom:20rpx #efefef solid;}
@@ -1175,10 +1176,10 @@ text-overflow: ellipsis;}
 
 
 .zixun{ width:100%; margin-top:5%;}
-.zixun ul li{ margin-top: 2%;}
-.zixun ul li h2{ font-size:30rpx; }
-.zixun ul li p{ font-size: 27rpx; line-height:42rpx; margin-top:2%;}
-.zixun ul li span{ font-size: 25rpx; color: #ccc;} */
+.zixun ul li{ margin-top: 2%;margin-top: 20rpx; border-bottom:2rpx rgb(226, 226, 226) dotted; padding-bottom: 20rpx;}
+.zixun ul li h2{ font-size:30rpx; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.zixun ul li p{ font-size: 27rpx; line-height:42rpx; margin-top:2%; color: #797979; display: -webkit-box;-webkit-box-orient: vertical; width: 100%;text-overflow: ellipsis;overflow: hidden;-webkit-line-clamp: 2;}
+.zixun ul li span{ font-size: 25rpx; color: #ccc;} 
 
 
 /* 猜你喜欢 */
