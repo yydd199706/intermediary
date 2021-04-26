@@ -9,10 +9,11 @@ App({
     // url: 'https://www.e-fangtong.com/api/',
     // imgurl: 'https://www.e-fangtong.com/wximg/',
     sessionKey: '',
-    member:null
+    member:null,
+    tab:1
   },
   onLaunch: function() {
-    
+
   }
 })
 </script>

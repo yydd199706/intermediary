@@ -8,7 +8,7 @@
     "pages/Rental/main",
     "pages/Rentaldetails/main",
     "pages/user/main", 
-    "pages/articlelist/main",
+    "pages/articleList/main",
     "pages/articledetails/main",
     "pages/syloans/main",
     "pages/zujian/main",
@@ -63,7 +63,7 @@
     }, 
     {
       "text": "新闻",
-      "pagePath": "pages/articlelist/main",
+      "pagePath": "pages/articleList/main",
       "iconPath": "static/tabs/img3.png",
       "selectedIconPath": "static/tabs/img4.png"
     }, 

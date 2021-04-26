@@ -133,8 +133,12 @@
     <div class="rollnavs">
       <!-- 优惠开始 -->
       <div class="discountdiv" v-if="discountList.length > 0 ? true : false">
-        <p>优惠信息</p>
-        <div class="discount" v-for="(item, index) in discountList" :key="index">
+        <div class="hx_bt">
+          <p>优惠信息</p>
+          <span @click="discountClick">查看更多</span>
+          <div class="clear"></div>
+        </div>
+        <div class="discount" v-for="(item, index) in discountList" :key="index" @click="newListClick(index,$event)" :data-id="item.id">
           <h2>{{item.title }}</h2>
           <h3>{{item.keyword}}<span>...[查看详情]</span></h3>
         </div>
@@ -222,16 +226,16 @@
       </div>
       <!-- 置业顾问结束 -->
 
-      <!-- 楼盘动态开始 -->
+      <!-- 销售动态开始 -->
       <div class="huxingda">
         <div class="hx_bt">
-          <p>楼盘动态</p>
-          <span>更多动态</span>
+          <p>销售动态</p>
+          <span @click="lpdongtaiClick">更多动态</span>
           <div class="clear"></div>
         </div>
         <div class="zixun">
           <ul>
-            <li v-for="(item, index) in newsArr" :key="index">
+            <li v-for="(item, index) in newsArr" :key="index" @click="newListClick(index,$event)" :data-id="item.id">
               <h2>{{item.title}}</h2>
               <p>{{item.intro}} </p>
               <span>{{item.publishdate}}</span>
@@ -242,7 +246,7 @@
  
          
       </div>
-      <!-- 楼盘动态结束 -->
+      <!-- 销售动态结束 -->
 
       <!-- 猜你喜欢开始 -->
       <div class="huxingda">
@@ -675,6 +679,7 @@ export default {
                 if(res.data.Context.isprice>0){
                   wx.showToast({
                     title: '您已订阅',
+                    icon: 'none',
                     duration: 1000,
                   })
                 }else{
@@ -709,6 +714,7 @@ export default {
         success (res) { 
           wx.showToast({
             title: '订阅成功',
+            icon: 'success',
             duration: 1000,
           })
         }
@@ -731,6 +737,7 @@ export default {
                 if(res.data.Context.isopen>0){
                   wx.showToast({
                     title: '您已订阅',
+                    icon: 'none',
                     duration: 1000,
                   })
                 }else{
@@ -765,6 +772,7 @@ export default {
         success (res) { 
           wx.showToast({
             title: '订阅成功',
+            icon: 'success',
             duration: 1000,
           })
         }
@@ -992,6 +1000,20 @@ export default {
       console.log("置业顾问",e)
       wx.navigateTo({ url: "/pages/consultantDetails/main?mid=" + e.mp.currentTarget.dataset.id});
     },
+    // 点击跳转文章页
+    newListClick(index,e){
+      wx.navigateTo({ url: "/pages/articledetails/main?id=" + e.mp.currentTarget.dataset.id + "&page=index"});
+    },
+    //优惠信息跳转
+    discountClick:function(){
+      app.globalData.tab = 2;
+      wx.switchTab({ url: "/pages/articleList/main"});
+    },
+    //销售动态跳转
+    lpdongtaiClick:function(){
+      app.globalData.tab = 3;
+      wx.switchTab({ url: "/pages/articleList/main"});
+    },
 
 
 
@@ -1193,7 +1215,7 @@ text-overflow: ellipsis;}
 }
 .intention-nr {
   width:100%;
-  margin-top: 15px;
+  margin-top: 15px; margin-bottom:80rpx;
 }
 .intention-mt {
   overflow: hidden;

@@ -38,28 +38,28 @@
     <!-- 楼盘动态开始 -->
     <div class="news-s" v-if="news.length > 0 ? true : false">
       <div class="biaoti-new">
-        <div class="wz-bt"><span></span>楼盘动态</div>
-        <div class="more" @click="lpdongtai">查看更多</div>
+        <div class="wz-bt"><span></span>销售动态</div>
+        <div class="more" @click="lpdongtaiClick">查看更多</div>
       </div>
-      <div v-for="(item, index) in news" :key="index" @click="lpclicktab(index, $event)" class="proNew">
+      <div class="proNew" v-for="(item, index) in news" :key="index" @click="newListClick(index,$event)" :data-id="item.id">
         <image :src="domain+item.imgurl" class="new-image" mode="scaleToFill" />
         <div>{{item.title}}</div>
       </div>
     </div>
     <!-- 楼盘动态结束 -->
 
-    <!-- 楼盘活动开始 -->
+    <!-- 优惠信息开始 -->
     <div class="news-s" v-if="activity.length > 0 ? true : false">
       <div class="biaoti-new">
-        <div class="wz-bt"><span></span>楼盘活动</div>
-        <div class="more">查看更多</div>
+        <div class="wz-bt"><span></span>优惠信息</div>
+        <div class="more" @click="discountClick">查看更多</div>
       </div>
-      <div v-for="(item, index) in activity" :key="index" @click="lpclicktab(index, $event)" class="proNew">
+      <div class="proNew" v-for="(item, index) in activity" :key="index" @click="newListClick(index,$event)" :data-id="item.id">
         <image :src="domain+item.imgurl" class="new-image" mode="scaleToFill" />
         <div>{{item.title}}</div>
       </div>
     </div>
-    <!-- 楼盘动态结束 -->
+    <!-- 优惠信息结束 -->
 
     <!-- 热门楼盘开始 -->
     <div class="hot-s" v-if="hot.length > 0 ? true : false">
@@ -304,7 +304,7 @@ export default {
           "Index/BandDT_HD" +
           "?sessionKey=" +
           app.globalData.sessionKey,
-        success: function (res) {
+        success: function (res) { 
           that.news = res.data.Context.dynamic;
           that.activity = res.data.Context.activity;
         },
@@ -384,17 +384,14 @@ export default {
       });
     });
   },
+  
   methods: {
     //点击跳转banner
-    bannerClick: function (index, e) {
-    },
+    // bannerClick: function (index, e) {
+    // },
     //点击查看更多楼盘动态
-    bannerClick: function () {
-      wx.switchtab({ url: "/pages/articlelist/main" });
-    },
-    //跳转楼盘动态详情
-    // lpclicktab: function () {
-    //   wx.navigateTo({ url: "/pages/newhousedetails/main?id=" + id });
+    // bannerClick: function () {
+    //   wx.switchtab({ url: "/pages/articlelist/main" });
     // },
     navList:function(index,e){
       wx.navigateTo({ url: e.mp.currentTarget.dataset.url });
@@ -431,7 +428,21 @@ export default {
     // 点击想看靓房的的查看更多
     rentList:function(){
       wx.navigateTo({ url: "/pages/Rental/main"});
-    }
+    },
+    // 点击跳转文章页
+    newListClick(index,e){
+      wx.navigateTo({ url: "/pages/articledetails/main?id=" + e.mp.currentTarget.dataset.id + "&page=index"});
+    },
+    //销售动态跳转
+    lpdongtaiClick:function(){
+      app.globalData.tab = 3;
+      wx.switchTab({ url: "/pages/articleList/main"});
+    },
+    //优惠信息跳转
+    discountClick:function(){
+      app.globalData.tab = 2;
+      wx.switchTab({ url: "/pages/articleList/main"});
+    },
 
 
   },
@@ -533,7 +544,7 @@ export default {
 
 /* 导航 */
 .nav {
-  width: 100%;position: relative;top:110rpx; height:290rpx;
+  width: 100%;position: relative;top:110rpx; margin-bottom: 180rpx;
   margin-top: 5%;
   /* padding-bottom:3%;
   border-bottom: 20rpx #efefef solid; */

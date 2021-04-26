@@ -5,16 +5,16 @@
       <!-- 栏目切换开始 -->
       <div class="lanmunews">
         <div class="juz">
-          <div :class="{'selected':tab === 1,'title':true}" class="newxw" @click="changTab(1)">新闻资讯</div>
-          <div :class="{'selected':tab === 2,'title':true}" class="newxw" @click="changTab(2)">优惠信息</div>
-          <div :class="{'selected':tab === 3,'title':true}" class="newxw" @click="changTab(3)">销售动态</div>
+          <div :class="{'selected':tab == 1,'title':true}" class="newxw" @click="changTab(1)">新闻资讯</div>
+          <div :class="{'selected':tab == 2,'title':true}" class="newxw" @click="changTab(2)">优惠信息</div>
+          <div :class="{'selected':tab == 3,'title':true}" class="newxw" @click="changTab(3)">销售动态</div>
         </div>
       </div>
 
       <!-- 列表内容开始 -->
       <div class="xinwennr">
         <!-- 新闻资讯开始 -->
-        <div class="xwzxs" v-if="tab===1">
+        <div class="xwzxs" v-if="tab==1">
           <div class="news_list">
             <ul>
               <li v-for="(item, index) in newList" :key="index" @click="newListClick(index,$event)" :data-id="item.id">
@@ -31,7 +31,7 @@
           </div>
         </div>
         <!-- 优惠项目开始 -->
-        <div class="xwzxs" v-else-if="tab===2">
+        <div class="xwzxs" v-if="tab==2">
           <div class="news_list">
             <ul>
               <li v-for="(item, index) in offerinfoList" :key="index" @click="newListClick(index,$event)" :data-id="item.id">
@@ -48,7 +48,7 @@
           </div>
         </div>
         <!-- 销售动态开始 -->
-        <div class="xwzxs" v-else>
+        <div class="xwzxs" v-if="tab==3">
           <div class="news_list">
             <ul>
               <li v-for="(item, index) in salesnewsList" :key="index" @click="newListClick(index,$event)" :data-id="item.id">
@@ -98,9 +98,11 @@ export default {
     }
   },
 
-  onLoad() {
+  onLoad(option) {
     const that = this;
+
     that.domain=app.globalData.domain;
+    that.tab = app.globalData.tab;
     wx.request({
         url: app.globalData.url +"News/BandNewsList" +"?sessionKey=" +app.globalData.sessionKey,
         method:"POST",
@@ -113,6 +115,7 @@ export default {
         },
         success (res) {
           console.log('新闻',res)
+          
           that.newList = res.data.Context.newList;
           that.offerinfoList = res.data.Context.offerinfoList.ds;
           that.salesnewsList = res.data.Context.salesnewsList.ds;
@@ -136,6 +139,20 @@ export default {
 
 
   },
+  onShow(){
+  const that = this;
+  //解决微信小程序使用 switchTab 跳转页面时页面不更新问题
+  wx.switchTab({  
+      url: "/pages/articleList/main",  
+      success: function (e) {  
+      console.log("tiaozhuan",e)
+        var page = getCurrentPages().pop();  
+        if (page == undefined || page == null) return;  
+        page.onLoad();  
+      }  
+    })
+  },
+
 
 
 
@@ -145,7 +162,7 @@ export default {
       this.tab = index;
     },
     newListClick(index,e){
-      wx.navigateTo({ url: "/pages/articledetails/main?id=" + e.mp.currentTarget.dataset.id});
+      wx.navigateTo({ url: "/pages/articledetails/main?id=" + e.mp.currentTarget.dataset.id+ "&page=list"});
     }
   }
 

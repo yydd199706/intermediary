@@ -811,7 +811,16 @@ export default {
                     else{
                       that.tel=app.globalData.member.mobile;
                       that.yuyue_yc=true;
-                      that.state=1;
+                      wx.request({
+                        url:app.globalData.url +"Percenter/BandUserRelationEsf" +"?sessionKey=" +app.globalData.sessionKey+'&houseId=' + that.numVal,
+                        success: function (res) {
+                          if(res.data.Context.isganzhu>0){
+                            that.state=1;
+                          }
+                        }
+                      })
+                      
+                      
                     }
                   
                   }
