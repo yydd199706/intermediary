@@ -17,7 +17,7 @@
         <div class="xwzxs" v-if="tab==1">
           <div class="news_list">
             <ul>
-              <li v-for="(item, index) in newList" :key="index" @click="newListClick(index,$event)" :data-id="item.id">
+              <li v-for="(item, index) in newList" :key="index" @click="zxnewListClick(index,$event)" :data-id="item.id">
                 <div class="xw_lelf">
                   <h2>{{item.title}}</h2>
                   <div class="zhaiyao">{{item.intro}}</div>
@@ -162,7 +162,10 @@ export default {
       this.tab = index;
     },
     newListClick(index,e){
-      wx.navigateTo({ url: "/pages/articledetails/main?id=" + e.mp.currentTarget.dataset.id+ "&page=list"});
+      wx.navigateTo({ url: "/pages/articledetails/main?id=" + e.mp.currentTarget.dataset.id+ "&page=list&newType=2"});
+    },
+    zxnewListClick(index,e){
+      wx.navigateTo({ url: "/pages/articledetails/main?id=" + e.mp.currentTarget.dataset.id+ "&page=list&newType=1"});
     }
   }
 

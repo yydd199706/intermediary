@@ -10,7 +10,7 @@ App({
     // imgurl: 'https://www.e-fangtong.com/wximg/',
     sessionKey: '',
     member:null,
-    tab:1
+    tab:1, 
   },
   onLaunch: function() {
 

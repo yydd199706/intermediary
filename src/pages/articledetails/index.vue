@@ -130,6 +130,7 @@ export default {
       page:"",
       maskHid:false,
       telHid:false,
+      newType:null,
 
  
  
@@ -145,6 +146,7 @@ export default {
     that.domain=app.globalData.domain;
     that.newId=option.id;
     that.page=option.page;
+    that.newType = option.newType;
     if(that.page=="list"){
       wx.request({
           url:app.globalData.url +"News/BandNewsInfo" +"?sessionKey=" +app.globalData.sessionKey+'&newId=' + option.id,
@@ -189,6 +191,58 @@ export default {
     },
 
 
+    
+    //点击收藏
+    collection:function(){
+      const that = this;
+      wx.request({
+        url:app.globalData.url +"WxLogin/CheckLogin" +"?sessionKey=" +app.globalData.sessionKey,
+        success: function (data) {
+          if(data.data==true){
+            that.telHid=false;
+            that.maskHid=false;
+            wx.request({
+              url:app.globalData.url +"Percenter/BandUserRelationNews" +"?sessionKey=" +app.globalData.sessionKey+'&newId=' + that.newId + "&newType=" +that.newType,
+              success: function (res) {
+                if(res.data.Context.isguanzhu>0){
+                  wx.showToast({
+                    title: '您已收藏',
+                    icon: 'none',
+                    duration: 1000,
+                  })
+                }else{
+                  wx.request({
+                    url: app.globalData.url +"News/BandNewsFollow?sessionKey=" +app.globalData.sessionKey+'&newId=' + that.newId +'&newType=' + that.newType,
+                    success (res) {
+                      if(res.data.Code==0){
+                        that.telHid=false;
+                        that.maskHid=false;
+                        wx.showToast({
+                          title: '收藏成功',
+                          icon: 'success',
+                          duration: 2000
+                        });
+                      } 
+
+                    }
+                  })
+                
+                }
+              }
+            })
+          }else{
+            that.telHid=true;
+            that.maskHid=true;
+          }
+        }
+      })
+      
+      
+      
+      
+
+    },
+
     //点击取消授权
     quxiao:function(){
       const that = this;
@@ -224,29 +278,14 @@ export default {
                   'content-type': 'application/json' // 默认值
                 },
                 success (data) {
-                  console.log("deng",data)
                   if(data.data.Code==0){
                     that.telHid=false;
                     that.maskHid=false;
                     wx.setStorageSync('member',data.data.Context.member);
                     that.openType="";
                     app.globalData.member=data.data.Context.member; 
+                    that.collection();
 
-                      //检查是否关注
-                      // wx.request({
-                      //   url:app.globalData.url +"Percenter/BandUserRelationProject" +"?sessionKey=" +app.globalData.sessionKey+'&projectId=' + that.houserid,
-                      //   success: function (res) {
-                      //     if(res.data.Code==0){
-                      //       if(res.data.Context.isganzhu>0){
-                      //         that.state=1;
-                      //       }else{
-                      //         that.state=0;
-                      //       }
-                      //     }
-                          
-                      //   }
-                      // });
- 
                   
                   }
                 }
@@ -255,11 +294,6 @@ export default {
         })
       }
     },
-    //点击收藏
-    collection(){
-      const that = this;
-
-    }
 
 
 
@@ -435,6 +469,32 @@ export default {
 .Telephone{width:100%; background: #2e72f1; font-size: 28rpx; height:90rpx; line-height:90rpx; text-align: center; border-radius:10rpx; color: #fff; margin-right: 5%;}
 
 
+/* 提醒授权开始 */
+.authorization{width: 80%;margin: 0 auto;position: fixed;top: 390rpx;left: 10%;z-index:999999999;
+background: #fff;padding: 30rpx 30rpx 60rpx 30rpx;box-sizing: border-box;border-radius: 10rpx;}
+.authorization_title{font-size: 32rpx;color: #040404;font-weight: 700;padding-bottom: 30rpx;
+text-align: center;}
+.authorization_text{font-size: 28rpx;}
+.authorization_btn{justify-content: center;display: flex;margin-top: 30rpx;}
+.authorization_btn>button:first-child{background: #EEEEEE;color: #2F2F2F;}
+.authorization_btn>button:nth-child(2){margin-right: 0;background: #2e72f1;color: #fff;}
+.authorization_btn>button{margin-right: 10%;margin-left: 0;padding: 0;width: 45%;font-size: 28rpx;}
+.authorization_btn>button::after{border: none;}
+/* 提醒授权结束 */
+/* 遮罩层开始 */
+.modalMask {
+  width: 100% !important;
+  height: 100% !important;
+  position: fixed;
+  top: 0;
+  left: 0;
+  opacity: 0.5;
+  background: #000 !important;
+  overflow: hidden;
+  z-index: 9000;
+  color: #fff;
+}
+/* 遮罩层结束 */
 
 
 

@@ -1002,7 +1002,7 @@ export default {
     },
     // 点击跳转文章页
     newListClick(index,e){
-      wx.navigateTo({ url: "/pages/articledetails/main?id=" + e.mp.currentTarget.dataset.id + "&page=index"});
+      wx.navigateTo({ url: "/pages/articledetails/main?id=" + e.mp.currentTarget.dataset.id + "&page=index&newType=2"});
     },
     //优惠信息跳转
     discountClick:function(){

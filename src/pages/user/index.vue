@@ -42,7 +42,8 @@
         <p>关注</p>
       </button>
 
-      <button class="l_xiaoxi">
+      <button class="l_xiaoxi" @click="Collection" :open-type="openType"
+          @getphonenumber="getPhoneNumber">
         <image :src="img4" />
         <p>收藏</p>
       </button>
@@ -245,7 +246,12 @@ export default {
       if(that.openType==""){
         wx.navigateTo({ url: "/pages/userguanzhu/main"});
       } 
-      
+    },
+    Collection:function(){
+      const that = this;
+      if(that.openType==""){
+        wx.navigateTo({ url: "/pages/collection/main"});
+      } 
     },
     //点击跳转浏览记录列表页面
     browsingList:function(){

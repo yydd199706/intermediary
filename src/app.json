@@ -41,7 +41,8 @@
     "pages/vrurl/main",
     "pages/rentmoreDetails/main",
     "pages/rentAgentList/main",
-    "pages/rentAgentDetails/main"
+    "pages/rentAgentDetails/main",
+    "pages/chat/main"
     
   ],
   "window": {

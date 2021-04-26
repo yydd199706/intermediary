@@ -431,7 +431,7 @@ export default {
     },
     // 点击跳转文章页
     newListClick(index,e){
-      wx.navigateTo({ url: "/pages/articledetails/main?id=" + e.mp.currentTarget.dataset.id + "&page=index"});
+      wx.navigateTo({ url: "/pages/articledetails/main?id=" + e.mp.currentTarget.dataset.id + "&page=index&newType=2"});
     },
     //销售动态跳转
     lpdongtaiClick:function(){

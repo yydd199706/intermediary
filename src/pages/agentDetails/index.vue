@@ -168,7 +168,7 @@
         </button>
       </div>
       <div class="right_foot">
-        <div class="zixun">在线咨询</div>
+        <div class="zixun" @click="chatClick">在线咨询</div>
         <div class="dianhua" @click="clickService">电话咨询</div>
       </div>
     </div>
@@ -285,6 +285,9 @@ onShareAppMessage: function(res) {
   //同小区房源
   SameDistrictclick:function(index,e){ 
     wx.navigateTo({ url: "/pages/oldhousedetails/main?id=" + e.mp.currentTarget.dataset.id});
+  },
+  chatClick:function(){
+    wx.navigateTo({ url: "/pages/chat/main"});
   },
   //拨打当前经纪人电话咨询
     clickService:function(){
