@@ -225,6 +225,13 @@
         {
           "name": "租房经纪人列表",
           "pathName": "pages/rentAgentList/main",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "聊天",
+          "pathName": "pages/chat/main",
+          "query": "",
           "scene": null
         }
       ]
