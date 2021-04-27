@@ -461,6 +461,7 @@ export default {
       id:"",
       company:"",
       store:"",
+      hxid:"",
       yuyue_yc:false,
       domain:null,
       Decorationname:"",
@@ -637,6 +638,7 @@ export default {
       wx.request({
         url:app.globalData.url +"OldHouse/BandEsfInfo" +"?sessionKey=" +app.globalData.sessionKey+'&houseid=' + option.id,
         success: function (res) {
+          console.log("详情",res)
 
           if(wx.getStorageSync("array")){
             that.array = wx.getStorageSync("array");
@@ -719,7 +721,9 @@ export default {
           for(var i =0;i<that.agent.length;i++){
             that.company = that.agent[i].company;
             that.store = that.agent[i].store;
+            that.hxid = that.agent[i].hxid;
           }
+          console.log("经纪人即时通讯id",that.hxid)
           //猜你喜欢
           that.likes = res.data.Context.guessLike;
           //小区项目信息

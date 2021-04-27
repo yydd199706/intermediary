@@ -193,6 +193,7 @@ export default {
       realname:"",
       typename:"",
       headpic:'',
+      hxid:"",
       tab:1,
       more_esf: [],
       more_new: [],
@@ -220,10 +221,13 @@ export default {
         'content-type': 'application/json' // 默认值
       },
       success (res) {
+        console.log("名片",res)
         that.realname = res.data.Context.agentInfo.realname;
         that.typename = res.data.Context.agentInfo.typename;
         that.headpic = res.data.Context.agentInfo.headpic;
         that.companyname = res.data.Context.agentInfo.companyname;
+        that.hxid = res.data.Context.agentInfo.hxid;
+        console.log("聊天id",that.hxid)
 
         that.count = res.data.Context.count;
         that.zonename = res.data.Context.agentInfo.zonename;
@@ -287,7 +291,8 @@ onShareAppMessage: function(res) {
     wx.navigateTo({ url: "/pages/oldhousedetails/main?id=" + e.mp.currentTarget.dataset.id});
   },
   chatClick:function(){
-    wx.navigateTo({ url: "/pages/chat/main"});
+    const that = this;
+    wx.navigateTo({ url: "/pages/chat/main?hxid=" + that.hxid + that.headpic});
   },
   //拨打当前经纪人电话咨询
     clickService:function(){

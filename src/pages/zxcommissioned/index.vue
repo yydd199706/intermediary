@@ -3,13 +3,57 @@
 
     <div class="zxwt">
        <div class="proName">姓名</div>
-       <input type="text" :value="projectName" placeholder="请输入您的姓名" placeholder-style="color: #aaa; font-size: 28rpx;" disabled="disabled">
+       <input type="text" :value="projectName" placeholder="请输入您的姓名" placeholder-style="color: #aaa; font-size: 28rpx;">
     </div>
 
     <div class="zxwt">
        <div class="proName">电话</div>
        <input type="text" :value="projectName" placeholder="请输入手机号" placeholder-style="color: #aaa; font-size: 28rpx;" disabled="disabled">
     </div>
+
+    <div class="zxwt">
+       <div class="proName">小区名称</div>
+       <input type="text" :value="projectName" placeholder="滨江尚城" placeholder-style="color: #aaa; font-size: 28rpx;" disabled="disabled">
+    </div>
+
+    <div class="zxwt">
+       <div class="proName">房源地址</div>
+       <input type="text" :value="projectName" placeholder="房源地址" placeholder-style="color: #aaa; font-size: 28rpx;" disabled="disabled">
+    </div>
+
+    <div class="zxwt">
+       <div class="proName">房源属性</div>
+       <input type="text" :value="projectName" placeholder="房源属性" placeholder-style="color: #aaa; font-size: 28rpx;" disabled="disabled">
+    </div>
+
+    <div class="zxwt">
+       <div class="proName">期望售价</div>
+       <input type="text" :value="projectName" placeholder="期望售价" placeholder-style="color: #aaa; font-size: 28rpx;" disabled="disabled">
+    </div>
+
+    <!-- <div class="zxwt">
+      <div class="proName">中介公司</div>
+       <input @click="companyPicker" disabled="disabled" placeholder="请选择" placeholder-style="color:#aaa" />
+       <mpvue-picker ref="companyPicker" :mode="mode" :pickerValueDefault="pickerValueDefault" @onChange="onChange" @onConfirm="onConfirm" @onCancel="onCancel" :pickerValueArray="company"></mpvue-picker>
+    </div> -->
+
+    <!-- <div class="zxwt">
+      <div class="proName">中介门店</div>
+       <input @click="storesPicker" disabled="disabled" placeholder="请选择" placeholder-style="color:#aaa" />
+       <mpvue-picker ref="storesPicker" :mode="mode" :pickerValueDefault="pickerValueDefault" @onChange="onChange" @onConfirm="onConfirm" @onCancel="onCancel" :pickerValueArray="stores"></mpvue-picker>
+    </div> -->
+
+    <!--商贷年限 -->
+              <div class="sdjine">
+                <h1>商贷年限</h1>
+                <div class="shuru1">
+                  <input :value="sexText" @click="showPicker" disabled="disabled" placeholder="30年" />                  
+                  <mpvue-picker ref="mpvuePicker" :pickerValueDefault='pickerValueDefault' @onConfirm="oncallCancel" :pickerValueArray="sexValueArray"></mpvue-picker>
+                  <span><image :src="img1" /></span></div>
+              </div>
+
+
+
 
     <div class="wenzi">收不到短信？拨打<span>091510000000</span>联系客服MM电话委托</div>
 
@@ -33,17 +77,56 @@
 </template>
 
 <script>
+const app = getApp();
+const common = require("@/utils/index");
+// import companyPicker from "@/../static/components/mpvue-picker/mpvuePicker.vue";
+// import storesPicker from "@/../static/components/mpvue-picker/mpvuePicker.vue";
+import mpvuePicker from "@/../static/components/mpvue-picker/mpvuePicker.vue";// 商业贷款——按贷款总额——贷款年限
+
+
 export default {
+  // components: {
+  //   companyPicker,
+  //   storesPicker,
+  // },
+  components: {
+    mpvuePicker,// 商业贷款——按贷款总额——贷款年限
+  },
   data () {
     return {
-  
+      // mode: 'selector',
+      // company: [{label: '大堂地产',value: 1},{label: '大堂地产2',value: 2},{label: '大堂地产3',value: 3},{label: '大堂地产4',value: 4}],
+      // stores:[{label: '住宿费',value: 1},{label: '活动费',value: 2},{label: '通讯费',value: 3},{label: '补助',value: 4}],
+      // pickerValueDefault: [1],
+      pickerValueDefault: [1],
+      sexValueArray:[{label:'15年',value:0},{label:'20年',value:1},{label:'25年',value:2},{label:'30年',value:3}],
 
 
     }
-  },
-   methods: {
+  }, 
 
- 
+
+   methods: {
+    // companyPicker() {
+    //   this.$refs.companyPicker.show();
+    // },
+    // storesPicker() {
+    //   this.$refs.storesPicker.show();
+    // },
+    // 商业贷款——按贷款总额——商贷年限
+      showPicker() {
+      this.$refs.mpvuePicker.show();
+      },
+    onConfirm(e) {
+      console.log(e);
+    },
+    onChange(e) {
+      console.log(e);
+    },
+    onCancel(e) {
+      console.log(e);
+    }
+  
 
  
   }
