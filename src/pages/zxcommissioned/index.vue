@@ -3,54 +3,47 @@
 
     <div class="zxwt">
        <div class="proName">姓名</div>
-       <input type="text" :value="projectName" placeholder="请输入您的姓名" placeholder-style="color: #aaa; font-size: 28rpx;">
+       <input type="text" :value="projectName" placeholder="请输入您的姓名" placeholder-style="color: #aaa; font-size: 30rpx;">
     </div>
 
     <div class="zxwt">
        <div class="proName">电话</div>
-       <input type="text" :value="projectName" placeholder="请输入手机号" placeholder-style="color: #aaa; font-size: 28rpx;" disabled="disabled">
+       <input type="text" :value="projectName" placeholder="请输入手机号" placeholder-style="color: #aaa; font-size: 30rpx;" disabled="disabled">
     </div>
 
     <div class="zxwt">
        <div class="proName">小区名称</div>
-       <input type="text" :value="projectName" placeholder="滨江尚城" placeholder-style="color: #aaa; font-size: 28rpx;" disabled="disabled">
+       <input type="text" :value="projectName" placeholder="滨江尚城" placeholder-style="color: #aaa; font-size: 30rpx;" >
     </div>
 
     <div class="zxwt">
        <div class="proName">房源地址</div>
-       <input type="text" :value="projectName" placeholder="房源地址" placeholder-style="color: #aaa; font-size: 28rpx;" disabled="disabled">
+       <input type="text" :value="projectName" placeholder="房源地址" placeholder-style="color: #aaa; font-size: 30rpx;" disabled="disabled">
     </div>
 
     <div class="zxwt">
        <div class="proName">房源属性</div>
-       <input type="text" :value="projectName" placeholder="房源属性" placeholder-style="color: #aaa; font-size: 28rpx;" disabled="disabled">
+       <input type="text" :value="projectName" placeholder="房源属性" placeholder-style="color: #aaa; font-size: 30rpx;" disabled="disabled">
     </div>
 
     <div class="zxwt">
        <div class="proName">期望售价</div>
-       <input type="text" :value="projectName" placeholder="期望售价" placeholder-style="color: #aaa; font-size: 28rpx;" disabled="disabled">
+       <input type="text" :value="projectName" placeholder="期望售价" placeholder-style="color: #aaa; font-size: 30rpx;" disabled="disabled">
+    </div>
+ 
+    <div class="zxwt">
+      <div class="proName">中介公司</div>
+       <input :value="sexText" @click="showPicker" disabled="disabled" placeholder="请选择" placeholder-style="color: #aaa; font-size: 30rpx;" />
+       <mpvue-picker ref="mpvuePicker" :pickerValueDefault='pickerValueDefault' @onConfirm="oncallCancel" :pickerValueArray="sexValueArray"></mpvue-picker>
     </div>
 
-    <!-- <div class="zxwt">
-      <div class="proName">中介公司</div>
-       <input @click="companyPicker" disabled="disabled" placeholder="请选择" placeholder-style="color:#aaa" />
-       <mpvue-picker ref="companyPicker" :mode="mode" :pickerValueDefault="pickerValueDefault" @onChange="onChange" @onConfirm="onConfirm" @onCancel="onCancel" :pickerValueArray="company"></mpvue-picker>
-    </div> -->
-
-    <!-- <div class="zxwt">
+    <div class="zxwt">
       <div class="proName">中介门店</div>
-       <input @click="storesPicker" disabled="disabled" placeholder="请选择" placeholder-style="color:#aaa" />
-       <mpvue-picker ref="storesPicker" :mode="mode" :pickerValueDefault="pickerValueDefault" @onChange="onChange" @onConfirm="onConfirm" @onCancel="onCancel" :pickerValueArray="stores"></mpvue-picker>
-    </div> -->
+       <input :value="sexText" @click="storesPicker" disabled="disabled" placeholder="请选择" placeholder-style="color: #aaa; font-size: 30rpx;" />
+       <mpvue-picker ref="storesPicker" :pickerValueDefault='pickerValueDefault' @onConfirm="oncallCancel" :pickerValueArray="stores"></mpvue-picker>
+    </div>
 
-    <!--商贷年限 -->
-              <div class="sdjine">
-                <h1>商贷年限</h1>
-                <div class="shuru1">
-                  <input :value="sexText" @click="showPicker" disabled="disabled" placeholder="30年" />                  
-                  <mpvue-picker ref="mpvuePicker" :pickerValueDefault='pickerValueDefault' @onConfirm="oncallCancel" :pickerValueArray="sexValueArray"></mpvue-picker>
-                  <span><image :src="img1" /></span></div>
-              </div>
+
 
 
 
@@ -82,6 +75,8 @@ const common = require("@/utils/index");
 // import companyPicker from "@/../static/components/mpvue-picker/mpvuePicker.vue";
 // import storesPicker from "@/../static/components/mpvue-picker/mpvuePicker.vue";
 import mpvuePicker from "@/../static/components/mpvue-picker/mpvuePicker.vue";// 商业贷款——按贷款总额——贷款年限
+import storesPicker from "@/../static/components/mpvue-picker/mpvuePicker.vue";// 商业贷款——按贷款总额——贷款年限
+
 
 
 export default {
@@ -91,6 +86,7 @@ export default {
   // },
   components: {
     mpvuePicker,// 商业贷款——按贷款总额——贷款年限
+    storesPicker,
   },
   data () {
     return {
@@ -100,6 +96,7 @@ export default {
       // pickerValueDefault: [1],
       pickerValueDefault: [1],
       sexValueArray:[{label:'15年',value:0},{label:'20年',value:1},{label:'25年',value:2},{label:'30年',value:3}],
+      stores:[{label: '住宿费',value: 1},{label: '活动费',value: 2},{label: '通讯费',value: 3},{label: '补助',value: 4}],
 
 
     }
@@ -114,9 +111,12 @@ export default {
     //   this.$refs.storesPicker.show();
     // },
     // 商业贷款——按贷款总额——商贷年限
-      showPicker() {
+    showPicker() {
       this.$refs.mpvuePicker.show();
-      },
+    },
+    storesPicker() {
+      this.$refs.storesPicker.show();
+    },
     onConfirm(e) {
       console.log(e);
     },
@@ -148,8 +148,10 @@ export default {
 .hsxian{ width: 100%; height:20rpx; background: #f8f8fa;}
 .indexstyle{width: 100%; margin: 0 auto; background: #fff;}
 
-.zxwt{ width: 90%; margin-left: 5%; margin-right: 5%; display: flex; flex-direction: row; margin-top: 5%; padding-bottom:3%; border-bottom: 1rpx rgb(233, 233, 233) solid;}
-.proName{ margin-right: 5%;}
+.zxwt{ width: 90%; margin-left: 5%; margin-right: 5%; display: flex; flex-direction: row; border-bottom: 1rpx rgb(241, 241, 241) solid; height: 70rpx; margin-top: 31rpx;}
+.proName{ float: left; width: 20%; margin-right: 25rpx; text-align: justify; text-justify: distribute-all-lines;  font-size:30rpx;}
+.proName:after {width: 100%;height: 0;margin: 0;display: inline-block;overflow: hidden;content: '';}
+.zxwt input{ float: left;}
 .wenzi{ color: rgb(90, 90, 90); margin-top: 10%; font-size:27rpx; text-align: center;}
 .wenzi span{ color: #4bc0ca; font-weight: bold;}
 

@@ -233,6 +233,12 @@
           "pathName": "pages/chat/main",
           "query": "",
           "scene": null
+        },
+        {
+          "name": "消息列表",
+          "pathName": "pages/chatList/main",
+          "query": "",
+          "scene": null
         }
       ]
     }

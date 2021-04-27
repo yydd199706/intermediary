@@ -42,7 +42,8 @@
     "pages/rentmoreDetails/main",
     "pages/rentAgentList/main",
     "pages/rentAgentDetails/main",
-    "pages/chat/main"
+    "pages/chat/main",
+    "pages/chatList/main"
     
   ],
   "window": {

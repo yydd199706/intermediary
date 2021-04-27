@@ -2,6 +2,8 @@
   <div class="indexstyle">
 
     <div class="chat">
+      <!-- <scroll-view scroll-y="true" class='padding20' :style="{height:clientHeight+'px'}"> 
+        <block v-for="(item, index) in socketMsgQueue" :key="index"> -->
       <div class='padding20' :style="{height:clientHeight+'px'}">
         <div v-for="(item, index) in socketMsgQueue" :key="index">
           <!-- 时间 -->
@@ -11,22 +13,13 @@
 
           <!-- 内容开始 -->
           <div class="content_chat">
-            <!-- 对方发出的内容 -->
-            <div class="meIssue lelftype" v-if="item.type=='friend'?true:false">
-              <image :src="item.headpic" class="me_img" />
-              <div class="chat_list">
-                <div class="me_text">{{item.msg}}</div>
-                <div class="clear"></div>
-              </div>
-            </div>
-
             <!-- 我发出的内容 -->
-            <div class="meIssue righttype" v-if="item.type=='self'?true:false">
+            <div :class="[type=='self'?'righttype':'lelftype']" class="meIssue">
+              <image :src="item.headpic" class="me_img" />
               <div class="chat_list">
                 <div class="me_text">{{item.msg}}</div>
                 <div class="clear"></div>
               </div>
-              <image :src="item.headpic" class="me_img" />
             </div>
             
 
@@ -34,6 +27,8 @@
           <!-- 内容结束-->
         </div>
       </div>
+        <!-- </block>
+      </scroll-view> -->
     </div>
 
 
@@ -77,7 +72,6 @@ export default {
     const that = this;
     that.domain = app.globalData.domain;
     that.Message = "";
-    that.socketMsgQueue=[];
     that.hxid = option.hxid;
     that.headpic = option.headpic;
 
@@ -175,7 +169,6 @@ export default {
         });
       }
       that.Message = "";
-      console.log("socketMsgQueue",that.socketMsgQueue)
     },
     
   }
@@ -204,8 +197,8 @@ export default {
 .lelftype{ float: left;}
 .righttype{ float:right;display: flex; justify-content: flex-end; padding: 2vw 2vw 2vw 11vw;} 
  .meIssue{ width: 100%; overflow: hidden;}  
-.meIssue image{ width: 65rpx; height: 65rpx; float: left;border-radius: 10rpx;} 
-.meIssue .me_text{max-width: 70%; background: #fff; padding: 20rpx; border-radius: 10rpx; margin-right:20rpx; margin-left: 20rpx; float: left;}
+.meIssue image{ width: 65rpx; height: 65rpx; float: left; margin-right: 20rpx;} 
+.meIssue .me_text{max-width: 70%; background: #fff; padding: 20rpx; border-radius: 10rpx; margin-right:20rpx; float: left;}
 .chat_list image{ width:14rpx; height:22rpx; }
 
 /* 底部按钮 */
