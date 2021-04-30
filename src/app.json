@@ -42,8 +42,10 @@
     "pages/rentmoreDetails/main",
     "pages/rentAgentList/main",
     "pages/rentAgentDetails/main",
-    "pages/chat/main",
-    "pages/chatList/main"
+    "pages/chatOld/main",
+    "pages/chatList/main",
+    "pages/chatNew/main",
+    "pages/chatRental/main"
     
   ],
   "window": {
@@ -74,6 +76,12 @@
       "pagePath": "pages/commissioned/main",
       "iconPath": "static/tabs/img5.png",
       "selectedIconPath": "static/tabs/img6.png"
+    },
+    {
+      "text": "消息",
+      "pagePath": "pages/chatList/main",
+      "iconPath": "static/tabs/img9.png",
+      "selectedIconPath": "static/tabs/img10.png"
     }, 
     {
       "text": "我的",

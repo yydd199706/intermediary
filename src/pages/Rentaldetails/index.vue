@@ -131,8 +131,9 @@
               </div>
             </div>
             <div class="right_g">
-              <p class="wxl"><image :src="img9" class="slide-image" mode="scaleToFill" :data-wxid="item.wxid==''?item.mobile:item.wxid"
-                  @click="wxhcopy(index,$event)" /></p>
+              <!-- <p class="wxl"><image :src="img9" class="slide-image" mode="scaleToFill" :data-wxid="item.wxid==''?item.mobile:item.wxid"
+                  @click="wxhcopy(index,$event)" /></p> -->
+              <p class="wxl"><image :src="img9" class="slide-image" mode="scaleToFill" @click="chatClick(index,$event)" /></p>
               <p class="dhr"><image :src="img10s" class="slide-image" mode="scaleToFill" :data-telphone="item.mobile" @click="telphoneClick(index,$event)" /></p>
             </div>
           </div>
@@ -166,8 +167,8 @@
         <scroll-view scroll-x="true" style="width: 100%" class="image-group">
           <div class="fangy_list" v-for="(item, index) in sameDistrict" :key="index" @click="SameDistrictclick(index,$event)" :data-id="item.id">
             <image v-if="domain" :src="domain+item.Imgurl" class="slide-image" />
-                <h3><span>{{item.apirlroom}}室{{item.apirloffice}}厅{{item.apirltoilet}}卫</span>/<span>{{item.area}}m²</span>/<span>{{item.Towardname}}</span></h3>
-                <p><span class="dj1">{{item.rent==""||item.rent==null?'价格待定':item.rent+'元/月'}}</span></p>
+            <h3><span>{{item.apirlroom}}室{{item.apirloffice}}厅{{item.apirltoilet}}卫</span>/<span>{{item.area}}m²</span>/<span>{{item.Towardname}}</span></h3>
+            <p><span class="dj1">{{item.rent==""||item.rent==null?'价格待定':item.rent+'元/月'}}</span></p>
           </div>
         </scroll-view>
       </div>
@@ -331,6 +332,8 @@ export default {
       }
       ],
       domain:null,
+      hxid:"",
+      projectInfo:null,
       current: 0,
       movies: [],
       imgArr:[],
@@ -440,6 +443,19 @@ export default {
           that.numVal=res.data.Context.houseInfo.id; 
           console.log("that.houseInfo",that.houseInfo.furnishings) 
           that.feiyongList = res.data.Context.service ; 
+          that.projectInfo={
+            id:that.houseInfo.id,
+            title:that.houseInfo.title,
+            Imgurl:that.houseInfo.Imgurl,
+            apirlroom:that.houseInfo.apirlroom,
+            apirloffice:that.houseInfo.apirloffice,
+            apirltoilet:that.houseInfo.apirltoilet,
+            area:that.houseInfo.area,
+            Towardname:that.houseInfo.Towardname,
+            price:that.houseInfo.rent,
+          };
+          wx.setStorageSync("projectInfo",that.projectInfo);
+
           
           // 浏览记录
           if(wx.getStorageSync("arrayzf")){
@@ -499,7 +515,9 @@ export default {
           for(var i =0;i<that.agentlist.length;i++){
             that.company = that.agentlist[i].company;
             that.store = that.agentlist[i].store;
+            that.hxid = that.agentlist[i].hxid;
           }
+          console.log("经纪人即时通讯id",that.hxid)
           //同小区房源
           that.sameDistrict = res.data.Context.sameDistrict;
           //推荐房源
@@ -653,6 +671,24 @@ export default {
        success: function(res) {},
        fail: function(res) {},
        complete: function(res) {},
+      })
+    },
+    //点击在线咨询进入聊天
+    chatClick:function(index,e){
+      const that = this;
+      wx.request({
+          url:app.globalData.url +"WxLogin/CheckLogin" +"?sessionKey=" +app.globalData.sessionKey,
+          success: function (data) {
+            console.log("data",data)
+            if(data.data==true){
+              that.telHid=false;
+              that.maskHid=false;
+              wx.navigateTo({ url: "/pages/chatRental/main?hxid=" + that.hxid + "&headpic=" + that.headpic + "&projectInfo=" + that.projectInfo});
+            }else{
+              that.telHid=true;
+              that.maskHid=true;
+            }
+          }
       })
     },
     //点击加微信

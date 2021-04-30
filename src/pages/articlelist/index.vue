@@ -80,7 +80,6 @@ const app = getApp();
 const common = require("@/utils/index");
 export default {
   data () {
-    xianshi:false;
     return {
       domain:null,
       tab: 1,
@@ -100,6 +99,7 @@ export default {
 
   onLoad(option) {
     const that = this;
+    
 
     that.domain=app.globalData.domain;
     that.tab = app.globalData.tab;

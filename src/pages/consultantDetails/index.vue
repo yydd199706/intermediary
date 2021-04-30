@@ -1,7 +1,7 @@
 <template>
   <div class="indexstyle">
     <!-- 经纪人介绍开始 -->
-    <div class="jjr">
+    <div class="jjr" v-if="managerInfo">
       <div class="jjr_kuang"> 
 
           <!-- 置业顾问名片开始 -->
@@ -39,7 +39,7 @@
     <!-- 经纪人介绍结束 -->
     
     <!-- 我的个人简介开始 -->
-      <div class="briefIntroduction">
+      <div class="briefIntroduction" v-if="managerInfo">
         <div class="title">我的个人简介</div>
         <div class="advantage">
           <div><image :src="img5" />问题解答</div>
@@ -84,12 +84,9 @@
       </div>
       <!-- 更多推荐结束 -->
 
- 
-
-
 
     <!-- 底部按钮开始 -->
-    <div class="foot-an">
+    <div class="foot-an" v-if="managerInfo">
       <div class="lelf_foot">
         <button open-type="share" >
           <image :src="footimg1" class="slide-image" />
@@ -97,14 +94,27 @@
         </button>
       </div>
       <div class="right_foot">
-        <div class="zixun">在线咨询</div>
+        <div class="zixun" @click="chatClick(index,$event)">在线咨询</div>
         <div class="dianhua" @click="clickService(index,$event)" :data-telphone="managerInfo.telphone">电话咨询</div>
       </div>
     </div>
     <!-- 底部按钮结束 -->
 
  
-   
+    <!-- 提醒授权开始 -->
+    <div class="authorization" v-if="telHid">
+      <div class="authorization_title">授权提示</div>
+      <div class="authorization_text">为了更好的为您提供服务，我们请求获取您的电话号码</div>
+      <div class="authorization_btn">
+        <button @click="quxiao">取消</button>
+        <button open-type="getPhoneNumber" @getphonenumber="getPhoneNumber" hover-class="none">允许</button>
+      </div>
+    </div>
+    <!-- 提醒授权结束 -->
+    <!-- 遮罩层开始 -->
+     <!--x --> 
+    <div class="modalMask" v-if="maskHid"></div>
+    <!-- 遮罩层结束 -->
   
 
   </div>
@@ -145,6 +155,8 @@ export default {
       noneimgHid:false,
       bjtu:app.globalData.imgurl +"jjrbj.png",
       mobile:"",
+      maskHid:false,
+      telHid:false,
  
     }
   },
@@ -176,6 +188,73 @@ onShareAppMessage: function(res) {
     //点击跳转新房详情页
     newDetail:function(index,e){
       wx.navigateTo({ url: "/pages/newhousedetails/main?id=" + e.mp.currentTarget.dataset.id });
+    },
+    //点击取消授权
+    quxiao:function(){
+      const that = this;
+      that.telHid=false;
+      that.maskHid=false;
+    },
+    //点击获取手机号
+    getPhoneNumber(e){
+      const that = this;    
+      if (e.mp.detail.errMsg == "getPhoneNumber:ok") {
+        wx.request({
+          url: app.globalData.url +"WxLogin/getPhoneNumber?sessionKey="+app.globalData.sessionKey,
+          method:"POST",
+          data: {
+            encryptedData:e.mp.detail.encryptedData,
+            iv:e.mp.detail.iv
+          },
+          header: {
+            'content-type': 'application/json' // 默认值
+          },
+          success (res) {
+            var obj = JSON.parse(res.data.Context.phoneNumber.trim());
+            that.purePhoneNumber=obj;
+            wx.request({
+              url: app.globalData.url +"WxLogin/RegisterLogin" +"?sessionKey=" +app.globalData.sessionKey,
+              method:"POST",
+              data: {
+                nickname:that.nickname,
+                headpic:that.headpic,
+                mobile:that.purePhoneNumber
+              },
+              header: {
+                'content-type': 'application/json' // 默认值
+              },
+              success (data) {
+                console.log("deng",data)
+                if(data.data.Code==0){
+                  that.telHid=false;
+                  that.maskHid=false;
+                  wx.setStorageSync('member',data.data.Context.member);
+                  that.openType="";
+                  app.globalData.member=data.data.Context.member; 
+                }
+              }
+            })
+          }
+        })
+      }
+    },
+    //点击在线咨询进入聊天
+    chatClick:function(index,e){
+      const that = this;
+      wx.request({
+        url:app.globalData.url +"WxLogin/CheckLogin" +"?sessionKey=" +app.globalData.sessionKey,
+        success: function (data) {
+          console.log("data",data)
+          if(data.data==true){
+            that.telHid=false;
+            that.maskHid=false;
+            wx.navigateTo({ url: "/pages/chatNew/main?hxid=" + that.hxid + "&headpic=" + that.headpic + "&projectInfo=" + that.projectInfo});
+          }else{
+            that.telHid=true;
+            that.maskHid=true;
+          }
+        }
+      })
     },
     // 点击电话咨询
     clickService:function(index,e){
@@ -214,7 +293,7 @@ onShareAppMessage: function(res) {
  .lelf_card{ position: relative; top:60rpx;/* left:35%;*/ z-index: 999;  } 
 .lelf_card image{ width:220rpx; height: 220rpx; margin: 0 auto; display: block; border-radius: 50%; border:6rpx #fef1d9 solid;}
 
-.right_card{margin-top:30rpx; width: 300rpx; height:70rpx;background: linear-gradient(#fff4d9, #ffe7b1);border:2rpx #deca99 solid; color: #91783d;position: relative; top:80rpx; left:28%;z-index: 9999; border-radius:40rpx; }
+.right_card{margin-top:30rpx; width: 300rpx; height:70rpx;background: linear-gradient(#fff4d9, #ffe7b1);border:2rpx #deca99 solid; color: #91783d;position: relative; top:80rpx; left:28%;z-index: 999; border-radius:40rpx; }
 .right_card .name1{ float: left; font-size:36rpx; font-weight: bold; line-height: 70rpx; margin-left:30rpx;}
 .right_card .post1{float: left; font-size:28rpx; line-height:70rpx;margin-left:20rpx; }
 .information{ margin-top:140rpx; padding-bottom:20rpx; margin-left: 5%; margin-right: 5%; width: 90%;}
@@ -346,7 +425,7 @@ text-overflow:ellipsis;
 
  
 /* 底部按钮开始 */
-.foot-an{ width: 96%; height: 100rpx; padding-top:15rpx; padding-bottom: 15rpx; padding-left:2%; padding-right:2%;background:#fff;position: fixed;bottom: 0; z-index: 9999; overflow: hidden;}
+.foot-an{ width: 96%; height: 100rpx; padding-top:15rpx; padding-bottom: 15rpx; padding-left:2%; padding-right:2%;background:#fff;position: fixed;bottom: 0; z-index: 999; overflow: hidden;}
 .lelf_foot{ float: left; width:19%; margin-top:6rpx;}
 .lelf_foot button{border: none; padding: 0 !important; padding-left: 0 !important; padding-right: 0 !important; background:none; line-height: normal;}
 .lelf_foot button::after{border: none; padding: 0 !important;}
@@ -355,5 +434,34 @@ text-overflow:ellipsis;
 .right_foot{ float: right; width:81%; display: flex; flex-direction: row;}
 .zixun{ width: 46%; margin-left:2%; margin-right:2%; background: #3bc48b; color: #fff; height:80rpx; line-height: 80rpx; text-align: center; border-radius: 10rpx; margin-top: 10rpx;}
 .dianhua{ width: 46%; margin-left:4%; margin-right:4%; background: #3072f6; color: #fff; height: 80rpx; line-height: 80rpx; text-align: center; border-radius: 10rpx; margin-top: 10rpx;}
+
+
+/* 提醒授权开始 */
+.authorization{width: 80%;margin: 0 auto;position: fixed;top: 390rpx;left: 10%;z-index:999999999;
+background: #fff;padding: 30rpx 30rpx 60rpx 30rpx;box-sizing: border-box;border-radius: 10rpx;}
+.authorization_title{font-size: 32rpx;color: #040404;font-weight: 700;padding-bottom: 30rpx;
+text-align: center;}
+.authorization_text{font-size: 28rpx;}
+.authorization_btn{justify-content: center;display: flex;margin-top: 30rpx;}
+.authorization_btn>button:first-child{background: #EEEEEE;color: #2F2F2F;}
+.authorization_btn>button:nth-child(2){margin-right: 0;background: #2e72f1;color: #fff;}
+.authorization_btn>button{margin-right: 10%;margin-left: 0;padding: 0;width: 45%;font-size: 28rpx;}
+.authorization_btn>button::after{border: none;}
+/* 提醒授权结束 */
+/* 遮罩层开始 */
+.modalMask {
+  width: 100% !important;
+  height: 100% !important;
+  position: fixed;
+  top: 0;
+  left: 0;
+  opacity: 0.5;
+  background: #000 !important;
+  overflow: hidden;
+  z-index: 9000;
+  color: #fff;
+}
+/* 遮罩层结束 */
+
 
 </style>

@@ -136,7 +136,7 @@
         </div>
       </div>
 
-      <div class="more-house">查看更多</div>
+      <div class="more-house" @click="rentList">查看更多</div>
     </div>
     <!-- 想住靓房结束 -->
 
@@ -153,16 +153,16 @@
           <image :src="domain+item.ImgUrl" class="new-image" mode="scaleToFill" />
           <div class="intention-right">
             <div class="bt_ri">
-              <div class="bt_s newHouse_name">{{ item.name }}</div>
-              <div class="salestatename">{{item.salestatename}} </div>
+              <div class="bt_s newHouse_name" v-if="item.name==''?false:true">{{item.name}}</div>
+              <div class="salestatename" v-if="item.salestatename==''?false:true">{{item.salestatename}} </div>
             </div>
              <div class="zonename">
               {{item.zonename}}
             </div>
             <div class="youshi">
-              <div class="youshi2">{{item.PropertyTypeName}}</div>
-              <div class="youshi2">{{item.Decorationname}}</div>
-              <div class="youshi2">{{item.existingname}}</div>
+              <div class="youshi2" v-if="item.PropertyTypeName==''?false:true">{{item.PropertyTypeName}}</div>
+              <div class="youshi2" v-if="item.Decorationname==''?false:true">{{item.Decorationname}}</div>
+              <div class="youshi2" v-if="item.existingname==''?false:true">{{item.existingname}}</div>
             </div>
 
             <div class="m-x">
@@ -172,7 +172,7 @@
         </div>
       </div>
 
-      <div class="more-house"><span></span>查看更多</div>
+      <div class="more-house" @click="hotPropertyList"><span></span>查看更多</div>
     </div>
     <!-- 猜你意向的新房结束 -->
 
@@ -193,13 +193,12 @@
               <span>{{item.Towardname}}</span>
             </div>
             <div class="youshi">
-              <div class="youshi1">{{item.Decorationname}}</div>
-              <div class="youshi1">{{item.looktime}}</div>
+              <div class="youshi1" v-if="item.Decorationname==''?false:true">{{item.Decorationname}}</div>
+              <div class="youshi1" v-if="item.looktime==''?false:true">{{item.looktime}}</div>
             </div>
             <!-- <div class="clear"></div> -->
             <div class="m-x">
               <p class="money">{{item.price==""||item.price==null?'总价：暂无':item.price+'万'}}</p>
-              <p class="average">{{item.averageprice==""||item.averageprice==null?'价格待定':item.averageprice+'元/平'}}</p>
             </div>
           </div>
         </div>
@@ -240,7 +239,7 @@
         </div>
       </div> 
 
-      <div class="more-house">查看更多</div>
+      <div class="more-house" @click="rentList">查看更多</div>
     </div>
     <!-- 猜你想租的房源结束 -->
   </div>

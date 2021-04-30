@@ -45,7 +45,7 @@
         <div>
           <div class="xq_l">建筑年份</div>
           <span class="maohao">：</span>
-          <div class="xq_r">{{buildyear}}</div>
+          <div class="xq_r">{{buildyear}}年</div>
         </div>
         <div>
           <div class="xq_l">单价</div>
@@ -55,12 +55,12 @@
         <div>
           <div class="xq_l">楼层</div>
           <span class="maohao">：</span>
-          <div class="xq_r">{{floor}}</div>
+          <div class="xq_r">{{floor}}层</div>
         </div>
         <div>
           <div class="xq_l">总层数</div>
           <span class="maohao">：</span>
-          <div class="xq_r">{{floorcount}}</div>
+          <div class="xq_r">{{floorcount}}层</div>
         </div>
         <div>
           <div class="xq_l">看房时间</div>
@@ -184,8 +184,9 @@
               </div>
             </div>
             <div class="right_g">
-              <p class="wxl"><image :src="img9" class="slide-image" mode="scaleToFill" :data-wxid="item.wxid==''?item.mobile:item.wxid"
-                  @click="wxhcopy(index,$event)" /></p>
+              <!-- <p class="wxl"><image :src="img9" class="slide-image" mode="scaleToFill" :data-wxid="item.wxid==''?item.mobile:item.wxid"
+                  @click="wxhcopy(index,$event)" /></p> -->
+              <p class="wxl"><image :src="img9" class="slide-image" mode="scaleToFill" @click="chatClick(index,$event)" /></p>
               <p class="dhr"><image :src="img10s" class="slide-image" mode="scaleToFill" :data-telphone="item.mobile" @click="telphoneClick(index,$event)" /></p>
             </div>
           </div>
@@ -244,9 +245,9 @@
           <div class="xiangmu">
             <div class="l_xiangmu">
               <h1>参考均价：<span>{{project==null?'暂无信息':averagepriceXq+'元/平'}}</span></h1>
-              <p>房屋总数：{{housecount}}户</p>
+              <p>房屋总数：{{housecount==null||housecount==""?'暂无信息':housecount+'户'}}</p>
               <p>已售套数：{{soldcount==""||soldcount==null?'暂无信息':soldcount}}</p>
-              <p>土地使用年限：{{landyear}}年</p>
+              <p>土地使用年限：{{landyear==""||landyear==null?'暂无信息':landyear+'年'}}</p>
             </div>
             <div class="r_xiangmu">
               <image v-if="domain" :src="domain+ImgUrl" class="slide-image" />
@@ -317,7 +318,6 @@
             <div class="clear"></div>
             <div class="m-x">
               <p class="money">{{item.price==""||item.price==null?'总价：暂无':item.price+'万'}}</p>
-              <p class="average">{{item.averageprice==""||item.averageprice==null?'价格待定':item.averageprice+'元/平'}}</p>
             </div>
           </div>
         </div>
@@ -558,6 +558,8 @@ export default {
       comeDate:"",
       Imgurl:"",
       timer:"",
+      cardArray:[],
+      projectInfo:null,
       lookList:[
         {
           time:"",
@@ -587,9 +589,6 @@ export default {
     
   },
   onLoad(option) {
-
-  
-
     const that = this;
     clearInterval(that.timer);
     that.movies="";
@@ -675,6 +674,18 @@ export default {
           that.companyname=res.data.Context.houseInfo.companyname;
           that.numVal=res.data.Context.houseInfo.id;
           console.log("id",that.numVal)
+          that.projectInfo={
+            id:option.id,
+            title:that.title,
+            Imgurl:res.data.Context.houseInfo.Imgurl,
+            apirlroom:that.apirlroom,
+            apirloffice:that.apirloffice,
+            apirltoilet:that.apirltoilet,
+            area:that.area,
+            Towardname:that.Towardname,
+            price:that.price,
+          };
+          wx.setStorageSync("projectInfo",that.projectInfo);
           
           
 
@@ -785,13 +796,13 @@ export default {
      
         fail: function (res) {},
       });
+
       //获取用户关注
       wx.request({
         url:app.globalData.url +"Percenter/BandUserRelationEsf" +"?sessionKey=" +app.globalData.sessionKey+'&houseId=' + option.id,
         success: function (res) {
           console.log("检查关注",res)
           if(res.data.Code==0){
-            
             that.state=res.data.Context.isganzhu;
             if(res.data.Context.isganzhu>0){
               that.state=1;
@@ -820,6 +831,10 @@ onShow(){
   const that = this;
   that.timeText="发送验证码"; 
   clearInterval(that.timer);
+
+
+
+
 },
 
 
@@ -967,6 +982,24 @@ clickService:function(){
     })
   }
 },
+//点击在线咨询进入聊天
+  chatClick:function(index,e){
+    const that = this;
+    wx.request({
+        url:app.globalData.url +"WxLogin/CheckLogin" +"?sessionKey=" +app.globalData.sessionKey,
+        success: function (data) {
+          console.log("data",data)
+          if(data.data==true){
+            that.telHid=false;
+            that.maskHid=false;
+            wx.navigateTo({ url: "/pages/chatOld/main?hxid=" + that.hxid + "&headpic=" + that.headpic + "&projectInfo=" + that.projectInfo});
+          }else{
+            that.telHid=true;
+            that.maskHid=true;
+          }
+        }
+    })
+  },
     //经纪人列表点击复制微信号
     wxhcopy: function(index, e) {
       const that = this;
@@ -1153,7 +1186,7 @@ clickService:function(){
     that.telHid=false;
     that.maskHid=false;
   },
-       //点击获取手机号
+  //点击获取手机号
     getPhoneNumber(e){
       const that = this;    
       if (e.mp.detail.errMsg == "getPhoneNumber:ok") {
@@ -1189,12 +1222,11 @@ clickService:function(){
                     that.openType="";
                     app.globalData.member=data.data.Context.member;
 
-                    if(that.clickSome==0){
+                    //检查是否关注
                       wx.request({
                         url:app.globalData.url +"Percenter/BandUserRelationEsf" +"?sessionKey=" +app.globalData.sessionKey+'&houseId=' + that.numVal,
                         success: function (res) {
                           if(res.data.Code==0){
-                            console.log(res.data.Context.isganzhu)
                             if(res.data.Context.isganzhu>0){
                               that.state=1;
                               that.bianjia=true;
@@ -1204,26 +1236,53 @@ clickService:function(){
                                 that.priceStatus=0;
                               }
                             }else{
-                              that.priceNotice();
+                              that.state=0;
+                              that.bianjia=false;
                             }
                           }
                           
                         }
                       });
-                    }else{
-                      that.tel=app.globalData.member.mobile;
-                      that.yuyue_yc=true;
-                      wx.request({
-                        url:app.globalData.url +"Percenter/BandUserRelationEsf" +"?sessionKey=" +app.globalData.sessionKey+'&houseId=' + that.numVal,
-                        success: function (res) {
-                          if(res.data.Context.isganzhu>0){
-                            that.state=1;
-                            that.bianjia=true;
-                          }
-                        }
-                      })
+
+                    // if(that.clickSome==0){
+                    //   wx.request({
+                    //     url:app.globalData.url +"Percenter/BandUserRelationEsf" +"?sessionKey=" +app.globalData.sessionKey+'&houseId=' + that.numVal,
+                    //     success: function (res) {
+                    //       if(res.data.Code==0){
+                    //         console.log(res.data.Context.isganzhu)
+                    //         if(res.data.Context.isganzhu>0){
+                    //           that.state=1;
+                    //           that.bianjia=true;
+                    //           if(res.data.Context.isdingyue >0){
+                    //             that.priceStatus=1;
+                    //           }else{
+                    //             that.priceStatus=0;
+                    //           }
+                    //         }
+                    //         else{
+                    //           // that.priceNotice();
+                    //           that.state=0;
+                    //           that.bianjia=false;
+                    //         }
+                    //       }
+                          
+                    //     }
+                    //   });
+                    // }
+                    // else{
+                    //   that.tel=app.globalData.member.mobile;
+                    //   that.yuyue_yc=true;
+                    //   wx.request({
+                    //     url:app.globalData.url +"Percenter/BandUserRelationEsf" +"?sessionKey=" +app.globalData.sessionKey+'&houseId=' + that.numVal,
+                    //     success: function (res) {
+                    //       if(res.data.Context.isganzhu>0){
+                    //         that.state=1;
+                    //         that.bianjia=true;
+                    //       }
+                    //     }
+                    //   })
                       
-                    }
+                    // }
                   
                   }
                 }

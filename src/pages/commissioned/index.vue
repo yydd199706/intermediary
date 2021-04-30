@@ -9,7 +9,7 @@
     <!-- 委托按钮开始 -->
     <div class="weituo">
       <!-- 委托咨询开始 -->
-      <button class="wtzx1">委托咨询</button>
+      <button class="wtzx1" @click="eConsultation">委托咨询</button>
       <!-- 委托咨询结束 -->
 
       <!-- 在线委托开始 -->
@@ -22,7 +22,6 @@
     <div class="sszg">
       <div class="ss_biaoti">
         <div class="zoub"><image :src="img2" />甩手掌柜</div>
-        <div class="xiangxi">详细 ></div>
       </div>
       <div class="neirong">易房通专家打理，房屋升级改造，配置全新家具家电，省心省力，坐享收益；</div>
     </div>
@@ -32,7 +31,6 @@
     <div class="sszg">
       <div class="ss_biaoti">
         <div class="zoub"><image :src="img2" />安心无忧</div>
-        <div class="xiangxi">详细 ></div>
       </div>
       <div class="neirong">出租人群严格把控，品质租户，保证房屋完善及优质保洁；</div>
     </div>
@@ -42,7 +40,6 @@
     <div class="sszg">
       <div class="ss_biaoti">
         <div class="zoub"><image :src="img2" />品牌有保障</div>
-        <div class="xiangxi">详细 ></div>
       </div>
       <div class="neirong">易房通已入驻全国13大主流城市，越来越多的业主加入我们；</div>
     </div>
@@ -50,19 +47,26 @@
 
     <!-- 加入我们开始 -->
     <div class="join">
-        <button>加入我们</button>
-        <p>委托热线:0915-0000-000</p>
+        <p>委托热线:400-6800-869</p>
     </div>
     <!-- 加入我们结束 -->
 
 
     
-
-
-
-
-
-
+    <!-- 提醒授权开始 -->
+    <div class="authorization" v-if="telHid">
+      <div class="authorization_title">授权提示</div>
+      <div class="authorization_text">为了更好的为您提供服务，我们请求获取您的电话号码</div>
+      <div class="authorization_btn">
+        <button @click="quxiao">取消</button>
+        <button open-type="getPhoneNumber" @getphonenumber="getPhoneNumber" hover-class="none">允许</button>
+      </div>
+    </div>
+    <!-- 提醒授权结束 -->
+    <!-- 遮罩层开始 -->
+     <!--x --> 
+    <div class="modalMask" v-if="maskHid"></div>
+    <!-- 遮罩层结束 -->
    
   
 
@@ -75,17 +79,99 @@ const common = require("@/utils/index");
 export default {
   data () {
     return {
-      img1:"http://vip.yijienet.com/tt/img1.jpg",
+      img1:"/static/images/wt1.jpg",
       img2:app.globalData.imgurl +"quan.png",
+      maskHid:false,
+      telHid:false,
  
 
 
     }
   },
    methods: {
-    zxEntrust:function(){
-      wx.navigateTo({ url: "/pages/zxcommissioned/main"});
+    //点击取消授权
+    quxiao:function(){
+      const that = this;
+      that.telHid=false;
+      that.maskHid=false;
     },
+    //点击获取手机号
+    getPhoneNumber(e){
+      const that = this;    
+      if (e.mp.detail.errMsg == "getPhoneNumber:ok") {
+        wx.request({
+          url: app.globalData.url +"WxLogin/getPhoneNumber?sessionKey="+app.globalData.sessionKey,
+          method:"POST",
+          data: {
+            encryptedData:e.mp.detail.encryptedData,
+            iv:e.mp.detail.iv
+          },
+          header: {
+            'content-type': 'application/json' // 默认值
+          },
+          success (res) {
+            var obj = JSON.parse(res.data.Context.phoneNumber.trim());
+            that.purePhoneNumber=obj;
+              wx.request({
+                url: app.globalData.url +"WxLogin/RegisterLogin" +"?sessionKey=" +app.globalData.sessionKey,
+                method:"POST",
+                data: {
+                  nickname:that.nickname,
+                  headpic:that.headpic,
+                  mobile:that.purePhoneNumber
+                },
+                header: {
+                  'content-type': 'application/json' // 默认值
+                },
+                success (data) {
+                  console.log("deng",data)
+                  if(data.data.Code==0){
+                    that.telHid=false;
+                    that.maskHid=false;
+                    wx.setStorageSync('member',data.data.Context.member);
+                    that.openType="";
+                    app.globalData.member=data.data.Context.member; 
+                    that.zxEntrust();
+
+                  
+                  }
+                }
+              })
+          }
+        })
+      }
+    },
+    //在线委托
+    zxEntrust:function(){
+      const that = this; 
+      wx.request({
+        url:app.globalData.url +"WxLogin/CheckLogin" +"?sessionKey=" +app.globalData.sessionKey,
+        success: function (data) {
+          if(data.data==true){
+            that.telHid=false;
+            that.maskHid=false;
+            //显示TabBar
+            wx.showTabBar({
+              animation: true
+            })
+            wx.navigateTo({ url: "/pages/zxcommissioned/main"});
+          }else{
+            that.telHid=true;
+            that.maskHid=true;
+            //隐藏TabBar
+            wx.hideTabBar({
+              animation: true
+            })
+          }
+        }
+      })
+      // wx.navigateTo({ url: "/pages/zxcommissioned/main"});
+    },
+    eConsultation:function(){
+      wx.makePhoneCall({
+        phoneNumber: '4006800869' 
+      })
+    }
 
 
  
@@ -111,7 +197,7 @@ export default {
 .indexstyle{width: 100%; margin: 0 auto; background: #fff;}
 /* 图片开始 */
 .tu_img{ width: 90%; margin-left: 5%; margin-right: 5%; margin-top: 5%;}
-.tu_img image{ width: 100%; height: 500rpx; border-radius:20rpx;box-shadow:3px 8px 1px #ebebeb;}
+.tu_img image{ width: 100%; height:450rpx; border-radius:20rpx;box-shadow:3px 8px 1px #ebebeb;}
 /* 委托开始 */
 .weituo{ width: 94%; margin-left:3%; margin-right:3%; display: flex; flex-direction: row; margin-top:7%;}
 .weituo button{ width:46%; height:90rpx; background: #ffc543; font-size: 30rpx; text-align: center; line-height: 90rpx; margin-left: 2%; margin-right: 2%;box-shadow:3px 3px 6px #ffd67c; color: #fff;}
@@ -130,5 +216,31 @@ export default {
 .join p{ color: #999999; font-size:28rpx; text-align: center; margin-top:3%;}
 
 
+/* 提醒授权开始 */
+.authorization{width: 80%;margin: 0 auto;position: fixed;top: 390rpx;left: 10%;z-index:999999999;
+background: #fff;padding: 30rpx 30rpx 60rpx 30rpx;box-sizing: border-box;border-radius: 10rpx;}
+.authorization_title{font-size: 32rpx;color: #040404;font-weight: 700;padding-bottom: 30rpx;
+text-align: center;}
+.authorization_text{font-size: 28rpx;}
+.authorization_btn{justify-content: center;display: flex;margin-top: 30rpx;}
+.authorization_btn>button:first-child{background: #EEEEEE;color: #2F2F2F;}
+.authorization_btn>button:nth-child(2){margin-right: 0;background: #2e72f1;color: #fff;}
+.authorization_btn>button{margin-right: 10%;margin-left: 0;padding: 0;width: 45%;font-size: 28rpx;}
+.authorization_btn>button::after{border: none;}
+/* 提醒授权结束 */
+/* 遮罩层开始 */
+.modalMask {
+  width: 100% !important;
+  height: 100% !important;
+  position: fixed;
+  top: 0;
+  left: 0;
+  opacity: 0.5;
+  background: #000 !important;
+  overflow: hidden;
+  z-index: 9000;
+  color: #fff;
+}
+/* 遮罩层结束 */
 
 </style>

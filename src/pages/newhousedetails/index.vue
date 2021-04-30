@@ -53,27 +53,27 @@
 
 
     <!-- 新房信息开始 -->
-    <div class="newhousedetails" v-if="projectInfo">
+    <div class="newhousedetails" v-if="newInfo">
        <div class="housedetails_name">
-         <h1>{{projectInfo.name}}</h1>
-         <p>{{projectInfo.salestatename}}</p>
+         <h1>{{newInfo.name}}</h1>
+         <p>{{newInfo.salestatename}}</p>
        </div>
        <div class="advantage">
-         <div v-if="projectInfo.Decorationname==''?false:true">{{projectInfo.Decorationname}}</div>
-         <div v-if="projectInfo.existingname==''?false:true">{{projectInfo.existingname}}</div>
-         <div v-if="projectInfo.zonename==''?false:true">{{projectInfo.zonename}}</div>
-         <div v-if="projectInfo.BS_HotGasname==''?false:true">{{projectInfo.BS_HotGasname}}</div>
-         <div v-if="projectInfo.BS_Securityname==''?false:true">{{projectInfo.BS_Securityname}}</div>
+         <div v-if="newInfo.Decorationname==''?false:true">{{newInfo.Decorationname}}</div>
+         <div v-if="newInfo.existingname==''?false:true">{{newInfo.existingname}}</div>
+         <div v-if="newInfo.zonename==''?false:true">{{newInfo.zonename}}</div>
+         <div v-if="newInfo.BS_HotGasname==''?false:true">{{newInfo.BS_HotGasname}}</div>
+         <div v-if="newInfo.BS_Securityname==''?false:true">{{newInfo.BS_Securityname}}</div>
        </div>
 
        <div class="price">
          <div class="lelf_p">
            <h2>参考均价</h2>
-           <div class="jiage">{{projectInfo.averageprice==""||projectInfo.averageprice==null?'价格待定':projectInfo.averageprice+'元/㎡'}}</div>
+           <div class="jiage">{{newInfo.averageprice==""||newInfo.averageprice==null?'价格待定':newInfo.averageprice+'元/㎡'}}</div>
          </div>
          <div class="right_p">
            <h2>开盘时间</h2>
-           <div class="jiage">{{projectInfo.opendate==""||projectInfo.opendate==null?'暂无信息':projectInfo.opendate}}</div>
+           <div class="jiage">{{newInfo.opendate==""||newInfo.opendate==null?'暂无信息':newInfo.opendate}}</div>
          </div>
        </div>
 
@@ -82,31 +82,31 @@
           <div>
             <div class="xq_l">总套数</div>
             <span class="maohao">：</span>
-            <div class="xq_r">{{projectInfo.housecountv==""?'暂无':projectInfo.housecount+'套'}}</div>
+            <div class="xq_r">{{newInfo.housecountv==null||newInfo.housecountv==""?'暂无':newInfo.housecount+'套'}}</div>
           </div>
           <div>
             <div class="xq_l">土地年限</div>
             <span class="maohao">：</span>
-            <div class="xq_r">{{projectInfo.landyear==""?'暂无':projectInfo.landyear+'年'}}</div>
+            <div class="xq_r">{{newInfo.landyear==null||newInfo.landyear==""?'暂无':newInfo.landyear+'年'}}</div>
           </div>
           <div>
             <div class="xq_l">车位个数</div>
             <span class="maohao">：</span>
-            <div class="xq_r">{{projectInfo.parknumber==""?'暂无':projectInfo.parknumber+'个'}}</div>
+            <div class="xq_r">{{newInfo.parknumber==null||newInfo.parknumber==""?'暂无':newInfo.parknumber}}</div>
           </div>
           <div>
             <div class="xq_l">物业费</div>
             <span class="maohao">：</span>
-            <div class="xq_r">{{projectInfo.propertycost==""?'暂无':projectInfo.propertycost+'元/㎡'}}</div>
+            <div class="xq_r">{{newInfo.propertycost==null||newInfo.propertycost==""?'暂无':newInfo.propertycost+'元/㎡'}}</div>
           </div>
          </div>
          <div class="bfb" @click="clickAdress">
             <div class="xq_l">地址</div>
             <span class="maohao">：</span>
-            <div class="xq_rs">{{projectInfo.address==""?'暂无':projectInfo.address}}</div>
+            <div class="xq_rs">{{newInfo.address==null||newInfo.address==""?'暂无':newInfo.address}}</div>
             <p>></p>
          </div>
-         <div class="bfb" @click="moreDetails(index,$event)" :data-id="projectInfo.id">
+         <div class="bfb" @click="moreDetails(index,$event)" :data-id="newInfo.id">
             <div class="xq_l">更多</div>
             <span class="maohao">：</span>
             <div class="xq_rs">点击查看更多详情</div>
@@ -153,9 +153,8 @@
 
         <div class="huxingqh" v-for="(item, index) in houseArr" :key="index">
           <div class="bthx" :class="{'selected':j === index}" @click="huxing(index)">{{item.Key}}</div>
-         
         </div>
-          <div class="huxing">
+        <div class="huxing">
           <scroll-view scroll-x="true" style="width: 100%" class="image-group">
             <div class="yishi" >
               <div class="dg_hx" v-for="(item, ind) in housegengdss" :key="ind">
@@ -163,7 +162,7 @@
                 <div class="bt_s"><h1>{{item.title}}</h1></div>
               </div>
             </div>
-           </scroll-view>
+          </scroll-view>
         </div>
        
 
@@ -215,8 +214,9 @@
               </div>
             </div>
             <div class="right_g">
-              <p class="wxl"><image :src="img9" class="slide-image" mode="scaleToFill" :data-wxid="item.wxid==''?item.telphone:item.wxid"
-                  @click="wxhcopy(index,$event)" /></p>
+              <!-- <p class="wxl"><image :src="img9" class="slide-image" mode="scaleToFill" :data-wxid="item.wxid==''?item.telphone:item.wxid"
+                  @click="wxhcopy(index,$event)" /></p> -->
+              <p class="wxl"><image :src="img9" class="slide-image" mode="scaleToFill" @click="chatClick(index,$event)" /></p>
               <p class="dhr"><image :src="img10s" class="slide-image" mode="scaleToFill" :data-telphone="item.telphone" @click="telphoneClick(index,$event)" /></p>
             </div>
           </div>
@@ -227,7 +227,7 @@
       <!-- 置业顾问结束 -->
 
       <!-- 销售动态开始 -->
-      <div class="huxingda">
+      <div class="huxingda" v-if="newsArr.length > 0 ? true : false">
         <div class="hx_bt">
           <p>销售动态</p>
           <span @click="lpdongtaiClick">更多动态</span>
@@ -243,13 +243,11 @@
           </ul>
         </div>
         
- 
-         
       </div>
       <!-- 销售动态结束 -->
 
       <!-- 猜你喜欢开始 -->
-      <div class="huxingda">
+      <div class="huxingda" v-if="newslikelist.length > 0 ? true : false">
         <div class="hx_bt">
           <p>猜你喜欢</p>
           <div class="clear"></div>
@@ -372,6 +370,7 @@ export default {
       current: 0,
       location:null,
       domain:null,
+      projectInfo:null,
       vrurl:"",
       vrimg:"",
       imgArr:[],
@@ -380,7 +379,7 @@ export default {
       zwvr:app.globalData.imgurl +"vrsp.png",
       img_vr: app.globalData.imgurl +"VR.png",
       bf:app.globalData.imgurl +"vr_icon.png",
-      projectInfo:null,
+      newInfo:null,
       newslikelist:[],
       houseArr:[], 
       housegengd:[],
@@ -442,7 +441,7 @@ export default {
   onLoad(option) {
     const that = this;
     that.movies="";
-    that.projectInfo="",
+    that.newInfo="",
     that.domain=app.globalData.domain;
     that.houserid=option.id;
     that.imgArr=[];
@@ -462,13 +461,25 @@ export default {
           }
           console.log("轮播",that.imgArr[0])
           //房源基本信息详情
-          that.projectInfo = res.data.Context.projectInfo;
+          that.newInfo = res.data.Context.projectInfo;
           that.loupanid = res.data.Context.projectInfo.id;  //楼盘id
           that.extnumber = res.data.Context.projectInfo.extnumber;   //分机号
           that.hostphone = res.data.Context.hostphone;   //400总号
           that.vrimg = res.data.Context.projectInfo.vrimg;
           that.vrurl=res.data.Context.projectInfo.vrurl;
           that.newsArr=res.data.Context.salesnews;
+
+          that.projectInfo={
+            id:that.newInfo.id,
+            title:that.newInfo.name,
+            Imgurl:that.newInfo.ImgUrl,
+            Decorationname:that.newInfo.Decorationname,
+            salestatename:that.newInfo.salestatename,
+            zonename:that.newInfo.zonename,
+            price:that.newInfo.averageprice,
+          };
+          wx.setStorageSync("projectInfo",that.projectInfo);
+
 
 
           // 浏览记录
@@ -480,13 +491,13 @@ export default {
           let val={
             time:common.ConvertTimestamp(new Date()),
             id:option.id,
-            name:that.projectInfo.name,
-            ImgUrl:that.projectInfo.ImgUrl,
-            salestatename:that.projectInfo.salestatename,
-            zonename:that.projectInfo.zonename,
-            Decorationname:that.projectInfo.Decorationname,
-            existingname:that.projectInfo.existingname,
-            averageprice:that.projectInfo.averageprice
+            name:that.newInfo.name,
+            ImgUrl:that.newInfo.ImgUrl,
+            salestatename:that.newInfo.salestatename,
+            zonename:that.newInfo.zonename,
+            Decorationname:that.newInfo.Decorationname,
+            existingname:that.newInfo.existingname,
+            averageprice:that.newInfo.averageprice
           };
           that.arrayxf.push(val);
           var regionValueArray = [];
@@ -525,7 +536,7 @@ export default {
 
           // 地图
           qqMap.geocoder({
-          address:that.projectInfo.address,   //用户输入的地址（注：地址中请包含城市名称，否则会影响解析效果），如：'北京市海淀区彩和坊路海淀西大街74号'
+          address:that.newInfo.address,   //用户输入的地址（注：地址中请包含城市名称，否则会影响解析效果），如：'北京市海淀区彩和坊路海淀西大街74号'
           complete: data => {
             if(data.status==0){
               that.location=data.result.location;
@@ -533,12 +544,12 @@ export default {
                 id: 1,
                 latitude: that.location.lat,
                 longitude: that.location.lng,
-                name: that.projectInfo.name,
+                name: that.newInfo.name,
                 width: 30,
                 height: 30,
                 iconPath:app.globalData.imgurl +"map.png",
                 callout: {
-                  content: that.projectInfo.name,
+                  content: that.newInfo.name,
                   color: '#333',
                   fontSize: 12,
                   borderRadius: 5,
@@ -923,19 +934,37 @@ export default {
         phoneNumber: e.currentTarget.dataset.telphone
       })
     },
-    //置业顾问点击复制微信号
-    wxhcopy: function(index, e) {
+    //置业顾问点击在线咨询进入聊天
+    chatClick:function(index,e){
       const that = this;
-      console.log("置业顾问微信号",e.mp.currentTarget.dataset.wxid)
-      wx.setClipboardData({
-        data: e.mp.currentTarget.dataset.wxid,
-        success: function (res) {
-          wx.showToast({
-            title: '复制成功'
-          })
-        }
+      wx.request({
+          url:app.globalData.url +"WxLogin/CheckLogin" +"?sessionKey=" +app.globalData.sessionKey,
+          success: function (data) {
+            console.log("data",data)
+            if(data.data==true){
+              that.telHid=false;
+              that.maskHid=false;
+              wx.navigateTo({ url: "/pages/chatNew/main?hxid=" + that.hxid + "&headpic=" + that.headpic + "&projectInfo=" + that.projectInfo});
+            }else{
+              that.telHid=true;
+              that.maskHid=true;
+            }
+          }
       })
     },
+    //置业顾问点击复制微信号
+    // wxhcopy: function(index, e) {
+    //   const that = this;
+    //   console.log("置业顾问微信号",e.mp.currentTarget.dataset.wxid)
+    //   wx.setClipboardData({
+    //     data: e.mp.currentTarget.dataset.wxid,
+    //     success: function (res) {
+    //       wx.showToast({
+    //         title: '复制成功'
+    //       })
+    //     }
+    //   })
+    // },
     //点击跳转新房详情页
     newDetail:function(index,e){
       console.log('新房详情',e.mp.currentTarget.dataset)
@@ -948,8 +977,8 @@ export default {
         wx.openLocation({
           latitude: that.location.lat,
           longitude: that.location.lng,
-          name: that.projectInfo.name, 
-          address: that.projectInfo.address, 
+          name: that.newInfo.name, 
+          address: that.newInfo.address, 
         })
       }else {
         wx.showToast({

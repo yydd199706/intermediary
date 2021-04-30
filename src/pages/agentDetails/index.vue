@@ -308,6 +308,12 @@ onShareAppMessage: function(res) {
   SameDistrictclick:function(index,e){ 
     wx.navigateTo({ url: "/pages/oldhousedetails/main?id=" + e.mp.currentTarget.dataset.id});
   },
+  //点击取消授权
+  quxiao:function(){
+    const that = this;
+    that.telHid=false;
+    that.maskHid=false;
+  },
   //点击获取手机号
   getPhoneNumber(e){
     const that = this;    
@@ -355,18 +361,18 @@ onShareAppMessage: function(res) {
   chatClick:function(index,e){
     const that = this;
     wx.request({
-        url:app.globalData.url +"WxLogin/CheckLogin" +"?sessionKey=" +app.globalData.sessionKey,
-        success: function (data) {
-          console.log("data",data)
-          if(data.data==true){
-            that.telHid=false;
-            that.maskHid=false;
-            wx.navigateTo({ url: "/pages/chat/main?hxid=" + that.hxid +"&headpic="+ that.headpic});
-          }else{
-            that.telHid=true;
-            that.maskHid=true;
-          }
+      url:app.globalData.url +"WxLogin/CheckLogin" +"?sessionKey=" +app.globalData.sessionKey,
+      success: function (data) {
+        console.log("data",data)
+        if(data.data==true){
+          that.telHid=false;
+          that.maskHid=false;
+          wx.navigateTo({ url: "/pages/chatOld/main?hxid=" + that.hxid + "&headpic=" + that.headpic + "&projectInfo=" + that.projectInfo});
+        }else{
+          that.telHid=true;
+          that.maskHid=true;
         }
+      }
     })
   },
   //拨打当前经纪人电话咨询
@@ -475,7 +481,7 @@ text-overflow:ellipsis;white-space:nowrap;}
 .m-xq p.money{ font-size: 32rpx; color:#fa5741; font-weight: 900; margin-right: 5rpx;}
  
 /* 底部按钮开始 */
-.foot-an{ width: 96%; height: 100rpx; padding-top:15rpx; padding-bottom: 15rpx; padding-left:2%; padding-right:2%;background:#fff;position: fixed;bottom: 0; z-index: 9999; overflow: hidden;}
+.foot-an{ width: 96%; height: 100rpx; padding-top:15rpx; padding-bottom: 15rpx; padding-left:2%; padding-right:2%;background:#fff;position: fixed;bottom: 0; z-index: 999; overflow: hidden;}
 .lelf_foot{ float: left; width:19%; margin-top:6rpx;}
 .lelf_foot button{border: none; padding: 0 !important; padding-left: 0 !important; padding-right: 0 !important; background:none; line-height: normal;}
 .lelf_foot button::after{border: none; padding: 0 !important;}
