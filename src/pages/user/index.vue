@@ -272,7 +272,7 @@ export default {
     //点击客服电话
     telClick:function(){
       wx.makePhoneCall({
-        phoneNumber: "0915-8889993"
+        phoneNumber: "400-680-0869"
       })
     }
 

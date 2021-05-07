@@ -799,6 +799,7 @@ export default {
       method:"POST",
       data: {
         zone: that.zoneArr,
+        rent:[],
         apirlroom: that.apirlroomArr,
         price: that.priceArr,
         area: that.areaArr,

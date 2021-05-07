@@ -41,7 +41,7 @@
         <div class="wz-bt"><span></span>销售动态</div>
         <div class="more" @click="lpdongtaiClick">查看更多</div>
       </div>
-      <div class="proNew" v-for="(item, index) in news" :key="index" @click="newListClick(index,$event)" :data-id="item.id">
+      <div class="proNew" v-for="(item, index) in news" :key="index" @click="salesNewsClick(index,$event)" :data-id="item.id">
         <image :src="domain+item.imgurl" class="new-image" mode="scaleToFill" />
         <div>{{item.title}}</div>
       </div>
@@ -428,14 +428,18 @@ export default {
     rentList:function(){
       wx.navigateTo({ url: "/pages/Rental/main"});
     },
-    // 点击跳转文章页
+    // 点击销售动态跳转文章页
+    salesNewsClick(index,e){
+      wx.navigateTo({ url: "/pages/articledetails/main?id=" + e.mp.currentTarget.dataset.id + "&page=index&newType=3"});
+    },
+    // 点击优惠信息跳转文章页
     newListClick(index,e){
       wx.navigateTo({ url: "/pages/articledetails/main?id=" + e.mp.currentTarget.dataset.id + "&page=index&newType=2"});
     },
     //销售动态跳转
     lpdongtaiClick:function(){
-      app.globalData.tab = 3;
-      wx.switchTab({ url: "/pages/articleList/main"});
+      // app.globalData.tab = 3;s
+      wx.reLaunch({ url: "/pages/articleList/main?tab=" +3});
     },
     //优惠信息跳转
     discountClick:function(){

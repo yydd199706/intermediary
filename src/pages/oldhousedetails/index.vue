@@ -52,11 +52,11 @@
           <span class="maohao">：</span>
           <div class="xq_r">{{averageprice}}元/m²</div>
         </div>
-        <div>
+        <!-- <div>
           <div class="xq_l">楼层</div>
           <span class="maohao">：</span>
           <div class="xq_r">{{floor}}层</div>
-        </div>
+        </div> -->
         <div>
           <div class="xq_l">总层数</div>
           <span class="maohao">：</span>
@@ -221,12 +221,12 @@
     </div>
     <!-- 猜你喜欢结束 -->
     <!-- 位置及周边配套开始 -->
-    <div class="jingjiren">
+    <div class="jingjiren" v-if="location">
       <div class="hx_bt">
         <p>位置及周边配套</p>
 
       </div>
-      <div class="map_img" v-if="location">
+      <div class="map_img">
 
           <map id="map" :longitude="location.lng" :latitude="location.lat" :scale="14" :controls="controls" 
           bindcontroltap="controltap" :markers="markers" :bindmarkertap="markertap" :polyline="polyline"
@@ -260,12 +260,12 @@
     <div class="Projectks2" v-if="deal.length > 0 ? true : false">
       <div class="k2">
           <div class="hx_bt1">
-            <p>同小区成交（{{cj_num}}）</p>
+            <p>同小区成交</p>
             <span>更多成交 ></span>
           </div>
           <div class="chengjiao_list">
             <ul>
-              <li v-for="(item, cj) in deal" :key="cj" @click="likeDetail(index,$event)" :data-id="item.id">
+              <li v-for="(item, index) in deal" :key="index" @click="likeDetail(index,$event)" :data-id="item.id">
                 <div class="cj_le">
                   <h2><span class="quan"></span><span>{{item.apirlroom}}室{{item.apirloffice}}厅{{item.apirltoilet}}卫</span>/<span>{{item.area}}平米</span>/<span>{{item.Towardname}}</span></h2>
                   <p><span>单价{{item.averageprice}}元/平</span>，<span>{{item.chengj5}}成交</span></p>
@@ -1596,13 +1596,13 @@ clickService:function(){
 .r_xiangmu{ width: 40%; float: right;}
 .r_xiangmu image{ width: 100%; height:200rpx;}
 
-.k2{padding-bottom:30rpx;margin-top: 5%; border-bottom: 1px rgb(235, 235, 235) solid; }
+.k2{padding-bottom:30rpx;margin-top: 5%; border-bottom: 1rpx rgb(243, 243, 243) solid; }
 .hx_bt1{ width:100%; overflow: hidden;}
 .hx_bt1 p{ float: left; font-size:32rpx; font-weight: bold; }
 .hx_bt1 span{ float: right; font-size:24rpx;}
-.chengjiao_list{  margin-top: 5%; border-left: 2rpx #e4e4e4 solid; }
+.chengjiao_list{  margin-top: 5%; border-left: 1rpx #eaeaea solid; }
 .chengjiao_list ul{width: 100%;overflow: hidden; position: relative; left:-12rpx; }
-.chengjiao_list ul li{ overflow: hidden; margin-bottom:40rpx; }
+.chengjiao_list ul li{ overflow: hidden; margin-bottom:20rpx; }
 .chengjiao_list ul li .cj_le{ width:80%; float: left;}
 .chengjiao_list ul li .cj_le h2{ font-size: 31rpx; line-height: 28rpx;}
 .quan{ width: 20rpx; height: 20rpx; background: #e4e4e4; display: inline-block; position: relative; top: -6rpx;  z-index: 9999; margin-right: 20rpx; border-radius:30rpx;}

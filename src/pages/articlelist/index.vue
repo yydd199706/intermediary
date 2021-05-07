@@ -51,7 +51,7 @@
         <div class="xwzxs" v-if="tab==3">
           <div class="news_list">
             <ul>
-              <li v-for="(item, index) in salesnewsList" :key="index" @click="newListClick(index,$event)" :data-id="item.id">
+              <li v-for="(item, index) in salesnewsList" :key="index" @click="xsnewListClick(index,$event)" :data-id="item.id">
                 <div class="xw_lelf">
                   <h2>{{item.title}}</h2>
                   <div class="zhaiyao">{{item.intro}}</div>
@@ -99,10 +99,14 @@ export default {
 
   onLoad(option) {
     const that = this;
-    
-
+    console.log('222',option);
     that.domain=app.globalData.domain;
-    that.tab = app.globalData.tab;
+let pages = getCurrentPages();
+    var path = pages[0];
+console.log('上个页面地址',path); //上一个页面路由地址
+//     let path = prevpage.route;
+//     console.log(path, 'path')
+    that.tab = option.tab;
     wx.request({
         url: app.globalData.url +"News/BandNewsList" +"?sessionKey=" +app.globalData.sessionKey,
         method:"POST",
@@ -131,7 +135,7 @@ export default {
           } else {
             that.allPagesales = res.data.Context.recordSalesCount;
           }
-          console.log("条数",that.allPagesales)
+          console.log("优惠项目",that.offerinfoList)
 
 
         }
@@ -140,17 +144,19 @@ export default {
 
   },
   onShow(){
-  const that = this;
-  //解决微信小程序使用 switchTab 跳转页面时页面不更新问题
-  wx.switchTab({  
-      url: "/pages/articleList/main",  
-      success: function (e) {  
-      console.log("tiaozhuan",e)
-        var page = getCurrentPages().pop();  
-        if (page == undefined || page == null) return;  
-        page.onLoad();  
-      }  
-    })
+    const that = this;  
+that.tab=1;
+    console.log('33',that.tab);
+    //解决微信小程序使用 switchTab 跳转页面时页面不更新问题
+  //   wx.switchTab({  
+  //     url: "/pages/articleList/main",  
+  //     success: function (e) {  
+  //       console.log("tiaozhuan",e)
+  //       var page = getCurrentPages().pop();  
+  //       if (page == undefined || page == null) return;  
+  //         page.onLoad();  
+  //     }  
+  //   })
   },
 
 
@@ -161,12 +167,17 @@ export default {
     changTab(index) {
       this.tab = index;
     },
+    
+    zxnewListClick(index,e){
+      wx.navigateTo({ url: "/pages/articledetails/main?id=" + e.mp.currentTarget.dataset.id+ "&page=list&newType=1"});
+    },
     newListClick(index,e){
       wx.navigateTo({ url: "/pages/articledetails/main?id=" + e.mp.currentTarget.dataset.id+ "&page=list&newType=2"});
     },
-    zxnewListClick(index,e){
-      wx.navigateTo({ url: "/pages/articledetails/main?id=" + e.mp.currentTarget.dataset.id+ "&page=list&newType=1"});
-    }
+    xsnewListClick(index,e){
+      wx.navigateTo({ url: "/pages/articledetails/main?id=" + e.mp.currentTarget.dataset.id+ "&page=list&newType=3"});
+      
+    },
   }
 
 

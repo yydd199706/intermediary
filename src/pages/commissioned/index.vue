@@ -1,4 +1,5 @@
 <template>
+
   <div class="indexstyle">
     <!-- 图片开始 -->
     <div class="tu_img">
@@ -18,32 +19,51 @@
     </div>
     <!-- 委托按钮结束 -->
 
-    <!-- 甩手掌柜开始 -->
+    <!-- 线上售楼部开始 -->
     <div class="sszg">
       <div class="ss_biaoti">
-        <div class="zoub"><image :src="img2" />甩手掌柜</div>
+        <div class="zoub"><image :src="img2" />线上售楼部</div>
+        <div class="xiangxi" @click="onlineUrl">点击查看</div>
       </div>
-      <div class="neirong">易房通专家打理，房屋升级改造，配置全新家具家电，省心省力，坐享收益；</div>
+      <div class="neirong">微信生态下云售楼，多元服务应有尽有，“易房通线上售楼处”是基于微信而开发的小程序，在承载实体售楼部所能展示的全部内容之外，更能借助微信生态提升留存沟通效率，
+让客户随时随地看房，不受时间和空间的制约。</div>
     </div>
-    <!-- 甩手掌柜结束 -->
+    <!-- 线上售楼部结束 -->
 
-    <!-- 安心无忧开始 -->
+    <!-- 置业小助手开始 -->
     <div class="sszg">
       <div class="ss_biaoti">
-        <div class="zoub"><image :src="img2" />安心无忧</div>
+        <div class="zoub"><image :src="img2" />置业小助手</div>
+        <div class="xiangxi" @click="assistantUrl">点击查看</div>
       </div>
-      <div class="neirong">出租人群严格把控，品质租户，保证房屋完善及优质保洁；</div>
+      <div class="neirong">易房通多年致力于地产营销，依托行业最佳实践及前沿技术自主研发数字化创新方案与产品，提供企业级整体解决方案聚焦数据和技术优势，赋能企业智慧化运营和数字化创新能力，
+提高管理效能，解决中小房企案场营销过程中经常遇到的问题。</div>
     </div>
-    <!-- 安心无忧结束 -->
+    <!-- 置业小助手结束 -->
 
-    <!-- 品牌有保障开始 -->
+    <!-- 电子开盘开始 -->
     <div class="sszg">
       <div class="ss_biaoti">
-        <div class="zoub"><image :src="img2" />品牌有保障</div>
+        <div class="zoub"><image :src="img2" />电子开盘</div>
+        <div class="xiangxi" @click="electronicsUrl">点击查看</div>
       </div>
-      <div class="neirong">易房通已入驻全国13大主流城市，越来越多的业主加入我们；</div>
+      <div class="neirong">易房通电子开盘系统是专门为房地产项目提供线下全方位全流程的开盘摇号及电子签约活动解决方案。
+        通过易房通电子开盘系统，将开盘现场全流程从“摇号→大屏公示→叫号排队付款→电子签约→打印协议”进行管控。
+        有效帮助房地产实现数字信息化全流程管控，从而降低人工成本，提高效率，排除隐患风险，最终实现销售总业绩目标。</div>
     </div>
-    <!-- 品牌有保障结束 -->
+    <!-- 电子开盘结束 -->
+
+    <!-- 数据报告开始 -->
+    <div class="sszg">
+      <div class="ss_biaoti">
+        <div class="zoub"><image :src="img2" />数据报告</div>
+        <div class="xiangxi" @click="reportUrl">点击查看</div>
+      </div>
+      <div class="neirong">易房通大数据研究中心整合易房通房产网、大数据中心市场调研组等众多资源，由多位资深市场分析和数据研究人员组成，建立了较为完善的房地产市场监测体系，
+目前已成为服务客户最多的本土房产研究中心，是安康市房地产业协会唯一指定房地产市场数据研究机构，是中国人民银行安康市中心支行经济监测定点单位。</div>
+    </div>
+    <!-- 数据报告结束 -->
+
 
     <!-- 加入我们开始 -->
     <div class="join">
@@ -82,7 +102,7 @@ export default {
       img1:"/static/images/wt1.jpg",
       img2:app.globalData.imgurl +"quan.png",
       maskHid:false,
-      telHid:false,
+      telHid:false, 
  
 
 
@@ -167,11 +187,32 @@ export default {
       })
       // wx.navigateTo({ url: "/pages/zxcommissioned/main"});
     },
+    //委托咨询
     eConsultation:function(){
       wx.makePhoneCall({
         phoneNumber: '4006800869' 
       })
-    }
+    },
+    //线上售楼部
+    onlineUrl:function(){
+      const that = this; 
+      wx.navigateTo({ url: "/pages/url/main?chating=1"});
+    },
+    //置业小助手
+    assistantUrl:function(){
+      const that = this;
+      wx.navigateTo({ url: "/pages/url/main?chating=2"});
+    },
+    //电子开盘
+    electronicsUrl:function(){
+      const that = this;
+      wx.navigateTo({ url: "/pages/url/main?chating=3"});
+    },
+    //数据报告
+    reportUrl:function(){
+      const that = this;
+      wx.navigateTo({ url: "/pages/url/main?chating=4"});
+    },
 
 
  
@@ -206,9 +247,9 @@ export default {
 /* 甩手掌柜开始 */
 .sszg{ width: 90%; margin-left: 5%; margin-right: 5%; margin-top:5%;}
 .ss_biaoti{ margin-top:10%; overflow: hidden; }
-.zoub{ font-size: 38rpx; font-weight: bold; float: left; width:85%;}
+.zoub{ font-size: 38rpx; font-weight: bold; float: left; width:75%;}
 .zoub image{ width:30rpx; height: 30rpx; margin-right: 3%;}
-.xiangxi{ font-size:28rpx; float: right; color: rgb(170, 170, 170); margin-top:1%;} 
+.xiangxi{ font-size:28rpx; float: right; color: rgb(170, 170, 170); margin-top:5rpx;} 
 .neirong{ margin-top:3%; line-height:50rpx; font-size:28rpx; color: rgb(139, 139, 139);}
 /* 加入我们 */
 .join{ margin-top:10%; margin-bottom: 10%;}

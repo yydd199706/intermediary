@@ -130,14 +130,15 @@ export default {
           lookDate: "请选择",
           remarks: ""
         }
-      ],
+      ], 
       houserid: "",
       mid: "",
       index: 0
     };
   },
   onLoad(option) {
-    const that = this;
+    const that = this; 
+ 
     that.domain = app.globalData.domain;
     that.houserid = option.pid;
     that.mid = option.mid;

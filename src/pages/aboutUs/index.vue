@@ -3,13 +3,13 @@
     <!-- 关于我们开始 -->
     <div class="aboutusLogo">
       <image :src="logo" />
-      <div class="title1">安康找房</div>
-      <div class="title2">找易房通平台</div>
+      <div class="title1">易房通</div>
+      <!-- <div class="title2">找易房通平台</div> -->
     </div>
     <div class="aboutusBottom">
-      <div class="text">易房通房产网为购房者、租房者提供房源信息搜索、浏览功能、为业主提供房源委托等功能，让您的房产交易更加便捷。</div>
-      <div class="website">官方网站：https://ltj.1fangtong.cn:451</div>
-      <div class="Telephone">客服电话：0915-8885557</div>
+      <div class="text">顺应“互联网+”时代需求，旨在打造一个新型的房地产线上服务平台，为房地产开发企业、经纪机构和购房者群体构建更为完善互惠的服务渠道，让房产交易更加精准、快捷、便利，提高服务品质，降低交易成本。</div>
+      <div class="website">官方网站：http://www.e-fangtong.com/index.aspx</div>
+      <div class="Telephone">客服电话：400-680-0869</div>
     </div>
     <!-- 关于我们结束 -->
  
@@ -59,7 +59,7 @@ export default {
 .AboutUs .ab_jj{ font-size: 30rpx; line-height:58rpx; text-indent: 2em; color: #7b7b7b;  } */
 .aboutusLogo{ width: 100%;}
 .aboutusLogo image{ width:200rpx; height:200rpx; margin: 0 auto; display: inherit; margin-top:240rpx;}
-.aboutusLogo .title1{ font-size:36rpx; color: #e3282d; text-align: center; font-weight: 700; margin-top: 20rpx;}
+.aboutusLogo .title1{ font-size:36rpx; color: #3a424c; text-align: center; font-weight: 700; margin-top: 20rpx;}
 .aboutusLogo .title2{ font-size:30rpx; text-align: center; margin-top: 10rpx; }
 .aboutusBottom{ width: 90%; margin-left:5%; margin-right:5%; margin-top:300rpx;}
 .text{ font-size:29rpx; line-height: 45rpx; color: #3a424c;}
