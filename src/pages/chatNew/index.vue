@@ -135,7 +135,7 @@ export default {
       //建立连接
       wx.connectSocket({
         url:
-          "ws://3903e60h76.qicp.vip/Message.ashx?code=Iamfromchina&user=" +
+          "ws://wss.e-fangtong.com/Message.ashx?code=Iamfromchina&user=" +
           data.user
       });
 
