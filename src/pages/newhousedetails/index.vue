@@ -90,9 +90,9 @@
             <div class="xq_r">{{newInfo.landyear==null||newInfo.landyear==""?'暂无':newInfo.landyear+'年'}}</div>
           </div>
           <div>
-            <div class="xq_l">车位个数</div>
+            <div class="xq_l">面积</div>
             <span class="maohao">：</span>
-            <div class="xq_r">{{newInfo.parknumber==null||newInfo.parknumber==""?'暂无':newInfo.parknumber}}</div>
+            <div class="xq_r">{{newInfo.typearea==null||newInfo.typearea==""?'暂无':newInfo.typearea+'㎡'}}</div>
           </div>
           <div>
             <div class="xq_l">物业费</div>
@@ -467,7 +467,9 @@ export default {
           that.hostphone = res.data.Context.hostphone;   //400总号
           that.vrimg = res.data.Context.projectInfo.vrimg;
           that.vrurl=res.data.Context.projectInfo.vrurl;
-          that.newsArr=res.data.Context.salesnews;
+          that.newsArr=res.data.Context.salesnews; 
+
+
 
           that.projectInfo={
             id:that.newInfo.id,
@@ -536,32 +538,33 @@ export default {
 
           // 地图
           qqMap.geocoder({
-          address:that.newInfo.address,   //用户输入的地址（注：地址中请包含城市名称，否则会影响解析效果），如：'北京市海淀区彩和坊路海淀西大街74号'
-          complete: data => {
-            if(data.status==0){
-              that.location=data.result.location;
-              that.markers=[{
-                id: 1,
-                latitude: that.location.lat,
-                longitude: that.location.lng,
-                name: that.newInfo.name,
-                width: 30,
-                height: 30,
-                iconPath:app.globalData.imgurl +"map.png",
-                callout: {
-                  content: that.newInfo.name,
-                  color: '#333',
-                  fontSize: 12,
-                  borderRadius: 5,
-                  display: 'ALWAYS',
-                  padding:8
-                }
-              }]
-            }else {
-              that.markers[0].callout.display="display:'none'";
+            address:that.newInfo.address,   //用户输入的地址（注：地址中请包含城市名称，否则会影响解析效果），如：'北京市海淀区彩和坊路海淀西大街74号'
+            complete: data => {
+              console.log("地图",data)
+              if(data.status==0){
+                that.location=data.result.location;
+                that.markers=[{
+                  id: 1,
+                  latitude: that.location.lat,
+                  longitude: that.location.lng,
+                  name: that.newInfo.name,
+                  width: 30,
+                  height: 30,
+                  iconPath:app.globalData.imgurl +"map.png",
+                  callout: {
+                    content: that.newInfo.name,
+                    color: '#333',
+                    fontSize: 12,
+                    borderRadius: 5,
+                    display: 'ALWAYS',
+                    padding:8
+                  }
+                }]
+              }else {
+                that.markers[0].callout.display="display:'none'";
+              }
             }
-          }
-         })
+          })
 
            
            
