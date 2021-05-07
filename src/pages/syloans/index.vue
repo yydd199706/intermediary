@@ -21,261 +21,58 @@
           </div>
           <!-- 计算方式切换结束 -->
 
-          <!-- 计算方式内容开始 -->
+          <!-- 按贷款总额和房价总价内容开始 -->
           <div class="anniunr">
             <!-- 按贷款总额开始 -->
-            <div class="daikuan" v-if="antab===1">
-              <!--商贷金额 -->
-              <div class="sdjine">
-                <h1>商贷金额</h1>
-                <div class="shuru"><input placeholder="0"  /><span>万</span></div>
-              </div>
-              <!--商贷年限 -->
-              <div class="sdjine">
-                <h1>商贷年限</h1>
-                <div class="shuru1">
-                  <input :value="sexText" @click="showPicker" disabled="disabled" placeholder="30年" />                  
-                  <mpvue-picker ref="mpvuePicker" :pickerValueDefault='pickerValueDefault' @onConfirm="oncallCancel" :pickerValueArray="sexValueArray"></mpvue-picker>
-                  <span><image :src="img1" /></span></div>
-              </div>
-              <!--利率方式 -->
-              <div class="sdjine">
-                <h1>利率方式</h1>
-                <div class="shuru1">
-                  <input :value="callText"  @click="lilvPicker" placeholder="按LPR" />                  
-                  <mpvue-picker ref="mpvue20Picker" :pickerValueDefault="pickerValueDefault" @onConfirm="oncallConfirm"  :pickerValueArray="sourceValueArray" ></mpvue-picker>
-                  <span><image :src="img1" /></span></div>
-              </div>
-              <!--历史LPR -->
-              <div class="lskuang">
-                <div class="lishilpr">
-                  <div class="sz_ls">07.20</div>
-                  <div class="mingzi">LPR：一年期3.85%，五年期4.65%</div>
-                  <div class="djlishi" @click="djlishi_lpr">历史LPR</div>
-                </div>
-                <!-- 历史LPR中间弹框开始 -->
-                <div class="LPRtankuang" v-if="lslpr_xianshi">
-                  <div class="lilvzz_z" style="height:800rpx;overflow-y:auto">
-                    <h3>LPR（贷款市场报价利率）</h3>
-                    <p>自2019年10月8日起，新发放的商业住房贷款的贷款利率由<span>“贷款基准利率（4.9%）”转换为“贷款市场报价利率（LPR）”</span>。在LPR的基础上增加基点来确定最终的商贷利率；LPR每月20日（遇节假日顺延）报价一次，可在中国人民银行网站查询。</p>
-                    <p><span>最近一年LPR值</span></p>
-                    <p>（贷款年限在1-5年期间，由银行自主选择采用一年期or五年期LPR）</p>
-                    <div class="llbiaoge">
-                      <ul>
-                        <li>发布时间</li>
-                        <li>一年期</li>
-                        <li>五年期</li>
-                      </ul>
-                      <ul>
-                        <li>7/20/2020</li>
-                        <li>3.85%</li>
-                        <li>4.65%</li>
-                      </ul>
-                      <ul>
-                        <li>6/22/2020</li>
-                        <li>3.85%</li>
-                        <li>4.65%</li>
-                      </ul>
-                      <ul>
-                        <li>5/20/2020</li>
-                        <li>3.85%</li>
-                        <li>4.65%</li>
-                      </ul>
-                      <ul>
-                        <li>4/20/2020</li>
-                        <li>3.85%</li>
-                        <li>4.65%</li>
-                      </ul>
-                      <ul>
-                        <li>3/20/2020</li>
-                        <li>4.05%</li>
-                        <li>4.75%</li>
-                      </ul>
-                      <ul>
-                        <li>2/20/2020</li>
-                        <li>4.05%</li>
-                        <li>4.75%</li>
-                      </ul>
-                      <ul>
-                        <li>1/20/2020</li>
-                        <li>4.15%</li>
-                        <li>4.8%</li>
-                      </ul>
-                      <ul>
-                        <li>12/20/2019</li>
-                        <li>4.15%/li>
-                        <li>4.8%</li>
-                      </ul>
-
-                    </div>
-                    <button class="know" @click="zd_js">知道了</button>
-                  </div>
-                </div>
-                <!-- 历史LPR中间弹框结束-->
-              </div>
-              <!--商贷利率 -->
-              <div class="shangdaililv">
-                <div class="sdjine">
-                  <h1>商贷利率<span class="sdlltu" @click="lldianji"><image :src="img2" /></span></h1>
-                  <div class="shuru1">
-                    <input :value="callText"  @click="businessPicker" placeholder="4.65%（LPR+0基点）" />                  
-                    <mpvue-picker ref="businessPickersd" :pickerValueArray="shangdaiValueArray" :pickerValueDefault="pickerValueDefault" @onConfirm="oncallConfirm"></mpvue-picker>
-                    <span><image :src="img1" /></span></div>
-                </div>  
-                <!-- 中间利率弹框开始 -->
-                <div class="zhedc" v-if="zgc_xianshi">
-                <div class="llxianshi">
-                  <h2>商贷利率</h2>
-                  <p>自2019年10月8日起，商业贷款利率的计算方式由“贷款基准利率（4.9%）*上浮或下浮比例”改为“LPR+基点”</p>
-                  <p>基点，即浮动值，10基点=0.1%</p>
-                  <p><span>提醒：</span>如果是存量贷款的固定利率转LPR，则基点=（老利率-4.8%）x10000</p>
-                  <p><span>举例</span></p>
-                  <p>当前贷款利率4.9%，下浮10%，则：</p>
-                  <p>老利率为4.9%*（1-10%）= 4.41%</p>
-                  <p>基点=（4.41%-4.8%）*10000= -39</p>
-                  <button class="know" @click="lilvdj">知道了</button>
-                </div>
-                </div>
-                <!-- 中间利率弹框结束 -->
-              </div>
-              <!--开始计算 -->
-              <button class="kaishi">开始计算</button>
-
-            </div>
-            <!-- 按贷款总额结束 -->
-
-            <!-- 按房屋总价开始 -->
-            <div class="fangwu" v-else>
-              <!--房屋总价 -->
-              <div class="sdjine">
+            <div class="daikuan">
+               <div class="sdjine" v-if="antab===2">
                 <h1>房屋总价</h1>
-                <div class="shuru"><input value="0" /><span>万</span></div>
+                <div class="shuru"><input :value="housePrice" placeholder="输入金额"  @input="houseVal"/><span>万</span></div>
               </div>
-              <!--贷款比例 -->
-              <div class="sdjine">
-                <h1>贷款比例</h1>
-                <div class="shuru"><input value="6.5" /><span>成</span></div>
-              </div>
-              <!--贷款金额 -->
-              <div class="sdjine">
-                <h1>贷款金额</h1>
-                <div class="shuru"><input value="0" /><span>万</span></div>
-              </div>
-              <!--商贷年限 -->
-              <div class="sdjine">
-                <h1>商贷年限</h1>
+              <div class="sdjine" v-if="antab===2">
+                <h1>首付比例</h1>
                 <div class="shuru1">
-                  <input :value="sexText" @click="show2Picker" placeholder="30年" />                  
-                  <mpvue-picker ref="mpvue2Picker" :pickerValueArray="sex2ValueArray" :pickerValueDefault='pickerValueDefault' @onConfirm="onConfirm"></mpvue-picker>
-                  <span><image :src="img1" /></span></div>
-              </div>
-              <!--利率方式 -->
-              <div class="sdjine">
-                <h1>利率方式</h1>
-                <div class="shuru1">
-                  <input :value="callText"  @click="lilv2Picker" placeholder="按LPR" />                  
-                  <mpvue-picker ref="mpvue202Picker" :pickerValueArray="source2ValueArray" :pickerValueDefault="pickerValueDefault" @onConfirm="oncallConfirm" ></mpvue-picker>
-                  <span><image :src="img1" /></span></div>
-              </div>
-              <!--历史LPR -->
-              <div class="lskuang">
-                <div class="lishilpr">
-                  <div class="sz_ls">07.20</div>
-                  <div class="mingzi">LPR：一年期3.85%，五年期4.65%</div>
-                  <div class="djlishi" @click="djlishi_lpr">历史LPR</div>
-                </div>
-                <!-- 历史LPR中间弹框开始 -->
-                <div class="LPRtankuang" v-if="lslpr_xianshi">
-                  <div class="lilvzz_z" style="height:800rpx;overflow-y:auto">
-                    <h3>LPR（贷款市场报价利率）</h3>
-                    <p>自2019年10月8日起，新发放的商业住房贷款的贷款利率由<span>“贷款基准利率（4.9%）”转换为“贷款市场报价利率（LPR）”</span>。在LPR的基础上增加基点来确定最终的商贷利率；LPR每月20日（遇节假日顺延）报价一次，可在中国人民银行网站查询。</p>
-                    <p><span>最近一年LPR值</span></p>
-                    <p>（贷款年限在1-5年期间，由银行自主选择采用一年期or五年期LPR）</p>
-                    <div class="llbiaoge">
-                      <ul>
-                        <li>发布时间</li>
-                        <li>一年期</li>
-                        <li>五年期</li>
-                      </ul>
-                      <ul>
-                        <li>7/20/2020</li>
-                        <li>3.85%</li>
-                        <li>4.65%</li>
-                      </ul>
-                      <ul>
-                        <li>6/22/2020</li>
-                        <li>3.85%</li>
-                        <li>4.65%</li>
-                      </ul>
-                      <ul>
-                        <li>5/20/2020</li>
-                        <li>3.85%</li>
-                        <li>4.65%</li>
-                      </ul>
-                      <ul>
-                        <li>4/20/2020</li>
-                        <li>3.85%</li>
-                        <li>4.65%</li>
-                      </ul>
-                      <ul>
-                        <li>3/20/2020</li>
-                        <li>4.05%</li>
-                        <li>4.75%</li>
-                      </ul>
-                      <ul>
-                        <li>2/20/2020</li>
-                        <li>4.05%</li>
-                        <li>4.75%</li>
-                      </ul>
-                      <ul>
-                        <li>1/20/2020</li>
-                        <li>4.15%</li>
-                        <li>4.8%</li>
-                      </ul>
-                      <ul>
-                        <li>12/20/2019</li>
-                        <li>4.15%/li>
-                        <li>4.8%</li>
-                      </ul>
+                  <input :value="downText" @click="downPicker" disabled="disabled" placeholder="请选择" />                  
+                  <mpvue-picker ref="mpvuedownPicker" :pickerValueDefault='pickerValueDefault' @onConfirm="ondownCancel"
+                   :pickerValueArray="downValueArray"></mpvue-picker> 
 
-                    </div>
-                    <button class="know" @click="zd_js">知道了</button>
+                  <span><image :src="img1" /></span></div>
+              </div>
+              <div class="sdjine">
+                <h1>贷款总额</h1>
+                <div class="shuru"><input placeholder="输入金额" @input="monInp" :value="monVal" /><span>万</span></div>
+              </div>
+              <div class="sdjine">
+                <h1>贷款年限</h1>
+                <div class="shuru1">
+                  <input :value="yearText" @click="showPicker" disabled="disabled" placeholder="请选择" />                  
+                  <mpvue-picker ref="mpvuePicker" :pickerValueDefault='pickerValueDefault' @onConfirm="onyearCancel" :pickerValueArray="sexValueArray"></mpvue-picker>
+                  <span><image :src="img1" /></span></div>
+              </div>
+               <div class="shangdaililv">
+                <div class="sdjine">
+                  <h1>商贷利率<span class="sdlltu" @click="lldianji"></span></h1>
+                  <div class="shuru1">
+                    <input :value="rateText"  @click="businessPicker" placeholder="请选择" :disabled="true"/>                  
+                    <mpvue-picker ref="businessPickersd" :pickerValueArray="shangdaiValueArray" :pickerValueDefault="pickerValueDefault" @onConfirm="onrateConfirm"></mpvue-picker>
+                    <span><image :src="img1" /></span>
                   </div>
+                </div>  
+              </div>
+              <!--还款方式 -->
+              <div class="sdjine">
+                <h1>还款方式</h1>
+                <div class="shuru1">
+                  <input :value="repaymentText"  @click="lilvPicker" placeholder="请选择" :disabled="true"/>                  
+                  <mpvue-picker ref="mpvue20Picker" :pickerValueDefault="pickerValueDefault" @onConfirm="onrepaymentConfirm"  :pickerValueArray="sourceValueArray" ></mpvue-picker>
+                  <span><image :src="img1" /></span>
                 </div>
-                <!-- 历史LPR中间弹框结束-->
               </div>
               <!--商贷利率 -->
-              <div class="shangdaililv">
-                <div class="sdjine">
-                  <h1>商贷利率<span class="sdlltu" @click="lldianji"><image :src="img2" /></span></h1>
-                  <div class="shuru1">
-                    <input :value="callText"  @click="business4Picker" placeholder="4.65%（LPR+0基点）" />                  
-                    <mpvue-picker ref="business4Pickersd" :pickerValueArray="shangdai4ValueArray" :pickerValueDefault="pickerValueDefault" @onConfirm="oncallConfirm"></mpvue-picker>
-                    <span><image :src="img1" /></span></div>
-                </div>  
-                <!-- 中间利率弹框开始 -->
-                <div class="zhedc" v-if="zgc_xianshi">
-                <div class="llxianshi">
-                  <h2>商贷利率</h2>
-                  <p>自2019年10月8日起，商业贷款利率的计算方式由“贷款基准利率（4.9%）*上浮或下浮比例”改为“LPR+基点”</p>
-                  <p>基点，即浮动值，10基点=0.1%</p>
-                  <p><span>提醒：</span>如果是存量贷款的固定利率转LPR，则基点=（老利率-4.8%）x10000</p>
-                  <p><span>举例</span></p>
-                  <p>当前贷款利率4.9%，下浮10%，则：</p>
-                  <p>老利率为4.9%*（1-10%）= 4.41%</p>
-                  <p>基点=（4.41%-4.8%）*10000= -39</p>
-                  <button class="know" @click="lilvdj">知道了</button>
-                </div>
-                </div>
-                <!-- 中间利率弹框结束 -->
-              </div>
-              <!--开始计算 -->
-              <button class="kaishi">开始计算</button>
+              <button class="kaishi" @click="loanFirst">开始计算</button>
             </div>
-            <!-- 按房屋总价结束 -->
           </div>
           <!-- 计算方式内容结束 -->
-
         </div>
         <!-- 商业贷款结束 -->
 
@@ -294,307 +91,71 @@
           <!-- 计算方式内容开始 -->
           <div class="anniunr">
             <!-- 按贷款总额开始 -->
-            <div class="daikuan" v-if="antaba===1">
-              <!--贷款总额 -->
-              <div class="sdjine">
-                <h1>贷款总额</h1>
-                <div class="shuru"><input value="0" /><span>万</span></div>
-              </div>
-              <!--公积金金额 -->
-              <div class="sdjine">
-                <h1>公积金金额</h1>
-                <div class="shuru"><input value="0" /><span>万</span></div>
-              </div>
-              <!--公积金年限-->
-              <div class="sdjine">
-                <h1>公积金年限</h1>
-                <div class="shuru1">
-                  <input :value="sexText" @click="fundyearsPicker" placeholder="25年" />                  
-                  <mpvue-picker ref="fundyearsnxPicker" :pickerValueArray="fundyearsValueArray" :pickerValueDefault='pickerValueDefault' @onConfirm="onConfirm"></mpvue-picker>
-                  <span><image :src="img1" /></span></div>
-              </div>
-              <!--公积金利率-->
-              <div class="sdjine">
-                <h1>公积金利率</h1>
-                <div class="shuru1">
-                  <input :value="sexText" @click="fundgjjPicker" placeholder="最新基准利率（3.25%）" />                  
-                  <mpvue-picker ref="fundPicker" :pickerValueArray="fundValueArray" :pickerValueDefault='pickerValueDefault' @onConfirm="onConfirm"></mpvue-picker>
-                  <span><image :src="img1" /></span></div>
-              </div>
-              <!--商贷金额 -->
-              <div class="sdjine">
-                <h1>商贷金额</h1>
-                <div class="shuru"><input value="0" /><span>万</span></div>
-              </div>
-              <!--商贷年限-->
-              <div class="sdjine">
-                <h1>商贷年限</h1>
-                <div class="shuru1">
-                  <input :value="sexText" @click="show3Picker" placeholder="30年" />                  
-                  <mpvue-picker ref="mpvue3Picker" :pickerValueArray="sex3ValueArray" :pickerValueDefault='pickerValueDefault' @onConfirm="onConfirm"></mpvue-picker>
-                  <span><image :src="img1" /></span></div>
-              </div>
-              <!--利率方式 -->
-              <div class="sdjine">
-                <h1>利率方式</h1>
-                <div class="shuru1">
-                  <input :value="callText"  @click="rateswayPicker" placeholder="按LPR" />                  
-                  <mpvue-picker ref="rateswayfsPicker" :pickerValueArray="rateswayValueArray" :pickerValueDefault="pickerValueDefault" @onConfirm="oncallConfirm" ></mpvue-picker>
-                  <span><image :src="img1" /></span></div>
-              </div>
-              <!--历史LPR -->
-              <div class="lskuang">
-                <div class="lishilpr">
-                  <div class="sz_ls">07.20</div>
-                  <div class="mingzi">LPR：一年期3.85%，五年期4.65%</div>
-                  <div class="djlishi" @click="djlishi_lpr">历史LPR</div>
-                </div>
-                <!-- 历史LPR中间弹框开始 -->
-                <div class="LPRtankuang" v-if="lslpr_xianshi">
-                  <div class="lilvzz_z" style="height:800rpx;overflow-y:auto">
-                    <h3>LPR（贷款市场报价利率）</h3>
-                    <p>自2019年10月8日起，新发放的商业住房贷款的贷款利率由<span>“贷款基准利率（4.9%）”转换为“贷款市场报价利率（LPR）”</span>。在LPR的基础上增加基点来确定最终的商贷利率；LPR每月20日（遇节假日顺延）报价一次，可在中国人民银行网站查询。</p>
-                    <p><span>最近一年LPR值</span></p>
-                    <p>（贷款年限在1-5年期间，由银行自主选择采用一年期or五年期LPR）</p>
-                    <div class="llbiaoge">
-                      <ul>
-                        <li>发布时间</li>
-                        <li>一年期</li>
-                        <li>五年期</li>
-                      </ul>
-                      <ul>
-                        <li>7/20/2020</li>
-                        <li>3.85%</li>
-                        <li>4.65%</li>
-                      </ul>
-                      <ul>
-                        <li>6/22/2020</li>
-                        <li>3.85%</li>
-                        <li>4.65%</li>
-                      </ul>
-                      <ul>
-                        <li>5/20/2020</li>
-                        <li>3.85%</li>
-                        <li>4.65%</li>
-                      </ul>
-                      <ul>
-                        <li>4/20/2020</li>
-                        <li>3.85%</li>
-                        <li>4.65%</li>
-                      </ul>
-                      <ul>
-                        <li>3/20/2020</li>
-                        <li>4.05%</li>
-                        <li>4.75%</li>
-                      </ul>
-                      <ul>
-                        <li>2/20/2020</li>
-                        <li>4.05%</li>
-                        <li>4.75%</li>
-                      </ul>
-                      <ul>
-                        <li>1/20/2020</li>
-                        <li>4.15%</li>
-                        <li>4.8%</li>
-                      </ul>
-                      <ul>
-                        <li>12/20/2019</li>
-                        <li>4.15%/li>
-                        <li>4.8%</li>
-                      </ul>
-
-                    </div>
-                    <button class="know" @click="zd_js">知道了</button>
-                  </div>
-                </div>
-                <!-- 历史LPR中间弹框结束-->
-              </div>
-              <!--商贷利率 -->
-              <div class="shangdaililv">
-                <div class="sdjine">
-                  <h1>商贷利率<span class="sdlltu" @click="lldianji"><image :src="img2" /></span></h1>
-                  <div class="shuru1">
-                    <input :value="callText"  @click="business2Picker" placeholder="4.65%（LPR+0基点）" />                  
-                    <mpvue-picker ref="business2Pickersd" :pickerValueArray="shangdai2ValueArray" :pickerValueDefault="pickerValueDefault" @onConfirm="oncallConfirm"></mpvue-picker>
-                    <span><image :src="img1" /></span></div>
-                </div>  
-                <!-- 中间利率弹框开始 -->
-                <div class="zhedc" v-if="zgc_xianshi">
-                <div class="llxianshi">
-                  <h2>商贷利率</h2>
-                  <p>自2019年10月8日起，商业贷款利率的计算方式由“贷款基准利率（4.9%）*上浮或下浮比例”改为“LPR+基点”</p>
-                  <p>基点，即浮动值，10基点=0.1%</p>
-                  <p><span>提醒：</span>如果是存量贷款的固定利率转LPR，则基点=（老利率-4.8%）x10000</p>
-                  <p><span>举例</span></p>
-                  <p>当前贷款利率4.9%，下浮10%，则：</p>
-                  <p>老利率为4.9%*（1-10%）= 4.41%</p>
-                  <p>基点=（4.41%-4.8%）*10000= -39</p>
-                  <button class="know" @click="lilvdj">知道了</button>
-                </div>
-                </div>
-                <!-- 中间利率弹框结束 -->
-              </div>
-              <!--开始计算 -->
-              <button class="kaishi">开始计算</button>
-
-            </div>
-            <!-- 按贷款总额结束 -->
-
-            <!-- 按房屋总价开始 -->
-            <div class="fangwu" v-else>
+            <div class="daikuan">
               <!--房屋总价 -->
-              <div class="sdjine">
-                <h1>房屋总价</h1>
+              <div class="sdjine" v-if="antaba===2">
+                <h1>房价总额</h1>
                 <div class="shuru"><input value="0" /><span>万</span></div>
               </div>
               <!--贷款比例 -->
-              <div class="sdjine">
-                <h1>贷款比例</h1>
+              <div class="sdjine" v-if="antaba===2">
+                <h1>首付比例</h1>
                 <div class="shuru"><input value="6.5" /><span>成</span></div>
               </div>
               <!--贷款总额 -->
               <div class="sdjine">
                 <h1>贷款总额</h1>
-                <div class="shuru"><input value="0" /><span>万</span></div>
+                <div class="shuru"><input placeholder="输入金额" @input="monInp" :value="monVal" /><span>万</span></div>
               </div>
               <!--公积金金额 -->
               <div class="sdjine">
-                <h1>公积金金额</h1>
-                <div class="shuru"><input value="0" /><span>万</span></div>
+                <h1>公积金贷款</h1>
+                <div class="shuru"><input :value="fundVal" placeholder="输入金额" @input="fundInp"/><span>万</span></div>
               </div>
-              <!--公积金年限-->
+              <!--商贷金额 -->
               <div class="sdjine">
-                <h1>公积金年限</h1>
+                <h1>商业贷款</h1>
+                <div class="shuru"><input :value="busVal" placeholder="输入金额" @input="busInp" /><span>万</span></div>
+              </div>
+              <!--商贷年限-->
+              <div class="sdjine">
+                <h1>贷款年限</h1>
                 <div class="shuru1">
-                  <input :value="sexText" @click="fundyears2Picker" placeholder="25年" />                  
-                  <mpvue-picker ref="fundyearsnx2Picker" :pickerValueArray="fundyears2ValueArray" :pickerValueDefault='pickerValueDefault' @onConfirm="onConfirm"></mpvue-picker>
+                  <input :value="yearText" @click="showPicker" disabled="disabled" placeholder="请选择" />                  
+                  <mpvue-picker ref="mpvuePicker" :pickerValueDefault='pickerValueDefault' @onConfirm="onyearCancel" :pickerValueArray="sexValueArray"></mpvue-picker>
                   <span><image :src="img1" /></span></div>
+              </div>
+              <!--商贷利率 -->
+              <div class="shangdaililv">
+                <div class="sdjine">
+                  <h1>商贷利率<span class="sdlltu" @click="lldianji"></span></h1>
+                  <div class="shuru1">
+                    <input :value="rateText"  @click="businessPicker" placeholder="请选择" :disabled="true"/>                  
+                    <mpvue-picker ref="businessPickersd" :pickerValueArray="shangdaiValueArray" :pickerValueDefault="pickerValueDefault" @onConfirm="onrateConfirm"></mpvue-picker>
+                    <span><image :src="img1" /></span></div>
+                </div>  
               </div>
               <!--公积金利率-->
               <div class="sdjine">
                 <h1>公积金利率</h1>
                 <div class="shuru1">
-                  <input :value="sexText" @click="fundgjj2Picker" placeholder="最新基准利率（3.25%）" />                  
-                  <mpvue-picker ref="fund2Picker" :pickerValueArray="fund2ValueArray" :pickerValueDefault='pickerValueDefault' @onConfirm="onConfirm"></mpvue-picker>
+                  <input :value="accText" @click="fundgjjPicker" placeholder="请选择" :disabled="true"/>                  
+                  <mpvue-picker ref="fundPicker" :pickerValueArray="fundValueArray" :pickerValueDefault='pickerValueDefault' @onConfirm="onaccConfirm"></mpvue-picker>
                   <span><image :src="img1" /></span></div>
               </div>
-              <!--贷款金额 -->
+             
               <div class="sdjine">
-                <h1>贷款金额</h1>
-                <div class="shuru"><input value="0" /><span>万</span></div>
-              </div>
-              <!--商贷年限-->
-              <div class="sdjine">
-                <h1>商贷年限</h1>
+                <h1>还款方式</h1>
                 <div class="shuru1">
-                  <input :value="sexText" @click="show4Picker" placeholder="30年" />                  
-                  <mpvue-picker ref="mpvue4Picker" :pickerValueArray="sex4ValueArray" :pickerValueDefault='pickerValueDefault' @onConfirm="onConfirm"></mpvue-picker>
-                  <span><image :src="img1" /></span></div>
-              </div>
-              <!--利率方式 -->
-              <div class="sdjine">
-                <h1>利率方式</h1>
-                <div class="shuru1">
-                  <input :value="callText"  @click="ratesway4Picker" placeholder="按LPR" />                  
-                  <mpvue-picker ref="rateswayfs4Picker" :pickerValueArray="ratesway4ValueArray" :pickerValueDefault="pickerValueDefault" @onConfirm="oncallConfirm" ></mpvue-picker>
-                  <span><image :src="img1" /></span></div>
-              </div>
-              <!--历史LPR -->
-              <div class="lskuang">
-                <div class="lishilpr">
-                  <div class="sz_ls">07.20</div>
-                  <div class="mingzi">LPR：一年期3.85%，五年期4.65%</div>
-                  <div class="djlishi" @click="djlishi_lpr">历史LPR</div>
+                  <input :value="repaymentText"  @click="lilvPicker" placeholder="请选择" :disabled="true"/>                  
+                  <mpvue-picker ref="mpvue20Picker" :pickerValueDefault="pickerValueDefault" @onConfirm="onrepaymentConfirm"  :pickerValueArray="sourceValueArray" ></mpvue-picker>
+                  <span><image :src="img1" /></span>
                 </div>
-                <!-- 历史LPR中间弹框开始 -->
-                <div class="LPRtankuang" v-if="lslpr_xianshi">
-                  <div class="lilvzz_z" style="height:800rpx;overflow-y:auto">
-                    <h3>LPR（贷款市场报价利率）</h3>
-                    <p>自2019年10月8日起，新发放的商业住房贷款的贷款利率由<span>“贷款基准利率（4.9%）”转换为“贷款市场报价利率（LPR）”</span>。在LPR的基础上增加基点来确定最终的商贷利率；LPR每月20日（遇节假日顺延）报价一次，可在中国人民银行网站查询。</p>
-                    <p><span>最近一年LPR值</span></p>
-                    <p>（贷款年限在1-5年期间，由银行自主选择采用一年期or五年期LPR）</p>
-                    <div class="llbiaoge">
-                      <ul>
-                        <li>发布时间</li>
-                        <li>一年期</li>
-                        <li>五年期</li>
-                      </ul>
-                      <ul>
-                        <li>7/20/2020</li>
-                        <li>3.85%</li>
-                        <li>4.65%</li>
-                      </ul>
-                      <ul>
-                        <li>6/22/2020</li>
-                        <li>3.85%</li>
-                        <li>4.65%</li>
-                      </ul>
-                      <ul>
-                        <li>5/20/2020</li>
-                        <li>3.85%</li>
-                        <li>4.65%</li>
-                      </ul>
-                      <ul>
-                        <li>4/20/2020</li>
-                        <li>3.85%</li>
-                        <li>4.65%</li>
-                      </ul>
-                      <ul>
-                        <li>3/20/2020</li>
-                        <li>4.05%</li>
-                        <li>4.75%</li>
-                      </ul>
-                      <ul>
-                        <li>2/20/2020</li>
-                        <li>4.05%</li>
-                        <li>4.75%</li>
-                      </ul>
-                      <ul>
-                        <li>1/20/2020</li>
-                        <li>4.15%</li>
-                        <li>4.8%</li>
-                      </ul>
-                      <ul>
-                        <li>12/20/2019</li>
-                        <li>4.15%/li>
-                        <li>4.8%</li>
-                      </ul>
-
-                    </div>
-                    <button class="know" @click="zd_js">知道了</button>
-                  </div>
-                </div>
-                <!-- 历史LPR中间弹框结束-->
-              </div>
-              <!--商贷利率 -->
-              <div class="shangdaililv">
-                <div class="sdjine">
-                  <h1>商贷利率<span class="sdlltu" @click="lldianji"><image :src="img2" /></span></h1>
-                  <div class="shuru1">
-                    <input :value="callText"  @click="lilvPicker" placeholder="4.65%（LPR+0基点）" />                  
-                    <mpvue-picker ref="mpvue20Picker" :pickerValueDefault="pickerValueDefault" @onConfirm="oncallConfirm" :pickerValueArray="shangdaiValueArray"></mpvue-picker>
-                    <span><image :src="img1" /></span></div>
-                </div>  
-                <!-- 中间利率弹框开始 -->
-                <div class="zhedc" v-if="zgc_xianshi">
-                <div class="llxianshi">
-                  <h2>商贷利率</h2>
-                  <p>自2019年10月8日起，商业贷款利率的计算方式由“贷款基准利率（4.9%）*上浮或下浮比例”改为“LPR+基点”</p>
-                  <p>基点，即浮动值，10基点=0.1%</p>
-                  <p><span>提醒：</span>如果是存量贷款的固定利率转LPR，则基点=（老利率-4.8%）x10000</p>
-                  <p><span>举例</span></p>
-                  <p>当前贷款利率4.9%，下浮10%，则：</p>
-                  <p>老利率为4.9%*（1-10%）= 4.41%</p>
-                  <p>基点=（4.41%-4.8%）*10000= -39</p>
-                  <button class="know" @click="lilvdj">知道了</button>
-                </div>
-                </div>
-                <!-- 中间利率弹框结束 -->
               </div>
               <!--开始计算 -->
               <button class="kaishi">开始计算</button>
             </div>
-            <!-- 按房屋总价结束 -->
+            <!-- 按贷款总额结束 -->
           </div>
           <!-- 计算方式内容结束 -->
         </div>
@@ -618,27 +179,35 @@
             <div class="daikuan" v-if="antabb===1">
               <!--公积金金额 -->
               <div class="sdjine">
-                <h1>公积金金额</h1>
-                <div class="shuru"><input value="0" /><span>万</span></div>
+                <h1>贷款总额</h1>
+                <div class="shuru"><input placeholder="输入金额" @input="monInp" :value="monVal" /><span>万</span></div>
               </div>
               <!--公积金年限-->
               <div class="sdjine">
-                <h1>公积金年限</h1>
+                <h1>贷款年限</h1>
                 <div class="shuru1">
-                  <input :value="sexText" @click="fundyears3Picker" placeholder="25年" />                  
-                  <mpvue-picker ref="fundyearsnx3Picker" :pickerValueArray="fundyears3ValueArray" :pickerValueDefault='pickerValueDefault' @onConfirm="onConfirm"></mpvue-picker>
+                   <input :value="yearText" @click="showPicker" disabled="disabled" placeholder="请选择" />                  
+                  <mpvue-picker ref="mpvuePicker" :pickerValueDefault='pickerValueDefault' @onConfirm="onyearCancel" :pickerValueArray="sexValueArray"></mpvue-picker>
                   <span><image :src="img1" /></span></div>
               </div>
               <!--公积金利率-->
               <div class="sdjine">
                 <h1>公积金利率</h1>
                 <div class="shuru1">
-                  <input :value="sexText" @click="fundgjj3Picker" placeholder="最新基准利率（3.25%）" />                  
-                  <mpvue-picker ref="fund3Picker" :pickerValueArray="fund3ValueArray" :pickerValueDefault='pickerValueDefault' @onConfirm="onConfirm"></mpvue-picker>
+                  <input :value="accText" @click="fundgjjPicker" placeholder="请选择" :disabled="true"/>                  
+                  <mpvue-picker ref="fundPicker" :pickerValueArray="fundValueArray" :pickerValueDefault='pickerValueDefault' @onConfirm="onaccConfirm"></mpvue-picker>
                   <span><image :src="img1" /></span></div>
               </div>
+              <div class="sdjine">
+                <h1>还款方式</h1>
+                <div class="shuru1">
+                  <input :value="repaymentText"  @click="lilvPicker" placeholder="请选择" :disabled="true"/>                  
+                  <mpvue-picker ref="mpvue20Picker" :pickerValueDefault="pickerValueDefault" @onConfirm="onrepaymentConfirm"  :pickerValueArray="sourceValueArray" ></mpvue-picker>
+                  <span><image :src="img1" /></span>
+                </div>
+              </div>
               <!--开始计算 -->
-              <button class="kaishi">开始计算</button>
+              <button class="kaishi" @click="loanFirst">开始计算</button>
 
             </div>
             <!-- 按贷款总额结束 -->
@@ -674,7 +243,8 @@
                 <div class="shuru1">
                   <input :value="sexText" @click="fundgjj4Picker" placeholder="最新基准利率（3.25%）" />                  
                   <mpvue-picker ref="fund4Picker" :pickerValueArray="fund4ValueArray" :pickerValueDefault='pickerValueDefault' @onConfirm="onConfirm"></mpvue-picker>
-                  <span><image :src="img1" /></span></div>
+                  <span><image :src="img1" /></span>
+                </div>
               </div>
               <!--开始计算 -->
               <button class="kaishi">开始计算</button>
@@ -685,12 +255,32 @@
         </div>
         <!-- 公积金贷款结束 -->
       </div>
-
-
-
     </div>
-
-  
+    <!-- 计算结果显示 -->
+    <div class="result" v-if="hide">
+      <div class="result_top">
+        <div class="result_top_left">
+          <div>{{textTitle}}</div>
+          <div class="red">￥{{Monthly}}</div>
+          <div>{{moneyText}}</div>
+        </div>
+        <div class="result_top_right">查看详情</div>
+      </div>
+      <div class="result_bot">
+        <div>
+          <div>贷款总额</div>
+          <div class="red">{{monVal}}万</div>
+        </div>
+        <div>
+          <div>支付利息</div>
+          <div class="red">{{payInterest}}万</div>
+        </div>
+        <div>
+          <div>还款总额</div>
+          <div class="red">{{repayment}}万</div>
+        </div>
+      </div>
+    </div>
  
 
   
@@ -700,6 +290,8 @@
 <script>
 const app = getApp();
 const common = require("@/utils/index");
+const llsd=4.9;
+var llgjj = 3.25;
 import mpvuePicker from "@/../static/components/mpvue-picker/mpvuePicker.vue";// 商业贷款——按贷款总额——贷款年限
 import mpvue20Picker from "@/../static/components/mpvue-picker/mpvuePicker.vue";// 商业贷款——按贷款总额——利率方式
 import businessPickersd from "@/../static/components/mpvue-picker/mpvuePicker.vue";// 商业贷款——按贷款总额——商贷利率
@@ -725,7 +317,7 @@ import fund3Picker from "@/../static/components/mpvue-picker/mpvuePicker.vue";//
 
 import fundyearsnx4Picker from "@/../static/components/mpvue-picker/mpvuePicker.vue";// 公积金贷款——按房屋总价——公积金年限
 import fund4Picker from "@/../static/components/mpvue-picker/mpvuePicker.vue";// 公积金贷款——按房屋总价——公积金利率
-
+import mpvuedownPicker from "@/../static/components/mpvue-picker/mpvuePicker.vue";
 
 
   export default {
@@ -733,26 +325,22 @@ import fund4Picker from "@/../static/components/mpvue-picker/mpvuePicker.vue";//
     mpvuePicker,// 商业贷款——按贷款总额——贷款年限
     mpvue20Picker,// 商业贷款——按贷款总额——利率方式
     businessPickersd,// 商业贷款——按贷款总额——商贷利率
-
+    mpvuedownPicker,
     mpvue2Picker,// 商业贷款——按房屋总价——贷款年限
     mpvue202Picker,// 商业贷款——按房屋总价——利率方式
     business2Pickersd,// 商业贷款——按房屋总价——商贷利率
-
     fundyearsnxPicker,// 组合贷款——按贷款总额——公积金年限
     fundPicker,// 组合贷款——按贷款总额——公积金利率
     mpvue3Picker,// 商业贷款——按贷款总额——贷款年限
     rateswayfsPicker,// 商业贷款——按贷款总额——利率方式
     business3Pickersd,// 商业贷款——按贷款总额——商贷利率
-
     fundyearsnx2Picker,// 组合贷款——按房屋总价——公积金年限
     fund2Picker,// 组合贷款——按房屋总价——公积金利率
     mpvue4Picker,// 商业贷款——按房屋总价——贷款年限
     rateswayfs4Picker,// 商业贷款——按房屋总价——利率方式
     business4Pickersd,// 商业贷款——按房屋总价——商贷利率
-
     fundyearsnx3Picker,// 公积金贷款——按贷款总额——公积金年限
     fund3Picker,// 组合贷款——按贷款总额——公积金利率
-
     fundyearsnx4Picker,// 公积金贷款——按房屋总价——公积金年限
     fund4Picker,// 组合贷款——按房屋总价——公积金利率
 
@@ -766,69 +354,96 @@ import fund4Picker from "@/../static/components/mpvue-picker/mpvuePicker.vue";//
         antabb:1,
         img1:app.globalData.imgurl +"jt1.jpg",
         img2:app.globalData.imgurl +"wen.png",
-        // 商业贷款——按贷款总额——贷款年限
-        pickerValueDefault: [1],
-        sexValueArray:[{label:'15年',value:0},{label:'20年',value:1},{label:'25年',value:2},{label:'30年',value:3}],
-        
-        // 商业贷款——按贷款总额——利率方式
-        sourceValueArray:[{label:'按旧版基准利率',value:0},{label:'按LPR',value:1}],
-        // 商业贷款——按贷款总额——商贷利率
-        shangdaiValueArray:[{label:'4.65%（LPR+0基点）',value:0},{label:'5.2%（LPR+55基点）',value:1},{label:'5.7%（LPR+105基点）',value:2}],
-
-        // 商业贷款——按房屋总价——贷款年限
+        monVal:"",
+        pickerValueDefault: [0],
+        //贷款年限
+        sexValueArray:[{label:'360期(30年)',value:'360期(30年)'},{label:'348期(29年)',value:'348期(29年)'},
+        {label:'336期(28年)',value:'336期(28年)'},{label:'324期(27年)',value:'324期(27年)'},
+        {label:'312期(26年)',value:'312期(26年)'},{label:'300期(25年)',value:'300期(25年)'},
+        {label:'288期(24年)',value:'288期(24年)'},{label:'276期(23年)',value:'276期(23年)'},
+        {label:'264期(22年)',value:'264期(22年)'},{label:'252期(21年)',value:'252期(21年)'},
+        {label:'240期(20年)',value:'240期(20年)'},{label:'228期(19年)',value:'228期(19年)'},
+        {label:'216期(18年)',value:'216期(18年)'},{label:'204期(17年)',value:'204期(17年)'},
+        {label:'192期(16年)',value:'192期(16年)'},{label:'180期(15年)',value:'180期(15年)'},
+        {label:'168期(14年)',value:'168期(14年)'},{label:'156期(13年)',value:'156期(13年)'},
+        {label:'144期(12年)',value:'144期(12年)'},{label:'132期(11年)',value:'132期(11年)'},
+        {label:'120期(10年)',value:'120期(10年)'},{label:'108期(9年)',value:'108期(9年)'},
+        {label:'96期(8年)',value:'96期(8年)'},{label:'84期(7年)',value:'84期(7年)'},
+        {label:'72期(6年)',value:'72期(6年)'},{label:'60期(5年)',value:'60期(5年)'},{label:'48期(4年)',value:'48期(4年)'},
+        {label:'36期(3年)',value:'36期(3年)'},{label:'24期(2年)',value:'24期(2年)'},{label:'12期(1年)',value:'12期(1年)'}],
+        //还款方式
+        sourceValueArray:[{label:'等额本息',value:'等额本息'},{label:'等额本金',value:'等额本金'}],
+        //商业贷款-商贷利率
+        shangdaiValueArray:[{label:'基准利率',value:"1"},{label:'7折',value:"0.7"},{label:'75折',value:"0.75"},
+        {label:'8折',value:"0.8"},{label:'85折',value:"0.85"},{label:'88折',value:"0.88"},{label:'9折',value:"0.9"},
+        {label:'95折',value:"0.95"},{label:'1.1倍',value:"1.1"},{label:'1.2倍',value:"1.2"},{label:'1.3倍',value:"1.3"}],
         sex2ValueArray:[{label:'20年',value:0},{label:'20年',value:1},{label:'25年',value:2},{label:'30年',value:3}],
-        // 商业贷款——按房屋总价——利率方式
         source2ValueArray:[{label:'按旧版基准利率',value:0},{label:'按LPR',value:1}],
-        // 商业贷款——按房屋总价——商贷利率
-        shangdai2ValueArray:[{label:'4.65%（LPR+0基点）',value:0},{label:'5.2%（LPR+55基点）',value:1},{label:'5.7%（LPR+105基点）',value:2}],
-        
-        // 组合贷款——按贷款总额——公积金年限
-        fundyearsValueArray:[{label:'25年',value:0},{label:'26年',value:1},{label:'27年',value:2},{label:'28年',value:3},{label:'29年',value:4}],
-        // 组合贷款——按贷款总额——公积金利率
-        fundValueArray:[{label:'最新基准利率（3.25%）',value:0},{label:'最新基准利率上浮10%（3.575%）',value:1}],
-        // 商业贷款——按贷款总额——贷款年限
+        shangdai2ValueArray:[{label:'4.65%（LPR+0基点）',value:0},{label:'5.2%（LPR+55基点）',value:1},
+        {label:'5.7%（LPR+105基点）',value:2}],
+        fundyearsValueArray:[{label:'25年',value:0},{label:'26年',value:1},{label:'27年',value:2},
+        {label:'28年',value:3},{label:'29年',value:4}],
+        fundValueArray:[{label:'基准利率',value:"1"},{label:'7折',value:"0.7"},{label:'75折',value:"0.75"}
+        ,{label:'8折',value:"0.8"},{label:'85折',value:"0.85"},{label:'88折',value:"0.88"},{label:'9折',value:"0.9"}
+        ,{label:'95折',value:"0.95"},{label:'1.1倍',value:"1.1"},{label:'1.2倍',value:"1.2"},{label:'1.3倍',value:"1.3"}],
         sex3ValueArray:[{label:'20年',value:0},{label:'20年',value:1},{label:'25年',value:2},{label:'30年',value:3}],
-        // 商业贷款——按贷款总额——利率方式
         rateswayValueArray:[{label:'按旧版基准利率',value:0},{label:'按LPR',value:1}],
-        // 商业贷款——按贷款总额——商贷利率
-        shangdai3ValueArray:[{label:'4.65%（LPR+0基点）',value:0},{label:'5.2%（LPR+55基点）',value:1},{label:'5.7%（LPR+105基点）',value:2}],
-
-
-        // 组合贷款——按房屋总价——公积金年限
-        fundyears2ValueArray:[{label:'25年',value:0},{label:'26年',value:0},{label:'27年',value:0},{label:'28年',value:0},{label:'29年',value:0}],
-        // 组合贷款——按房屋总价——公积金利率
+        shangdai3ValueArray:[{label:'4.65%（LPR+0基点）',value:0},{label:'5.2%（LPR+55基点）',value:1},
+        {label:'5.7%（LPR+105基点）',value:2}],
+        fundyears2ValueArray:[{label:'25年',value:0},{label:'26年',value:0},{label:'27年',value:0},
+        {label:'28年',value:0},{label:'29年',value:0}],
         fund2ValueArray:[{label:'最新基准利率（3.25%）',value:0},{label:'最新基准利率上浮10%（3.575%）',value:0}],
-        // 商业贷款——按房屋总价——贷款年限
         sex4ValueArray:[{label:'20年',value:0},{label:'20年',value:0},{label:'25年',value:0},{label:'30年',value:1}],
-        // 商业贷款——按房屋总价——利率方式
         ratesway4ValueArray:[{label:'按旧版基准利率',value:0},{label:'按LPR',value:0}],
-        // 商业贷款——按房屋总价——商贷利率
-        shangdai4ValueArray:[{label:'4.65%（LPR+0基点）',value:0},{label:'5.2%（LPR+55基点）',value:0},{label:'5.7%（LPR+105基点）',value:0}],
-
-
-        // 公积金贷款——按贷款总额——公积金年限
-        fundyears3ValueArray:[{label:'25年',value:0},{label:'26年',value:0},{label:'27年',value:0},{label:'28年',value:0},{label:'29年',value:0}],
-        // 公积金贷款——按贷款总额——公积金利率
+        shangdai4ValueArray:[{label:'4.65%（LPR+0基点）',value:0},{label:'5.2%（LPR+55基点）',value:0},
+        {label:'5.7%（LPR+105基点）',value:0}],
+        fundyears3ValueArray:[{label:'25年',value:0},{label:'26年',value:0},{label:'27年',value:0},
+        {label:'28年',value:0},{label:'29年',value:0}],
         fund3ValueArray:[{label:'最新基准利率（3.25%）',value:0},{label:'最新基准利率上浮10%（3.575%）',value:0}],
-
-        // 公积金贷款——按房屋总价——公积金年限
-        fundyears4ValueArray:[{label:'25年',value:0},{label:'26年',value:0},{label:'27年',value:0},{label:'28年',value:0},{label:'29年',value:0}],
-        // 公积金贷款——按房屋总价——公积金利率
+        fundyears4ValueArray:[{label:'25年',value:0},{label:'26年',value:0},{label:'27年',value:0},
+        {label:'28年',value:0},{label:'29年',value:0}],
         fund4ValueArray:[{label:'最新基准利率（3.25%）',value:0},{label:'最新基准利率上浮10%（3.575%）',value:0}],
-
-
-        
+        //首付比例
+        downValueArray:[{label:'20%',value:'20%'},{label:'25%',value:'25%'},{label:'30%',value:'30%'},
+        {label:'35%',value:'35%'},{label:'40%',value:'40%'},{label:'45%',value:'45%'},{label:'50%',value:'50%'},
+        {label:'55%',value:'55%'},{label:'60%',value:'60%'},{label:'65%',value:'65%'},{label:'70%',value:'70%'},
+        {label:'75%',value:'75%'}],
         zgc_xianshi:false,
-        lslpr_xianshi:false
-
- 
-
- 
-      }
+        lslpr_xianshi:false,
+        yearText:"",//商贷年限
+        rateText:"",  //商贷利率
+        housePrice:"",//商贷-房屋总价
+        downText:"", //首付比例
+        repaymentText:"",
+        Monthly:"",
+        payInterest:"",
+        repayment:"",
+        textTitle:"",
+        moneyText:"",
+        fundVal:"",  //组合贷款-公积金贷款
+        busVal:"",  //组合贷款爬-商业贷款
+        accText:"",  //组合贷款-公基金利率
+        hide:false
+       }
+    },
+    onShow(){
+      const that = this;
+      var val=that.shangdaiValueArray[0].value;
+      var value = that.fundValueArray[0].value;
+      that.yearText=that.sexValueArray[0].value;
+      that.rateText = (val * llsd).toFixed(3)+"%";
+      that.repaymentText=that.sourceValueArray[0].value;
+      that.downText=that.downValueArray[0].value;
+      that.accText=(value * llgjj).toFixed(3)+"%";
     },
     methods: {
       changTab(index) {
-        this.tab = index;
+        const that = this;
+        that.antab=1;
+        that.antaba=1;
+        that.antabb=1;
+        that.tab = index;
+        that.hide=false;
       },
       anniu(index) {
         this.antab = index;
@@ -839,11 +454,28 @@ import fund4Picker from "@/../static/components/mpvue-picker/mpvuePicker.vue";//
       anniub(index) {
         this.antabb = index;
       },
-
+      //获取商贷金额
+      monInp:function(e){
+        const that = this;
+        console.log('eeeee',e.mp.detail.value);
+        that.monVal=e.mp.detail.value;
+      },
+      //商业贷款-房屋总价
+      houseVal:function(e){
+        const that = this;
+        that.housePrice=e.mp.detail.value;
+        that.setloanMoney(that.housePrice);
+      },
       // 商业贷款——按贷款总额——商贷年限
       showPicker() {
       this.$refs.mpvuePicker.show();
       },
+    //选择商贷年限
+    onyearCancel(e){
+      const that = this;
+      console.log('商贷年限',e.value);
+       that.yearText=e.value;
+    },
       // 商业贷款——按贷款总额——利率方式
       lilvPicker() {
       this.$refs.mpvue20Picker.show();
@@ -852,8 +484,28 @@ import fund4Picker from "@/../static/components/mpvue-picker/mpvuePicker.vue";//
       businessPicker(){
       this.$refs.businessPickersd.show()
       },
-
+      //选择商贷利率
+      onrateConfirm(e){
+        const that = this;
+        var val = e.value;
+        that.rateText = (val * llsd).toFixed(3)+"%";
+      },
+      //选择还款方式
+      onrepaymentConfirm(e){
+        const that = this;
+        that.repaymentText=e.value;
+      },
+      //首付比例
+      downPicker(){
+         this.$refs.mpvuedownPicker.show()
+      },
+      //商贷-首付比例选择
+      ondownCancel(e){
+        const that = this;
+        that.downText=e.value;
+      },
       // 商业贷款——按房屋总价——商贷年限
+
       show2Picker() {
       this.$refs.mpvue2Picker.show();
       },
@@ -865,7 +517,22 @@ import fund4Picker from "@/../static/components/mpvue-picker/mpvuePicker.vue";//
       business2Picker(){
       this.$refs.business2Pickersd.show()
       },
-
+      //组合贷款-公积金贷款
+      fundInp:function(e){
+        const that = this;
+        that.fundVal=e.value;
+      },
+      //选择公积金利率
+      onaccConfirm(e){
+        const that = this;
+        var val = e.value;
+        that.accText = (val * llgjj).toFixed(3)+"%";
+      },
+      //组合贷款-商业贷款
+      busInp:function(e) {
+        const that = this;
+        that.busVal=e.value;
+      },
       // 组合贷款——按贷款总额——公积金年限
       fundyearsPicker(){
       this.$refs.fundyearsnxPicker.show()
@@ -968,9 +635,150 @@ import fund4Picker from "@/../static/components/mpvue-picker/mpvuePicker.vue";//
       this.show = true;
       
     },
-  
+  //按照贷款金额计算
+  loanFirst:function(){
+    const that = this;
+    const I = this;
+    that.hide=true;
+    var money1 = I.monVal == "" ? 0 : parseFloat(I.monVal) * 10000;
+    var month1 = parseInt(I.yearText);
+    var apr1="";
+    if(I.tab==1){
+     apr1=parseFloat(I.rateText) / 100;
+    }else if(I.tab==3){
+     
+      apr1=parseFloat(I.accText) / 100;
+       console.log('公积金贷款',apr1);
+    }
+    
+    if (I.repaymentText == '等额本息') {
+        I.PrintType1(money1, 0, month1, apr1, 0);
+    } else if (I.repaymentText == '等额本金') {
+        I.PrintType2(money1, 0, month1, apr1, 0);
+    }
+  },
+PrintType1(money1, money2, month1, apr1, apr2) { //等额本息
+const that = this;
+    var I = this;
+    var mapr1 = apr1 / 12; //商业月利率
+    var mapr2 = apr2 / 12; //公积金月利率
+    var fm1 = 1;
+    for (var i = 1; i < month1; i++) {
+        fm1 += Math.pow(1 + mapr1, i);
+    }
+    var fm2 = 1;
+    for (var i = 1; i < month1; i++) {
+        fm2 += Math.pow(1 + mapr2, i);
+    }
+    var perMonth1 = parseFloat((money1 * Math.pow(1 + mapr1, month1) / fm1).toFixed(2)); //商业每月还款额,保留两位小数
+    var perMonth2 = parseFloat((money2 * Math.pow(1 + mapr2, month1) / fm2).toFixed(2)); //公积金每月还款额,保留两位小数
 
+    var leftMoney1 = money1;
+    var leftMoney2 = money2;
+    var tempMoney1 = money1;
+    var tempMoney2 = money2;
+    var month = month1;
+    var totalLX1 = 0;
+    var totalLXT = 0;
+    for (var i = 1; i <= month; i++) {
+        var lx1 = (tempMoney1 * mapr1).toFixed(2);
+        tempMoney1 = (tempMoney1 * (1 + mapr1) - perMonth1).toFixed(2);
 
+        var lx2 = (tempMoney2 * mapr2).toFixed(2);
+        tempMoney2 = (tempMoney2 * (1 + mapr2) - perMonth2).toFixed(2);
+
+        if (i <= month1) {
+            totalLXT += parseFloat(lx1 + lx2);
+        }
+
+    }
+    var totalAmount = money1 + money2 + totalLXT;
+    for (var i = 1; i <= month; i++) {
+        var lx1 = parseFloat((leftMoney1 * mapr1).toFixed(2));
+        leftMoney1 = (leftMoney1 * (1 + mapr1) - perMonth1).toFixed(2);
+
+        var lx2 = parseFloat((leftMoney2 * mapr2).toFixed(2));
+        leftMoney2 = (leftMoney2 * (1 + mapr2) - perMonth2).toFixed(2);
+        if (i <= month1) {
+            totalLX1 += parseFloat(lx1 + lx2);
+        }
+        totalAmount -= (perMonth1 + perMonth2);
+        // var detail = new Detail(i, perMonth1.toFixed(0) + perMonth2.toFixed(0), (perMonth1 - lx1).toFixed(0) + (perMonth2 - lx2).toFixed(0), lx1.toFixed(0) + lx2.toFixed(0), (totalAmount).toFixed(0));
+        // I.arrayObj.push(detail);
+    }
+    that.moneyText="每月还款额固定";
+    that.textTitle="每月月供";
+    that.monVal=(money1 + money2) / 10000;
+    that.payInterest=(totalLX1.toFixed(0) / 10000).toFixed(2);
+    that.repayment=((money1 + money2 + totalLX1).toFixed(0) / 10000).toFixed(2);
+    that.Monthly=parseFloat(perMonth1 + perMonth2).toFixed(2);
+},
+PrintType2(money1, money2, month1, apr1, apr2) { //等额本金
+    const that = this;
+    var I = this;
+    var mapr1 = apr1 / 12; //商业月利率
+    var mapr2 = apr2 / 12; //公积金月利率
+    //每月还本金
+    var bj1 = money1 / month1;
+    var bj2 = money2 / month1;
+
+    var leftMoney1 = money1;
+    var leftMoney2 = money2;
+    var tempMoney1 = money1;
+    var tempMoney2 = money2;
+
+    var month = month1;
+    var totalLX1 = 0;
+    var totalLXT = 0;
+    var firstPerMoney = 0;
+
+    for (var i = 1; i <= month; i++) {
+        var lx1 = parseFloat((tempMoney1 * mapr1).toFixed(2));
+        var perMoney1 = parseFloat((parseFloat(bj1) + parseFloat(lx1)).toFixed(2)); //本期还款
+        tempMoney1 = (tempMoney1 * (1 + mapr1) - perMoney1).toFixed(2);
+
+        var lx2 = parseFloat((tempMoney2 * mapr2).toFixed(2));
+        var perMoney2 = parseFloat((parseFloat(bj2) + parseFloat(lx2)).toFixed(2)); //本期还款
+        tempMoney2 = (tempMoney2 * (1 + mapr2) - perMoney2).toFixed(2);
+
+        if (i <= month1) {
+            totalLXT += parseFloat(lx1 + lx2);
+        }
+    }
+    var totalAmount = money1 + money2 + totalLXT;
+    for (var i = 1; i <= month; i++) {
+        var lx1 = parseFloat((leftMoney1 * mapr1).toFixed(2));
+        var perMoney1 = parseFloat((parseFloat(bj1) + parseFloat(lx1)).toFixed(2)); //本期还款
+        leftMoney1 = (leftMoney1 * (1 + mapr1) - perMoney1).toFixed(2);
+
+        var lx2 = parseFloat((leftMoney2 * mapr2).toFixed(2));
+        var perMoney2 = parseFloat((parseFloat(bj2) + parseFloat(lx2)).toFixed(2)); //本期还款
+        leftMoney2 = (leftMoney2 * (1 + mapr2) - perMoney2).toFixed(2);
+
+        if (i == 1) {
+            firstPerMoney = perMoney1 + perMoney2;
+        }
+        if (i <= month1) {
+            totalLX1 += parseFloat(lx1 + lx2);
+        }
+        totalAmount -= (perMoney1 + perMoney2);
+        // var detail = new Detail(i, perMoney1.toFixed(0) + perMoney2.toFixed(0), (perMoney1 - lx1).toFixed(0) + (perMoney2 - lx2).toFixed(0), lx1.toFixed(0) + lx2.toFixed(0), (totalAmount).toFixed(0));
+        // I.arrayObj.push(detail);
+    }
+    that.moneyText="每月递减" + lx1 + "元";
+    that.textTitle="首月月供";
+    that.monVal=(money1 + money2) / 10000;
+    that.payInterest=(totalLX1.toFixed(0) / 10000).toFixed(2);
+    that.repayment=((money1 + money2 + totalLX1).toFixed(0) / 10000).toFixed(2);
+    that.Monthly=firstPerMoney;
+},
+//计算贷款总额
+setloanMoney(obj) {
+  const that = this;
+    var money = obj;
+    var ratio = parseInt(that.downText) / 100;
+    that.monVal=money * ratio;
+}
       
       
 
@@ -1067,8 +875,12 @@ import fund4Picker from "@/../static/components/mpvue-picker/mpvuePicker.vue";//
 
 /* 公积金贷款 */
 .gongjijinloan .jisuan{ display: flex; flex-direction: row; margin-top:5%; padding-bottom:5%; border-bottom:2rpx solid #e7e7e7; width: 94%; margin-left: 3%; margin-right: 3%; }
-
-
-
-
+.result{width: 94%;margin: 30rpx auto 50rpx auto;}
+.result_top{overflow: hidden;font-size: 30rpx;border-bottom: 2rpx solid #e7e7e7;padding-bottom: 30rpx;}
+.result_top_left{float: left;}
+.result_top_right{float: right;}
+.result_bot{margin-top: 60rpx;display: flex;justify-content: center;font-size: 30rpx;}
+.result_bot>div{width: 30%;text-align: center;}
+.red{color: #da0011;font-weight: bold;}
 </style>
+s

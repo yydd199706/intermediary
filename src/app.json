@@ -47,7 +47,6 @@
     "pages/chatNew/main",
     "pages/chatRental/main",
     "pages/url/main"
-    
   ],
   "window": {
     "backgroundTextStyle": "light",
