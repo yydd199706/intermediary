@@ -442,6 +442,7 @@ export default {
     const that = this;
     that.movies="";
     that.newInfo="",
+    that.location=null;
     that.domain=app.globalData.domain;
     that.houserid=option.id;
     that.imgArr=[];

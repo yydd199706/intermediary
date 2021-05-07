@@ -170,12 +170,12 @@
     <div class="jingjiren" v-if="agent.length > 0 ? true : false">
       <div class="hx_bt">
         <p>推荐经纪人</p>
-        <span @click="agentlists">查看更多</span>
+        <span @click="agentlists(index,$event)">查看更多</span>
       </div>
       <div class="guwen">
           <div class="guwen_list" v-for="(item, index) in agent" :key="index" >
             <div class="left_g" @click="agentlistJump(index,$event)" :data-id="item.id">
-              <image v-if="domain" :src="domain+item.headpic" class="slide-image" mode="scaleToFill"/>
+              <image v-if="domain" :src="domain+item.headpic"  class="slide-image" mode="scaleToFill"/>
               <div class="neirong">
                 <div>
                   <h1>{{item.realname}}</h1>
@@ -188,7 +188,7 @@
             <div class="right_g">
               <!-- <p class="wxl"><image :src="img9" class="slide-image" mode="scaleToFill" :data-wxid="item.wxid==''?item.mobile:item.wxid"
                   @click="wxhcopy(index,$event)" /></p> -->
-              <p class="wxl"><image :src="img9" class="slide-image" mode="scaleToFill" @click="chatClick(index,$event)" /></p>
+              <p class="wxl"><image :src="img9" class="slide-image" mode="scaleToFill" :data-hxid="item.hxid" :data-src="domain+item.headpic" @click="chatClick(index,$event)" /></p>
               <p class="dhr"><image :src="img10s" class="slide-image" mode="scaleToFill" :data-telphone="item.mobile" @click="telphoneClick(index,$event)" /></p>
             </div>
           </div>
@@ -462,8 +462,8 @@ export default {
       location:null,
       houseInfo:null,
       id:"",
-      company:"",
-      store:"",
+      // company:"",
+      // store:"", 
       hxid:"",
       yuyue_yc:false,
       domain:null,
@@ -599,30 +599,8 @@ export default {
     that.movies="";
     that.projectname = "";
     that.newInfo="",
-    // that.Decorationname = "";
-    // that.looktime = "";
-    // that.title = "";
-    // that.price = "";
-    // that.apirlroom = "";
-    // that.apirloffice = "";
-    // that.apirltoilet = "";
-    // that.area = "";
-    // that.buildyear = "";
-    // that.averageprice = "";
-    // that.floor = "";
-    // that.floorcount = "";
-    // that.looktime = "";
-    // that.companyname = "";
-    // that.Towardname = "";
-    // that.Propertyname = "";  
-    // that.Zonename = "";
-    // that.Decorationname = "";
-    // that.Rightnaturename = "";
-    // that.address = "";
-    // that.Supportingname = "";
     that.location=null;
    
-    // console.log('电话',app.globalData.member.mobile);
     common.initApp(function (userInfo) { 
     
     that.name="";
@@ -658,42 +636,20 @@ export default {
           that.isshowvr = res.data.Context.houseInfo.isshowvr;
           //房源基本信息详情
           that.houseInfo = res.data.Context.houseInfo;
-           that.projectname = res.data.Context.houseInfo.projectname;  //小区名称
-
-          // that.title = res.data.Context.houseInfo.title;
-          // that.price = res.data.Context.houseInfo.price;
-          // that.averageprice = res.data.Context.houseInfo.averageprice;
-          // that.area = res.data.Context.houseInfo.area;
-          // that.projectname = res.data.Context.houseInfo.projectname;
-          // that.buildyear = res.data.Context.houseInfo.buildyear;
-          // that.apirlroom = res.data.Context.houseInfo.apirlroom;
-          // that.apirloffice = res.data.Context.houseInfo.apirloffice;
-          // that.apirltoilet = res.data.Context.houseInfo.apirltoilet;
-          // that.floor = res.data.Context.houseInfo.floor;
-          // that.floorcount = res.data.Context.houseInfo.floorcount;
-          // that.address = res.data.Context.houseInfo.address;
-          // that.looktime = res.data.Context.houseInfo.looktime;
-          // that.Propertyname = res.data.Context.houseInfo.Propertyname;
-          // that.Zonename = res.data.Context.houseInfo.Zonename;
-          // that.Decorationname = res.data.Context.houseInfo.Decorationname;
-          // that.Towardname = res.data.Context.houseInfo.Towardname;
-          // that.Rightnaturename = res.data.Context.houseInfo.Rightnaturename;
-          // that.Supportingname = res.data.Context.houseInfo.Supportingname;
-          // that.companyname=res.data.Context.houseInfo.companyname;
-          // that.Specialname = res.data.Context.houseInfo.Specialname;
+          that.projectname = res.data.Context.houseInfo.projectname;  //小区名称
           
           that.numVal=res.data.Context.houseInfo.id;
           console.log("id",that.numVal)
           that.projectInfo={
             id:option.id,
-            title:that.title,
+            title:that.houseInfo.title,
             Imgurl:res.data.Context.houseInfo.Imgurl,
-            apirlroom:that.apirlroom,
-            apirloffice:that.apirloffice,
-            apirltoilet:that.apirltoilet,
-            area:that.area,
-            Towardname:that.Towardname,
-            price:that.price,
+            apirlroom:that.houseInfo.apirlroom,
+            apirloffice:that.houseInfo.apirloffice,
+            apirltoilet:that.houseInfo.apirltoilet,
+            area:that.houseInfo.area,
+            Towardname:that.houseInfo.Towardname,
+            price:that.houseInfo.price,
           };
           wx.setStorageSync("projectInfo",that.projectInfo);
           
@@ -738,13 +694,13 @@ export default {
           that.costintro = res.data.Context.houseInfo.costintro;
           that.transport = res.data.Context.houseInfo.transport;
           //推荐经纪人
-          that.agent = res.data.Context.agentList;
-          for(var i =0;i<that.agent.length;i++){
-            that.company = that.agent[i].company;
-            that.store = that.agent[i].store;
-            that.hxid = that.agent[i].hxid;
-          }
-          console.log("经纪人即时通讯id",that.hxid)
+          that.agent = res.data.Context.agentList; 
+          // for(var i =0;i<that.agent.length;i++){
+          //   that.company = that.agent[i].company;
+          //   that.store = that.agent[i].store;
+          //   that.hxid = that.agent[i].hxid;
+          // }
+          // console.log("that.agent",that.agent)
           //猜你喜欢
           that.likes = res.data.Context.guessLike;
           //小区项目信息
@@ -953,10 +909,10 @@ onShareAppMessage: function(res) {
     //点击跳转经纪人列表
     agentlists:function (){
       const that = this;
-      wx.navigateTo({ url: "/pages/agentList/main?company=" + that.company + "&store=" + that.store});
+      wx.navigateTo({ url: "/pages/agentList/main?company=" + that.houseInfo.company + "&store=" + that.houseInfo.store});
     },
     //点击跳转经纪人名片
-    agentlistJump:function(index,e){
+    agentlistJump:function(index,e){ 
       wx.navigateTo({ url: "/pages/agentDetails/main?agentid=" + e.mp.currentTarget.dataset.id});
     },
     //拨打经纪人电话
@@ -995,6 +951,8 @@ clickService:function(){
 //点击在线咨询进入聊天
   chatClick:function(index,e){
     const that = this;
+    console.log("idddd",e.mp.target.dataset.hxid)
+    console.log("wwwwww",e.mp.target.dataset.src)
     wx.request({
         url:app.globalData.url +"WxLogin/CheckLogin" +"?sessionKey=" +app.globalData.sessionKey,
         success: function (data) {
@@ -1002,7 +960,7 @@ clickService:function(){
           if(data.data==true){
             that.telHid=false;
             that.maskHid=false;
-            wx.navigateTo({ url: "/pages/chatOld/main?hxid=" + that.hxid + "&headpic=" + that.headpic + "&projectInfo=" + that.projectInfo});
+            wx.navigateTo({ url: "/pages/chatOld/main?hxid=" + e.mp.target.dataset.hxid + "&headpic=" + e.mp.target.dataset.src + "&projectInfo=" + that.projectInfo});
           }else{
             that.telHid=true;
             that.maskHid=true;

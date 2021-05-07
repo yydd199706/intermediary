@@ -1,7 +1,7 @@
 <template>
   <div class="indexstyle">
     <div class="chat">
-      <div class="padding20" :style="{height:clientHeight+'px'}">
+      <div class="padding20">
         <!-- 当前页面卡片开始 -->
         <div class="card_list" v-if="showCard">
           <!-- 时间 -->
@@ -135,7 +135,7 @@ export default {
       //建立连接
       wx.connectSocket({
         url:
-          "ws://3903e60h76.qicp.vip/Message.ashx?code=Iamfromchina&user=" +
+          "wss://wss.e-fangtong.com/Message.ashx?code=Iamfromchina&user=" +
           data.user
       });
 
@@ -144,6 +144,7 @@ export default {
         that.socketOpen = true;
         that.time = that.formatDate(new Date());
         that.headpic = app.globalData.member.headpic;
+        
         that.msg = JSON.stringify({
           user: that.hxid,
           msg: that.projectInfo
@@ -204,6 +205,7 @@ export default {
           user: that.hxid,
           msg: info
         });
+        console.log("that.hxid",that.hxid)
 
         wx.sendSocketMessage({
           data: that.msg

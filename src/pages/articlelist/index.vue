@@ -101,11 +101,21 @@ export default {
     const that = this;
     console.log('222',option);
     that.domain=app.globalData.domain;
-let pages = getCurrentPages();
-    var path = pages[0];
-console.log('上个页面地址',path); //上一个页面路由地址
+//     let pages = getCurrentPages();
+//     var path = pages[0];
+
 //     let path = prevpage.route;
 //     console.log(path, 'path')
+//     let pages = getCurrentPages();
+//     var path = pages[0].__displayReporter.showReferpagepath;
+//     console.log('上个页面地址',pages[0].__displayReporter.showReferpagepath); //上一个页面路由地址
+       const pages=getCurrentPages()
+        //取到上一个页面
+        const prevPage=pages[pages.length-2]
+        prevPage.onPullDownRefresh()
+
+
+
     that.tab = option.tab;
     wx.request({
         url: app.globalData.url +"News/BandNewsList" +"?sessionKey=" +app.globalData.sessionKey,
