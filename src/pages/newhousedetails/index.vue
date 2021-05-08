@@ -368,7 +368,7 @@ export default {
       }
       ],
       current: 0,
-      location:null,
+      location:{},
       domain:null,
       projectInfo:null,
       vrurl:"",
@@ -439,10 +439,11 @@ export default {
     }
   },
   onLoad(option) {
+  common.initApp(function (userInfo) { 
     const that = this;
     that.movies="";
     that.newInfo="",
-    that.location=null;
+    that.location={};
     that.domain=app.globalData.domain;
     that.houserid=option.id;
     that.imgArr=[];
@@ -536,36 +537,43 @@ export default {
           that.guwenlists = res.data.Context.managerList;
 
 
+          if(that.newInfo.longitude!=""&&that.newInfo.latitude!=""){
+            that.location.lng=that.newInfo.longitude;
+            that.location.lat=that.newInfo.latitude;
 
-          // 地图
-          qqMap.geocoder({
-            address:that.newInfo.address,   //用户输入的地址（注：地址中请包含城市名称，否则会影响解析效果），如：'北京市海淀区彩和坊路海淀西大街74号'
-            complete: data => {
-              console.log("地图",data)
-              if(data.status==0){
-                that.location=data.result.location;
-                that.markers=[{
-                  id: 1,
-                  latitude: that.location.lat,
-                  longitude: that.location.lng,
-                  name: that.newInfo.name,
-                  width: 30,
-                  height: 30,
-                  iconPath:app.globalData.imgurl +"map.png",
-                  callout: {
-                    content: that.newInfo.name,
-                    color: '#333',
-                    fontSize: 12,
-                    borderRadius: 5,
-                    display: 'ALWAYS',
-                    padding:8
-                  }
-                }]
-              }else {
-                that.markers[0].callout.display="display:'none'";
+          }else{
+            // 地图
+            qqMap.geocoder({
+              address:that.newInfo.address,   //用户输入的地址（注：地址中请包含城市名称，否则会影响解析效果），如：'北京市海淀区彩和坊路海淀西大街74号'
+              complete: data => {
+                if(data.status==0){
+                  that.location=data.result.location;
+                }else {
+                  that.markers[0].callout.display="display:'none'";
+                }
               }
+            })
+
+          }
+
+          that.markers=[{
+            id: 1,
+            latitude: that.location.lat,
+            longitude: that.location.lng,
+            name: that.newInfo.name,
+            width: 30,
+            height: 30,
+            iconPath:app.globalData.imgurl +"map.png",
+            callout: {
+              content: that.newInfo.name,
+              color: '#333',
+              fontSize: 12,
+              borderRadius: 5,
+              display: 'ALWAYS',
+              padding:8
             }
-          })
+          }]
+          
 
            
            
@@ -582,6 +590,7 @@ export default {
           }
         }
       });
+  })
 
       
          

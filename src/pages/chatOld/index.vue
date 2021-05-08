@@ -1,59 +1,63 @@
 <template>
   <div class="indexstyle">
     <div class="chat">
-      <div class="padding20">
-        <!-- 当前页面卡片开始 -->
-        <div class="card_list" v-if="showCard">
-          <!-- 时间 -->
-          <div class="timetop">
-            <div class="time_chat">{{time}}</div>
-          </div>
-          <!-- 我发出的卡片 -->
-          <div class="meIssue righttype">
-            <div class="meIssueCard_list" @click="likeDetail(index,$event)" :data-id="projectInfo.id">
-              <image :src="domain+projectInfo.Imgurl" />
-              <div class="title_c">{{projectInfo.title}}</div>
-              <div class="labels">
-                <span>{{projectInfo.apirlroom}}室{{projectInfo.apirloffice}}厅{{projectInfo.apirltoilet}}</span>/
-                <span>{{projectInfo.area}}m²</span>/
-                <span>{{projectInfo.Towardname}}</span>
+      <scroll-view scroll-y="true" class='padding20' id="x_chat"  :style="{height:clientHeight+'px'}"> 
+        <block>  
+            <!-- 当前页面卡片开始 -->
+            <div class="card_list" v-if="showCard">
+              <!-- 时间 -->
+              <div class="timetop">
+                <div class="time_chat">{{time}}</div>
               </div>
-              <div class="price">{{projectInfo.price}}万</div>
+              <!-- 我发出的卡片 -->
+              <div class="meIssue righttype">
+                <div class="meIssueCard_list" @click="likeDetail(index,$event)" :data-id="projectInfo.id">
+                  <image :src="domain+projectInfo.Imgurl" />
+                  <div class="title_c">{{projectInfo.title}}</div>
+                  <div class="labels">
+                    <span>{{projectInfo.apirlroom}}室{{projectInfo.apirloffice}}厅{{projectInfo.apirltoilet}}</span>/
+                    <span>{{projectInfo.area}}m²</span>/
+                    <span>{{projectInfo.Towardname}}</span>
+                  </div>
+                  <div class="price">{{projectInfo.price}}万</div>
+                </div>
+                <image :src="domain+headpic" class="me_img" />
+              </div>          
             </div>
-            <image :src="domain+headpic" class="me_img" />
-          </div>          
-        </div>
-        <!-- 当前页面卡片结束 -->
+            <!-- 当前页面卡片结束 -->
 
-        <div v-for="(item, index) in socketMsgQueue" :key="index">
-          <!-- 时间 -->
-          <div class="timetop" v-if="item.showtime">
-            <div class="time_chat">{{item.time}}</div>
-          </div>
-
-          <!-- 内容开始 -->
-          <div class="content_chat">
-            <!-- 对方发出的内容 -->
-            <div class="meIssue lelftype" v-if="item.type=='friend'?true:false">
-              <image :src="item.headpic" class="me_img" />
-              <div class="chat_list">
-                <div class="me_text">{{item.msg}}</div>
-                <div class="clear"></div>
+            <div v-for="(item, index) in socketMsgQueue" :key="index">
+              <!-- 时间 -->
+              <div class="timetop" v-if="item.showtime">
+                <div class="time_chat">{{item.time}}</div>
               </div>
-            </div>
 
-            <!-- 我发出的内容 -->
-            <div class="meIssue righttype" v-if="item.type=='self'?true:false">
-              <div class="chat_list">
-                <div class="me_text">{{item.msg}}</div>
-                <div class="clear"></div>
+              <!-- 内容开始 -->
+              <div class="content_chat">
+                <!-- 对方发出的内容 -->
+                <div class="meIssue lelftype" v-if="item.type=='friend'?true:false">
+                  <image :src="item.headpic" class="me_img" />
+                  <div class="chat_list">
+                    <div class="me_text">{{item.msg}}</div>
+                    <div class="clear"></div>
+                  </div>
+                </div>
+
+                <!-- 我发出的内容 -->
+                <div class="meIssue righttype" v-if="item.type=='self'?true:false">
+                  <div class="chat_list">
+                    <div class="me_text">{{item.msg}}</div>
+                    <div class="clear"></div>
+                  </div>
+                  <image :src="item.headpic" class="me_img" />
+                </div>
               </div>
-              <image :src="item.headpic" class="me_img" />
+              <!-- 内容结束-->
             </div>
-          </div>
-          <!-- 内容结束-->
-        </div>
-      </div>
+            
+
+        </block>
+      </scroll-view> 
     </div>
 
     <div class="botom-in">
@@ -103,13 +107,45 @@ export default {
       }
     });
 
+    
+    console.log("socketMsgQueue", that.socketMsgQueue);
+  },
+  onShow(){
+    const that = this;
     common.initApp(function(userInfo) {
       that.connectSocket();
     });
-    console.log("socketMsgQueue", that.socketMsgQueue);
   },
 
+  onReady(){
+    const that = this;
+    that.pageScrollToBottom();
+  },
+
+
+
+  onUnload() {
+    console.log("dddd")
+    wx.closeSocket({
+      
+    })
+  },
+  
+
   methods: {
+  
+  // 滚动到页面底部
+  pageScrollToBottom: function() {
+    console.log("滚动")
+    let that = this;
+    wx.createSelectorQuery().select('#x_chat').boundingClientRect(function(rect) {
+      console.log(rect)
+      wx.pageScrollTo({
+        scrollTop: rect.height,
+        duration: 100
+      })
+    }).exec()
+  },
     // 获取输入内容
     sendinput: function(e) {
       const that = this;
@@ -138,7 +174,7 @@ export default {
           "wss://wss.e-fangtong.com/Message.ashx?code=Iamfromchina&user=" +
           data.user
       });
-
+console.log("自己",data.user)
       wx.onSocketOpen(function(res) {
         console.log("WebSocket连接已打开！");
         that.socketOpen = true;
@@ -163,9 +199,15 @@ export default {
       //接收的
       wx.onSocketMessage(function(res) {
         var info = JSON.parse(res.data);
-        info.type = "friend";
+        console.log("that.hxid",that.hxid)
+        console.log("info.aimid",info.aimid)
+        if(that.hxid==info.aimid){
+          info.type = "friend";
         that.socketMsgQueue.push(info);
         that.hxid = info.aimid;
+        }
+        
+        
       });
     },
 

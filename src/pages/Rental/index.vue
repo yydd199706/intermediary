@@ -25,7 +25,7 @@
              <image :src='[xianshi_jg==false?img3:img4]' mode="scaleToFill"/>
            </div> -->
            <div class="region_bt" @click="dianji_jg" :class="[rentArr.length>0||xianshi_jg==true?'career':'']">
-             {{rentArr.length>1?'多选':'价格'}}
+             {{rentArr.length>1?'多选':'租金'}}
              <image :src='[xianshi_jg==false?img3:img4]' mode="scaleToFill"/>
            </div>
 
@@ -234,8 +234,8 @@ export default {
       specialType:[],
       supportingType:[],
       towardType:[],
-      orderByType:[{Name:"默认排序"},{Name:"总价从低到高",id:"1|0"},{Name:"总价从高到低",id:"1|1"},
-      {Name:"单价从低到高",id:"2|0"},{Name:"单价从高到低",id:"2|1"},{Name:"面积从大到小",id:"3|1"},{Name:"面积从小到大",id:"3|0"}],
+      orderByType:[{Name:"默认排序"},
+      {Name:"租金从低到高",id:"4|0"},{Name:"租金从高到低",id:"4|1"},{Name:"面积从大到小",id:"3|1"},{Name:"面积从小到大",id:"3|0"}],
       isQu:false,
       isJg:false,
       isHx:false,
@@ -270,7 +270,7 @@ export default {
       allPage:null,
       indAction:null,
       qyName:"区域",
-      jgName:"价格",
+      jgName:"租金",
       hxName:"户型",
       gdName:"更多",
       pxName:"排序",
@@ -306,7 +306,7 @@ export default {
         success: function (res) {
           console.log("hux",res)
           that.regionType = res.data.Context.zone;
-          that.priceType = res.data.Context.price;
+          that.priceType = res.data.Context.rent;
           that.apirlroomType = res.data.Context.apirlroom;
           that.areaType = res.data.Context.area; 
           for(var i=0;i<that.regionType.length;i++){
@@ -356,7 +356,7 @@ export default {
     that.orderById="";
     that.pageNumber=1;
     that.qyName="区域";
-    that.jgName="价格";
+    that.jgName="租金";
     that.hxName="户型";
     that.gdName="更多";
     that.pxName="排序";
@@ -562,7 +562,7 @@ export default {
     jgClick:function(index,e){
       const that = this;
       var priceId=e.mp.currentTarget.dataset.id;
-      that.jgName="价格";
+      that.jgName="租金";
       that.isJg=true;
       for (var j = 0; j < that.priceType.length; j++) {
         if (that.priceType[j].Id == priceId) {
@@ -876,6 +876,7 @@ export default {
         'content-type': 'application/json' // 默认值
       },
       success (res) { 
+        console.log("that.orderById",that.orderById)
         console.log("租房",res.data.Context.esf[0].rent)
          if (res.data.Context.esf.length > 0) {
           for (var i = 0; i < res.data.Context.esf.length; i++) {

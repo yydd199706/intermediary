@@ -101,6 +101,7 @@ export default {
     const that = this;
     console.log('222',option);
     that.domain=app.globalData.domain;
+    that.tab=app.globalData.tab;
 //     let pages = getCurrentPages();
 //     var path = pages[0];
 
@@ -109,14 +110,14 @@ export default {
 //     let pages = getCurrentPages();
 //     var path = pages[0].__displayReporter.showReferpagepath;
 //     console.log('上个页面地址',pages[0].__displayReporter.showReferpagepath); //上一个页面路由地址
-       const pages=getCurrentPages()
-        //取到上一个页面
-        const prevPage=pages[pages.length-2]
-        prevPage.onPullDownRefresh()
+      //  const pages=getCurrentPages()
+      //   //取到上一个页面
+      //   const prevPage=pages[pages.length-2]
+      //   prevPage.onPullDownRefresh()
 
 
 
-    that.tab = option.tab;
+    // that.tab = option.tab;
     wx.request({
         url: app.globalData.url +"News/BandNewsList" +"?sessionKey=" +app.globalData.sessionKey,
         method:"POST",
@@ -155,21 +156,25 @@ export default {
   },
   onShow(){
     const that = this;  
-that.tab=1;
-    console.log('33',that.tab);
+// that.tab=1;
+//     console.log('33',that.tab);
     //解决微信小程序使用 switchTab 跳转页面时页面不更新问题
-  //   wx.switchTab({  
-  //     url: "/pages/articleList/main",  
-  //     success: function (e) {  
-  //       console.log("tiaozhuan",e)
-  //       var page = getCurrentPages().pop();  
-  //       if (page == undefined || page == null) return;  
-  //         page.onLoad();  
-  //     }  
-  //   })
+    wx.switchTab({  
+      url: "/pages/articleList/main",  
+      success: function (e) {  
+        console.log("tiaozhuan",e)
+        var page = getCurrentPages().pop();  
+        if (page == undefined || page == null) return;  
+          page.onLoad();  
+      }  
+    })
   },
 
 
+onHide() {
+  console.log("xxxx")
+  app.globalData.tab=1;
+},
 
 
 
