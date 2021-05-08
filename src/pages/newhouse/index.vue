@@ -31,10 +31,16 @@
              {{zoneArr.length>1?'多选':'区域'}}
              <image :src='[xianshi_qy==false?img3:img4]' mode="scaleToFill"/>
             </div>
-            <div class="region_bt" @click="dianji_jg" :class="[priceArr.length>0||xianshi_jg==true?'career':'']">
+            
+            <!-- <div class="region_bt" @click="dianji_jg" :class="[priceArr.length>0||xianshi_jg==true?'career':'']">
              {{priceArr.length>1?'多选':'价格'}}
              <image :src='[xianshi_jg==false?img3:img4]' mode="scaleToFill"/>
+           </div> -->
+           <div class="region_bt" @click="dianji_jg" :class="[xianshi_jg==true||priceId!=''?'career':'']">{{jgName}}
+             <image :src='[xianshi_jg==false?img3:img4]' mode="scaleToFill"/>
            </div>
+
+
            <div class="region_bt" @click="dianji_hx" :class="[apirlroomArr.length>0||xianshi_hx==true?'career':'']">
              {{apirlroomArr.length>1?'多选':'户型'}}
              <image :src='[xianshi_hx==false?img3:img4]' mode="scaleToFill"/>
@@ -73,15 +79,20 @@
         <!-- 价格开始 -->
         <div class="region_xl" v-if="xianshi_jg">
           <div class="huxing">
-            <p v-for="(item, index) in priceType" :key="index" :data-id="item.Id" :data-isJgtype="item.isJgtype"
-              @click="jgClick(index,$event)" :data-name="item.Name" :class="[item.isJgtype?'type':'none']">{{item.Name}}</p>
+            <!-- <p v-for="(item, index) in priceType" :key="index" :data-id="item.Id" :data-isJgtype="item.isJgtype"
+              @click="jgClick(index,$event)" :data-name="item.Name" :class="[item.isJgtype?'type':'none']">{{item.Name}}</p> -->
+            
+
+              <p v-for="(item, index) in priceType" :key="index" :data-id="item.Id"
+              @click="jgClick(index,$event)" :data-name="item.Name" :class="[jgtate==index?'type':'']">{{item.Name}}</p>
+
             <div class="clear"></div>
           </div>
           <div class="x_dibu" @click="jgReset">
             <div class="z_buxian">
               <div><image :src='img6' mode="scaleToFill"/></div>
               <div>重置</div>
-              </div> 
+            </div> 
             <div class="y_quding" @click="qySure">确定</div>
           </div>
         </div>
@@ -226,13 +237,16 @@ export default {
       img5:app.globalData.imgurl +"null_data.png",
       img6:app.globalData.imgurl +"clear.png",
       regionType:[],
-      priceType:[],
+       
       apirlroomType:[],
       specialType:[],
       propertytypeType:[],
+
       salestateType:[],
-      orderByType:[{Name:"默认排序"},{Name:"总价从低到高",id:"1|0"},{Name:"总价从高到低",id:"1|1"},
-      {Name:"单价从低到高",id:"2|0"},{Name:"单价从高到低",id:"2|1"},{Name:"面积从大到小",id:"3|1"},{Name:"面积从小到大",id:"3|0"}],
+      priceType:[],
+
+      orderByType:[{Name:"默认排序"},
+      {Name:"单价从低到高",id:"2|0"},{Name:"单价从高到低",id:"2|1"},],
       isQu:false,
       isJg:false,
       isHx:false,
@@ -248,9 +262,13 @@ export default {
       propertytypearrs: [],
       specialId:"",
       salestateId: [],
+      priceId: [],
       orderById:"",
+
       keyword:"",
       salestate:null,
+      jgtate:null,
+
       special:null,
       company:null,
       decoration:null,
@@ -297,7 +315,9 @@ export default {
           app.globalData.sessionKey,
         success: function (res) {
           that.regionType = res.data.Context.zone;
+          that.salestateType = res.data.Context.salestate;
           that.priceType = res.data.Context.price;
+
           that.apirlroomType = res.data.Context.apirlroom;
           // that.areaType = res.data.Context.area; 
           that.propertytypeType = res.data.Context.propertytype; 
@@ -314,7 +334,7 @@ export default {
             that.propertytypeType[i].isLxtype=false;
           } 
           that.specialType = res.data.Context.special;
-          that.salestateType = res.data.Context.salestate;
+          
         },
         fail: function (res) {},
       });
@@ -332,6 +352,8 @@ export default {
     that.newslist=[];
     that.specialId="";
     that.salestateId=[];
+    that.priceId=[];
+    that.jgtate = null;
     that.orderById="";
     that.pageNumber=1;
     that.qyName="区域";
@@ -389,11 +411,11 @@ export default {
       that.xianshi_jg=!that.xianshi_jg;
       if(that.xianshi_jg==true){
         that.maskHid=true;
-        if(that.priceArr.length==0){
-          for (var j = 0; j < that.priceType.length; j++) {
-            that.priceType[j].isJgtype=false;
-          }
-        }
+        // if(that.priceArr.length==0){
+        //   for (var j = 0; j < that.priceType.length; j++) {
+        //     that.priceType[j].isJgtype=false;
+        //   }
+        // }
       }else{
         that.maskHid=false;
       }
@@ -496,27 +518,44 @@ export default {
         }
     },
     //点击价格分类
+    // jgClick:function(index,e){
+    //   const that = this; 
+    //   var priceId=e.mp.currentTarget.dataset.id;
+    //   that.jgName="价格";
+    //   that.isJg=true;
+    //   console.log("that.pricearr",that.pricearr)
+    //   for (var j = 0; j < that.priceType.length; j++) {
+    //     if (that.priceType[j].Id == priceId) {
+    //         if(that.priceType[j].isJgtype==false){
+    //           that.priceType[j].isJgtype=true;
+    //           that.pricearr.push(priceId);
+    //         }
+    //         else if(that.priceType[j].isJgtype==true){
+    //           for(var i = 0;i<that.pricearr.length;i++){
+    //             if(that.priceType[j].Id==that.pricearr[i]){
+    //                that.priceType[j].isJgtype=false;
+    //               that.pricearr.splice(i,1);
+    //             }
+    //           }
+    //         }
+    //     }
+    //   }
+    // },
+    //价格分类
     jgClick:function(index,e){
-      const that = this; 
-      var priceId=e.mp.currentTarget.dataset.id;
-      that.jgName="价格";
-      that.isJg=true;
-      for (var j = 0; j < that.priceType.length; j++) {
-        if (that.priceType[j].Id == priceId) {
-            if(that.priceType[j].isJgtype==false){
-              that.priceType[j].isJgtype=true;
-              that.pricearr.push(priceId);
-            }else if(that.priceType[j].isJgtype==true){
-              for(var i = 0;i<that.pricearr.length;i++){
-                if(that.priceType[j].Id==that.pricearr[i]){
-                   that.priceType[j].isJgtype=false;
-                  that.pricearr.splice(i,1);
-                }
-              }
-            }
-          }
-        }
+      const that = this;
+      console.log("价格",e)
+      // that.isJg=true;
+      if(that.jgtate==index){
+        that.jgtate=null;
+        that.priceId="";
+      }else{
+        that.jgtate=index;
+        that.priceId=e.mp.currentTarget.dataset.id;
+      }
     },
+
+
     //点击户型分类
     hxClick:function(index,e){
       const that = this;
@@ -585,6 +624,12 @@ export default {
         that.salestateId=e.mp.currentTarget.dataset.id;
       }
     },
+
+    
+
+
+
+
     //点击更多-排序分类
     sortClick:function(index,e){
       const that = this;
@@ -599,6 +644,8 @@ export default {
         that.propertytypeArr= [];
         that.specialId="";
         that.salestateId=[];
+        that.priceId=[];
+
         that.orderById="";
         that.pageNumber=1;
         that.pageRecord=6;
@@ -622,10 +669,11 @@ export default {
       that.maskHid=false;
       that.zoneArr=that.zonearr;
       that.apirlroomArr=that.apirlroomarr;
-      that.priceArr=that.pricearr;
+      that.indAction=index;
+      // that.priceArr=that.pricearr;
       that.propertytypeArr=that.propertytypearrs;
       that.pageNumber=1;
-      that.newslist=[];
+      that.newslist=[]; 
       that.typeFun();
     },
     // 点击更多-确定
@@ -648,10 +696,12 @@ export default {
      // 点击价格-重置
     jgReset:function(){
       const that = this;
-      that.pricearr=[];
-      for(var i=0;i<that.priceType.length;i++){
-        that.priceType[i].isJgtype=false;
-      }
+      // that.pricearr=[]; 
+      that.jgtate=null;
+      that.priceId=[];
+      // for(var i=0;i<that.priceType.length;i++){
+      //   that.priceType[i].isJgtype=false;
+      // }
     },
     // 点击户型-重置
     hxReset:function(){
@@ -683,6 +733,7 @@ export default {
          that.zoneArr=[];
         that.apirlroomArr=[];
         that.priceArr=[];
+        that.priceId,
         that.salestateId, //销售状态
         that.specialId,
         that.propertytypeArr=[];
@@ -695,6 +746,7 @@ export default {
         that.zoneArr=[];
         that.apirlroomArr=[];
         that.priceArr=[];
+        that.priceId,
         that.salestateId="03";
         that.specialId,
         that.propertytypeArr=[];
@@ -707,6 +759,7 @@ export default {
         that.zoneArr=[];
         that.apirlroomArr=[];
         that.priceArr=[];
+        that.priceId,
         that.salestateId="";
         that.specialId="",
         that.propertytypeArr=[];
@@ -719,6 +772,7 @@ export default {
         that.zoneArr=[];
         that.apirlroomArr=[];
         that.priceArr=[];
+        that.priceId,
         that.salestateId="02";
         that.specialId="",
         that.propertytypeArr=[];
@@ -739,7 +793,8 @@ export default {
       data: {
         zone: that.zoneArr,
         apirlroom: that.apirlroomArr,
-        price: that.priceArr,
+        // price: that.priceArr,
+        price: that.priceId,
         salestate: that.salestateId, //销售状态
         special: that.specialId,
         propertytype: that.propertytypeArr, //建筑类型

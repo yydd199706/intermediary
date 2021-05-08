@@ -130,7 +130,8 @@ export default {
           lookDate: "请选择",
           remarks: ""
         }
-      ], 
+      ],
+      
       houserid: "",
       mid: "",
       index: 0
@@ -138,6 +139,17 @@ export default {
   },
   onLoad(option) {
     const that = this; 
+    that.bbList=[
+        {
+          mid: 0,
+          pid: 0,
+          state: 0,
+          cname: "",
+          telphone: "",
+          lookDate: "请选择",
+          remarks: ""
+        }
+      ];
  
     that.domain = app.globalData.domain;
     that.houserid = option.pid;

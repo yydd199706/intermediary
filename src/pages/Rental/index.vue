@@ -20,10 +20,15 @@
              {{zoneArr.length>1?'多选':'区域'}}
              <image :src='[xianshi_qy==false?img3:img4]' mode="scaleToFill"/>
             </div>
-           <div class="region_bt" @click="dianji_jg" :class="[priceArr.length>0||xianshi_jg==true?'career':'']">
+           <!-- <div class="region_bt" @click="dianji_jg" :class="[priceArr.length>0||xianshi_jg==true?'career':'']">
              {{priceArr.length>1?'多选':'价格'}}
              <image :src='[xianshi_jg==false?img3:img4]' mode="scaleToFill"/>
+           </div> -->
+           <div class="region_bt" @click="dianji_jg" :class="[rentArr.length>0||xianshi_jg==true?'career':'']">
+             {{rentArr.length>1?'多选':'租金'}}
+             <image :src='[xianshi_jg==false?img3:img4]' mode="scaleToFill"/>
            </div>
+
            <div class="region_bt" @click="dianji_hx" :class="[apirlroomArr.length>0||xianshi_hx==true?'career':'']">
              {{apirlroomArr.length>1?'多选':'户型'}}
              <image :src='[xianshi_hx==false?img3:img4]' mode="scaleToFill"/>
@@ -229,8 +234,8 @@ export default {
       specialType:[],
       supportingType:[],
       towardType:[],
-      orderByType:[{Name:"默认排序"},{Name:"总价从低到高",id:"1|0"},{Name:"总价从高到低",id:"1|1"},
-      {Name:"单价从低到高",id:"2|0"},{Name:"单价从高到低",id:"2|1"},{Name:"面积从大到小",id:"3|1"},{Name:"面积从小到大",id:"3|0"}],
+      orderByType:[{Name:"默认排序"},
+      {Name:"租金从低到高",id:"4|0"},{Name:"租金从高到低",id:"4|1"},{Name:"面积从大到小",id:"3|1"},{Name:"面积从小到大",id:"3|0"}],
       isQu:false,
       isJg:false,
       isHx:false,
@@ -239,10 +244,11 @@ export default {
       zoneArr:[],
       apirlroomArr:[],
       priceArr:[],
+      rentArr:[],
       areaArr:[],
       zonearr:[],
       apirlroomarr:[],
-      pricearr:[],
+      rentarr:[],
       areaarr:[],
       specialId:"",
       companyId:"",
@@ -264,11 +270,11 @@ export default {
       allPage:null,
       indAction:null,
       qyName:"区域",
-      jgName:"价格",
+      jgName:"租金",
       hxName:"户型",
       gdName:"更多",
       pxName:"排序",
-      esf:[],
+      esf:[], 
       xianshi_qy:false,
       xianshi_dq:true,
       xianshi_dt:false,
@@ -298,8 +304,9 @@ export default {
           "?sessionKey=" +
           app.globalData.sessionKey,
         success: function (res) {
+          console.log("hux",res)
           that.regionType = res.data.Context.zone;
-          that.priceType = res.data.Context.price;
+          that.priceType = res.data.Context.rent;
           that.apirlroomType = res.data.Context.apirlroom;
           that.areaType = res.data.Context.area; 
           for(var i=0;i<that.regionType.length;i++){
@@ -331,10 +338,12 @@ export default {
     that.zoneArr=[];
     that.apirlroomArr=[];
     that.priceArr=[];
+    that.rentArr=[];
     that.areaArr=[];
     that.zonearr=[];
     that.apirlroomarr=[];
     that.pricearr=[];
+    that.rentarr=[];
     that.areaarr=[];
     that.esf=[];
     that.specialId="";
@@ -347,7 +356,7 @@ export default {
     that.orderById="";
     that.pageNumber=1;
     that.qyName="区域";
-    that.jgName="价格";
+    that.jgName="租金";
     that.hxName="户型";
     that.gdName="更多";
     that.pxName="排序";
@@ -393,12 +402,36 @@ export default {
       that.isPx=false;
     },
     //点击价格
+    // dianji_jg:function(){
+    //   const that = this;
+    //   that.xianshi_jg=!that.xianshi_jg;
+    //   if(that.xianshi_jg==true){
+    //     that.maskHid=true;
+    //     if(that.priceArr.length==0){
+    //       for (var j = 0; j < that.priceType.length; j++) {
+    //         that.priceType[j].isJgtype=false;
+    //       }
+    //     }
+    //   }else{
+    //     that.maskHid=false;
+    //   }
+    //   that.xianshi_sort=false;
+    //   that.xianshi_qy=false;
+    //   that.xianshi_hx=false;
+    //   that.xianshi_sx=false;
+    //   that.isJg=!that.isJg;
+    //   that.isQu=false;
+    //   that.isHx=false;
+    //   that.isGd=false;
+    //   that.isPx=false;
+    // },
+    //点击价格
     dianji_jg:function(){
       const that = this;
       that.xianshi_jg=!that.xianshi_jg;
       if(that.xianshi_jg==true){
         that.maskHid=true;
-        if(that.priceArr.length==0){
+        if(that.rentArr.length==0){
           for (var j = 0; j < that.priceType.length; j++) {
             that.priceType[j].isJgtype=false;
           }
@@ -504,21 +537,43 @@ export default {
         }
     },
     //点击价格分类
+    // jgClick:function(index,e){
+    //   const that = this;
+    //   var priceId=e.mp.currentTarget.dataset.id;
+    //   that.jgName="价格";
+    //   that.isJg=true;
+    //   for (var j = 0; j < that.priceType.length; j++) {
+    //     if (that.priceType[j].Id == priceId) {
+    //         if(that.priceType[j].isJgtype==false){
+    //           that.priceType[j].isJgtype=true;
+    //           that.pricearr.push(priceId);
+    //         }else if(that.priceType[j].isJgtype==true){
+    //           for(var i = 0;i<that.pricearr.length;i++){
+    //             if(that.priceType[j].Id==that.pricearr[i]){
+    //                that.priceType[j].isJgtype=false;
+    //               that.pricearr.splice(i,1);
+    //             }
+    //           }
+    //         }
+    //       }
+    //     }
+    // },
+    //点击价格分类
     jgClick:function(index,e){
       const that = this;
       var priceId=e.mp.currentTarget.dataset.id;
-      that.jgName="价格";
+      that.jgName="租金";
       that.isJg=true;
       for (var j = 0; j < that.priceType.length; j++) {
         if (that.priceType[j].Id == priceId) {
             if(that.priceType[j].isJgtype==false){
               that.priceType[j].isJgtype=true;
-              that.pricearr.push(priceId);
+              that.rentarr.push(priceId);
             }else if(that.priceType[j].isJgtype==true){
-              for(var i = 0;i<that.pricearr.length;i++){
-                if(that.priceType[j].Id==that.pricearr[i]){
+              for(var i = 0;i<that.rentarr.length;i++){
+                if(that.priceType[j].Id==that.rentarr[i]){
                    that.priceType[j].isJgtype=false;
-                  that.pricearr.splice(i,1);
+                  that.rentarr.splice(i,1);
                 }
               }
             }
@@ -697,6 +752,7 @@ export default {
         that.zoneArr=[];
         that.apirlroomArr=[];
         that.priceArr=[];
+        that.rentArr=[];
         that.areaArr=[];
         that.specialId="";
         that.companyId="";
@@ -727,6 +783,7 @@ export default {
       that.zoneArr=that.zonearr;
       that.apirlroomArr=that.apirlroomarr;
       that.priceArr=that.pricearr;
+      that.rentArr=that.rentarr;
       that.areaArr=that.areaarr;
       that.pageNumber=1;
       that.esf=[];
@@ -753,6 +810,7 @@ export default {
     jgReset:function(){
       const that = this;
       that.pricearr=[];
+      that.rentarr=[];
       for(var i=0;i<that.priceType.length;i++){
         that.priceType[i].isJgtype=false;
       }
@@ -797,8 +855,9 @@ export default {
       method:"POST",
       data: {
         zone: that.zoneArr,
+        rent:that.rentArr,
         apirlroom: that.apirlroomArr,
-        price: that.priceArr,
+        price:[],
         area: that.areaArr,
         special: that.specialId,
         company: that.companyId,
@@ -817,10 +876,12 @@ export default {
         'content-type': 'application/json' // 默认值
       },
       success (res) { 
+        console.log("that.orderById",that.orderById)
+        console.log("租房",res.data.Context.esf[0].rent)
          if (res.data.Context.esf.length > 0) {
           for (var i = 0; i < res.data.Context.esf.length; i++) {
-           that.esf.push(res.data.Context.esf[i]);
-          }
+           that.esf.push(res.data.Context.esf[i]); 
+          } 
         } 
         if (res.data.Context.recordCount == 0) {
         } else {

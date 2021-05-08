@@ -438,8 +438,9 @@ export default {
     },
     //销售动态跳转
     lpdongtaiClick:function(){
-      // app.globalData.tab = 3;s
-      wx.reLaunch({ url: "/pages/articleList/main?tab=" +3});
+      app.globalData.tab = 3;
+      wx.reLaunch({ url: "/pages/articleList/main"});
+      // wx.reLaunch({ url: "/pages/articleList/main?tab=" +3});
     },
     //优惠信息跳转
     discountClick:function(){

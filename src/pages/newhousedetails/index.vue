@@ -368,7 +368,7 @@ export default {
       }
       ],
       current: 0,
-      location:null,
+      location:{},
       domain:null,
       projectInfo:null,
       vrurl:"",
@@ -440,149 +440,161 @@ export default {
   },
   onLoad(option) {
     const that = this;
-    that.movies="";
-    that.newInfo="",
-    that.domain=app.globalData.domain;
-    that.houserid=option.id;
-    that.imgArr=[];
-    that.houseArr=[];
-    that.housegengd=[];
-    that.listData=[];
-    that.state=0;
-    //获取详情
-      wx.request({
-        url:app.globalData.url +"Project/BandProjectInfo" +"?sessionKey=" +app.globalData.sessionKey+'&projectId=' + option.id,
-        success: function (res) {
-          console.log('详情',res)
-          // 房源轮播图
-          that.movies = res.data.Context.pictureInfo;
-          for(var i = 0;i<that.movies.length;i++){
-            that.imgArr.push(that.domain+that.movies[i].imgurl); 
-          }
-          console.log("轮播",that.imgArr[0])
-          //房源基本信息详情
-          that.newInfo = res.data.Context.projectInfo;
-          that.loupanid = res.data.Context.projectInfo.id;  //楼盘id
-          that.extnumber = res.data.Context.projectInfo.extnumber;   //分机号
-          that.hostphone = res.data.Context.hostphone;   //400总号
-          that.vrimg = res.data.Context.projectInfo.vrimg;
-          that.vrurl=res.data.Context.projectInfo.vrurl;
-          that.newsArr=res.data.Context.salesnews; 
-
-
-
-          that.projectInfo={
-            id:that.newInfo.id,
-            title:that.newInfo.name,
-            Imgurl:that.newInfo.ImgUrl,
-            Decorationname:that.newInfo.Decorationname,
-            salestatename:that.newInfo.salestatename,
-            zonename:that.newInfo.zonename,
-            price:that.newInfo.averageprice,
-          };
-          wx.setStorageSync("projectInfo",that.projectInfo);
-
-
-
-          // 浏览记录
-          if(wx.getStorageSync("arrayxf")){
-            that.arrayxf = wx.getStorageSync("arrayxf");
-          }
-          let patient = res.data;
-
-          let val={
-            time:common.ConvertTimestamp(new Date()),
-            id:option.id,
-            name:that.newInfo.name,
-            ImgUrl:that.newInfo.ImgUrl,
-            salestatename:that.newInfo.salestatename,
-            zonename:that.newInfo.zonename,
-            Decorationname:that.newInfo.Decorationname,
-            existingname:that.newInfo.existingname,
-            averageprice:that.newInfo.averageprice
-          };
-          that.arrayxf.push(val);
-          var regionValueArray = [];
-          that.arrayxf = that.arrayxf.reduce(function(arr, obj) {
-            let count = 0;
-            arr.forEach( function(item,key){
-              if(item.id == obj.id){
-                count = 1;
-                arr[key]=obj;
-              }
-            })
-            if(!count)arr.push(obj);
-            return arr;
-          },[]);
-          that.arrayxf.sort(that.compare('time',false));
-          wx.setStorageSync('arrayxf',that.arrayxf);
-
-
-          //优惠信息
-          that.discountList = res.data.Context.offerinfo;
-          // 猜你喜欢
-          that.newslikelist = res.data.Context.guessInfo;
-          // 户型图
-          that.houseArr = res.data.Context.doormodleList;
-          for(var i = 0;i<that.houseArr.length;i++){
-            that.housegengd.push(that.houseArr[i].List);
-          }
-          that.housegengdss = that.housegengd[0]; 
-          that.HousetypeImgs = that.housegengdss[0].imgurl;
-          that.listData.push(that.domain+that.HousetypeImgs);
-          console.log('户型图片',that.listData)
-          //置业顾问
-          that.guwenlists = res.data.Context.managerList;
-
-
-
-          // 地图
-          qqMap.geocoder({
-            address:that.newInfo.address,   //用户输入的地址（注：地址中请包含城市名称，否则会影响解析效果），如：'北京市海淀区彩和坊路海淀西大街74号'
-            complete: data => {
-              console.log("地图",data)
-              if(data.status==0){
-                that.location=data.result.location;
-                that.markers=[{
-                  id: 1,
-                  latitude: that.location.lat,
-                  longitude: that.location.lng,
-                  name: that.newInfo.name,
-                  width: 30,
-                  height: 30,
-                  iconPath:app.globalData.imgurl +"map.png",
-                  callout: {
-                    content: that.newInfo.name,
-                    color: '#333',
-                    fontSize: 12,
-                    borderRadius: 5,
-                    display: 'ALWAYS',
-                    padding:8
-                  }
-                }]
-              }else {
-                that.markers[0].callout.display="display:'none'";
-              }
+    common.initApp(function (userInfo) { 
+      that.domain=app.globalData.domain;
+      that.houserid=option.id;
+      that.movies="";
+      that.newInfo="",
+      that.location={};
+      that.imgArr=[];
+      that.houseArr=[];
+      that.housegengd=[];
+      that.listData=[];
+      that.state=0;
+      //获取详情
+        wx.request({
+          url:app.globalData.url +"Project/BandProjectInfo" +"?sessionKey=" +app.globalData.sessionKey+'&projectId=' + option.id,
+          success: function (res) {
+            console.log('详情',res)
+            // 房源轮播图
+            that.movies = res.data.Context.pictureInfo;
+            for(var i = 0;i<that.movies.length;i++){
+              that.imgArr.push(that.domain+that.movies[i].imgurl); 
             }
-          })
+            console.log("轮播",that.imgArr[0])
+            //房源基本信息详情
+            that.newInfo = res.data.Context.projectInfo;
+            that.loupanid = res.data.Context.projectInfo.id;  //楼盘id
+            that.extnumber = res.data.Context.projectInfo.extnumber;   //分机号
+            that.hostphone = res.data.Context.hostphone;   //400总号
+            that.vrimg = res.data.Context.projectInfo.vrimg;
+            that.vrurl=res.data.Context.projectInfo.vrurl;
+            that.newsArr=res.data.Context.salesnews; 
 
-           
-           
-        },
-        fail: function (res) {},
-      });
 
-      //获取用户关注
-      wx.request({
-        url:app.globalData.url +"Percenter/BandUserRelationProject" +"?sessionKey=" +app.globalData.sessionKey+'&projectId=' + that.houserid,
-        success: function (res) {
-          if(res.data.Code==0){
-            that.state=res.data.Context.isganzhu;
+
+            that.projectInfo={
+              id:that.newInfo.id,
+              title:that.newInfo.name,
+              Imgurl:that.newInfo.ImgUrl,
+              Decorationname:that.newInfo.Decorationname,
+              salestatename:that.newInfo.salestatename,
+              zonename:that.newInfo.zonename,
+              price:that.newInfo.averageprice,
+            };
+            wx.setStorageSync("projectInfo",that.projectInfo);
+
+
+
+            // 浏览记录
+            if(wx.getStorageSync("arrayxf")){
+              that.arrayxf = wx.getStorageSync("arrayxf");
+            }
+            let patient = res.data;
+
+            let val={
+              time:common.ConvertTimestamp(new Date()),
+              id:option.id,
+              name:that.newInfo.name,
+              ImgUrl:that.newInfo.ImgUrl,
+              salestatename:that.newInfo.salestatename,
+              zonename:that.newInfo.zonename,
+              Decorationname:that.newInfo.Decorationname,
+              existingname:that.newInfo.existingname,
+              averageprice:that.newInfo.averageprice
+            };
+            that.arrayxf.push(val);
+            var regionValueArray = [];
+            that.arrayxf = that.arrayxf.reduce(function(arr, obj) {
+              let count = 0;
+              arr.forEach( function(item,key){
+                if(item.id == obj.id){
+                  count = 1;
+                  arr[key]=obj;
+                }
+              })
+              if(!count)arr.push(obj);
+              return arr;
+            },[]);
+            that.arrayxf.sort(that.compare('time',false));
+            wx.setStorageSync('arrayxf',that.arrayxf);
+
+
+            //优惠信息
+            that.discountList = res.data.Context.offerinfo;
+            // 猜你喜欢
+            that.newslikelist = res.data.Context.guessInfo;
+            // 户型图
+            that.houseArr = res.data.Context.doormodleList;
+            for(var i = 0;i<that.houseArr.length;i++){
+              that.housegengd.push(that.houseArr[i].List);
+            }
+            that.housegengdss = that.housegengd[0]; 
+            that.HousetypeImgs = that.housegengdss[0].imgurl;
+            // that.listData.push(that.domain+that.HousetypeImgs);
+            console.log('户型图片',that.HousetypeImgs)
+            //置业顾问
+            that.guwenlists = res.data.Context.managerList;
+
+
+            if(false){
+              that.location.lng=that.newInfo.longitude;
+              that.location.lat=that.newInfo.latitude;
+              console.log("that.location.lng",that.location.lng);
+              console.log("that.location.lat",that.location.lat);
+            }else{
+              // 地图
+              qqMap.geocoder({
+                address:that.newInfo.address,   //用户输入的地址（注：地址中请包含城市名称，否则会影响解析效果），如：'北京市海淀区彩和坊西大街74号'
+                complete: data => {
+                  if(data.status==0){
+                    that.location=data.result.location;
+                    console.log("location.lng",that.location.lng);
+                    console.log("location.lat",that.location.lat);
+                  }else {
+                    that.markers[0].callout.display="display:'none'";
+                  }
+                }
+              })
+
+            }
+
+            that.markers=[{
+              id: 1,
+              latitude: that.location.lat,
+              longitude: that.location.lng,
+              name: that.newInfo.name,
+              width: 30,
+              height: 30,
+              iconPath:app.globalData.imgurl +"map.png",
+              callout: {
+                content: that.newInfo.name,
+                color: '#333',
+                fontSize: 12,
+                borderRadius: 5,
+                display: 'ALWAYS',
+                padding:8
+              }
+            }]
+            
+
+            
+            
+          },
+          fail: function (res) {},
+        });
+
+        //获取用户关注
+        wx.request({
+          url:app.globalData.url +"Percenter/BandUserRelationProject" +"?sessionKey=" +app.globalData.sessionKey+'&projectId=' + that.houserid,
+          success: function (res) {
+            if(res.data.Code==0){
+              that.state=res.data.Context.isganzhu;
+            }
           }
-        }
-      });
+        });
 
-      
+    })   
          
   },
   onShow(){
@@ -913,14 +925,14 @@ export default {
       var index = pro;
       console.log('户型图片',e.target.dataset.src)
       var img_url = e.target.dataset.src;
-        wx.previewImage({
-          current: img_url,     //当前图片地址
-          urls:that.listData,     //预览的图片的地址
-          success: function(res) {},
-          fail: function(res) {
-          },
-          complete: function(res) {},
-        })
+      that.listData.push(e.target.dataset.src);
+      wx.previewImage({
+        current: img_url,     //当前图片地址
+        urls:that.listData,     //预览的图片的地址
+        success: function(res) {},
+        fail: function(res) {},
+        complete: function(res) {},
+      })
     },
     // 拨打400电话
     clickService(){
