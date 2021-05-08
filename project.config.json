@@ -209,6 +209,11 @@
           "pathName": "pages/zxcommissioned/main",
           "query": "",
           "scene": null
+        },
+        {
+          "name": "计算详情",
+          "pathName": "pages/table/main",
+          "scene": null
         }
       ]
     }

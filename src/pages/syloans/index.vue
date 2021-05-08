@@ -153,7 +153,7 @@
                 </div>
               </div>
               <!--开始计算 -->
-              <button class="kaishi">开始计算</button>
+              <button class="kaishi" @click="combinationClick">开始计算</button>
             </div>
             <!-- 按贷款总额结束 -->
           </div>
@@ -264,7 +264,7 @@
           <div class="red">￥{{Monthly}}</div>
           <div>{{moneyText}}</div>
         </div>
-        <div class="result_top_right">查看详情</div>
+        <div class="result_top_right" @click="lookMore">查看详情</div>
       </div>
       <div class="result_bot">
         <div>
@@ -423,11 +423,14 @@ import mpvuedownPicker from "@/../static/components/mpvue-picker/mpvuePicker.vue
         fundVal:"",  //组合贷款-公积金贷款
         busVal:"",  //组合贷款爬-商业贷款
         accText:"",  //组合贷款-公基金利率
+        arrayObj:[],
         hide:false
        }
     },
     onShow(){
       const that = this;
+      that.hide=false;
+      that.monVal="";
       var val=that.shangdaiValueArray[0].value;
       var value = that.fundValueArray[0].value;
       that.yearText=that.sexValueArray[0].value;
@@ -457,8 +460,10 @@ import mpvuedownPicker from "@/../static/components/mpvue-picker/mpvuePicker.vue
       //获取商贷金额
       monInp:function(e){
         const that = this;
+        that.arrayObj=[];
         console.log('eeeee',e.mp.detail.value);
         that.monVal=e.mp.detail.value;
+        
       },
       //商业贷款-房屋总价
       houseVal:function(e){
@@ -469,12 +474,14 @@ import mpvuedownPicker from "@/../static/components/mpvue-picker/mpvuePicker.vue
       // 商业贷款——按贷款总额——商贷年限
       showPicker() {
       this.$refs.mpvuePicker.show();
+      this.arrayObj=[];
       },
     //选择商贷年限
     onyearCancel(e){
       const that = this;
       console.log('商贷年限',e.value);
        that.yearText=e.value;
+       that.arrayObj=[];
     },
       // 商业贷款——按贷款总额——利率方式
       lilvPicker() {
@@ -488,12 +495,14 @@ import mpvuedownPicker from "@/../static/components/mpvue-picker/mpvuePicker.vue
       onrateConfirm(e){
         const that = this;
         var val = e.value;
+        that.arrayObj=[];
         that.rateText = (val * llsd).toFixed(3)+"%";
       },
       //选择还款方式
       onrepaymentConfirm(e){
         const that = this;
         that.repaymentText=e.value;
+        that.arrayObj=[];
       },
       //首付比例
       downPicker(){
@@ -520,18 +529,29 @@ import mpvuedownPicker from "@/../static/components/mpvue-picker/mpvuePicker.vue
       //组合贷款-公积金贷款
       fundInp:function(e){
         const that = this;
-        that.fundVal=e.value;
+        that.arrayObj=[];
+        that.fundVal=e.target.value;
+        if(that.monVal!=""){
+          that.busVal=that.monVal-that.fundVal;
+        }
+        
       },
       //选择公积金利率
       onaccConfirm(e){
         const that = this;
         var val = e.value;
         that.accText = (val * llgjj).toFixed(3)+"%";
+        that.arrayObj=[];
       },
       //组合贷款-商业贷款
       busInp:function(e) {
         const that = this;
-        that.busVal=e.value;
+        that.busVal=e.target.value;
+        that.arrayObj=[];
+        if(that.monVal!=""&&that.busVal!=""){
+          that.fundVal=that.monVal-that.busVal;
+        }
+        
       },
       // 组合贷款——按贷款总额——公积金年限
       fundyearsPicker(){
@@ -637,16 +657,23 @@ import mpvuedownPicker from "@/../static/components/mpvue-picker/mpvuePicker.vue
     },
   //按照贷款金额计算
   loanFirst:function(){
-    const that = this;
     const I = this;
-    that.hide=true;
+    if(I.monVal==""){
+      wx.showToast({
+        title: '贷款总额应该大于0',
+        icon: 'none',
+        duration: 2000
+      });
+      return false;
+    }
+    I.hide=true;
+    // that.arrayObj=[];
     var money1 = I.monVal == "" ? 0 : parseFloat(I.monVal) * 10000;
     var month1 = parseInt(I.yearText);
     var apr1="";
     if(I.tab==1){
      apr1=parseFloat(I.rateText) / 100;
     }else if(I.tab==3){
-     
       apr1=parseFloat(I.accText) / 100;
        console.log('公积金贷款',apr1);
     }
@@ -657,9 +684,36 @@ import mpvuedownPicker from "@/../static/components/mpvue-picker/mpvuePicker.vue
         I.PrintType2(money1, 0, month1, apr1, 0);
     }
   },
+  //按组合贷款计算
+  combinationClick:function() {
+    const I = this;
+    // that.arrayObj=[];
+    if(I.monVal==""){
+      wx.showToast({
+        title: '贷款总额应该大于0',
+        icon: 'none',
+        duration: 2000
+      });
+      return false;
+    }
+    I.hide=true;
+    var month1 = parseInt(I.yearText);
+  var money1 = I.busVal == "" ? 0 : parseFloat(I.busVal) * 10000;
+        var money2 = I.fundVal == "" ? 0 : parseFloat(I.fundVal) * 10000;
+        var apr1 = I.rateText == "基准利率4.9" ? (4.9 / 100) : parseFloat(I.rateText) / 100;
+        var apr2 = I.accText == "基准利率3.25" ? (3.25 / 100) : parseFloat(I.accText) / 100;
+        if (I.repaymentText == '等额本息') {
+            I.PrintType1(money1, money2, month1, apr1, apr2);
+            console.log('44444444',money1);
+            console.log('55555',money2);
+        } else if (I.repaymentText == '等额本金') {
+            I.PrintType2(money1, money2, month1, apr1, apr2);
+        }
+  },
 PrintType1(money1, money2, month1, apr1, apr2) { //等额本息
 const that = this;
     var I = this;
+    
     var mapr1 = apr1 / 12; //商业月利率
     var mapr2 = apr2 / 12; //公积金月利率
     var fm1 = 1;
@@ -671,6 +725,7 @@ const that = this;
         fm2 += Math.pow(1 + mapr2, i);
     }
     var perMonth1 = parseFloat((money1 * Math.pow(1 + mapr1, month1) / fm1).toFixed(2)); //商业每月还款额,保留两位小数
+    console.log('每月还款',perMonth1.toFixed(0));
     var perMonth2 = parseFloat((money2 * Math.pow(1 + mapr2, month1) / fm2).toFixed(2)); //公积金每月还款额,保留两位小数
 
     var leftMoney1 = money1;
@@ -703,9 +758,19 @@ const that = this;
             totalLX1 += parseFloat(lx1 + lx2);
         }
         totalAmount -= (perMonth1 + perMonth2);
-        // var detail = new Detail(i, perMonth1.toFixed(0) + perMonth2.toFixed(0), (perMonth1 - lx1).toFixed(0) + (perMonth2 - lx2).toFixed(0), lx1.toFixed(0) + lx2.toFixed(0), (totalAmount).toFixed(0));
-        // I.arrayObj.push(detail);
+           var detail = 
+           {
+             index:i,
+             supply:parseFloat((perMonth1 + perMonth2).toFixed(2)),
+             principal:parseFloat((perMonth1 - lx1).toFixed(2) + (perMonth2 - lx2).toFixed(2)),
+             interest:parseFloat(lx1.toFixed(2) + lx2.toFixed(2)),
+             surplus:parseFloat(totalAmount.toFixed(2))
+           }
+          //  (i, perMonth1.toFixed(0) + perMonth2.toFixed(0), (perMonth1 - lx1).toFixed(0) + (perMonth2 - lx2).toFixed(0), lx1.toFixed(0) + lx2.toFixed(0), (totalAmount).toFixed(0));
+        I.arrayObj.push(detail); 
+        
     }
+    console.log('详情',I.arrayObj);   
     that.moneyText="每月还款额固定";
     that.textTitle="每月月供";
     that.monVal=(money1 + money2) / 10000;
@@ -761,9 +826,17 @@ PrintType2(money1, money2, month1, apr1, apr2) { //等额本金
         if (i <= month1) {
             totalLX1 += parseFloat(lx1 + lx2);
         }
+
         totalAmount -= (perMoney1 + perMoney2);
-        // var detail = new Detail(i, perMoney1.toFixed(0) + perMoney2.toFixed(0), (perMoney1 - lx1).toFixed(0) + (perMoney2 - lx2).toFixed(0), lx1.toFixed(0) + lx2.toFixed(0), (totalAmount).toFixed(0));
-        // I.arrayObj.push(detail);
+        var detail = 
+           {
+             index:i,
+             supply:parseFloat((perMoney1 + perMoney2).toFixed(2)),
+             principal:parseFloat((perMoney1 - lx1).toFixed(2) + (perMoney2 - lx2).toFixed(2)),
+             interest:parseFloat(lx1.toFixed(2) + lx2.toFixed(2)),
+             surplus:parseFloat(totalAmount.toFixed(2))
+           }
+        I.arrayObj.push(detail);
     }
     that.moneyText="每月递减" + lx1 + "元";
     that.textTitle="首月月供";
@@ -772,6 +845,30 @@ PrintType2(money1, money2, month1, apr1, apr2) { //等额本金
     that.repayment=((money1 + money2 + totalLX1).toFixed(0) / 10000).toFixed(2);
     that.Monthly=firstPerMoney;
 },
+//点击查看更多查看详情
+lookMore:function() {
+  const that = this;
+var apr1="";
+  // if(that.tab==1){
+  //    apr1=parseFloat(that.rateText) / 100;
+  //   }else if(that.tab==3){
+  //     apr1=parseFloat(that.accText) / 100;
+  //      console.log('公积金贷款',apr1);
+  //   }
+  var arrayObj= JSON.stringify(that.arrayObj);
+  wx.navigateTo({url:"/pages/table/main?arrayObj="+arrayObj + "&monVal=" + that.monVal +
+   "&payInterest=" + that.payInterest+"&repayment=" + that.repayment+"&yearText=" + that.yearText+
+   "&repaymentText=" + that.repaymentText+"&rateText="+that.rateText+"&accText="+that.accText+
+   "&busVal="+that.busVal+"&fundVal="+that.fundVal+"&tab="+that.tab});
+},
+// Detail(periods, supply, principal, interest, surplus) {
+//     var D = this;
+//     D.periods = periods;
+//     D.supply = supply;
+//     D.principal = principal;
+//     D.interest = interest;
+//     D.surplus = surplus;
+// },
 //计算贷款总额
 setloanMoney(obj) {
   const that = this;

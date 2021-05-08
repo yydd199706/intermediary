@@ -46,7 +46,8 @@
     "pages/chatList/main",
     "pages/chatNew/main",
     "pages/chatRental/main",
-    "pages/url/main"
+    "pages/url/main",
+    "pages/table/main"
   ],
   "window": {
     "backgroundTextStyle": "light",
