@@ -353,7 +353,7 @@ export default {
     that.specialId="";
     that.salestateId=[];
     that.priceId=[];
-    
+    that.jgtate = null;
     that.orderById="";
     that.pageNumber=1;
     that.qyName="区域";
@@ -545,7 +545,7 @@ export default {
     jgClick:function(index,e){
       const that = this;
       console.log("价格",e)
-      that.isJg=true;
+      // that.isJg=true;
       if(that.jgtate==index){
         that.jgtate=null;
         that.priceId="";
@@ -554,6 +554,8 @@ export default {
         that.priceId=e.mp.currentTarget.dataset.id;
       }
     },
+
+
     //点击户型分类
     hxClick:function(index,e){
       const that = this;
@@ -694,8 +696,8 @@ export default {
      // 点击价格-重置
     jgReset:function(){
       const that = this;
-      that.special=null;
       // that.pricearr=[]; 
+      that.jgtate=null;
       that.priceId=[];
       // for(var i=0;i<that.priceType.length;i++){
       //   that.priceType[i].isJgtype=false;
@@ -807,15 +809,15 @@ export default {
       },
       success (res) {
         console.log('res',res)
-        //  if (res.data.Context.project.length > 0) {
-        //   for (var i = 0; i < res.data.Context.project.length; i++) {
-        //    that.newslist.push(res.data.Context.project[i]);
-        //   }
-        // } 
-        // if (res.data.Context.recordCount == 0) {
-        // } else {
-        //   that.allPage = res.data.Context.recordCount;
-        // }
+         if (res.data.Context.project.length > 0) {
+          for (var i = 0; i < res.data.Context.project.length; i++) {
+           that.newslist.push(res.data.Context.project[i]);
+          }
+        } 
+        if (res.data.Context.recordCount == 0) {
+        } else {
+          that.allPage = res.data.Context.recordCount;
+        }
       }
     })
     },
