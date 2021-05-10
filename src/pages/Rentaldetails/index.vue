@@ -14,7 +14,7 @@
       <div class="lbvr" v-if="isshowvr == 1 ? true : false">
         <image :src="bf" />
       </div>
-      <div class="imageCount">{{current+1}}/{{movies.length}}</div>
+      <div class="imageCount">{{currentimg+1}}/{{movies.length}}</div>
     </div>
     <!-- 图片轮播 -->
 
@@ -334,7 +334,6 @@ export default {
       domain:null,
       hxid:"",
       projectInfo:null,
-      current: 0,
       movies: [],
       imgArr:[],
       bf:app.globalData.imgurl +"vr_icon.png",
@@ -422,8 +421,7 @@ export default {
         {img1:app.globalData.imgurl + "f9.png",img2:app.globalData.imgurl + "f9s.png",name:'衣柜',isshow:0},
         {img1:app.globalData.imgurl + "f10.png",img2:app.globalData.imgurl + "f10s.png",name:'天然气',isshow:0},
       ], 
-
-
+    that.currentimg=0;
     that.domain=app.globalData.domain;
     that.houserid=option.id;
      //获取详情
@@ -521,7 +519,7 @@ export default {
           //同小区房源
           that.sameDistrict = res.data.Context.sameDistrict;
           //推荐房源
-          that.recommended = res.data.Context.recommended;
+          that.recommended = res.data.Context.recommendedRent;
           // 当前经纪人
           that.agentPhone = res.data.Context.agent.mobile;
           if(res.data.Context.agent.wxid==""){

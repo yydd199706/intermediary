@@ -366,7 +366,7 @@ export default {
 }
 .project__input input {
   float: left;
-  font-size: 30rpx;
+  font-size: 30rpx; width: 68%;
 }
 .project__input span {
   display: inline-block;

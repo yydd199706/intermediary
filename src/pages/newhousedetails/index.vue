@@ -121,7 +121,7 @@
          </div>
          <div class="kptx" @click="newOpening">
            <image :src="img3" mode="scaleToFill"/>
-           <span>开盘提醒</span>
+           <span>{{showOpen==false?'已开盘':'开盘提醒'}}</span>
          </div>
          <div class="clear"></div>
        </div>
@@ -146,23 +146,25 @@
       <!-- 优惠结束 -->
       
       <!-- 户型开始 -->
-      <div class="huxingda">
+      <div class="huxingda" >
         <div class="hx_bt">
           <p>户型介绍</p>
         </div>
-
-        <div class="huxingqh" v-for="(item, index) in houseArr" :key="index">
-          <div class="bthx" :class="{'selected':j === index}" @click="huxing(index)">{{item.Key}}</div>
-        </div>
-        <div class="huxing">
-          <scroll-view scroll-x="true" style="width: 100%" class="image-group">
-            <div class="yishi" >
-              <div class="dg_hx" v-for="(item, ind) in housegengdss" :key="ind">
-                <image v-if="domain" :src="domain+item.imgurl" class="yh-image" mode="scaleToFill" @click="HousetypeImg(pro,$event)" :data-src="domain+item.imgurl"/>
-                <div class="bt_s"><h1>{{item.title}}</h1></div>
+        
+        <div class="mag_top">
+          <div class="huxingqh" v-for="(item, index) in houseArr" :key="index">
+            <div class="bthx" :class="{'selected':j === index}" @click="huxing(index)" v-if="item.Key==''? false : true">{{item.Key}}</div>
+          </div>
+          <div class="huxing">
+            <scroll-view scroll-x="true" style="width: 100%" class="image-group">
+              <div class="yishi" >
+                <div class="dg_hx" v-for="(item, ind) in housegengdss" :key="ind">
+                  <image v-if="domain" :src="domain+item.imgurl" class="yh-image" mode="scaleToFill" @click="HousetypeImg(pro,$event)" :data-src="domain+item.imgurl"/>
+                  <div class="bt_s"><h1>{{item.title}}</h1></div>
+                </div>
               </div>
-            </div>
-          </scroll-view>
+            </scroll-view>
+          </div>
         </div>
        
 
@@ -170,11 +172,11 @@
       <!-- 户型结束 -->
 
       <!-- 位置及周边配套开始 -->
-      <div class="huxingda">
+      <div class="huxingda" v-if="location">
         <div class="hx_bt">
           <p>位置及周边配套</p>
         </div>
-        <div class="map_img" v-if="location">
+        <div class="map_img">
           <div class="waper"></div>
           <map id="map" :longitude="location.lng" :latitude="location.lat" :scale="14" :controls="controls" 
           bindcontroltap="controltap" :markers="markers" :bindmarkertap="markertap" :polyline="polyline"
@@ -367,6 +369,7 @@ export default {
         }
       }
       ],
+      showOpen:true,
       current: 0,
       location:{},
       domain:null,
@@ -440,10 +443,9 @@ export default {
   },
   onLoad(option) {
     const that = this;
-    common.initApp(function (userInfo) { 
-      that.domain=app.globalData.domain;
-      that.houserid=option.id;
-      that.movies="";
+    that.domain=app.globalData.domain;
+    that.houserid=option.id;
+    that.movies="";
       that.newInfo="",
       that.location={};
       that.imgArr=[];
@@ -451,6 +453,10 @@ export default {
       that.housegengd=[];
       that.listData=[];
       that.state=0;
+      that.current= 0;
+      
+    common.initApp(function (userInfo) { 
+      
       //获取详情
         wx.request({
           url:app.globalData.url +"Project/BandProjectInfo" +"?sessionKey=" +app.globalData.sessionKey+'&projectId=' + option.id,
@@ -470,6 +476,7 @@ export default {
             that.vrimg = res.data.Context.projectInfo.vrimg;
             that.vrurl=res.data.Context.projectInfo.vrurl;
             that.newsArr=res.data.Context.salesnews; 
+            that.showOpen=res.data.Context.showOpen; 
 
 
 
@@ -530,16 +537,15 @@ export default {
               that.housegengd.push(that.houseArr[i].List);
             }
             that.housegengdss = that.housegengd[0]; 
-            that.HousetypeImgs = that.housegengdss[0].imgurl;
+            //that.HousetypeImgs = that.housegengdss[0].imgurl;
             // that.listData.push(that.domain+that.HousetypeImgs);
-            console.log('户型图片',that.HousetypeImgs)
             //置业顾问
             that.guwenlists = res.data.Context.managerList;
 
 
-            if(false){
-              that.location.lng=that.newInfo.longitude;
-              that.location.lat=that.newInfo.latitude;
+            if(that.newInfo.longitude!=""&&that.newInfo.latitude!=""){
+              that.location.lng= parseFloat(that.newInfo.longitude);
+              that.location.lat= parseFloat(that.newInfo.latitude);
               console.log("that.location.lng",that.location.lng);
               console.log("that.location.lat",that.location.lat);
             }else{
@@ -551,31 +557,32 @@ export default {
                     that.location=data.result.location;
                     console.log("location.lng",that.location.lng);
                     console.log("location.lat",that.location.lat);
-                  }else {
-                    that.markers[0].callout.display="display:'none'";
                   }
                 }
               })
 
             }
+            if(that.location!=null){
+              that.markers=[{
+                id: 1,
+                latitude: parseFloat(that.location.lat),
+                longitude: parseFloat(that.location.lng),
+                name: that.newInfo.name,
+                width: 30,
+                height: 30,
+                iconPath:app.globalData.imgurl +"map.png",
+                callout: {
+                  content: that.newInfo.name,
+                  color: '#333',
+                  fontSize: 12,
+                  borderRadius: 5,
+                  display: 'ALWAYS',
+                  padding:8
+                }
+              }]
 
-            that.markers=[{
-              id: 1,
-              latitude: that.location.lat,
-              longitude: that.location.lng,
-              name: that.newInfo.name,
-              width: 30,
-              height: 30,
-              iconPath:app.globalData.imgurl +"map.png",
-              callout: {
-                content: that.newInfo.name,
-                color: '#333',
-                fontSize: 12,
-                borderRadius: 5,
-                display: 'ALWAYS',
-                padding:8
-              }
-            }]
+            }
+            
             
 
             
@@ -613,6 +620,28 @@ export default {
     });
   
   
+  },
+  onHide(){
+    that.location={};
+    that.markers= [
+        {
+        id: 1,
+        latitude: '',
+        longitude: '',
+        name: '',
+        width: 30,
+        height: 30,
+        iconPath:app.globalData.imgurl +"map.png",
+        callout: {
+          content: '',
+          color: '#333',
+          fontSize: 12,
+          borderRadius: 5,
+          display: 'ALWAYS',
+          padding:8
+        }
+      }
+      ]
   },
   onShareAppMessage: function(res) {
     return {
@@ -749,45 +778,55 @@ export default {
     //开盘提醒
     newOpening(){
       const that = this;
-      wx.request({
-        url:app.globalData.url +"WxLogin/CheckLogin" +"?sessionKey=" +app.globalData.sessionKey,
-        success: function (data) {
-          console.log("qqq",data)
-          if(data.data==true){
-            that.telHid=false;
-            that.maskHid=false;
-            wx.request({
-              url: app.globalData.url +"Percenter/BandUserRelationProject?sessionKey=" +app.globalData.sessionKey+'&projectId=' + that.houserid,
-              success: function (res) {
-                console.log("变价",res)
-                if(res.data.Context.isopen>0){
-                  wx.showToast({
-                    title: '您已订阅',
-                    icon: 'none',
-                    duration: 1000,
-                  })
-                }else{
-                  wx.requestSubscribeMessage({
-                    tmplIds: ["eGx1SbCD5dk-B9WiB4mKN_GDxSCLsEyJ3DzDTM_sjaI"],
-                    success(data) {
-                      if(data["eGx1SbCD5dk-B9WiB4mKN_GDxSCLsEyJ3DzDTM_sjaI"] == "accept"){ 
-                        console.log("允许")
-                        that.reminderFun();
-                      } else if(data["eGx1SbCD5dk-B9WiB4mKN_GDxSCLsEyJ3DzDTM_sjaI"] == "reject") {
-                        console.log("拒绝")
-                        Toast("允许后才可以订阅消息哦");
+      if(that.showOpen==false){
+        wx.showToast({
+          title: '已开盘',
+          icon: 'none',
+          duration: 1000,
+        })
+      }else{
+        wx.request({
+          url:app.globalData.url +"WxLogin/CheckLogin" +"?sessionKey=" +app.globalData.sessionKey,
+          success: function (data) {
+            console.log("qqq",data)
+            if(data.data==true){
+              that.telHid=false;
+              that.maskHid=false;
+              wx.request({
+                url: app.globalData.url +"Percenter/BandUserRelationProject?sessionKey=" +app.globalData.sessionKey+'&projectId=' + that.houserid,
+                success: function (res) {
+                  console.log("变价",res)
+                  if(res.data.Context.isopen>0){
+                    wx.showToast({
+                      title: '您已订阅',
+                      icon: 'none',
+                      duration: 1000,
+                    })
+                  }else{
+                    wx.requestSubscribeMessage({
+                      tmplIds: ["eGx1SbCD5dk-B9WiB4mKN_GDxSCLsEyJ3DzDTM_sjaI"],
+                      success(data) {
+                        if(data["eGx1SbCD5dk-B9WiB4mKN_GDxSCLsEyJ3DzDTM_sjaI"] == "accept"){ 
+                          console.log("允许")
+                          that.reminderFun();
+                        } else if(data["eGx1SbCD5dk-B9WiB4mKN_GDxSCLsEyJ3DzDTM_sjaI"] == "reject") {
+                          console.log("拒绝")
+                          Toast("允许后才可以订阅消息哦");
+                        }
                       }
-                    }
-                  })
+                    })
+                  }
                 }
-              }
-            }) 
-          }else{
-            that.telHid=true;
-            that.maskHid=true;
+              }) 
+            }else{
+              that.telHid=true;
+              that.maskHid=true;
+            }
           }
-        }
-      })
+        })
+
+      }
+      
 
     },
     //发送变价通知推送消息接口
@@ -990,8 +1029,8 @@ export default {
      const that = this;
       if(that.location!=null){
         wx.openLocation({
-          latitude: that.location.lat,
-          longitude: that.location.lng,
+          latitude: parseFloat(that.location.lat),
+          longitude: parseFloat(that.location.lng),
           name: that.newInfo.name, 
           address: that.newInfo.address, 
         })
@@ -1185,11 +1224,12 @@ margin-right:10rpx; margin-top:20rpx; font-size: 26rpx; }
  
 .image-group { display: flex; white-space: nowrap; margin-top:10rpx;}
 
-.huxingqh{ margin-top: 5%;}
-.bthx{ font-size: 32rpx; margin-right:4%; float: left;  }
-.selected{ color:rgb(39, 151, 226); font-weight: 700; }
+.mag_top{ margin-top: 5%;}
+.huxingqh{ float: left;height: 54rpx; line-height: 54rpx; margin-bottom:10rpx; }
+.bthx{ font-size:27rpx; margin-right:25rpx; }
+.selected{ color:#fff; background-color: rgb(39, 151, 226); padding:1rpx 15rpx; font-size: 27rpx; height: 50rpx; line-height: 50rpx; border-radius: 8rpx; }
 .huxing{ width: 100%;}
-.dg_hx{ margin-right:6%; width:70%; margin-top: 3%; display: inline-block; }
+.dg_hx{ margin-right:6%; width:70%; display: inline-block; }
 .dg_hx image{ width:100%;height:360rpx;}
 .dg_hx .bt_s{ clear: both; margin-top: 3%;}
 .dg_hx .bt_s h1{ width:90%; float: left; font-size: 30rpx; font-weight: 900; margin-right: 2%; white-space: nowrap; overflow: hidden; 

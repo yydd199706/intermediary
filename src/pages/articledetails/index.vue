@@ -21,7 +21,7 @@
     <div class="more_list">
       <h2>更多推荐</h2>
 
-      <div class="moretj" v-for="(item, index) in moretjlist" :key="index" @click="newsListclick(index,$event)" :data-id="item.id">
+      <div class="moretj" v-for="(item, index) in moretjlist" :key="index" @click="newsListclick(index,$event)" :data-id="item.id" :data-typeList="typeList" :data-page="page">
         <div class="tj_lelf">
           <h3>{{item.title}}</h3>
           <p>{{item.intro}}</p>
@@ -131,6 +131,7 @@ export default {
       maskHid:false,
       telHid:false,
       newType:null,
+      typeList:"",
 
  
  
@@ -147,8 +148,10 @@ export default {
     that.newId=option.id;
     that.page=option.page;
     that.newType = option.newType;
+    that.typeList = option.typeList;
     if(that.page=="list"){
-      wx.request({
+      if(that.typeList=='1'){
+        wx.request({
           url:app.globalData.url +"News/BandNewsInfo" +"?sessionKey=" +app.globalData.sessionKey+'&newId=' + option.id,
           success: function (res) {
             console.log('新闻文章',res)
@@ -156,10 +159,22 @@ export default {
             that.moretjlist = res.data.Context.moreNews;
             that.moreProject = res.data.Context.moreProject;
           }
-      })
+        })
+      }else if(that.typeList=='2'){
+        wx.request({
+          url:app.globalData.url +"News/BandProjectNewsInfo" +"?sessionKey=" +app.globalData.sessionKey+'&newId=' + option.id,
+          success: function (res) {
+            that.newsModel = res.data.Context.newsModel;
+            that.moretjlist = res.data.Context.moreNews;
+            that.moreProject = res.data.Context.moreProject;
+          }
+        })
+
+      }
+      
     }else{
       wx.request({
-          url:app.globalData.url +"Index/BandNewsInfo" +"?sessionKey=" +app.globalData.sessionKey+'&newId=' + option.id,
+          url:app.globalData.url +"News/BandProjectNewsInfo" +"?sessionKey=" +app.globalData.sessionKey+'&newId=' + option.id,
           success: function (res) {
             console.log('新闻文章',res)
             that.newsModel = res.data.Context.newsModel;
@@ -181,8 +196,8 @@ export default {
   methods: {
     newsListclick:function(index,e){
        console.log("文章",e.mp.currentTarget.dataset.id)
-       wx.navigateTo({ url: "/pages/articledetails/main?id=" + e.mp.currentTarget.dataset.id});
-
+       console.log("文章11",e.mp.currentTarget.dataset.typelist)
+       wx.navigateTo({ url: "/pages/articledetails/main?id=" + e.mp.currentTarget.dataset.id + "&typeList="+ e.mp.currentTarget.dataset.typelist+"&page="+e.mp.currentTarget.dataset.page});
     },
     //点击跳转新房详情页
     newDetail:function(index,e){

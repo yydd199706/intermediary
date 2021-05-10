@@ -600,9 +600,6 @@ export default {
     that.projectname = "";
     that.newInfo="",
     that.location=null;
-   
-    common.initApp(function (userInfo) { 
-    
     that.name="";
     that.tel="";
     that.yzm="";
@@ -610,13 +607,14 @@ export default {
     that.timeText="发送验证码";
     that.lookDate="请选择";
     that.yuText="";
-    let today = that.getToday();
-    that.comeDate = today;
-
-    
     that.domain=app.globalData.domain;
     that.houserid=option.id;
     that.imgArr=[];
+    that.current= 0;
+   
+    common.initApp(function (userInfo) { 
+    let today = that.getToday();
+    that.comeDate = today;
       //获取详情
       wx.request({
         url:app.globalData.url +"OldHouse/BandEsfInfo" +"?sessionKey=" +app.globalData.sessionKey+'&houseid=' + option.id,
@@ -730,35 +728,37 @@ export default {
           }
           that.memberid=res.data.Context.agent.id;
           //是否关注该房源
+
+          
           qqMap.geocoder({
-    address: that.houseInfo.address,   //用户输入的地址（注：地址中请包含城市名称，否则会影响解析效果），如：'北京市海淀区彩和坊路海淀西大街74号'
-    complete: data => {
-      if(data.status==0){
-        that.location=data.result.location;
-      
-        that.markers=[{
-          id: 1,
-          latitude: that.location.lat,
-          longitude: that.location.lng,
-          name: that.houseInfo.projectname,
-          width: 30,
-          height: 30,
-          iconPath:app.globalData.imgurl +"map.png",
-          callout: {
-            content: that.houseInfo.projectname,
-            color: '#333',
-            fontSize: 12,
-            borderRadius: 5,
-            display: 'ALWAYS',
-            padding:8
-        }
-        }]
-      }else {
-        that.markers[0].callout.display="display:'none'";
-      }
-    }
-    })
-        },
+            address: that.houseInfo.address,   //用户输入的地址（注：地址中请包含城市名称，否则会影响解析效果），如：'北京市海淀区彩和坊路海淀西大街74号'
+            complete: data => {
+              if(data.status==0){
+                that.location=data.result.location;
+              
+                that.markers=[{
+                  id: 1,
+                  latitude: that.location.lat,
+                  longitude: that.location.lng,
+                  name: that.houseInfo.projectname,
+                  width: 30,
+                  height: 30,
+                  iconPath:app.globalData.imgurl +"map.png",
+                  callout: {
+                    content: that.houseInfo.projectname,
+                    color: '#333',
+                    fontSize: 12,
+                    borderRadius: 5,
+                    display: 'ALWAYS',
+                    padding:8
+                }
+                }]
+              }else {
+                that.markers[0].callout.display="display:'none'";
+              }
+            }
+            })
+          },
      
         fail: function (res) {},
       });
