@@ -355,7 +355,7 @@ export default {
     that.pricearr=[];
     that.rentarr=[];
     that.areaarr=[];
-    that.esf=[];
+    // that.esf=[];
     that.specialId="";
     that.rentId=[];
     that.zjtate = null;

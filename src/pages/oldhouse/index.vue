@@ -352,7 +352,7 @@ export default {
     that.apirlroomarr=[];
     that.pricearr=[];
     that.areaarr=[];
-    that.esf=[];
+    // that.esf=[];
     that.specialId="";
     that.priceId=[];
     that.jgtate = null;

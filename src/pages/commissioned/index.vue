@@ -108,6 +108,8 @@ export default {
 
     }
   },
+   
+
    methods: {
     //点击取消授权
     quxiao:function(){

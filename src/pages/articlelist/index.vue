@@ -24,7 +24,7 @@
                   <p><span class="m2">{{item.publishdate}}</span></p>
                 </div>
                 <div class="xw_right">
-                  <image :src="domain+item.imgurl" class="slide-image" mode="scaleToFill" />             
+                  <image :src="item.imgurl =='' ? lisImgurl : domain+item.imgurl" mode="scaleToFill" />       
                 </div>
               </li>
             </ul>
@@ -41,7 +41,7 @@
                   <p><span class="m2">{{item.publishdate}}</span></p>
                 </div>
                 <div class="xw_right">
-                  <image :src="domain+item.imgurlStr" class="slide-image" mode="scaleToFill" />             
+                  <image :src="item.imgurlStr =='' ? lisImgurl : domain+item.imgurlStr" mode="scaleToFill" />            
                 </div>
               </li>
             </ul>
@@ -58,7 +58,7 @@
                   <p><span class="m2">{{item.publishdate}}</span></p>
                 </div>
                 <div class="xw_right">
-                  <image :src="domain+item.imgurlStr" class="slide-image" mode="scaleToFill" />             
+                  <image :src="item.imgurlStr =='' ? lisImgurl : domain+item.imgurlStr" mode="scaleToFill" />           
                 </div>
               </li>
             </ul>
@@ -92,6 +92,7 @@ export default {
       allPagenew:null,
       allPageoffer:null,
       allPagesales:null,
+      lisImgurl:app.globalData.imgurl +"zanwutup.jpg",
  
 
 
@@ -134,9 +135,20 @@ export default {
           
           
           that.newList = res.data.Context.newList;
+          for(var i = 0;i<that.newList.length;i++){
+            that.newList[i].publishdate = that.newList[i].publishdate.substring(0, 10);;
+          }
 
           that.offerinfoList = res.data.Context.offerinfoList.ds;
+          for(var i = 0;i<that.offerinfoList.length;i++){
+            that.offerinfoList[i].publishdate = that.offerinfoList[i].publishdate.substring(0, 10);;
+          }
+
           that.salesnewsList = res.data.Context.salesnewsList.ds;
+          for(var i = 0;i<that.salesnewsList.length;i++){
+            that.salesnewsList[i].publishdate = that.salesnewsList[i].publishdate.substring(0, 10);;
+          }
+
           if (res.data.Context.recordNewCount == 0) {
           } else {
             that.allPagenew = res.data.Context.recordNewCount;

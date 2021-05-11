@@ -327,6 +327,10 @@
       </div>
     </div>
     <!-- 推荐房源结束 -->
+
+    <div class="f_bk" style="height:110rpx;"></div>
+
+
     <!-- 底部按钮开始 -->
     <div class="footer">
       <div class="left_foot">
@@ -630,8 +634,8 @@ export default {
           }
 
           let patient = res.data;
-          //房源轮播图
           
+          //房源轮播图
           if(res.data.Context.carousel.length>0){
             that.movies = res.data.Context.carousel; 
           }else{
@@ -648,9 +652,9 @@ export default {
             
           }
           console.log("ttttt",that.movies)
-         for(var j = 0;j<that.movies.length;j++){
-           that.imgArr.push(that.domain+that.movies[j].imgurl);
-         }
+          for(var j = 0;j<that.movies.length;j++){
+            that.imgArr.push(that.domain+that.movies[j].imgurl);
+          }
           that.isshowvr = res.data.Context.houseInfo.isshowvr;
           //房源基本信息详情
           that.houseInfo = res.data.Context.houseInfo;
@@ -1584,7 +1588,7 @@ clickService:function(){
 .r_xiangmu{ width: 40%; float: right;}
 .r_xiangmu image{ width: 100%; height:200rpx;}
 
-.k2{padding-bottom:30rpx;margin-top: 5%; border-bottom: 1rpx rgb(243, 243, 243) solid; }
+ .k2{margin-top: 5%;/*padding-bottom:30rpx; border-bottom: 1rpx rgb(243, 243, 243) solid;*/ } 
 .hx_bt1{ width:100%; overflow: hidden;}
 .hx_bt1 p{ float: left; font-size:32rpx; font-weight: bold; }
 .hx_bt1 span{ float: right; font-size:24rpx;}
@@ -1611,7 +1615,7 @@ clickService:function(){
 
 /* 推荐房源 */
 .house-s{width:100%; background: #fff; margin: 0 auto; height:380rpx; padding-top:40rpx; margin-bottom:20rpx;}
-.nr-house{ width:100%;  margin-top:30rpx; padding-bottom: 110rpx;}
+.nr-house{ width:100%;  margin-top:30rpx; }
 .h-mt {overflow: hidden;margin-bottom:15rpx;}
 .nr-house image {float: left;width: 40%;height: 200rpx;border-radius: 10rpx;}
 .nr-house .r_wz {float: right;width: 57%;}

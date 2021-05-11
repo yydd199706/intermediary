@@ -28,7 +28,7 @@
           <div class="sjmz"><span>{{item.publishdate}}</span></div>
         </div>
         <div class="tj_right">
-          <image :src="domain+item.imgurl" class="slide-image" />
+          <image :src="item.imgurl =='' ? lisImgurl : domain+item.imgurl" class="slide-image" /> 
         </div>
       </div>
 
@@ -132,6 +132,7 @@ export default {
       telHid:false,
       newType:null,
       typeList:"",
+      lisImgurl:app.globalData.imgurl +"zanwutup.jpg",
 
  
  
@@ -157,6 +158,10 @@ export default {
             console.log('新闻文章',res)
             that.newsModel = res.data.Context.newsModel;
             that.moretjlist = res.data.Context.moreNews;
+            for(var i = 0;i<that.moretjlist.length;i++){
+              that.moretjlist[i].publishdate = that.moretjlist[i].publishdate.substring(0, 10);;
+            }
+
             that.moreProject = res.data.Context.moreProject;
           }
         })
@@ -166,6 +171,10 @@ export default {
           success: function (res) {
             that.newsModel = res.data.Context.newsModel;
             that.moretjlist = res.data.Context.moreNews;
+            for(var i = 0;i<that.moretjlist.length;i++){
+              that.moretjlist[i].publishdate = that.moretjlist[i].publishdate.substring(0, 10);;
+            }
+
             that.moreProject = res.data.Context.moreProject;
           }
         })
@@ -179,6 +188,10 @@ export default {
             console.log('新闻文章',res)
             that.newsModel = res.data.Context.newsModel;
             that.moretjlist = res.data.Context.moreNews;
+            for(var i = 0;i<that.moretjlist.length;i++){
+              that.moretjlist[i].publishdate = that.moretjlist[i].publishdate.substring(0, 10);;
+            }
+            
             that.moreProject = res.data.Context.moreProject;
           }
       })
@@ -195,13 +208,10 @@ export default {
 
   methods: {
     newsListclick:function(index,e){
-       console.log("文章",e.mp.currentTarget.dataset.id)
-       console.log("文章11",e.mp.currentTarget.dataset.typelist)
-       wx.navigateTo({ url: "/pages/articledetails/main?id=" + e.mp.currentTarget.dataset.id + "&typeList="+ e.mp.currentTarget.dataset.typelist+"&page="+e.mp.currentTarget.dataset.page});
+      wx.navigateTo({ url: "/pages/articledetails/main?id=" + e.mp.currentTarget.dataset.id + "&typeList="+ e.mp.currentTarget.dataset.typelist+"&page="+e.mp.currentTarget.dataset.page});
     },
     //点击跳转新房详情页
     newDetail:function(index,e){
-      console.log("cc",e)
       wx.navigateTo({ url: "/pages/newhousedetails/main?id=" + e.mp.currentTarget.dataset.id });
     },
 

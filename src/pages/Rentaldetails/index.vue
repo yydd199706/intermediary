@@ -66,7 +66,7 @@
          <div class="bfb" @click="moreDetails(index,$event)" :data-id="houseInfo.id">
             <div class="xq_l">更多</div>
             <span class="maohao">：</span>
-            <div class="xq_rs">{{houseInfo.Specialname}}</div>
+            <div class="xq_rs">查看更多详情</div>
             <p>></p>
          </div>
       </div>
@@ -207,6 +207,8 @@
 
     </div>
     <!-- 推荐房源结束 -->
+
+    <div class="f_bk" style="height:110rpx;"></div>
 
 
 
@@ -408,7 +410,7 @@ export default {
 
   onLoad(option) {
     const that = this;
-    that.movies = "";
+    that.movies = [];
     that.houseInfo = "";
     that.fangyuanlist = [
         {img1:app.globalData.imgurl + "f1.png",img2:app.globalData.imgurl + "f1s.png",name:'电视',isshow:0},
@@ -431,11 +433,32 @@ export default {
         success: function (res) {
           console.log("租房详情",res)
 
-          //轮播图
-          that.movies = res.data.Context.carousel;
-          for(var i = 0;i<that.movies.length;i++ ){
-            that.imgArr.push(that.domain+that.movies[i].imgurl)
+
+          //房源轮播图
+          if(res.data.Context.carousel.length>0){
+            that.movies = res.data.Context.carousel; 
+          }else{
+            var obj={
+              createdate:null,
+              houseid:null,
+              id:null,
+              imgurl:"wximg/zanwutup.jpg",
+              isdefault:null,
+              title:null,
+              type:null,
+            }
+            that.movies.push(obj);
+            
           }
+          console.log("ttttt",that.movies)
+          for(var j = 0;j<that.movies.length;j++){
+            that.imgArr.push(that.domain+that.movies[j].imgurl);
+          }
+
+
+
+
+
           //房源介绍
           that.houseInfo = res.data.Context.houseInfo;
           that.projectname = res.data.Context.houseInfo.projectname;
@@ -1178,7 +1201,7 @@ export default {
 
 /* 推荐房源 */
 .recommendfy{width: 90%; padding-left: 5%; padding-right: 5%; margin-top: 5%; padding-bottom: 5%; border-bottom:20rpx #f8f8fa solid;}
-.nr-house{ width:100%;  margin-top:30rpx; padding-bottom: 110rpx;}
+.nr-house{ width:100%;  margin-top:30rpx;}
 .h-mt {overflow: hidden;margin-bottom:15rpx;}
 .nr-house image {float: left;width: 40%;height: 200rpx;border-radius: 10rpx;}
 .nr-house .r_wz {float: right;width: 57%;}
