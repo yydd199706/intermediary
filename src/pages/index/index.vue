@@ -265,7 +265,8 @@ export default {
         {img3:"/static/images/meun1.png",title: "二手房",url: "/pages/oldhouse/main"},
         { img3:"/static/images/meun2.png", title: "新房" ,url: "/pages/newhouse/main"},
         { img3:"/static/images/meun3.png", title: "租房" ,url: "/pages/Rental/main"},
-        { img3:"/static/images/meun4.png", title: "房贷计算器",url: "/pages/syloans/main" },
+        { img3:"/static/images/meun4.png", title: "计算器",url: "/pages/syloans/main" },
+        { img3:"/static/images/meun5.png", title: "赚佣金",url: "/pages/commission/main" },
       ],
       news: [],
       activity: [],
@@ -549,7 +550,7 @@ export default {
 
 /* 导航 */
 .nav {
-  width: 100%;position: relative;top:110rpx; margin-bottom: 180rpx;
+  width:98%; margin-left: 1%; margin-right: 1%; position: relative;top:110rpx; margin-bottom: 180rpx;
   margin-top: 5%;
   /* padding-bottom:3%;
   border-bottom: 20rpx #efefef solid; */
@@ -557,7 +558,7 @@ export default {
 }
 .navigation {
   float: left;
-  width: 24%;
+  width: 20%;
   margin: 0 auto;
 }
 .navigation image {

@@ -98,9 +98,16 @@ const ConvertTimestamp = date => {
       return today;
     }
 
+    const GetPartTime ={
+      now: function() {
+        return (new Date()).toLocaleString()
+      }
+    }
+
 export {
   formatTime,
   initApp,
   ConvertTimestamp,
-  ConvertDate 
+  ConvertDate,
+  GetPartTime
 }

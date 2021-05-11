@@ -146,7 +146,7 @@
       <!-- 优惠结束 -->
       
       <!-- 户型开始 -->
-      <div class="huxingda" >
+      <div class="huxingda" v-if="housegengdss.length > 0 ? true : false" >
         <div class="hx_bt">
           <p>户型介绍</p>
         </div>
@@ -454,6 +454,7 @@ export default {
       that.listData=[];
       that.state=0;
       that.current= 0;
+      that.housegengdss=[];
       
     common.initApp(function (userInfo) { 
       
@@ -536,52 +537,79 @@ export default {
             for(var i = 0;i<that.houseArr.length;i++){
               that.housegengd.push(that.houseArr[i].List);
             }
-            that.housegengdss = that.housegengd[0]; 
+            if(that.housegengd.length>0){
+              that.housegengdss = that.housegengd[0]; 
+            }
+            
+            console.log("hhhhh",that.housegengdss)
             //that.HousetypeImgs = that.housegengdss[0].imgurl;
-            // that.listData.push(that.domain+that.HousetypeImgs);
+            
             //置业顾问
             that.guwenlists = res.data.Context.managerList;
 
+            
 
             if(that.newInfo.longitude!=""&&that.newInfo.latitude!=""){
               that.location.lng= parseFloat(that.newInfo.longitude);
               that.location.lat= parseFloat(that.newInfo.latitude);
-              console.log("that.location.lng",that.location.lng);
-              console.log("that.location.lat",that.location.lat);
+              if(that.location!=null){
+                that.markers=[{
+                  id: 1,
+                  latitude: parseFloat(that.location.lat),
+                  longitude: parseFloat(that.location.lng),
+                  name: that.newInfo.name,
+                  width: 30,
+                  height: 30,
+                  iconPath:app.globalData.imgurl +"map.png",
+                  callout: {
+                    content: that.newInfo.name,
+                    color: '#333',
+                    fontSize: 12,
+                    borderRadius: 5,
+                    display: 'ALWAYS',
+                    padding:8
+                  }
+                }]
+              }
             }else{
               // 地图
-              qqMap.geocoder({
-                address:that.newInfo.address,   //用户输入的地址（注：地址中请包含城市名称，否则会影响解析效果），如：'北京市海淀区彩和坊西大街74号'
-                complete: data => {
-                  if(data.status==0){
-                    that.location=data.result.location;
-                    console.log("location.lng",that.location.lng);
-                    console.log("location.lat",that.location.lat);
+              var fdStart = that.newInfo.address.indexOf("安康市");
+              if(fdStart == 0){
+                qqMap.geocoder({
+                  address:that.newInfo.address,   //用户输入的地址（注：地址中请包含城市名称，否则会影响解析效果），如：'北京市海淀区彩和坊西大街74号'
+                  complete: data => {
+                    if(data.status==0){
+                      that.location=data.result.location;
+                      if(that.location!=null){
+                        that.markers=[{
+                          id: 1,
+                          latitude: parseFloat(that.location.lat),
+                          longitude: parseFloat(that.location.lng),
+                          name: that.newInfo.name,
+                          width: 30,
+                          height: 30,
+                          iconPath:app.globalData.imgurl +"map.png",
+                          callout: {
+                            content: that.newInfo.name,
+                            color: '#333',
+                            fontSize: 12,
+                            borderRadius: 5,
+                            display: 'ALWAYS',
+                            padding:8
+                          }
+                        }]
+                      }
+
+                    }
                   }
-                }
-              })
+                })
+              }else if(fdStart == -1){
+                that.location=null;
+              }
+              
 
             }
-            if(that.location!=null){
-              that.markers=[{
-                id: 1,
-                latitude: parseFloat(that.location.lat),
-                longitude: parseFloat(that.location.lng),
-                name: that.newInfo.name,
-                width: 30,
-                height: 30,
-                iconPath:app.globalData.imgurl +"map.png",
-                callout: {
-                  content: that.newInfo.name,
-                  color: '#333',
-                  fontSize: 12,
-                  borderRadius: 5,
-                  display: 'ALWAYS',
-                  padding:8
-                }
-              }]
-
-            }
+            
             
             
 

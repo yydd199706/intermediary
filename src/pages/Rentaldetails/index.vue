@@ -144,11 +144,11 @@
 
 
     <!-- 位置及周边地图开始 -->
-    <div class="ditu">
+    <div class="ditu" v-if="location">
       <div class="hx_bt">
         <p>位置及周边地图</p>
       </div>
-      <div class="map_img" v-if="location">
+      <div class="map_img">
         <map id="map" :longitude="location.lng" :latitude="location.lat" :scale="14" :controls="controls" bindcontroltap="controltap" :markers="markers" :bindmarkertap="markertap" :polyline="polyline" :bindregionchange="regionchange" show-location style="width: 100%; height: 220px;" :enable-scroll="false" :enable-zoom="false" @click="clickAdress"></map>
       </div>
 
@@ -166,7 +166,7 @@
       <div class="houseyuan_list">
         <scroll-view scroll-x="true" style="width: 100%" class="image-group">
           <div class="fangy_list" v-for="(item, index) in sameDistrict" :key="index" @click="SameDistrictclick(index,$event)" :data-id="item.id">
-            <image v-if="domain" :src="domain+item.Imgurl" class="slide-image" />
+            <image v-if="domain" :src="item.Imgurl =='' ? lisImgurl : domain+item.Imgurl" class="slide-image" />
             <h3><span>{{item.apirlroom}}室{{item.apirloffice}}厅{{item.apirltoilet}}卫</span>/<span>{{item.area}}m²</span>/<span>{{item.Towardname}}</span></h3>
             <p><span class="dj1">{{item.rent==""||item.rent==null?'价格待定':item.rent+'元/月'}}</span></p>
           </div>
@@ -342,6 +342,7 @@ export default {
       agentlist:[],
       img9:app.globalData.imgurl +"wx.png",
       img10s: app.globalData.imgurl +"dh.png",
+      lisImgurl:app.globalData.imgurl +"zanwutup.jpg",
       location:null,
       sameDistrict:[],
       recommended:[],

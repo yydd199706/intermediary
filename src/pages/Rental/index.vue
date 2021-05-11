@@ -178,7 +178,7 @@
     <div class="intention-house" v-if="esf.length>0?true:false">
       <div class="intention-nr">
         <div class="h-mt" v-for="(item, index) in esf" :key="index" :data-id="item.id" @click="esfDetail(index,$event)">
-          <image :src="domain+item.Imgurl" class="new-image" mode="scaleToFill" />
+          <image :src="item.Imgurl =='' ? lisImgurl : domain+item.Imgurl" class="new-image" mode="scaleToFill" />
           <div class="r_wz">
             <div class="bt_s">{{item.title}}</div>
             <div class="jieshao">
@@ -228,6 +228,7 @@ export default {
       img4:app.globalData.imgurl +"top_ra.png",
       img5:app.globalData.imgurl +"null_data.png",
       img6:app.globalData.imgurl +"clear.png",
+      lisImgurl:app.globalData.imgurl +"zanwutup.jpg",
       regionType:[],
       priceType:[],
       apirlroomType:[],

@@ -78,6 +78,7 @@
 <script>
 const app = getApp();
 const common = require("@/utils/index");
+
 export default {
   data () {
     return {
@@ -131,7 +132,9 @@ export default {
         success (res) {
           console.log('新闻',res)
           
+          
           that.newList = res.data.Context.newList;
+
           that.offerinfoList = res.data.Context.offerinfoList.ds;
           that.salesnewsList = res.data.Context.salesnewsList.ds;
           if (res.data.Context.recordNewCount == 0) {
@@ -146,7 +149,6 @@ export default {
           } else {
             that.allPagesales = res.data.Context.recordSalesCount;
           }
-          console.log("优惠项目",that.offerinfoList)
 
 
         }

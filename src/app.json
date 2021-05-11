@@ -47,7 +47,8 @@
     "pages/chatNew/main",
     "pages/chatRental/main",
     "pages/url/main",
-    "pages/table/main"
+    "pages/table/main",
+    "pages/commission/main"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -67,18 +68,23 @@
       "selectedIconPath": "static/tabs/img1.png"
     }, 
     {
-      "text": "新闻",
+      "text": "资讯",
       "pagePath": "pages/articleList/main",
       "iconPath": "static/tabs/img3.png",
       "selectedIconPath": "static/tabs/img4.png"
-    }, 
+    },
     {
       "text": "房屋委托",
       "pagePath": "pages/commissioned/main",
       "iconPath": "static/tabs/img5.png",
       "selectedIconPath": "static/tabs/img6.png"
     },
-      
+    {
+      "text": "消息",
+      "pagePath": "pages/chatList/main",
+      "iconPath": "static/tabs/img9.png",
+      "selectedIconPath": "static/tabs/img10.png"
+    }, 
     {
       "text": "我的",
       "pagePath": "pages/user/main",

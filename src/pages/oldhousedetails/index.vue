@@ -205,7 +205,8 @@
         <scroll-view scroll-x="true" style="width: 100%" class="image-group">
           <div class="likelist" v-for="(item, cai) in likes" :key="cai" @click="likeDetail(index,$event)" :data-id="item.id">
             <div class="tupian_l">
-              <image v-if="domain" :src="domain+item.Imgurl" mode="scaleToFill"/>
+              <image v-if="domain" :src="item.Imgurl =='' ? lisImgurl : domain+item.Imgurl" mode="scaleToFill"/>
+              <!-- <image v-if="domain" :src="domain+item.Imgurl" mode="scaleToFill"/> -->
               <div class="guanzhu" v-if="gznum > 0 ? true : false">{{item.gznum}}人关注</div>
             </div>
             <div class="wenzi_r">
@@ -229,7 +230,6 @@
 
       </div>
       <div class="map_img">
-
           <map id="map" :longitude="location.lng" :latitude="location.lat" :scale="14" :controls="controls" 
           bindcontroltap="controltap" :markers="markers" :bindmarkertap="markertap" :polyline="polyline"
           :bindregionchange="regionchange" show-location style="width: 100%; height: 220px;"
@@ -289,7 +289,8 @@
           <div class="fangyuan_list">
             <scroll-view scroll-x="true" style="width: 100%" class="image-group">
               <div class="fang_list" v-for="(item, index) in sameDistrict" :key="index" @click="likeDetail(index,$event)" :data-id="item.id">
-                <image v-if="domain" :src="domain+item.Imgurl" class="slide-image" />
+                <!-- <image v-if="domain" :src="domain+item.Imgurl" class="slide-image" /> -->
+                <image v-if="domain" :src="item.Imgurl =='' ? lisImgurl : domain+item.Imgurl" class="slide-image" />
                 <h3><span>{{item.apirlroom}}室{{item.apirloffice}}厅{{item.apirltoilet}}卫</span>/<span>{{item.area}}m²</span>/<span>{{item.Towardname}}</span></h3>
                 <p><span class="dj1">{{item.price}}万元</span><span class="dj2">{{item.averageprice}}元/平</span></p>
               </div>
@@ -308,7 +309,7 @@
         :data-id="item.id">
           <image v-if="domain" :src="domain+item.Imgurl" class="new-image" mode="scaleToFill" />
           <div class="r_wz">
-            <div class="bt_s">{{ item.title}}</div>
+            <div class="bt_s">{{item.title}}</div>
             <div class="jieshao">
               <span>{{item.apirlroom}}室{{item.apirloffice}}厅{{item.apirloffice}}卫</span>/<span>{{item.area}}m²</span>/
               <span>{{item.Towardname}}</span>
@@ -527,6 +528,9 @@ export default {
       img12: app.globalData.imgurl +"xin.png",
       img13: app.globalData.imgurl +"fx.png",
       img14: app.globalData.imgurl +"yy.png",
+
+      lisImgurl:app.globalData.imgurl +"zanwutup.jpg",
+
       gztu_img:0,
       project:null,
       yy_img: app.globalData.imgurl +"yyzz.png",
@@ -596,7 +600,7 @@ export default {
   onLoad(option) {
     const that = this;
     clearInterval(that.timer);
-    that.movies="";
+    that.movies=[];
     that.projectname = "";
     that.newInfo="",
     that.location=null;
@@ -627,7 +631,23 @@ export default {
 
           let patient = res.data;
           //房源轮播图
-          that.movies = res.data.Context.carousel; 
+          
+          if(res.data.Context.carousel.length>0){
+            that.movies = res.data.Context.carousel; 
+          }else{
+            var obj={
+              createdate:null,
+              houseid:null,
+              id:null,
+              imgurl:"wximg/zanwutup.jpg",
+              isdefault:null,
+              title:null,
+              type:null,
+            }
+            that.movies.push(obj);
+            
+          }
+          console.log("ttttt",that.movies)
          for(var j = 0;j<that.movies.length;j++){
            that.imgArr.push(that.domain+that.movies[j].imgurl);
          }
@@ -717,7 +737,7 @@ export default {
           //同小区房源
           that.sameDistrict = res.data.Context.sameDistrict;
           //推荐房源
-          that.recommended = res.data.Context.recommended;
+          that.recommended = res.data.Context.recommendedHose;
           //当前经纪人
           that.reservedtelphone=res.data.Context.agent.mobile;
           that.agentId=res.data.Context.agent.id;
