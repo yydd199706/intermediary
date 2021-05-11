@@ -41,8 +41,21 @@
           <input id="name" type="text" placeholder="带看时间" placeholder-style="color: #aaa" />
         </div>
       </div>-->
-
+      <!-- <div class="project__input">
+          <div class="xmmc">带看项目</div>
+          <div class="shuru1">
+            <input :value="repaymentText"  @click="lilvPicker" placeholder="请选择" :disabled="true"/>                  
+            <mpvue-picker ref="mpvue20Picker" :pickerValueDefault="pickerValueDefault" @onConfirm="onrepaymentConfirm"  :pickerValueArray="sourceValueArray" ></mpvue-picker>
+          </div>
+        </div> -->
+        <div class="project__input">
+          <div class="xmmc">带看项目</div>
+          <div class="shuru1">
+            <input :value="nameArr"  @click="lilvPicker" placeholder="请选择" :disabled="true"/>     
+          </div>
+        </div>
       <div class="baobei_kuang1" v-for="(item, index) in bbList" :key="index">
+        
         <!-- 客户姓名 -->
         <div class="project__input">
           <div class="xmmc">客户姓名</div>
@@ -134,11 +147,14 @@ export default {
       
       houserid: "",
       mid: "",
-      index: 0
+      index: 0,
+      nameArr:[]
     };
   },
   onLoad(option) {
-    const that = this; 
+    const that = this;
+    console.log('option',option); 
+    that.nameArr=option.nameArr;
     that.bbList=[
         {
           mid: 0,

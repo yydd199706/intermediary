@@ -168,12 +168,15 @@
 
     <!-- 文章列表开始 -->
     <div class="intention-nr">
-        <div class="intention-mt" v-for="(item, index) in newslist" :key="index" :data-id="item.id" @click="newDetail(index,$event)">
-          <image :src="domain+item.ImgUrl" class="new-image" mode="scaleToFill" />
+       <!-- @click="newDetail(index,$event)" -->
+        <div class="intention-mt" v-for="(item, index) in newslist" :key="index" :data-id="item.id">
+          <div class="intention-mt-img"><image :src="domain+item.ImgUrl" class="new-image" mode="scaleToFill" />
+          <span>{{item.salestatename}}</span></div>
           <div class="intention-right">
             <div class="bt_ri">
               <div class="bt_s newHouse_name">{{item.name}}</div>
-              <div class="salestatename">{{item.salestatename}} </div>
+              <div class="salestatename" @click="daikanClick(index,$event)" :data-id="item.id"
+               :data-name="item.name">{{item.lookText}}</div>
             </div>
             <div class="NewsTitle">{{item.NewsTitle==""?"暂无优惠":item.NewsTitle}}</div>
              <div class="zonename">
@@ -201,6 +204,10 @@
     <!-- 一键回到顶部 -->
     <div class="hujian" v-if="topHid" @click="goTop">
       <image :src="img" class="new-image" mode="scaleToFill" />
+    </div>
+    <!-- 带看报备 -->
+    <div class="daikan" @click="lookTab" v-if="daikan">
+      带看报备({{num}}个)
     </div>
 
 
@@ -264,7 +271,7 @@ export default {
       salestateId: [],
       priceId: [],
       orderById:"",
-
+      num:0,
       keyword:"",
       salestate:null,
       jgtate:null,
@@ -298,7 +305,10 @@ export default {
       jgbtn:false,
       hxbtn:false,
       gdbtn:false,
-      dqval: 0
+      dqval: 0,
+      lookText:"带看报备",
+      idArr:[],
+      nameArr:[]
 
     }
   },
@@ -809,9 +819,13 @@ export default {
       },
       success (res) {
         console.log('res',res)
+
          if (res.data.Context.project.length > 0) {
           for (var i = 0; i < res.data.Context.project.length; i++) {
+            res.data.Context.project[i].lookText="带看报备";
+            //  that.newslist[i].lookText="带看报备";
            that.newslist.push(res.data.Context.project[i]);
+           
           }
         } 
         if (res.data.Context.recordCount == 0) {
@@ -834,10 +848,39 @@ export default {
        wx.navigateTo({url:"/pages/search/main?type=" + "project"});
     },
     //点击跳转新房详情页
-    newDetail:function(index,e){
-      console.log('新房详情',e.mp.currentTarget.dataset)
-      wx.navigateTo({ url: "/pages/newhousedetails/main?id=" + e.mp.currentTarget.dataset.id });
+    // newDetail:function(index,e){
+    //   console.log('新房详情',e.mp.currentTarget.dataset)
+    //   wx.navigateTo({ url: "/pages/newhousedetails/main?id=" + e.mp.currentTarget.dataset.id });
+    // },
+    //点击跳转带看报备页面
+    lookTab:function(){
+      const that = this;
+      wx.navigateTo({url:"/pages/Report/main?idArr="+that.idArr+"&nameArr="+that.nameArr});
     },
+    //点击选择项目报备
+    daikanClick:function(index,e){
+      const that = this;
+      var id=e.mp.currentTarget.dataset.id;
+      var name=e.mp.currentTarget.dataset.name;
+      console.log('e==',e.mp.currentTarget.dataset.id);
+      if(that.newslist[index].lookText=="取消带看"){
+        that.newslist[index].lookText="带看报备";
+        that.idArr.splice(index,1);
+        that.nameArr.splice(index,1);
+        that.num=that.num-1;
+         console.log('删除id数组',that.idArr);
+          console.log('删除名称数组',that.nameArr);
+      }else{
+         that.newslist[index].lookText="取消带看";
+         that.idArr.push(id);
+         that.nameArr.push(name);
+         that.num=that.num+1;
+          console.log('id数组',that.idArr);
+          console.log('名称数组',that.nameArr);
+      }
+         
+         
+    }
      
 
 
@@ -917,10 +960,20 @@ export default {
   width: 100%;
   margin-bottom: 15rpx;
 }
-.intention-nr image {
-  float: left;
+.intention-mt-img{float: left;
   width: 45%;
-  height: 234rpx;
+  height: 234rpx;position: relative;}
+.intention-mt-img>span{position: absolute;top: 15rpx;right: 20rpx;width: 115rpx;
+  height: 40rpx;
+  line-height: 40rpx;
+  background: #0a8de4;
+  text-align: center;
+  font-size: 25rpx;
+  color: #fff;
+  border-radius: 3px;}
+.intention-nr image {
+  width: 100%;
+  height: 100%;
   border-radius: 10rpx;
 }
 .intention-nr .intention-right {
@@ -1102,7 +1155,9 @@ text-overflow:ellipsis;
 .average{color: #A1A1A1;margin-left: 20rpx;font-size: 28rpx;float: left;}
 .hujian{width: 110rpx;height: 110rpx;position: fixed;right: 10rpx;bottom: 300rpx;}
 .hujian>image{width: 100%;height: 100%;}
-.sort{padding: 0 0 50rpx 40rpx;color: #333;font-size: 28rpx;box-sizing: border-box;}
+.daikan{width: 100%;height: 100rpx;position: fixed;right: 0;bottom: 0;color: #fff;background: #0a8de4;
+text-align: center;line-height: 100rpx;}
+.sort{padding: 0 0 50rpx 40rpx;color: #333;font-size: 26rpx;box-sizing: border-box;}
 .sort>div{padding-top: 50rpx;}
 .colors{color: #3072F6;}
 </style>

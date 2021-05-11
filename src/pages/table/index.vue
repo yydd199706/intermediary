@@ -133,38 +133,48 @@ interestClick:function(index,e){
    if(index==0){
      
     if(that.tab==1){
+      var apr1 = that.rateText == "4.900%" ? (4.9 / 100) : parseFloat(that.rateText) / 100;
       console.log('商业贷款',that.tab);
     var money1 = that.monVal == "" ? 0 : parseFloat(that.monVal) * 10000;
     var month1 = parseInt(that.yearText);
-    that.PrintType1(money1, 0, month1, parseFloat(that.rateText), 0);
+    that.PrintType1(money1, 0, month1, apr1, 0);
   }else if(that.tab==2){
+    var apr1 = that.rateText == "4.900%" ? (4.9 / 100) : parseFloat(that.rateText) / 100;
+    var apr2 = that.accText == "3.250%" ? (3.25 / 100) : parseFloat(that.accText) / 100;
     var month1 = parseInt(that.yearText);
     var money1 = that.busVal == "" ? 0 : parseFloat(that.busVal) * 10000;
     var money2 = that.fundVal == "" ? 0 : parseFloat(that.fundVal) * 10000;
-     I.PrintType1(money1, money2, month1, parseFloat(that.rateText), parseFloat(that.accText));
+     I.PrintType1(money1, money2, month1, apr1, apr2);
   }else if(that.tab==3){
+    var apr2 = that.accText == "3.250%" ? (3.25 / 100) : parseFloat(that.accText) / 100;
    var money1 = that.monVal == "" ? 0 : parseFloat(that.monVal) * 10000;
     var month1 = parseInt(that.yearText);
-    that.PrintType1(money1, 0, month1, parseFloat(that.accText), 0);
+    that.PrintType1(money1, 0, month1, apr2, 0);
   }
   }
   else{
     
     that.repaymentText="等额本金";
     if(that.tab==1){
+    var apr1 = that.rateText == "4.900%" ? (4.9 / 100) : parseFloat(that.rateText) / 100;
     var money1 = that.monVal == "" ? 0 : parseFloat(that.monVal) * 10000;
     var month1 = parseInt(that.yearText);
-    that.PrintType2(money1, 0, month1, parseFloat(that.rateText), 0);
+    that.PrintType2(money1, 0, month1, apr1, 0);
     console.log('等额本金',that.rateText);
+     console.log('等额本金1',money1);
+     console.log('等额本金2',month1);
   }else if(that.tab==2){
+    var apr1 = that.rateText == "4.900%" ? (4.9 / 100) : parseFloat(that.rateText) / 100;
+    var apr2 = that.accText == "3.250%" ? (3.25 / 100) : parseFloat(that.accText) / 100;
     var month1 = parseInt(that.yearText);
     var money1 = that.busVal == "" ? 0 : parseFloat(that.busVal) * 10000;
     var money2 = that.fundVal == "" ? 0 : parseFloat(that.fundVal) * 10000;
-     I.PrintType2(money1, money2, month1, parseFloat(that.rateText), parseFloat(that.accText));
+     I.PrintType2(money1, money2, month1, apr1, apr2);
   }else if(that.tab==3){
+    var apr2 = that.accText == "3.250%" ? (3.25 / 100) : parseFloat(that.accText) / 100;
    var money1 = that.monVal == "" ? 0 : parseFloat(that.monVal) * 10000;
     var month1 = parseInt(that.yearText);
-    that.PrintType2(money1, 0, month1, parseFloat(that.accText), 0);
+    that.PrintType2(money1, 0, month1, apr2, 0);
   }
   }
 },
@@ -228,12 +238,13 @@ const that = this;
         I.arrayObj.push(detail); 
         
     }
-    console.log('详情',I.arrayObj);   
+    
     that.moneyText="每月还款额固定";
     that.textTitle="每月月供";
     that.monVal=(money1 + money2) / 10000;
-    that.payInterest=(totalLX1.toFixed(0) / 10000).toFixed(2);
-    that.repayment=((money1 + money2 + totalLX1).toFixed(0) / 10000).toFixed(2);
+    that.payInterest=(totalLX1.toFixed(2) / 10000).toFixed(2);
+    console.log('详情',totalLX1);   
+    that.repayment=((money1 + money2 + totalLX1).toFixed(2) / 10000).toFixed(2);
     that.Monthly=parseFloat(perMonth1 + perMonth2).toFixed(2);
 },
 //等额本金
@@ -302,7 +313,8 @@ const that = this;
     that.textTitle="首月月供";
     that.monVal=(money1 + money2) / 10000;
     that.payInterest=(totalLX1.toFixed(0) / 10000).toFixed(2);
-    that.repayment=((money1 + money2 + totalLX1).toFixed(0) / 10000).toFixed(2);
+    console.log('3333',totalLX1)
+    that.repayment=((money1 + money2 + totalLX1).toFixed(2) / 10000).toFixed(2);
     that.Monthly=firstPerMoney;
 },
 
