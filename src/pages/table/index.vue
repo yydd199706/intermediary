@@ -10,7 +10,7 @@
         <div class="line" v-if="repaymentText=='等额本金'?true:false"></div>
       </div> -->
     </div>
-    <div class="listCenter">
+    <!-- <div class="listCenter">
       <div>
         <div class="listCenter_top">贷款总额</div>
         <div class="listCenter_price">{{monVal}}万</div>
@@ -27,7 +27,32 @@
         <div class="listCenter_top">贷款年限</div>
         <div class="listCenter_price">{{yearText}}</div>
       </div>
-    </div>
+    </div> -->
+
+    <div class="my_kuang">
+              <!-- 每月应还 -->
+              <div class="s_yingh">
+                <h1>还款总额</h1>
+                <div class="jine">
+                  <div class="qian">{{repayment}}万</div>
+                </div>
+              </div>
+              <!-- 贷款总额 -->
+              <div class="daikuan">
+                <div>
+                  <h2>贷款总额</h2>
+                  <p>{{monVal}}万</p>
+                </div>
+                <div>
+                  <h2>支付利息</h2>
+                  <p>{{payInterest}}万</p>
+                </div>
+                <div>
+                  <h2>贷款年限</h2>
+                  <p>{{yearText}}</p>
+                </div>
+              </div>
+            </div>
     <div class="adviser">
           <div class="adviser_header adviser_top">
             <span>期数</span>
@@ -341,7 +366,7 @@ const that = this;
 .indexstyle{width: 100%; margin: 0 auto; background: #fff;}
 .tabTop{height: 100rpx;line-height: 100rpx;display: flex;justify-content: center;border-bottom: 4rpx solid #F7F7F7;}
 .tabTop>div{text-align: center;width: 50%;}
-.line{width: 140rpx;height: 4rpx;background: #da0011;margin: 0 auto;}
+.line{width: 140rpx;height: 4rpx;background: #3072f6;margin: 0 auto;}
 .listCenter{width: 100%;;display: flex;justify-content: center;padding: 30rpx 0;box-sizing: border-box;}
 .listCenter>div{width: 25%;text-align: center;}
 /* .listCenter_top{font-size: 26rpx;} */
@@ -390,7 +415,7 @@ const that = this;
   text-align: center;
   float: left;
 }
-.colors{color: #da0011;}
+.colors{color: #3072f6;}
 /* .adviser_bot > span:nth-child(1) {
   float: left;
   width: 70rpx !important;
@@ -410,4 +435,14 @@ const that = this;
 .adviser_bot:nth-child(odd) {
   background-color: #F8F8F8;
 }
+.my_kuang{ width: 96%; background: #3072f6; border-radius: 5%;margin: 40rpx auto;}
+.s_yingh h1{ font-size: 30rpx; text-align: center; margin-bottom: 2%; color: #fff; padding-top:8%;}
+.s_yingh .jine{text-align: center;}
+.s_yingh .jine .qian{ font-size:80rpx; font-weight: bold; color: #fff;}
+.s_yingh .jine .dw_r image{ width: 30rpx; height: 30rpx; margin-top:50%; display: block;}
+.s_yingh .jine .dw_r p{ font-size: 30rpx; color: #fff;}
+.s_yingh h2{font-size: 30rpx; text-align: center; color: #fff; padding-top:1%;}
+.daikuan{ width: 100%; display: flex; flex-direction: row; color: #fff;}
+.daikuan div{ width: 33.3%; margin-top:10%; margin-bottom:8%; text-align: center; border-right:2rpx #6d9bf8 solid;}
+.daikuan div h2{ color: #acc6fb; margin-bottom:8%; font-size: 28rpx;}
 </style>

@@ -423,6 +423,12 @@ export default {
 
 
   methods:{
+    //点击取消授权
+    quxiao:function(){
+      const that = this;
+      that.telHid=false;
+      that.masktelHid=false;
+    },
     //点击我要推荐
     recomClick:function(index,e){
       const that = this;

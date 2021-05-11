@@ -978,6 +978,6 @@ setloanMoney(obj) {
 .result_top_right{float: right;}
 .result_bot{margin-top: 60rpx;display: flex;justify-content: center;font-size: 30rpx;}
 .result_bot>div{width: 30%;text-align: center;}
-.red{color: #da0011;font-weight: bold;}
+.red{color: #3072f6;font-weight: bold;}
 </style>
 s

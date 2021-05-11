@@ -205,6 +205,12 @@
         {
           "name": "计算详情",
           "pathName": "pages/table/main",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/syloansResults/main",
+          "pathName": "pages/syloansResults/main",
           "scene": null
         }
       ]
