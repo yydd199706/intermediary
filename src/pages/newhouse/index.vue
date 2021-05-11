@@ -168,27 +168,40 @@
 
     <!-- 文章列表开始 -->
     <div class="intention-nr">
-       <!-- @click="newDetail(index,$event)" -->
+       <!-- -->
         <div class="intention-mt" v-for="(item, index) in newslist" :key="index" :data-id="item.id">
-          <div class="intention-mt-img"><image :src="domain+item.ImgUrl" class="new-image" mode="scaleToFill" />
+          <div style="overflow: hidden;">
+          <div class="intention-mt-img" @click="newDetail(index,$event)" :data-id="item.id"><image :src="domain+item.ImgUrl" class="new-image" mode="scaleToFill" />
           <span>{{item.salestatename}}</span></div>
           <div class="intention-right">
             <div class="bt_ri">
-              <div class="bt_s newHouse_name">{{item.name}}</div>
+              <div class="bt_s newHouse_name" @click="newDetail(index,$event)" :data-id="item.id">{{item.name}}</div>
               <div class="salestatename" @click="daikanClick(index,$event)" :data-id="item.id"
                :data-name="item.name">{{item.lookText}}</div>
             </div>
-            <div class="NewsTitle">{{item.NewsTitle==""?"暂无优惠":item.NewsTitle}}</div>
-             <div class="zonename">
+            <div class="NewsTitle" @click="newDetail(index,$event)" :data-id="item.id">{{item.NewsTitle==""?"暂无优惠":item.NewsTitle}}</div>
+             <div class="zonename" @click="newDetail(index,$event)" :data-id="item.id">
               {{item.zonename}}
             </div>
-            <div class="youshi">
+            <div class="youshi" @click="newDetail(index,$event)" :data-id="item.id">
               <div class="youshi2" v-if="item.Decorationname==''?false:true">{{item.Decorationname}}</div>
               <div class="youshi2" v-if="item.existingname==''?false:true">{{item.existingname}}</div> 
             </div>
 
-            <div class="m-x">
+            <div class="m-x" @click="newDetail(index,$event)" :data-id="item.id">
               <p class="money">{{item.averageprice==""||item.averageprice==null?'价格待定':'均价'+item.averageprice+'元/m²'}}</p>
+            </div>
+          </div>
+          </div>
+          <!-- hb.png -->
+          <div class="recommend" v-if="item.recommendation==''?false:true">
+            <div class="recommend_left">
+              <image :src="img7" mode="scaleToFill" />
+              <span>{{item.recommendation}}</span>
+            </div>
+            <div class="recommend_right" @click="recomClick(index,$event)" :data-name="item.name">
+              <span>我要推荐</span>
+             <image :src="img8" mode="scaleToFill" />
             </div>
           </div>
         </div>
@@ -206,11 +219,20 @@
       <image :src="img" class="new-image" mode="scaleToFill" />
     </div>
     <!-- 带看报备 -->
-    <div class="daikan" @click="lookTab" v-if="daikan">
+    <div class="daikan" @click="lookTab" v-if="idArr.length>0?true:false">
       带看报备({{num}}个)
     </div>
-
-
+     <!-- 提醒授权开始 -->
+    <div class="authorization" v-if="telHid">
+      <div class="authorization_title">授权提示</div>
+      <div class="authorization_text">为了更好的为您提供服务，我们请求获取您的电话号码</div>
+      <div class="authorization_btn">
+        <button @click="quxiao">取消</button>
+        <button open-type="getPhoneNumber" @getphonenumber="getPhoneNumber" hover-class="none">允许</button>
+      </div>
+    </div>
+    <!-- 提醒授权结束 -->
+  <div class="modalMasktel" v-if="masktelHid"></div>
 
 
   </div>
@@ -234,6 +256,7 @@ export default {
       xianshi:false,
       maskHid:false,
       topHid:false,
+      masktelHid:false,
       isdiscount:false,
       pageNumber:1,
       pageRecord:6,
@@ -243,6 +266,8 @@ export default {
       img4:app.globalData.imgurl +"top_ra.png",
       img5:app.globalData.imgurl +"null_data.png",
       img6:app.globalData.imgurl +"clear.png",
+      img7:app.globalData.imgurl +"hb.png",
+      img8:app.globalData.imgurl +"right.png",
       regionType:[],
        
       apirlroomType:[],
@@ -300,6 +325,7 @@ export default {
       xianshi_hx:false,
       xianshi_sx:false,
       xianshi_sort:false,
+      telHid:false,
       show: false,
       qybtn:false,
       jgbtn:false,
@@ -307,8 +333,12 @@ export default {
       gdbtn:false,
       dqval: 0,
       lookText:"带看报备",
+      recommendation:"",
+      purePhoneNumber:"",
       idArr:[],
-      nameArr:[]
+      nameArr:[],
+      type:"",
+      name:""
 
     }
   },
@@ -363,6 +393,8 @@ export default {
     that.specialId="";
     that.salestateId=[];
     that.priceId=[];
+    that.idArr=[];
+    that.nameArr=[];
     that.jgtate = null;
     that.orderById="";
     that.pageNumber=1;
@@ -391,6 +423,87 @@ export default {
 
 
   methods:{
+    //点击我要推荐
+    recomClick:function(index,e){
+      const that = this;
+      that.name=e.mp.currentTarget.dataset.name;
+      console.log('eee',);
+      that.type="tabType";
+      //检测用户是否登录
+       wx.request({
+          url:app.globalData.url +"WxLogin/CheckLogin" +"?sessionKey=" +app.globalData.sessionKey,
+          success: function (data) {
+            console.log("qqq",data);
+            //登录状态
+            if(data.data==true){
+              // 判断用户角色1为普通用户，2为经纪人
+              if(app.globalData.member.type == 1){
+                wx.showToast({
+                title: '你不是经纪人',
+                icon: 'none',
+                duration: 1000,
+              })
+              }else{
+                wx.navigateTo({url:"/pages/Report/main?nameArr="+that.name});
+              }
+            }else{
+              that.telHid=true;
+              that.masktelHid=true;
+            }
+          }
+        })
+    },
+        getPhoneNumber(e){
+      const that = this;    
+      if (e.mp.detail.errMsg == "getPhoneNumber:ok") {
+        wx.request({
+          url: app.globalData.url +"WxLogin/getPhoneNumber?sessionKey="+app.globalData.sessionKey,
+          method:"POST",
+          data: {
+            encryptedData:e.mp.detail.encryptedData,
+            iv:e.mp.detail.iv
+          },
+          header: {
+            'content-type': 'application/json' // 默认值
+          },
+          success (res) {
+            var obj = JSON.parse(res.data.Context.phoneNumber.trim());
+            that.purePhoneNumber=obj;
+              wx.request({
+                url: app.globalData.url +"WxLogin/RegisterLogin" +"?sessionKey=" +app.globalData.sessionKey,
+                method:"POST",
+                data: {
+                  mobile:that.purePhoneNumber
+                },
+                header: {
+                  'content-type': 'application/json' // 默认值
+                },
+                success (data) {
+                  console.log("deng",data)
+                  if(data.data.Code==0){
+                    that.telHid=false;
+                    that.masktelHid=false;
+                    wx.setStorageSync('member',data.data.Context.member);
+                    app.globalData.member=data.data.Context.member; 
+                    if(data.data.Context.member.type==1){
+                      wx.showToast({
+                        title: '你不是经纪人',
+                        icon: 'none',
+                        duration: 1000,
+                      })
+                    }else{
+                      if(that.type=="tabType"){
+                      wx.navigateTo({url:"/pages/Report/main?nameArr="+that.name});
+                    }
+                    }
+                    
+                  }
+                }
+              })
+          }
+        })
+      }
+    },
     //点击区域
     dianji_qy:function(){
       const that = this;
@@ -848,13 +961,15 @@ export default {
        wx.navigateTo({url:"/pages/search/main?type=" + "project"});
     },
     //点击跳转新房详情页
-    // newDetail:function(index,e){
-    //   console.log('新房详情',e.mp.currentTarget.dataset)
-    //   wx.navigateTo({ url: "/pages/newhousedetails/main?id=" + e.mp.currentTarget.dataset.id });
-    // },
-    //点击跳转带看报备页面
+    newDetail:function(index,e){
+      console.log('新房详情',e.mp.currentTarget.dataset)
+      wx.navigateTo({ url: "/pages/newhousedetails/main?id=" + e.mp.currentTarget.dataset.id });
+    },
+    //点击多项目带看报备
     lookTab:function(){
       const that = this;
+      that.type="lookType";
+      
       wx.navigateTo({url:"/pages/Report/main?idArr="+that.idArr+"&nameArr="+that.nameArr});
     },
     //点击选择项目报备
@@ -863,7 +978,22 @@ export default {
       var id=e.mp.currentTarget.dataset.id;
       var name=e.mp.currentTarget.dataset.name;
       console.log('e==',e.mp.currentTarget.dataset.id);
-      if(that.newslist[index].lookText=="取消带看"){
+      //检测用户是否登录
+       wx.request({
+          url:app.globalData.url +"WxLogin/CheckLogin" +"?sessionKey=" +app.globalData.sessionKey,
+          success: function (data) {
+            console.log("qqq",data);
+            //登录状态
+            if(data.data==true){
+              // 判断用户角色1为普通用户，2为经纪人
+              if(app.globalData.member.type == 1){
+                wx.showToast({
+                title: '你不是经纪人',
+                icon: 'none',
+                duration: 1000,
+              })
+              }else{
+               if(that.newslist[index].lookText=="取消带看"){
         that.newslist[index].lookText="带看报备";
         that.idArr.splice(index,1);
         that.nameArr.splice(index,1);
@@ -878,6 +1008,14 @@ export default {
           console.log('id数组',that.idArr);
           console.log('名称数组',that.nameArr);
       }
+              }
+            }else{
+              that.telHid=true;
+              that.masktelHid=true;
+            }
+          }
+        })
+      
          
          
     }
@@ -943,7 +1081,14 @@ export default {
 
 
 /* 新房列表 */
-.intention-house {
+.recommend{width: 100%;background: #F7DEDE;overflow: hidden;height:50rpx;}
+.recommend_left{float: left;margin-left: 10rpx;}
+.recommend_left>image{width: 40rpx;height: 40rpx;float: left;margin-top: 5rpx;}
+.recommend_left>span{float: left;line-height: 50rpx;font-size: 25rpx;color: #ED4A4A;}
+.recommend_right{float: right;margin-right: 10rpx;}
+.recommend_right>image{width: 20rpx;height: 20rpx;margin-top: 15rpx;margin-left: 15rpx;}
+.recommend_right>span{font-size: 25rpx;color: #ED4A4A;line-height: 50rpx;}
+.intention-house {  
   width: 94%;
   padding-left: 3%;
   padding-right: 3%;
@@ -971,7 +1116,7 @@ export default {
   font-size: 25rpx;
   color: #fff;
   border-radius: 3px;}
-.intention-nr image {
+.intention-mt-img>image {
   width: 100%;
   height: 100%;
   border-radius: 10rpx;
@@ -1086,6 +1231,18 @@ border-radius: 10rpx; background:#f8f8fa; margin-top: 20rpx; text-align: center;
 .huxing{ width:90%; padding-left: 5%; padding-right: 5%; padding-top: 20rpx; margin-bottom:20rpx; clear: both;}
 .huxing p{ float: left; width: 21%; margin-left: 2%; margin-right: 2%; height: 50rpx; line-height: 50rpx; text-align: center;background: #f8f8fa; margin-top: 19rpx; margin-bottom: 10rpx; font-size: 24rpx;}
 .huxing h1{ margin-top: 10rpx; margin-bottom: 20rpx; font-size: 28rpx; font-weight: bold;}
+/* 提醒授权开始 */
+.authorization{width: 80%;margin: 0 auto;position: fixed;top: 390rpx;left: 10%;z-index:999999999;
+background: #fff;padding: 30rpx 30rpx 60rpx 30rpx;box-sizing: border-box;border-radius: 10rpx;}
+.authorization_title{font-size: 32rpx;color: #040404;font-weight: 700;padding-bottom: 30rpx;
+text-align: center;}
+.authorization_text{font-size: 28rpx;}
+.authorization_btn{justify-content: center;display: flex;margin-top: 30rpx;}
+.authorization_btn>button:first-child{background: #EEEEEE;color: #2F2F2F;}
+.authorization_btn>button:nth-child(2){margin-right: 0;background: #2e72f1;color: #fff;}
+.authorization_btn>button{margin-right: 10%;margin-left: 0;padding: 0;width: 45%;font-size: 28rpx;}
+.authorization_btn>button::after{border: none;}
+/* 提醒授权结束 */
 /* 遮罩层开始 */
 .modalMask {
   width: 100% !important;
@@ -1100,6 +1257,16 @@ border-radius: 10rpx; background:#f8f8fa; margin-top: 20rpx; text-align: center;
   color: #fff;
 }
 /* 遮罩层结束 */
+.modalMasktel{width: 100% !important;
+  height: 100% !important;
+  position: fixed;
+  top: 0;
+  left: 0;
+  opacity: 0.5;
+  background: #000 !important;
+  overflow: hidden;
+  z-index: 9999999;
+  color: #fff;}
 /* .company{padding: 0 20rpx;width: 0;} */
 .companywap{ width:90%; padding-left: 5%; padding-right: 5%; padding-top: 20rpx; margin-bottom:20rpx; clear: both;}
 

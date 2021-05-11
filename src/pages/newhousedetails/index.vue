@@ -650,6 +650,7 @@ export default {
   
   },
   onHide(){
+    const that = this;
     that.location={};
     that.markers= [
         {
@@ -1092,7 +1093,8 @@ export default {
                 duration: 1000,
               })
             }else{
-              wx.navigateTo({ url: "/pages/Report/main?pid=" + that.houserid + "&mid=" + app.globalData.member.id});  
+              wx.navigateTo({ url: "/pages/Report/main?pid=" + that.houserid + "&mid=" + app.globalData.member.id+"&nameArr="
+              +that.newInfo.name});  
             }
           }else{
             that.telHid=true;

@@ -48,7 +48,7 @@
             <mpvue-picker ref="mpvue20Picker" :pickerValueDefault="pickerValueDefault" @onConfirm="onrepaymentConfirm"  :pickerValueArray="sourceValueArray" ></mpvue-picker>
           </div>
         </div> -->
-        <div class="project__input">
+        <div class="baobei_kuang1 pro">
           <div class="xmmc">带看项目</div>
           <div class="shuru1">
             <input :value="nameArr"  @click="lilvPicker" placeholder="请选择" :disabled="true"/>     
@@ -340,7 +340,8 @@ export default {
   box-shadow: 1px 1px 10px rgb(211, 211, 211);
 }
 .baobei_kuang1 {
-  width:80%;
+  /* width:80%; */
+  overflow: hidden;
   margin-left:5%;
   margin-right:5%;
   padding: 4%;
@@ -372,6 +373,7 @@ export default {
   text-align: justify;
   text-justify: distribute-all-lines;
 }
+.xmmc{float: left;}
 .xmmc:after {
   width: 100%;
   height: 0;
@@ -406,6 +408,12 @@ export default {
 .mustBuil {
   float: right;
 }
+.pro{padding: 0 30rpx !important;box-sizing: border-box;height: 80rpx;}
+.pro>div{height: 100%;line-height: 80rpx;}
+.pro>div:first-child{margin-right: 25rpx;font-size: 30rpx;}
+.pro>div input{height: 100%;line-height: 80rpx;}
+.shuru1{float: left;width: 76%;}
+.shuru1>input{width: 100%;font-size: 30rpx;}
 /* 添加更多信息 */
 .tianjia {
   width:90%;
