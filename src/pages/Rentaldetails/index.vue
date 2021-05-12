@@ -427,7 +427,9 @@ export default {
     that.currentimg=0;
     that.domain=app.globalData.domain;
     that.houserid=option.id;
-     //获取详情
+    
+    common.initApp(function (userInfo) { 
+      //获取详情
       wx.request({
         url:app.globalData.url +"OldHouse/BandEsfInfo" +"?sessionKey=" +app.globalData.sessionKey+'&houseid=' + option.id,
         success: function (res) {
@@ -612,7 +614,7 @@ export default {
         }
       });
 
-
+    })
 
   },
 
