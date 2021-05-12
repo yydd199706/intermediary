@@ -1093,7 +1093,7 @@ export default {
                 duration: 1000,
               })
             }else{
-              wx.navigateTo({ url: "/pages/Report/main?pid=" + that.houserid + "&mid=" + app.globalData.member.id+"&nameArr="
+              wx.navigateTo({ url: "/pages/Report/main?idArr=" + that.houserid + "&mid=" + app.globalData.member.id+"&nameArr="
               +that.newInfo.name});  
             }
           }else{

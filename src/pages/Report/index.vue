@@ -254,8 +254,10 @@ export default {
         Toast("看房时间不能为空");
         return false;
       }
+      
+      // if()
       var idArr=that.idArr;
-      var arr = idArr.split(",");
+      var arr = idArr.length>0?idArr.split(","):idArr.split();
       wx.request({
         url:app.globalData.url + "Project/AddReportLook?sessionKey=" + app.globalData.sessionKey,
         method: "POST",
