@@ -253,11 +253,11 @@ export default {
 .hsxian{ width: 100%; height:20rpx; background: #f8f8fa;}
 .indexstyle{width: 100%; margin: 0 auto; background: #fff;}
 
-.zxwt{ width: 90%; margin-left: 5%; margin-right: 5%; display: flex; flex-direction: row; border-bottom: 1rpx rgb(241, 241, 241) solid; height: 70rpx; margin-top: 31rpx;}
+.zxwt{ width: 90%; margin-left: 5%; margin-right: 5%; display: flex; flex-direction: row; border-bottom: 2rpx #f5f5f5 solid; height: 70rpx; margin-top: 31rpx;}
 .proName{ float: left; width: 20%; margin-right: 25rpx; text-align: justify; text-justify: distribute-all-lines;  font-size:30rpx;}
 .proName:after {width: 100%;height: 0;margin: 0;display: inline-block;overflow: hidden;content: '';}
 .zxwt input{ float: left;}
-.zxwt textarea{float: left; font-size: 30rpx; width:75%; border:1rpx rgb(241, 241, 241) solid; height:260rpx;}
+.zxwt textarea{float: left; font-size: 30rpx; width:75%; border:2rpx #f5f5f5 solid; height:260rpx;}
 .borderNone{border-bottom: none !important;height: 260rpx !important; }
 .wenzi{ color: rgb(90, 90, 90); margin-top: 10%; font-size:27rpx; text-align: center;}
 .wenzi span{ color: #4bc0ca; font-weight: bold;}
