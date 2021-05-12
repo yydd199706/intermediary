@@ -104,7 +104,6 @@ const app = getApp();
 const common = require("@/utils/index");
 export default {
   data() {
-    xianshi: false;
     return {
       img1:app.globalData.imgurl + "ren.png",
       purePhoneNumber: "请登录",
@@ -129,35 +128,26 @@ export default {
     that.domain=app.globalData.domain;
     common.initApp(function (userInfo) { 
       wx.request({
-      url:
-        app.globalData.url +
-        "WxLogin/CheckLogin" +
-        "?sessionKey=" +
-        app.globalData.sessionKey,
-      success: function (data) {
-        console.log('登录状态',data);
-        if (data.data==true) {
-          wx.request({
-      url:
-        app.globalData.url +
-        "Percenter/BandUserInfo" +
-        "?sessionKey=" +
-        app.globalData.sessionKey,
-      success: function (data) {
-        if (data.data.Code == 0) {
-          app.globalData.member = data.data.Context.member;
-          that.member = app.globalData.member;
-          that.openType = "";
-        }
-      },
-    });
-        } else {
-          that.purePhoneNumber = "请登录";
-          that.openType = "getPhoneNumber";
-        }
-      },
-    });
-    
+        url:app.globalData.url + "WxLogin/CheckLogin" + "?sessionKey=" + app.globalData.sessionKey,
+        success: function (data) {
+          console.log('登录状态',data);
+          if (data.data==true) {
+            wx.request({ 
+              url: app.globalData.url + "Percenter/BandUserInfo" + "?sessionKey=" + app.globalData.sessionKey,
+              success: function (data) {
+                if (data.data.Code == 0) {
+                  app.globalData.member = data.data.Context.member;
+                  that.member = app.globalData.member;
+                  that.openType = "";
+                }
+              },
+            });
+          } else {
+            that.purePhoneNumber = "请登录";
+            that.openType = "getPhoneNumber";
+          }
+        },
+      });
     })
   },
   methods: {
@@ -272,7 +262,7 @@ export default {
     //点击客服电话
     telClick:function(){
       wx.makePhoneCall({
-        phoneNumber: "400-680-0869"
+        phoneNumber: "4006800869"
       })
     }
 
