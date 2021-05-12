@@ -136,7 +136,6 @@ export default {
       bbList: [
         {
           mid: 0,
-          pid: 0,
           state: 0,
           cname: "",
           telphone: "",
@@ -148,17 +147,18 @@ export default {
       houserid: "",
       mid: "",
       index: 0,
-      nameArr:[]
+      nameArr:[],
+      idArr:[]
     };
   },
   onLoad(option) {
     const that = this;
     console.log('option',option); 
     that.nameArr=option.nameArr;
+    that.idArr=option.idArr;
     that.bbList=[
         {
           mid: 0,
-          pid: 0,
           state: 0,
           cname: "",
           telphone: "",
@@ -171,7 +171,6 @@ export default {
     that.houserid = option.pid;
     that.mid = option.mid;
     that.bbList[0].mid=that.mid;
-    that.bbList[0].pid=that.houserid;
     that.bbList[0].cname="";
     that.bbList[0].telphone="";
     that.bbList[0].lookDate="请选择";
@@ -202,7 +201,6 @@ export default {
 
       var newData = {
         mid: that.mid,
-        pid: that.houserid,
         state: 0,
         cname: "",
         telphone: "",
@@ -256,10 +254,15 @@ export default {
         Toast("看房时间不能为空");
         return false;
       }
+      var idArr=that.idArr;
+      var arr = idArr.split(",");
       wx.request({
         url:app.globalData.url + "Project/AddReportLook?sessionKey=" + app.globalData.sessionKey,
         method: "POST",
-        data: that.bbList,
+        data: {
+          bfrecord:that.bbList,
+          pids:arr
+        },
         header: { "Content-Type": "application/json" },
         success(res) {
           console.log("报备",res.data.Code)

@@ -387,6 +387,8 @@ const that = this;
   line-height: 70rpx;
   text-align: center;font-weight: bold;
 }
+.adviser_header > span:first-child{width: 15%;}
+.adviser_bot>span:first-child{width: 15%;}
 /* .adviser_header > span:nth-child(1) { */
   /* float: left; */
   /* width: 70rpx !important; */

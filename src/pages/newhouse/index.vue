@@ -199,7 +199,7 @@
               <image :src="img7" mode="scaleToFill" />
               <span>{{item.recommendation}}</span>
             </div>
-            <div class="recommend_right" @click="recomClick(index,$event)" :data-name="item.name">
+            <div class="recommend_right" @click="recomClick(index,$event)" :data-name="item.name" :data-id="item.id">
               <span>我要推荐</span>
              <image :src="img8" mode="scaleToFill" />
             </div>
@@ -395,6 +395,7 @@ export default {
     that.priceId=[];
     that.idArr=[];
     that.nameArr=[];
+    that.num=0;
     that.jgtate = null;
     that.orderById="";
     that.pageNumber=1;
@@ -433,6 +434,7 @@ export default {
     recomClick:function(index,e){
       const that = this;
       that.name=e.mp.currentTarget.dataset.name;
+      that.idArr=e.mp.currentTarget.dataset.id;
       console.log('eee',);
       that.type="tabType";
       //检测用户是否登录
@@ -450,7 +452,7 @@ export default {
                 duration: 1000,
               })
               }else{
-                wx.navigateTo({url:"/pages/Report/main?nameArr="+that.name});
+                wx.navigateTo({url:"/pages/Report/main?nameArr="+that.name+"&idArr="+that.idArr});
               }
             }else{
               that.telHid=true;
@@ -499,7 +501,7 @@ export default {
                       })
                     }else{
                       if(that.type=="tabType"){
-                      wx.navigateTo({url:"/pages/Report/main?nameArr="+that.name});
+                      wx.navigateTo({url:"/pages/Report/main?nameArr="+that.name+'&idArr='+that.idArr});
                     }
                     }
                     
@@ -975,7 +977,7 @@ export default {
     lookTab:function(){
       const that = this;
       that.type="lookType";
-      
+      console.log('idArr',that.idArr);
       wx.navigateTo({url:"/pages/Report/main?idArr="+that.idArr+"&nameArr="+that.nameArr});
     },
     //点击选择项目报备
