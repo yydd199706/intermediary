@@ -1092,11 +1092,11 @@ export default {
                 icon: 'none',
                 duration: 1000,
               })
-            }else{
+            }else{ 
               wx.navigateTo({ url: "/pages/Report/main?idArr=" + that.houserid + "&mid=" + app.globalData.member.id+"&nameArr="
               +that.newInfo.name});  
             }
-          }else{
+          }else{                                                                                                                                                                                                                                             
             that.telHid=true;
             that.maskHid=true;
           }
