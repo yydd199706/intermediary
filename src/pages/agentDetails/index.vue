@@ -231,9 +231,9 @@ export default {
   },
     onLoad(option) {
     const that = this;
+    that.domain=app.globalData.domain;
+    that.agentid=option.agentid;
     common.initApp(function (userInfo) { 
-      that.domain=app.globalData.domain;
-      that.agentid=option.agentid;
       wx.request({
         url: app.globalData.url +"Agent/BandAgentInfo?sessionKey=" +app.globalData.sessionKey+"&agentid="+that.agentid,
         header: {

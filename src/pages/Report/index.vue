@@ -153,7 +153,6 @@ export default {
   },
   onLoad(option) {
     const that = this;
-    common.initApp(function (userInfo) {
       that.nameArr=option.nameArr;
       that.idArr=option.idArr;
       that.bbList=[
@@ -175,7 +174,6 @@ export default {
       that.bbList[0].telphone="";
       that.bbList[0].lookDate="请选择";
       that.bbList[0].remarks="";
-    })
   },
   methods: {
     dj_tj: function(index) {

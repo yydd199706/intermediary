@@ -304,9 +304,10 @@ export default {
   },
   onLoad(option){
     const that = this;
+    that.domain=app.globalData.domain;
+    that.keyword=option.keyword;
+
     common.initApp(function (userInfo) {
-      that.domain=app.globalData.domain;
-      that.keyword=option.keyword;
       //获取筛选条件
         wx.request({
           url:

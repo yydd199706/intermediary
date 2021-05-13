@@ -143,14 +143,15 @@ export default {
 
   onLoad(option) {
     const that = this;
+    that.newsModel="";
+    that.domain=app.globalData.domain;
+    that.newId=option.id;
+    that.page=option.page;
+    that.newType = option.newType;
+    that.typeList = option.typeList;
+    console.log("that.newType",that.newType)
+    
     common.initApp(function (userInfo) {
-      that.newsModel="";
-      that.domain=app.globalData.domain;
-      that.newId=option.id;
-      that.page=option.page;
-      that.newType = option.newType;
-      that.typeList = option.typeList;
-      console.log("that.newType",that.newType)
       if(that.page=="list"){
         if(that.typeList=='1'){
           wx.request({

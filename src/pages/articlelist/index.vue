@@ -102,9 +102,9 @@ export default {
   onLoad(option) {
     const that = this;
     // that.tab = option.tab;
+    that.domain=app.globalData.domain;
+    that.tab=app.globalData.tab;
     common.initApp(function (userInfo) { 
-      that.domain=app.globalData.domain;
-      that.tab=app.globalData.tab;
       wx.request({
           url: app.globalData.url +"News/BandNewsList" +"?sessionKey=" +app.globalData.sessionKey,
           method:"POST",

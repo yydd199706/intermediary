@@ -604,8 +604,7 @@ export default {
   onLoad(option) {
     const that = this;
     clearInterval(that.timer);
-    common.initApp(function (userInfo) { 
-      that.movies=[];
+    that.movies=[];
       that.projectname = "";
       that.newInfo="",
       that.location=null;
@@ -622,6 +621,9 @@ export default {
       that.current= 0;
       let today = that.getToday();
       that.comeDate = today;
+      
+    common.initApp(function (userInfo) { 
+      
       //获取详情
       wx.request({
         url:app.globalData.url +"OldHouse/BandEsfInfo" +"?sessionKey=" +app.globalData.sessionKey+'&houseid=' + option.id,
