@@ -24,12 +24,13 @@
                   <p><span class="m2">{{item.publishdate}}</span></p>
                 </div>
                 <div class="xw_right">
-                  <image :src="domain+item.imgurl" class="slide-image" mode="scaleToFill" />             
+                  <image :src="item.imgurl =='' ? lisImgurl : domain+item.imgurl" mode="scaleToFill" />       
                 </div>
               </li>
             </ul>
           </div>
         </div>
+
         <!-- 优惠项目开始 -->
         <div class="xwzxs" v-if="tab==2">
           <div class="news_list">
@@ -41,29 +42,32 @@
                   <p><span class="m2">{{item.publishdate}}</span></p>
                 </div>
                 <div class="xw_right">
-                  <image :src="domain+item.imgurlStr" class="slide-image" mode="scaleToFill" />             
+                  <image :src="item.imgurl =='' ? lisImgurl : domain+item.imgurl" mode="scaleToFill" />            
                 </div>
               </li>
             </ul>
           </div>
         </div>
+
         <!-- 销售动态开始 -->
         <div class="xwzxs" v-if="tab==3">
           <div class="news_list">
             <ul>
-              <li v-for="(item, index) in salesnewsList" :key="index" @click="newListClick(index,$event)" :data-id="item.id">
+              <li v-for="(item, index) in salesnewsList" :key="index" @click="xsnewListClick(index,$event)" :data-id="item.id">
                 <div class="xw_lelf">
                   <h2>{{item.title}}</h2>
                   <div class="zhaiyao">{{item.intro}}</div>
                   <p><span class="m2">{{item.publishdate}}</span></p>
                 </div>
                 <div class="xw_right">
-                  <image :src="domain+item.imgurlStr" class="slide-image" mode="scaleToFill" />             
+                  <image :src="item.imgurl =='' ? lisImgurl : domain+item.imgurl" mode="scaleToFill" />           
                 </div>
               </li>
             </ul>
           </div>
         </div>
+
+
       </div>
 
 
@@ -91,6 +95,9 @@ export default {
       allPagenew:null,
       allPageoffer:null,
       allPagesales:null,
+      newId:"",
+      newType:null,
+      lisImgurl:app.globalData.imgurl +"zanwutup.jpg",
  
 
 
@@ -99,9 +106,13 @@ export default {
 
   onLoad(option) {
     const that = this;
-
     that.domain=app.globalData.domain;
     that.tab = app.globalData.tab;
+    that.newId=option.id;
+    that.newType = option.newType;
+    console.log("that.newId",that.newId)
+    console.log("that.newType",that.newType)
+
     wx.request({
         url: app.globalData.url +"Percenter/BandPerFollowList" +"?sessionKey=" +app.globalData.sessionKey,
         method:"POST",
@@ -150,12 +161,16 @@ export default {
     changTab(index) {
       this.tab = index;
     },
-    newListClick(index,e){
-      wx.navigateTo({ url: "/pages/articledetails/main?id=" + e.mp.currentTarget.dataset.id+ "&page=list&newType=2"});
-    },
     zxnewListClick(index,e){
-      wx.navigateTo({ url: "/pages/articledetails/main?id=" + e.mp.currentTarget.dataset.id+ "&page=list&newType=1"});
-    }
+      wx.navigateTo({ url: "/pages/articledetails/main?id=" + e.mp.currentTarget.dataset.id+ "&page=list&newType=1&typeList=1"});
+    },
+    newListClick(index,e){
+      wx.navigateTo({ url: "/pages/articledetails/main?id=" + e.mp.currentTarget.dataset.id+ "&page=list&newType=2&typeList=2"});
+    },
+    xsnewListClick(index,e){
+      wx.navigateTo({ url: "/pages/articledetails/main?id=" + e.mp.currentTarget.dataset.id+ "&page=list&newType=3&typeList=2"});
+    },
+
   }
 
 

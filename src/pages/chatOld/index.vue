@@ -26,7 +26,7 @@
             </div>
             <!-- 当前页面卡片结束 -->
 
-            <div v-for="(item, index) in socketMsgQueue" :key="index">
+            <div v-for="(item, index) in socketMsgQueue" :key="index" >
               <!-- 时间 -->
               <div class="timetop" v-if="item.showtime">
                 <div class="time_chat">{{item.time}}</div>
@@ -35,7 +35,7 @@
               <!-- 内容开始 -->
               <div class="content_chat">
                 <!-- 对方发出的内容 -->
-                <div class="meIssue lelftype" v-if="item.type=='friend'?true:false">
+                <div class="meIssue lelftype" v-if="item.type=='friend'?true:false" >
                   <image :src="item.headpic" class="tx" />
                   <div class="chat_list">
                     <div class="me_text">{{item.msg}}</div>
@@ -44,7 +44,7 @@
                 </div>
 
                 <!-- 我发出的内容 -->
-                <div class="meIssue righttype" v-if="item.type=='self'?true:false">
+                <div class="meIssue righttype" v-if="item.type=='self'?true:false" >
                   <div class="chat_list">
                     <div class="me_text">{{item.msg}}</div>
                     <div class="clear"></div>
@@ -66,9 +66,9 @@
 
 
 
-    <div class="botom-in">
+    <div class="botom-in" >
       <input class="inputcss" type="text" :value="Message" @input="sendinput($event)" />
-      <div class="send" @click="sendSocketMessage">发送</div>
+      <div class="send" @click="sendSocketMessage" >发送</div>
     </div>
   </div>
 </template>
@@ -81,6 +81,7 @@ export default {
     return {
       domain: null,
       clientHeight: 0,
+
       domain: null,
       hxid: "",
       headpic: "",
@@ -105,7 +106,23 @@ export default {
     // that.time = "";
     that.msg = null;
     //获取动态高度
-    that.clientHeight = wx.getSystemInfoSync().windowHeight;
+    that.clientHeight = wx.getSystemInfoSync().windowHeight-100;
+    console.log("that.clientHeight",that.clientHeight)
+    
+    
+    var inputVal = '';
+    var msgList = [];
+    var windowWidth = wx.getSystemInfoSync().windowWidth;
+    var windowHeight = wx.getSystemInfoSync().windowHeight;
+    var keyHeight = 0;
+ 
+
+
+    
+
+
+    
+
 
     
   },
@@ -118,7 +135,7 @@ export default {
 
   onReady(){
     const that = this;
-    that.ready();
+    // that.pageScrollToBottom();
   },
 
 
@@ -133,30 +150,23 @@ export default {
 
   methods: {
   
-  // 滚动到页面底部
-  // pageScrollToBottom: function() {
-  //   console.log("滚动")
-  //   let that = this;
-  //   wx.createSelectorQuery().select('#x_chat').boundingClientRect(function(rect) {
-  //     console.log(rect)
-  //     wx.pageScrollTo({
-  //       scrollTop: rect.height,
-  //       duration: 100
-  //     })
-  //   }).exec()
-  // },
-
-  ready: function() {
-    const query = wx.createSelectorQuery().in(this)
-    query.select('.search-content').boundingClientRect(rect=>{
-      console.log(rect.height)
-    }).exec();
-},
+    // 滚动到页面底部
+    pageScrollToBottom: function() {
+      let that = this;
+      wx.createSelectorQuery().select('#x_chat').boundingClientRect(function(rect) {
+        console.log("rect",rect)
+        wx.pageScrollTo({
+          scrollTop: rect.height,
+          duration: 100
+        })
+      }).exec()
+      
+    },
+     
+    
 
 
-
-
-    // 获取输入内容
+     // 获取输入内容
     sendinput: function(e) {
       const that = this;
       that.Message = e.mp.detail.value;
@@ -180,11 +190,9 @@ export default {
 
       //建立连接
       wx.connectSocket({
-        url:
-          "wss://wss.e-fangtong.com/Message.ashx?code=Iamfromchina&user=" +
-          data.user
+        url:"wss://wss.e-fangtong.com/Message.ashx?code=Iamfromchina&user=" + data.user
       });
-console.log("自己",data.user)
+      console.log("自己",data.user)
       wx.onSocketOpen(function(res) {
         console.log("WebSocket连接已打开！");
         that.socketOpen = true;
@@ -213,8 +221,8 @@ console.log("自己",data.user)
         console.log("info.aimid",info.aimid)
         if(that.hxid==info.aimid){
           info.type = "friend";
-        that.socketMsgQueue.push(info);
-        that.hxid = info.aimid;
+          that.socketMsgQueue.push(info);
+          that.hxid = info.aimid;
         }
         
         
@@ -233,6 +241,7 @@ console.log("自己",data.user)
         });
         return false;
       }
+
 
       if (that.socketOpen) {
         var temptime = new Date();
@@ -264,6 +273,9 @@ console.log("自己",data.user)
         });
         that.Message = "";
       }
+
+
+
     },
 
     // 点击卡片跳转到详情页
@@ -348,8 +360,28 @@ console.log("自己",data.user)
   margin-left: 20rpx; */
   float: left;
 }
+.lelftype .me_text {
+  max-width:100%;
+  background: #fff;
+  padding: 20rpx;
+  border-radius: 10rpx;
+  /* margin-right: 20rpx;
+  margin-left: 20rpx; */
+  float: left;
+}
+.righttype .me_text {
+  max-width:100%;
+  background: #9eea6a;
+  padding: 20rpx;
+  border-radius: 10rpx;
+  /* margin-right: 20rpx;
+  margin-left: 20rpx; */
+  float: left;
+}
+
+
 .chat_list{
-  max-width: 80%; background: #fff; border-radius:4rpx; margin-right:4%; margin-left:4%; float: left;
+   max-width: 80%; /*background: #fff;*/ border-radius:4rpx; margin-right:4%; margin-left:4%; float: left; 
 }
 
 /* 底部按钮 */

@@ -150,6 +150,7 @@ export default {
     that.page=option.page;
     that.newType = option.newType;
     that.typeList = option.typeList;
+    console.log("that.newType",that.newType)
     if(that.page=="list"){
       if(that.typeList=='1'){
         wx.request({
@@ -229,6 +230,9 @@ export default {
             wx.request({
               url:app.globalData.url +"Percenter/BandUserRelationNews" +"?sessionKey=" +app.globalData.sessionKey+'&newId=' + that.newId + "&newType=" +that.newType,
               success: function (res) {
+                console.log("ssssss",res.data.Context.isguanzhu)
+                console.log("that.newId",that.newId)
+                console.log("that.newType",that.newType)
                 if(res.data.Context.isguanzhu>0){
                   wx.showToast({
                     title: '您已收藏',
@@ -236,6 +240,8 @@ export default {
                     duration: 1000,
                   })
                 }else{
+                  console.log("that.newId",that.newId)
+                console.log("that.newType",that.newType)
                   wx.request({
                     url: app.globalData.url +"News/BandNewsFollow?sessionKey=" +app.globalData.sessionKey+'&newId=' + that.newId +'&newType=' + that.newType,
                     success (res) {

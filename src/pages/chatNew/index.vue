@@ -1,60 +1,67 @@
 <template>
   <div class="indexstyle">
     <div class="chat">
-      <div class="padding20" :style="{height:clientHeight+'px'}">
-        <!-- 当前页面卡片开始 -->
-        <div class="card_list" v-if="showCard">
-          <!-- 时间 -->
-          <div class="timetop">
-            <div class="time_chat">{{time}}</div>
-          </div>
-          <!-- 我发出的卡片 -->
-          <div class="meIssue righttype">
-            <div class="meIssueCard_list" @click="likeDetail(index,$event)" :data-id="projectInfo.id">
-              <image :src="domain+projectInfo.Imgurl" />
-              <div class="title_c">{{projectInfo.title}}</div>
-              <div class="labels">
-                <span>{{projectInfo.Decorationname}}</span>/
-                <span>{{projectInfo.salestatename}}</span>/
-                <span>{{projectInfo.zonename}}</span>
-              </div>
-              <div class="price">{{projectInfo.price==""||projectInfo.price==null?'价格待定':'均价'+projectInfo.price+'元/m²'}}</div>
+      <scroll-view scroll-y="true" class='padding20' id="x_chat" :style="{height:clientHeight+'px'}"> 
+        <block> 
+          <!-- 当前页面卡片开始 -->
+          <div class="card_list" v-if="showCard">
+            <!-- 时间 -->
+            <div class="timetop">
+              <div class="time_chat">{{time}}</div>
             </div>
-            <image :src="domain+headpic" class="me_img" />
-          </div>          
-        </div>
-        <!-- 当前页面卡片结束 -->
-
-        <div v-for="(item, index) in socketMsgQueue" :key="index">
-          <!-- 时间 -->
-          <div class="timetop" v-if="item.showtime">
-            <div class="time_chat">{{item.time}}</div>
-          </div>
-
-          <!-- 内容开始 -->
-          <div class="content_chat">
-            <!-- 对方发出的内容 -->
-            <div class="meIssue lelftype" v-if="item.type=='friend'?true:false">
-              <image :src="item.headpic" class="me_img" />
-              <div class="chat_list">
-                <div class="me_text">{{item.msg}}</div>
-                <div class="clear"></div>
+            <!-- 我发出的卡片 -->
+            <div class="meIssue righttype">
+              <div class="meIssueCard_list" @click="likeDetail(index,$event)" :data-id="projectInfo.id">
+                <image :src="domain+projectInfo.Imgurl" class="me_img" />
+                <div class="title_c">{{projectInfo.title}}</div>
+                <div class="labels">
+                  <span>{{projectInfo.Decorationname}}</span>/
+                  <span>{{projectInfo.salestatename}}</span>/
+                  <span>{{projectInfo.zonename}}</span>
+                </div>
+                <div class="price">{{projectInfo.price==""||projectInfo.price==null?'价格待定':'均价'+projectInfo.price+'元/m²'}}</div>
               </div>
+              <image :src="domain+headpic" class="tx" />
+            </div>          
+          </div>
+          <!-- 当前页面卡片结束 -->
+
+          <div v-for="(item, index) in socketMsgQueue" :key="index">
+            <!-- 时间 -->
+            <div class="timetop" v-if="item.showtime">
+              <div class="time_chat">{{item.time}}</div>
             </div>
 
-            <!-- 我发出的内容 -->
-            <div class="meIssue righttype" v-if="item.type=='self'?true:false">
-              <div class="chat_list">
-                <div class="me_text">{{item.msg}}</div>
-                <div class="clear"></div>
+            <!-- 内容开始 -->
+            <div class="content_chat">
+              <!-- 对方发出的内容 -->
+              <div class="meIssue lelftype" v-if="item.type=='friend'?true:false">
+                <image :src="item.headpic" class="tx" />
+                <div class="chat_list">
+                  <div class="me_text">{{item.msg}}</div>
+                  <div class="clear"></div>
+                </div>
               </div>
-              <image :src="item.headpic" class="me_img" />
+
+              <!-- 我发出的内容 -->
+              <div class="meIssue righttype" v-if="item.type=='self'?true:false">
+                <div class="chat_list">
+                  <div class="me_text">{{item.msg}}</div>
+                  <div class="clear"></div>
+                </div>
+                <image :src="item.headpic" class="tx" />
+              </div>
             </div>
+            <!-- 内容结束-->
           </div>
-          <!-- 内容结束-->
-        </div>
-      </div>
+
+        </block>
+      </scroll-view> 
     </div>
+
+    <!-- 占位 -->
+    <div class="f_bk" style="height:200rpx;"></div>
+
 
     <div class="botom-in">
       <input class="inputcss" type="text" :value="Message" @input="sendinput($event)" />
@@ -272,30 +279,30 @@ export default {
   float: right;
   display: flex;
   justify-content: flex-end;
-  padding: 5vw 2vw 2vw 11vw;
+  /* padding: 5vw 2vw 2vw 11vw; */
+  padding: 30rpx 10rpx 20rpx 20rpx;
 }
 .meIssue {
-  width: 100%;
+  width:85%;
   overflow: hidden;
 }
-.meIssue image {
+.meIssue image.tx {
   width: 65rpx;
   height: 65rpx;
   float: left;
   border-radius: 10rpx;
 }
 .meIssue .me_text {
-  max-width: 70%;
+  max-width:100%;
   background: #fff;
   padding: 20rpx;
   border-radius: 10rpx;
-  margin-right: 20rpx;
-  margin-left: 20rpx;
+  /* margin-right: 20rpx;
+  margin-left: 20rpx; */
   float: left;
 }
-.chat_list image {
-  width: 14rpx;
-  height: 22rpx;
+.chat_list{
+  max-width: 80%; background: #fff; border-radius:4rpx; margin-right:4%; margin-left:4%; float: left;
 }
 
 /* 底部按钮 */
@@ -335,11 +342,12 @@ export default {
 
 /* 卡片 */
 .card_list {width: 90%;margin-left: 5%;margin-right: 5%;overflow: hidden;}
-.meIssueCard_list{width:70%; background: #fff; border-radius:4rpx; margin-right: 20rpx; margin-left: 20rpx; float: left;}
-.meIssueCard_list image{ width: 100%; height: 260rpx;border-radius:4rpx; margin-bottom: 20rpx;}
+.meIssueCard_list{width:80%; background: #fff; border-radius:4rpx; margin-right:5%; margin-left:5%; float: left;}
+.meIssueCard_list image.me_img{ width: 100%; height: 260rpx;border-radius:4rpx; margin-bottom: 20rpx;}
 .meIssueCard_list .title_c{ width:90%; margin-left: 5%; margin-right: 5%; font-size: 32rpx; font-weight: bold; }
 .labels{ margin-top:10rpx; font-size:26rpx; color: rgb(175, 175, 175);width:90%; margin-left: 5%; margin-right: 5%; }
-.price{ font-size: 34rpx; font-weight: bold; color: rgb(228, 68, 68);margin-top:10rpx;width:90%; margin-left: 5%; margin-right: 5%; padding-bottom: 30rpx;}
+.price{ font-size: 36rpx; font-weight: bold; color: rgb(228, 68, 68);margin-top:10rpx;width:90%; margin-left: 5%; margin-right: 5%; padding-bottom: 30rpx;}
+
 
 
 

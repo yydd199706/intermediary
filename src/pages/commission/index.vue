@@ -1,6 +1,8 @@
 <template>
   <div class="indexstyle">
-    赚佣金
+
+    <div class="zyj"><image :src="zyj" mode="widthFix" /></div>
+
   </div>
 </template>
 
@@ -10,6 +12,7 @@ const common = require("@/utils/index");
 export default {
   data () {
     return {
+      zyj:app.globalData.imgurl +"zyj.png",
  
 
     }
@@ -54,6 +57,9 @@ export default {
 .join{ margin-top:10%; margin-bottom: 10%;}
 .join button{ width:400rpx; height:100rpx; line-height: 100rpx; border-radius:50rpx;background-image: linear-gradient(to right, #64e4cc, #45c8cd); color: #fff;}
 .join p{ color: #999999; font-size:28rpx; text-align: center; margin-top:3%;}
+
+.zyj{ width: 100%;}
+.zyj image{ width: 100%;}
 
 
 /* 提醒授权开始 */

@@ -1,6 +1,6 @@
 <template>
   <div class="indexstyle">
-    <div class="chat">
+    <div class="chat" id="x_chat">
       <div class="padding20" :style="{height:clientHeight+'px'}">
         <!-- 当前页面卡片开始 -->
         <div class="card_list" v-if="showCard">
@@ -56,6 +56,9 @@
       </div>
     </div>
 
+    <!-- 占位 -->
+    <div class="f_bk" style="height:200rpx;"></div>
+
     <div class="botom-in">
       <input class="inputcss" type="text" :value="Message" @input="sendinput($event)" />
       <div class="send" @click="sendSocketMessage">发送</div>
@@ -71,6 +74,7 @@ export default {
     return {
       domain: null,
       clientHeight: 0,
+
       domain: null,
       hxid: "",
       headpic: "",
@@ -95,22 +99,62 @@ export default {
     // that.time = "";
     that.msg = null;
     //获取动态高度
-    wx.getSystemInfo({
-      success: function(res) {
-        // 获取可使用窗口宽度
-        that.clientHeight = res.windowHeight;
-        console.log("that.clientHeight", that.clientHeight);
-      }
-    });
+    that.clientHeight = wx.getSystemInfoSync().windowHeight-100;
+    console.log("that.clientHeight",that.clientHeight)
 
+    
+ 
+
+
+    
+
+
+    
+
+
+    
+  },
+  onShow(){
+    const that = this;
     common.initApp(function(userInfo) {
       that.connectSocket();
     });
-    console.log("socketMsgQueue", that.socketMsgQueue);
   },
 
+  onReady(){
+    const that = this;
+    that.pageScrollToBottom();
+  },
+
+
+
+  onUnload() {
+    console.log("dddd")
+    wx.closeSocket({
+      
+    })
+  },
+  
+
   methods: {
-    // 获取输入内容
+  
+    // 滚动到页面底部
+    pageScrollToBottom: function() {
+      let that = this;
+      wx.createSelectorQuery().select('#x_chat').boundingClientRect(function(rect) {
+        console.log("rect",rect)
+        wx.pageScrollTo({
+          scrollTop: rect.bottom,
+          duration: 100
+        })
+      }).exec()
+      
+    },
+   
+    
+
+
+     // 获取输入内容
     sendinput: function(e) {
       const that = this;
       that.Message = e.mp.detail.value;
@@ -134,16 +178,15 @@ export default {
 
       //建立连接
       wx.connectSocket({
-        url:
-          "wss://wss.e-fangtong.com/Message.ashx?code=Iamfromchina&user=" +
-          data.user
+        url:"wss://wss.e-fangtong.com/Message.ashx?code=Iamfromchina&user=" + data.user
       });
-
+      console.log("自己",data.user)
       wx.onSocketOpen(function(res) {
         console.log("WebSocket连接已打开！");
         that.socketOpen = true;
         that.time = that.formatDate(new Date());
         that.headpic = app.globalData.member.headpic;
+        
         that.msg = JSON.stringify({
           user: that.hxid,
           msg: that.projectInfo
@@ -162,9 +205,15 @@ export default {
       //接收的
       wx.onSocketMessage(function(res) {
         var info = JSON.parse(res.data);
-        info.type = "friend";
-        that.socketMsgQueue.push(info);
-        that.hxid = info.aimid;
+        console.log("that.hxid",that.hxid)
+        console.log("info.aimid",info.aimid)
+        if(that.hxid==info.aimid){
+          info.type = "friend";
+          that.socketMsgQueue.push(info);
+          that.hxid = info.aimid;
+        }
+        
+        
       });
     },
 
@@ -204,6 +253,7 @@ export default {
           user: that.hxid,
           msg: info
         });
+        console.log("that.hxid",that.hxid)
 
         wx.sendSocketMessage({
           data: that.msg
@@ -214,7 +264,7 @@ export default {
 
     // 点击卡片跳转到详情页
     likeDetail:function(index,e){
-      wx.navigateTo({ url: "/pages/Rentaldetails/main?id=" + e.mp.currentTarget.dataset.id});
+      wx.navigateTo({ url: "/pages/oldhousedetails/main?id=" + e.mp.currentTarget.dataset.id});
     },
 
 

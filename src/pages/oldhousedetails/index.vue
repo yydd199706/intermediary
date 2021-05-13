@@ -604,25 +604,24 @@ export default {
   onLoad(option) {
     const that = this;
     clearInterval(that.timer);
-    that.movies=[];
-    that.projectname = "";
-    that.newInfo="",
-    that.location=null;
-    that.name="";
-    that.tel="";
-    that.yzm="";
-    that.disabled=false;
-    that.timeText="发送验证码";
-    that.lookDate="请选择";
-    that.yuText="";
-    that.domain=app.globalData.domain;
-    that.houserid=option.id;
-    that.imgArr=[];
-    that.current= 0;
-   
     common.initApp(function (userInfo) { 
-    let today = that.getToday();
-    that.comeDate = today;
+      that.movies=[];
+      that.projectname = "";
+      that.newInfo="",
+      that.location=null;
+      that.name="";
+      that.tel="";
+      that.yzm="";
+      that.disabled=false;
+      that.timeText="发送验证码";
+      that.lookDate="请选择";
+      that.yuText="";
+      that.domain=app.globalData.domain;
+      that.houserid=option.id;
+      that.imgArr=[];
+      that.current= 0;
+      let today = that.getToday();
+      that.comeDate = today;
       //获取详情
       wx.request({
         url:app.globalData.url +"OldHouse/BandEsfInfo" +"?sessionKey=" +app.globalData.sessionKey+'&houseid=' + option.id,

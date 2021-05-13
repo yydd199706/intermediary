@@ -101,69 +101,55 @@ export default {
 
   onLoad(option) {
     const that = this;
-    console.log('222',option);
-    that.domain=app.globalData.domain;
-    that.tab=app.globalData.tab;
-//     let pages = getCurrentPages();
-//     var path = pages[0];
-
-//     let path = prevpage.route;
-//     console.log(path, 'path')
-//     let pages = getCurrentPages();
-//     var path = pages[0].__displayReporter.showReferpagepath;
-//     console.log('上个页面地址',pages[0].__displayReporter.showReferpagepath); //上一个页面路由地址
-      //  const pages=getCurrentPages()
-      //   //取到上一个页面
-      //   const prevPage=pages[pages.length-2]
-      //   prevPage.onPullDownRefresh()
-
-
-
     // that.tab = option.tab;
-    wx.request({
-        url: app.globalData.url +"News/BandNewsList" +"?sessionKey=" +app.globalData.sessionKey,
-        method:"POST",
-        data: {
-          pageNumber:that.pageNumber,
-          pageRecord:that.pageRecord
-        },
-        header: {
-          'content-type': 'application/json' // 默认值
-        },
-        success (res) {
-          console.log('新闻',res)
-          
-          
-          that.newList = res.data.Context.newList;
-          for(var i = 0;i<that.newList.length;i++){
-            that.newList[i].publishdate = that.newList[i].publishdate.substring(0, 10);;
-          }
+    common.initApp(function (userInfo) { 
+      that.domain=app.globalData.domain;
+      that.tab=app.globalData.tab;
+      wx.request({
+          url: app.globalData.url +"News/BandNewsList" +"?sessionKey=" +app.globalData.sessionKey,
+          method:"POST",
+          data: {
+            pageNumber:that.pageNumber,
+            pageRecord:that.pageRecord
+          },
+          header: {
+            'content-type': 'application/json' // 默认值
+          },
+          success (res) {
+            console.log('新闻',res)
+            
+            
+            that.newList = res.data.Context.newList;
+            for(var i = 0;i<that.newList.length;i++){
+              that.newList[i].publishdate = that.newList[i].publishdate.substring(0, 10);;
+            }
 
-          that.offerinfoList = res.data.Context.offerinfoList.ds;
-          for(var i = 0;i<that.offerinfoList.length;i++){
-            that.offerinfoList[i].publishdate = that.offerinfoList[i].publishdate.substring(0, 10);;
-          }
+            that.offerinfoList = res.data.Context.offerinfoList.ds;
+            for(var i = 0;i<that.offerinfoList.length;i++){
+              that.offerinfoList[i].publishdate = that.offerinfoList[i].publishdate.substring(0, 10);;
+            }
 
-          that.salesnewsList = res.data.Context.salesnewsList.ds;
-          for(var i = 0;i<that.salesnewsList.length;i++){
-            that.salesnewsList[i].publishdate = that.salesnewsList[i].publishdate.substring(0, 10);;
-          }
+            that.salesnewsList = res.data.Context.salesnewsList.ds;
+            for(var i = 0;i<that.salesnewsList.length;i++){
+              that.salesnewsList[i].publishdate = that.salesnewsList[i].publishdate.substring(0, 10);;
+            }
 
-          if (res.data.Context.recordNewCount == 0) {
-          } else {
-            that.allPagenew = res.data.Context.recordNewCount;
-          }
-          if (res.data.Context.recordOfferCount == 0) {
-          } else {
-            that.allPageoffer = res.data.Context.recordOfferCount;
-          }
-          if (res.data.Context.recordSalesCount == 0) {
-          } else {
-            that.allPagesales = res.data.Context.recordSalesCount;
-          }
+            if (res.data.Context.recordNewCount == 0) {
+            } else {
+              that.allPagenew = res.data.Context.recordNewCount;
+            }
+            if (res.data.Context.recordOfferCount == 0) {
+            } else {
+              that.allPageoffer = res.data.Context.recordOfferCount;
+            }
+            if (res.data.Context.recordSalesCount == 0) {
+            } else {
+              that.allPagesales = res.data.Context.recordSalesCount;
+            }
 
 
-        }
+          }
+      })
     })
 
 
@@ -205,7 +191,6 @@ onHide() {
     },
     xsnewListClick(index,e){
       wx.navigateTo({ url: "/pages/articledetails/main?id=" + e.mp.currentTarget.dataset.id+ "&page=list&newType=3&typeList=2"});
-      
     },
   }
 

@@ -306,6 +306,7 @@ export default {
     const that = this;
     that.domain=app.globalData.domain;
     that.keyword=option.keyword;
+    common.initApp(function (userInfo) { 
     //获取筛选条件
       wx.request({
         url:
@@ -341,6 +342,7 @@ export default {
         },
         fail: function (res) {},
       });
+    })
   },
   onShow(){
     const that = this;

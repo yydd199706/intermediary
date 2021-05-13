@@ -1,7 +1,7 @@
 <template>
   <div class="indexstyle">
     
-    <div class="newschat">
+    <div class="newschat" v-if="newsHid">
       <div class="chatlist" v-for="(item, index) in chatlistarr" :key="index">
         <div class="chat_lelf">
           <div class="num">{{item.num}}</div>
@@ -17,23 +17,27 @@
       </div>
     </div>
 
+    <!-- 暂未登录开始 -->
+    <div class="notLogged" v-if="LoggedHid">
+      <image :src="zanwu" />
+      <div class="textzw">您尚未登录，无法查看消息</div>
+      <!-- <button>立即登录</button> -->
+      <button open-type="getPhoneNumber" @getphonenumber="getPhoneNumber" hover-class="none">立即登录</button>
 
-
-    <!-- 提醒授权开始 -->
-    <div class="authorization" v-if="telHid">
-      <div class="authorization_title">授权提示</div>
-      <div class="authorization_text">为了更好的为您提供服务，我们请求获取您的电话号码</div>
-      <div class="authorization_btn">
-        <button @click="quxiao">取消</button>
-        <button open-type="getPhoneNumber" @getphonenumber="getPhoneNumber" hover-class="none">允许</button>
-      </div>
     </div>
-    <!-- 提醒授权结束 -->
+    <!-- 暂未登录结束 -->
+
+
+
+
+
+
     <!-- 遮罩层开始 -->
      <!--x --> 
     <div class="modalMask" v-if="maskHid"></div>
     <!-- 遮罩层结束 -->
 
+ 
      
    
   
@@ -52,8 +56,11 @@ export default {
         {img1:"/static/images/meimg.png",num:2,title:"杨女士",time:"2021-4-27",content:"您好"},
         {img1:"/static/images/meimg.png",num:2,title:"杨女士",time:"2021-4-27",content:"您好"}
       ],
-      maskHid:true,
-      telHid:true, 
+      // telHid:false, 
+      maskHid:false,
+      newsHid:false,
+      LoggedHid:true,
+      zanwu:app.globalData.imgurl +"zaw.png",
 
      
 
@@ -63,6 +70,10 @@ export default {
   onLoad(option) {
     const that = this;
     that.domain=app.globalData.domain;
+    //调用聊天列表
+    that.MailingList();
+    
+    
     
     
 
@@ -78,72 +89,19 @@ export default {
       url:app.globalData.url +"WxLogin/CheckLogin" +"?sessionKey=" +app.globalData.sessionKey,
       success: function (data) {
         if(data.data==true){
-          that.telHid=false;
           that.maskHid=false;
-          //显示TabBar
-          wx.showTabBar({
-            animation: true
-          })
+          that.newsHid=true;
+          that.LoggedHid=false;
         }else{
-          that.telHid=true;
-          that.maskHid=true;
-          //隐藏TabBar
-          wx.hideTabBar({
-            animation: true
-          })
-
+          that.maskHid=false;
+          that.newsHid=false;
+          that.LoggedHid=true;
         }
 
       }
     })
 
-
-
-
-
-
-    // wx.request({
-    //   url:app.globalData.url +"WxLogin/CheckLogin" +"?sessionKey=" +app.globalData.sessionKey,
-    //   success: function (data) {
-    //     console.log("检查",data)
-    //     if(data.data==true){
-    //       //显示TabBar
-    //       wx.showTabBar({
-    //         animation: true
-    //       })
-    //       if(that.telHid==false){
-    //         //显示TabBar
-    //       wx.showTabBar({
-    //         animation: true
-    //       })
-
-    //       }
-    //     }else{
-    //       //隐藏TabBar
-    //       wx.hideTabBar({
-    //         animation: true
-    //       })
-    //     }
-    //   }
-    // })
-    // if(that.telHid==true){
-    //   // that.telHid=true;
-    //   // that.maskHid=true;
-    //   //隐藏TabBar
-    //   wx.hideTabBar({
-    //     animation: true
-    //   })
-      
-      
-    // }else if(that.telHid==false){
-    //   // that.telHid=false;
-    //   // that.maskHid=false;
-    //   //显示TabBar
-    //   wx.showTabBar({
-    //     animation: true
-    //   })
-      
-    // }
+ 
 
   },
 
@@ -151,16 +109,6 @@ export default {
 
 
   methods: {
-    //点击取消授权
-    quxiao:function(){
-      const that = this;
-      that.telHid=false;
-      that.maskHid=false;
-      //显示TabBar
-      wx.showTabBar({
-        animation: true
-      })
-    },
     //点击获取手机号
     getPhoneNumber(e){
       const that = this;    
@@ -192,23 +140,24 @@ export default {
                 success (data) {
                   console.log("deng",data)
                   if(data.data.Code==0){
-                    that.telHid=false;
                     that.maskHid=false;
                     wx.setStorageSync('member',data.data.Context.member);
                     that.openType="";
                     app.globalData.member=data.data.Context.member; 
-                    //显示TabBar
-                    wx.showTabBar({
-                      animation: true
+                    that.newsHid=true;
+                    that.LoggedHid=false;
+                    //调用聊天列表
+                    that.MailingList();
+
+                    wx.showTabBarRedDot({
+                      index: 3,
+                      success() {},
+                      fail() {},
                     })
-                    // that.zxEntrust();
-                    //获取聊天列表
-                    wx.request({
-                      url:app.globalData.url +"Msn/BandHouseEntrus" +"?sessionKey=" +app.globalData.sessionKey,
-                      success: function (res) {
-                        console.log("聊天列表",res)
-                      }
-                    })
+                    
+                    
+                    
+                     
 
                   
                   }
@@ -218,6 +167,21 @@ export default {
         })
       }
     },
+
+    // 获取即时通讯列表接口
+    MailingList(){
+      //获取聊天列表
+      wx.request({
+        url:app.globalData.url +"Msn/BandHouseEntrusList" +"?sessionKey=" +app.globalData.sessionKey,
+        success: function (res) {
+          console.log("聊天列表",res)
+        }
+      })
+
+    }
+
+
+
     
   }
  
@@ -250,18 +214,14 @@ export default {
  .time{ float: right; font-size: 24rpx; color: #b7b9bb;}
  .content_nr{ margin-top: 15rpx; margin-bottom:15rpx; font-size: 30rpx; color: #b3b3b3;}
 
- /* 提醒授权开始 */
-.authorization{width: 80%;margin: 0 auto;position: fixed;top: 390rpx;left: 10%;z-index:999999999;
-background: #fff;padding: 30rpx 30rpx 60rpx 30rpx;box-sizing: border-box;border-radius: 10rpx;}
-.authorization_title{font-size: 32rpx;color: #040404;font-weight: 700;padding-bottom: 30rpx;
-text-align: center;}
-.authorization_text{font-size: 28rpx;}
-.authorization_btn{justify-content: center;display: flex;margin-top: 30rpx;}
-.authorization_btn>button:first-child{background: #EEEEEE;color: #2F2F2F;}
-.authorization_btn>button:nth-child(2){margin-right: 0;background: #2e72f1;color: #fff;}
-.authorization_btn>button{margin-right: 10%;margin-left: 0;padding: 0;width: 45%;font-size: 28rpx;}
-.authorization_btn>button::after{border: none;}
-/* 提醒授权结束 */
+/* 暂无登录 */
+.notLogged{ width: 100%;}
+.notLogged image{ width:370rpx; height:368rpx; display: block; margin: 0 auto; margin-top:180rpx;}
+.notLogged .textzw{ font-size: 34rpx; color: #9399a5; text-align: center; margin-top:50rpx; margin-bottom:130rpx;}
+.notLogged button{ width: 80%; height:90rpx; line-height: 90rpx; text-align: center; background:#3072f7; font-size: 32rpx; color: #fff; border-radius: 10rpx;}
+
+
+ 
 /* 遮罩层开始 */
 .modalMask {
   width: 100% !important;

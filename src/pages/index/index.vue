@@ -35,7 +35,7 @@
     </div>
     <!-- 二级导航结束 -->
 
-    <!-- 楼盘动态开始 -->
+    <!-- 销售动态开始 -->
     <div class="news-s" v-if="news.length > 0 ? true : false">
       <div class="biaoti-new">
         <div class="wz-bt"><span></span>销售动态</div>
@@ -46,7 +46,7 @@
         <div>{{item.title}}</div>
       </div>
     </div>
-    <!-- 楼盘动态结束 -->
+    <!-- 销售动态结束 -->
 
     <!-- 优惠信息开始 -->
     <div class="news-s" v-if="activity.length > 0 ? true : false">
@@ -262,11 +262,11 @@ export default {
       //   { img3: app.globalData.imgurl +"n4.png", title: "房贷计算器",url: "/pages/syloans/main" },
       // ],
       navs: [
-        {img3:"/static/images/meun1.png",title: "二手房",url: "/pages/oldhouse/main"},
-        { img3:"/static/images/meun2.png", title: "新房" ,url: "/pages/newhouse/main"},
-        { img3:"/static/images/meun3.png", title: "租房" ,url: "/pages/Rental/main"},
-        { img3:"/static/images/meun4.png", title: "计算器",url: "/pages/syloans/main" },
-        { img3:"/static/images/meun5.png", title: "赚佣金",url: "/pages/commission/main" },
+        {img3:app.globalData.imgurl + "meun1.png",title: "二手房",url: "/pages/oldhouse/main"},
+        { img3:app.globalData.imgurl + "meun2.png", title: "新房" ,url: "/pages/newhouse/main"},
+        { img3:app.globalData.imgurl + "meun3.png", title: "租房" ,url: "/pages/Rental/main"},
+        { img3:app.globalData.imgurl + "meun4.png", title: "计算器",url: "/pages/syloans/main" },
+        { img3:app.globalData.imgurl + "meun5.png", title: "赚佣金",url: "/pages/commission/main" },
       ],
       news: [],
       activity: [],
