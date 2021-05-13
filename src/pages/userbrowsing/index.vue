@@ -133,98 +133,99 @@ export default {
   },
   onLoad(){
     const that = this;
-    that.houseTemp = wx.getStorageSync("array");
-    that.houseRent = wx.getStorageSync("arrayzf");
-    that.houseNew = wx.getStorageSync("arrayxf");
-    that.domain=app.globalData.domain;
-    // 二手房
-    if(that.houseTemp.length==0){
-      that.noneHid=true;
-      that.browse=[];
-    }
-    else{
-      for(let i=0; i<that.houseTemp.length; i++){
-        that.houseTemp[i].time = common.ConvertDate(that.houseTemp[i].time); 
+    common.initApp(function (userInfo) {
+      that.houseTemp = wx.getStorageSync("array");
+      that.houseRent = wx.getStorageSync("arrayzf");
+      that.houseNew = wx.getStorageSync("arrayxf");
+      that.domain=app.globalData.domain;
+      // 二手房
+      if(that.houseTemp.length==0){
+        that.noneHid=true;
+        that.browse=[];
+      }else{
+        for(let i=0; i<that.houseTemp.length; i++){
+          that.houseTemp[i].time = common.ConvertDate(that.houseTemp[i].time); 
+        }
+        that.houseTemp.reduce(function (arr, obj, index) {
+          let count = 0;
+          for (let key in arr) {
+            if (arr[key].time == obj.time) {
+              count = 1;
+              that.houseList[key].push(obj);
+              break;
+            }
+          }
+          if (!count) {
+            that.houseList[index] = new Array();
+            that.houseList[index].push(obj);
+          }
+          arr.push(obj);
+          return arr;
+        }, []);
+        that.noneHid=false;
+        that.browse=that.houseList;
       }
-      that.houseTemp.reduce(function (arr, obj, index) {
-        let count = 0;
-        for (let key in arr) {
-          if (arr[key].time == obj.time) {
-            count = 1;
-            that.houseList[key].push(obj);
-            break;
-          }
-        }
-        if (!count) {
-          that.houseList[index] = new Array();
-          that.houseList[index].push(obj);
-        }
-        arr.push(obj);
-        return arr;
-      }, []);
-      that.noneHid=false;
-      that.browse=that.houseList;
-    }
 
-    // 租房
-    if(that.houseRent.length==0){
-      that.noneHid=true;
-      that.browseRent=[];
-    }
-    else{
-      for(let i=0; i<that.houseRent.length; i++){
-        that.houseRent[i].time = common.ConvertDate(that.houseRent[i].time); 
+      // 租房
+      if(that.houseRent.length==0){
+        that.noneHid=true;
+        that.browseRent=[];
       }
-      that.houseRent.reduce(function (arr, obj, index) {
-        let count = 0;
-        for (let key in arr) {
-          if (arr[key].time == obj.time) {
-            count = 1;
-            that.houseRentList[key].push(obj);
-            break;
+      else{
+        for(let i=0; i<that.houseRent.length; i++){
+          that.houseRent[i].time = common.ConvertDate(that.houseRent[i].time); 
+        }
+        that.houseRent.reduce(function (arr, obj, index) {
+          let count = 0;
+          for (let key in arr) {
+            if (arr[key].time == obj.time) {
+              count = 1;
+              that.houseRentList[key].push(obj);
+              break;
+            }
+          }
+          if (!count) {
+            that.houseRentList[index] = new Array();
+            that.houseRentList[index].push(obj);
           }
-        }
-        if (!count) {
-          that.houseRentList[index] = new Array();
-          that.houseRentList[index].push(obj);
-        }
-        arr.push(obj);
-        return arr;
-      }, []);
-      that.noneHid=false;
-      that.browseRent=that.houseRentList;
-    }
+          arr.push(obj);
+          return arr;
+        }, []);
+        that.noneHid=false;
+        that.browseRent=that.houseRentList;
+      }
 
-    // 新房
-    if(that.houseNew.length==0){
-      that.noneHid=true;
-      that.browseNew=[];
-    }
-    else{
-      for(let i=0; i<that.houseNew.length; i++){
-        that.houseNew[i].time = common.ConvertDate(that.houseNew[i].time); 
+      // 新房
+      if(that.houseNew.length==0){
+        that.noneHid=true;
+        that.browseNew=[];
       }
-      that.houseNew.reduce(function (arr, obj, index) {
-        let count = 0;
-        for (let key in arr) {
-          if (arr[key].time == obj.time) {
-            count = 1;
-            that.houseNewList[key].push(obj);
-            break;
+      else{
+        for(let i=0; i<that.houseNew.length; i++){
+          that.houseNew[i].time = common.ConvertDate(that.houseNew[i].time); 
+        }
+        that.houseNew.reduce(function (arr, obj, index) {
+          let count = 0;
+          for (let key in arr) {
+            if (arr[key].time == obj.time) {
+              count = 1;
+              that.houseNewList[key].push(obj);
+              break;
+            }
+          }
+          if (!count) {
+            that.houseNewList[index] = new Array();
+            that.houseNewList[index].push(obj);
           }
-        }
-        if (!count) {
-          that.houseNewList[index] = new Array();
-          that.houseNewList[index].push(obj);
-        }
-        arr.push(obj);
-        return arr;
-      }, []);
-      that.noneHid=false;
-      that.browseNew=that.houseNewList;
-    }
-    
-    that.domain=app.globalData.domain;
+          arr.push(obj);
+          return arr;
+        }, []);
+        that.noneHid=false;
+        that.browseNew=that.houseNewList;
+      }
+      
+      that.domain=app.globalData.domain;
+    })
   },
 
 

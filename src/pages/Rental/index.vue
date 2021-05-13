@@ -304,44 +304,46 @@ export default {
   },
   onLoad(option){
     const that = this;
-    that.domain=app.globalData.domain;
-    that.keyword=option.keyword;
-    //获取筛选条件
-      wx.request({
-        url:
-          app.globalData.url +
-          "OldHouse/BandEsfScreenCondition" +
-          "?sessionKey=" +
-          app.globalData.sessionKey,
-        success: function (res) {
-          console.log("hux",res)
-          that.regionType = res.data.Context.zone;
-          that.priceType = res.data.Context.rent;
-          that.apirlroomType = res.data.Context.apirlroom;
-          that.areaType = res.data.Context.area; 
-          for(var i=0;i<that.regionType.length;i++){
-            that.regionType[i].isQytype=false;
-          }
-          for(var i=0;i<that.priceType.length;i++){
-            that.priceType[i].isJgtype=false;
-          }
-          for(var i=0;i<that.apirlroomType.length;i++){
-            that.apirlroomType[i].isHxtype=false;
-          }
-          for(var i=0;i<that.areaType.length;i++){
-            that.areaType[i].isAreatype=false;
-          }
-           
-          that.buildyearType = res.data.Context.buildyear;
-          that.companyType = res.data.Context.company;
-          that.decorationType = res.data.Context.decoration;
-          that.floorType = res.data.Context.floor;
-          that.specialType = res.data.Context.special;
-          that.supportingType = res.data.Context.supporting;
-          that.towardType = res.data.Context.toward;
-        },
-        fail: function (res) {},
-      });
+    common.initApp(function (userInfo) {
+      that.domain=app.globalData.domain;
+      that.keyword=option.keyword;
+      //获取筛选条件
+        wx.request({
+          url:
+            app.globalData.url +
+            "OldHouse/BandEsfScreenCondition" +
+            "?sessionKey=" +
+            app.globalData.sessionKey,
+          success: function (res) {
+            console.log("hux",res)
+            that.regionType = res.data.Context.zone;
+            that.priceType = res.data.Context.rent;
+            that.apirlroomType = res.data.Context.apirlroom;
+            that.areaType = res.data.Context.area; 
+            for(var i=0;i<that.regionType.length;i++){
+              that.regionType[i].isQytype=false;
+            }
+            for(var i=0;i<that.priceType.length;i++){
+              that.priceType[i].isJgtype=false;
+            }
+            for(var i=0;i<that.apirlroomType.length;i++){
+              that.apirlroomType[i].isHxtype=false;
+            }
+            for(var i=0;i<that.areaType.length;i++){
+              that.areaType[i].isAreatype=false;
+            }
+            
+            that.buildyearType = res.data.Context.buildyear;
+            that.companyType = res.data.Context.company;
+            that.decorationType = res.data.Context.decoration;
+            that.floorType = res.data.Context.floor;
+            that.specialType = res.data.Context.special;
+            that.supportingType = res.data.Context.supporting;
+            that.towardType = res.data.Context.toward;
+          },
+          fail: function (res) {},
+        });
+    })
   },
   onShow(){
     const that = this;

@@ -106,45 +106,47 @@ export default {
 
   onLoad(option) {
     const that = this;
-    that.domain=app.globalData.domain;
-    that.tab = app.globalData.tab;
-    that.newId=option.id;
-    that.newType = option.newType;
-    console.log("that.newId",that.newId)
-    console.log("that.newType",that.newType)
+    common.initApp(function (userInfo) {
+      that.domain=app.globalData.domain;
+      that.tab = app.globalData.tab;
+      that.newId=option.id;
+      that.newType = option.newType;
+      console.log("that.newId",that.newId)
+      console.log("that.newType",that.newType)
 
-    wx.request({
-        url: app.globalData.url +"Percenter/BandPerFollowList" +"?sessionKey=" +app.globalData.sessionKey,
-        method:"POST",
-        data: {
-          pageNumber:that.pageNumber,
-          pageRecord:that.pageRecord
-        },
-        header: {
-          'content-type': 'application/json' // 默认值
-        },
-        success (res) {
-          console.log('新闻',res)
-          
-          that.newList = res.data.Context.newsList;
-          that.offerinfoList = res.data.Context.proDiscountList;
-          that.salesnewsList = res.data.Context.proDynamicList;
-          if (res.data.Context.recordcountNews == 0) {
-          } else {
-            that.allPagenew = res.data.Context.recordcountNews;
-          }
-          if (res.data.Context.recordcountDiscount == 0) {
-          } else {
-            that.allPageoffer = res.data.Context.recordcountDiscount;
-          }
-          if (res.data.Context.recordcountDynamic == 0) {
-          } else {
-            that.allPagesales = res.data.Context.recordcountDynamic;
-          }
-          console.log("条数",that.allPagenew)
+      wx.request({
+          url: app.globalData.url +"Percenter/BandPerFollowList" +"?sessionKey=" +app.globalData.sessionKey,
+          method:"POST",
+          data: {
+            pageNumber:that.pageNumber,
+            pageRecord:that.pageRecord
+          },
+          header: {
+            'content-type': 'application/json' // 默认值
+          },
+          success (res) {
+            console.log('新闻',res)
+            
+            that.newList = res.data.Context.newsList;
+            that.offerinfoList = res.data.Context.proDiscountList;
+            that.salesnewsList = res.data.Context.proDynamicList;
+            if (res.data.Context.recordcountNews == 0) {
+            } else {
+              that.allPagenew = res.data.Context.recordcountNews;
+            }
+            if (res.data.Context.recordcountDiscount == 0) {
+            } else {
+              that.allPageoffer = res.data.Context.recordcountDiscount;
+            }
+            if (res.data.Context.recordcountDynamic == 0) {
+            } else {
+              that.allPagesales = res.data.Context.recordcountDynamic;
+            }
+            console.log("条数",that.allPagenew)
 
 
-        }
+          }
+      })
     })
 
 
@@ -168,7 +170,7 @@ export default {
       wx.navigateTo({ url: "/pages/articledetails/main?id=" + e.mp.currentTarget.dataset.id+ "&page=list&newType=2&typeList=2"});
     },
     xsnewListClick(index,e){
-      wx.navigateTo({ url: "/pages/articledetails/main?id=" + e.mp.currentTarget.dataset.id+ "&page=list&newType=3&typeList=2"});
+      wx.navigateTo({ url: "/pages/articledetails/main?id=" + e.mp.currentTarget.dataset.id+ "&page=list&newType=2&typeList=2"});
     },
 
   }

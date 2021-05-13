@@ -72,7 +72,7 @@ export default {
       rentList:[], 
       name:'',
       type:"esf",
-      img1:"/static/images/ssjt.png"
+      img1:app.globalData.imgurl + "ssjt.png"
     }
   },
 

@@ -101,18 +101,20 @@ const app = getApp();
     onLoad(option){
       const that = this;
       console.log('option',option);
-      that.repaymentText=option.repaymentText=="等额本息"?that.indAction==0:that.indAction==1;
-     that.monVal=option.monVal;
-      that.payInterest=option.payInterest;
-      that.repayment=option.repayment;
-      that.yearText=option.yearText;
-      that.arrayObj=JSON.parse(option.arrayObj);
-      that.rateText=option.rateText;
-      that.accText=option.accText;
-      that.busVal=option.busVal;
-      that.fundVal=option.fundVal;
-      that.tab=option.tab;
-      console.log('option.arrayObj',JSON.parse(option.arrayObj));
+      common.initApp(function (userInfo) {
+        that.repaymentText=option.repaymentText=="等额本息"?that.indAction==0:that.indAction==1;
+        that.monVal=option.monVal;
+        that.payInterest=option.payInterest;
+        that.repayment=option.repayment;
+        that.yearText=option.yearText;
+        that.arrayObj=JSON.parse(option.arrayObj);
+        that.rateText=option.rateText;
+        that.accText=option.accText;
+        that.busVal=option.busVal;
+        that.fundVal=option.fundVal;
+        that.tab=option.tab;
+        console.log('option.arrayObj',JSON.parse(option.arrayObj));
+      })
     },
     onShow(){
       const that = this;

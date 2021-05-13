@@ -231,44 +231,46 @@ export default {
   },
     onLoad(option) {
     const that = this;
-    that.domain=app.globalData.domain;
-    that.agentid=option.agentid;
-    wx.request({
-      url: app.globalData.url +"Agent/BandAgentInfo?sessionKey=" +app.globalData.sessionKey+"&agentid="+that.agentid,
-      header: {
-        'content-type': 'application/json' // 默认值
-      },
-      success (res) {
-        console.log("名片",res)
-        that.realname = res.data.Context.agentInfo.realname;
-        that.typename = res.data.Context.agentInfo.typename;
-        that.headpic = res.data.Context.agentInfo.headpic;
-        that.companyname = res.data.Context.agentInfo.companyname;
-        that.hxid = res.data.Context.agentInfo.hxid;
-        console.log("聊天id",that.hxid)
+    common.initApp(function (userInfo) { 
+      that.domain=app.globalData.domain;
+      that.agentid=option.agentid;
+      wx.request({
+        url: app.globalData.url +"Agent/BandAgentInfo?sessionKey=" +app.globalData.sessionKey+"&agentid="+that.agentid,
+        header: {
+          'content-type': 'application/json' // 默认值
+        },
+        success (res) {
+          console.log("名片",res)
+          that.realname = res.data.Context.agentInfo.realname;
+          that.typename = res.data.Context.agentInfo.typename;
+          that.headpic = res.data.Context.agentInfo.headpic;
+          that.companyname = res.data.Context.agentInfo.companyname;
+          that.hxid = res.data.Context.agentInfo.hxid;
+          console.log("聊天id",that.hxid)
 
-        that.count = res.data.Context.count;
-        that.zonename = res.data.Context.agentInfo.zonename;
-        that.evaluation = res.data.Context.agentInfo.evaluation;
-        that.overallscore = res.data.Context.agentInfo.overallscore;
-        that.evaluatesum = res.data.Context.agentInfo.evaluatesum;
-        that.mobile = res.data.Context.agentInfo.mobile
-        
-        //推荐二手房
-        that.more_esf = res.data.Context.more_esf;
-        if(that.more_esf.length<=0){
-          that.noneimgHid=true;
-        }else{
-          that.noneimgHid=false;
+          that.count = res.data.Context.count;
+          that.zonename = res.data.Context.agentInfo.zonename;
+          that.evaluation = res.data.Context.agentInfo.evaluation;
+          that.overallscore = res.data.Context.agentInfo.overallscore;
+          that.evaluatesum = res.data.Context.agentInfo.evaluatesum;
+          that.mobile = res.data.Context.agentInfo.mobile
+          
+          //推荐二手房
+          that.more_esf = res.data.Context.more_esf;
+          if(that.more_esf.length<=0){
+            that.noneimgHid=true;
+          }else{
+            that.noneimgHid=false;
+          }
+          //推荐新房
+          that.more_new = res.data.Context.more_new;
+          //推荐租房
+          that.more_rent = res.data.Context.more_rent;
+          
+          
+          
         }
-        //推荐新房
-        that.more_new = res.data.Context.more_new;
-        //推荐租房
-        that.more_rent = res.data.Context.more_rent;
-        
-        
-        
-       }
+      })
     })
   },
 

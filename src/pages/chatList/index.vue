@@ -52,9 +52,9 @@ export default {
   data () {
     return {
       chatlistarr:[
-        {img1:"/static/images/meimg.png",num:2,title:"杨女士",time:"2021-4-27",content:"您好"},
-        {img1:"/static/images/meimg.png",num:2,title:"杨女士",time:"2021-4-27",content:"您好"},
-        {img1:"/static/images/meimg.png",num:2,title:"杨女士",time:"2021-4-27",content:"您好"}
+        {img1:app.globalData.imgurl +"meimg.png",num:2,title:"杨女士",time:"2021-4-27",content:"您好"},
+        {img1:app.globalData.imgurl +"meimg.png",num:2,title:"杨女士",time:"2021-4-27",content:"您好"},
+        {img1:app.globalData.imgurl +"meimg.png",num:2,title:"杨女士",time:"2021-4-27",content:"您好"}
       ],
       // telHid:false, 
       maskHid:false,

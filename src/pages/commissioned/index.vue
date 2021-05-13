@@ -99,7 +99,7 @@ const common = require("@/utils/index");
 export default {
   data () {
     return {
-      img1:"/static/images/wt1.jpg",
+      img1:app.globalData.imgurl +"wt1.jpg",
       img2:app.globalData.imgurl +"quan.png",
       maskHid:false,
       telHid:false, 

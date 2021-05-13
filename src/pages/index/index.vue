@@ -245,6 +245,7 @@
   </div>
 </template>
 
+
 <script>
 const app = getApp();
 const common = require("@/utils/index");
@@ -252,9 +253,9 @@ export default {
   data() {
     return {
       domain:null,
-      beijing:"/static/images/sybj.png",
+      beijing:app.globalData.imgurl + "sybj.png",
       movies: [],
-      img2:"/static/images/ssou.png",
+      img2:app.globalData.imgurl + "ssou.png",
       // navs: [
       //   {img3: app.globalData.imgurl + "n1.png",title: "二手房",url: "/pages/oldhouse/main"},
       //   { img3: app.globalData.imgurl +"n2.png", title: "新房" ,url: "/pages/newhouse/main"},
@@ -432,7 +433,7 @@ export default {
     },
     // 点击销售动态跳转文章页
     salesNewsClick(index,e){
-      wx.navigateTo({ url: "/pages/articledetails/main?id=" + e.mp.currentTarget.dataset.id + "&page=index&newType=3"});
+      wx.navigateTo({ url: "/pages/articledetails/main?id=" + e.mp.currentTarget.dataset.id + "&page=index&newType=2"});
     },
     // 点击优惠信息跳转文章页
     newListClick(index,e){

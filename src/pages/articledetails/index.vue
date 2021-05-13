@@ -143,61 +143,62 @@ export default {
 
   onLoad(option) {
     const that = this;
-    that.newsModel="";
-    
-    that.domain=app.globalData.domain;
-    that.newId=option.id;
-    that.page=option.page;
-    that.newType = option.newType;
-    that.typeList = option.typeList;
-    console.log("that.newType",that.newType)
-    if(that.page=="list"){
-      if(that.typeList=='1'){
-        wx.request({
-          url:app.globalData.url +"News/BandNewsInfo" +"?sessionKey=" +app.globalData.sessionKey+'&newId=' + option.id,
-          success: function (res) {
-            console.log('新闻文章',res)
-            that.newsModel = res.data.Context.newsModel;
-            that.moretjlist = res.data.Context.moreNews;
-            for(var i = 0;i<that.moretjlist.length;i++){
-              that.moretjlist[i].publishdate = that.moretjlist[i].publishdate.substring(0, 10);;
-            }
+    common.initApp(function (userInfo) {
+      that.newsModel="";
+      that.domain=app.globalData.domain;
+      that.newId=option.id;
+      that.page=option.page;
+      that.newType = option.newType;
+      that.typeList = option.typeList;
+      console.log("that.newType",that.newType)
+      if(that.page=="list"){
+        if(that.typeList=='1'){
+          wx.request({
+            url:app.globalData.url +"News/BandNewsInfo" +"?sessionKey=" +app.globalData.sessionKey+'&newId=' + option.id,
+            success: function (res) {
+              console.log('新闻文章',res)
+              that.newsModel = res.data.Context.newsModel;
+              that.moretjlist = res.data.Context.moreNews;
+              for(var i = 0;i<that.moretjlist.length;i++){
+                that.moretjlist[i].publishdate = that.moretjlist[i].publishdate.substring(0, 10);;
+              }
 
-            that.moreProject = res.data.Context.moreProject;
-          }
-        })
-      }else if(that.typeList=='2'){
-        wx.request({
-          url:app.globalData.url +"News/BandProjectNewsInfo" +"?sessionKey=" +app.globalData.sessionKey+'&newId=' + option.id,
-          success: function (res) {
-            that.newsModel = res.data.Context.newsModel;
-            that.moretjlist = res.data.Context.moreNews;
-            for(var i = 0;i<that.moretjlist.length;i++){
-              that.moretjlist[i].publishdate = that.moretjlist[i].publishdate.substring(0, 10);;
+              that.moreProject = res.data.Context.moreProject;
             }
+          })
+        }else if(that.typeList=='2'){
+          wx.request({
+            url:app.globalData.url +"News/BandProjectNewsInfo" +"?sessionKey=" +app.globalData.sessionKey+'&newId=' + option.id,
+            success: function (res) {
+              that.newsModel = res.data.Context.newsModel;
+              that.moretjlist = res.data.Context.moreNews;
+              for(var i = 0;i<that.moretjlist.length;i++){
+                that.moretjlist[i].publishdate = that.moretjlist[i].publishdate.substring(0, 10);;
+              }
 
-            that.moreProject = res.data.Context.moreProject;
-          }
+              that.moreProject = res.data.Context.moreProject;
+            }
+          })
+
+        }
+        
+      }else{
+        wx.request({
+            url:app.globalData.url +"News/BandProjectNewsInfo" +"?sessionKey=" +app.globalData.sessionKey+'&newId=' + option.id,
+            success: function (res) {
+              console.log('新闻文章',res)
+              that.newsModel = res.data.Context.newsModel;
+              that.moretjlist = res.data.Context.moreNews;
+              for(var i = 0;i<that.moretjlist.length;i++){
+                that.moretjlist[i].publishdate = that.moretjlist[i].publishdate.substring(0, 10);;
+              }
+              
+              that.moreProject = res.data.Context.moreProject;
+            }
         })
 
       }
-      
-    }else{
-      wx.request({
-          url:app.globalData.url +"News/BandProjectNewsInfo" +"?sessionKey=" +app.globalData.sessionKey+'&newId=' + option.id,
-          success: function (res) {
-            console.log('新闻文章',res)
-            that.newsModel = res.data.Context.newsModel;
-            that.moretjlist = res.data.Context.moreNews;
-            for(var i = 0;i<that.moretjlist.length;i++){
-              that.moretjlist[i].publishdate = that.moretjlist[i].publishdate.substring(0, 10);;
-            }
-            
-            that.moreProject = res.data.Context.moreProject;
-          }
-      })
-
-    }
+    })
   },
   onShareAppMessage: function(res) {
     return {

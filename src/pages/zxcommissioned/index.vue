@@ -82,21 +82,23 @@ export default {
   }, 
   onLoad(option) {
     const that = this;
-    that.domain=app.globalData.domain;
-    that.entrustName="",
-    that.entrustTel="",
-    that.entrustCompany="",
-    that.entrustStore="",
-    that.entrustText="",
+    common.initApp(function (userInfo) {
+      that.domain=app.globalData.domain;
+      that.entrustName="",
+      that.entrustTel="",
+      that.entrustCompany="",
+      that.entrustStore="",
+      that.entrustText="",
 
-    wx.request({
-      url: app.globalData.url +"Entrust/BandCompanyStore?sessionKey=" +app.globalData.sessionKey,
-      success (res) {
-        
-        that.company = res.data.Context.CompanyStoreList;
+      wx.request({
+        url: app.globalData.url +"Entrust/BandCompanyStore?sessionKey=" +app.globalData.sessionKey,
+        success (res) {
+          
+          that.company = res.data.Context.CompanyStoreList;
 
-        console.log("ddd",that.company)
-      }
+          console.log("ddd",that.company)
+        }
+      })
     })
 
   },

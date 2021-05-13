@@ -344,40 +344,42 @@ export default {
   },
   onLoad(option){
     const that = this;
-    that.domain=app.globalData.domain;
-    that.keyword=option.keyword;
-    //获取筛选条件
-      wx.request({
-        url:
-          app.globalData.url +
-          "Project/BandProjectScreenCondition" +
-          "?sessionKey=" +
-          app.globalData.sessionKey,
-        success: function (res) {
-          that.regionType = res.data.Context.zone;
-          that.salestateType = res.data.Context.salestate;
-          that.priceType = res.data.Context.price;
+    common.initApp(function (userInfo) {
+      that.domain=app.globalData.domain;
+      that.keyword=option.keyword;
+      //获取筛选条件
+        wx.request({
+          url:
+            app.globalData.url +
+            "Project/BandProjectScreenCondition" +
+            "?sessionKey=" +
+            app.globalData.sessionKey,
+          success: function (res) {
+            that.regionType = res.data.Context.zone;
+            that.salestateType = res.data.Context.salestate;
+            that.priceType = res.data.Context.price;
 
-          that.apirlroomType = res.data.Context.apirlroom;
-          // that.areaType = res.data.Context.area; 
-          that.propertytypeType = res.data.Context.propertytype; 
-          for(var i=0;i<that.regionType.length;i++){
-            that.regionType[i].isQytype=false;
-          }
-          for(var i=0;i<that.priceType.length;i++){
-            that.priceType[i].isJgtype=false;
-          }
-          for(var i=0;i<that.apirlroomType.length;i++){
-            that.apirlroomType[i].isHxtype=false;
-          }
-          for(var i=0;i<that.propertytypeType.length;i++){
-            that.propertytypeType[i].isLxtype=false;
-          } 
-          that.specialType = res.data.Context.special;
-          
-        },
-        fail: function (res) {},
-      });
+            that.apirlroomType = res.data.Context.apirlroom;
+            // that.areaType = res.data.Context.area; 
+            that.propertytypeType = res.data.Context.propertytype; 
+            for(var i=0;i<that.regionType.length;i++){
+              that.regionType[i].isQytype=false;
+            }
+            for(var i=0;i<that.priceType.length;i++){
+              that.priceType[i].isJgtype=false;
+            }
+            for(var i=0;i<that.apirlroomType.length;i++){
+              that.apirlroomType[i].isHxtype=false;
+            }
+            for(var i=0;i<that.propertytypeType.length;i++){
+              that.propertytypeType[i].isLxtype=false;
+            } 
+            that.specialType = res.data.Context.special;
+            
+          },
+          fail: function (res) {},
+        });
+    })
   },
   onShow(){
     const that = this;
