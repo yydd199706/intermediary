@@ -216,9 +216,8 @@
               </div>
             </div>
             <div class="right_g">
-              <!-- <p class="wxl"><image :src="img9" class="slide-image" mode="scaleToFill" :data-wxid="item.wxid==''?item.telphone:item.wxid"
-                  @click="wxhcopy(index,$event)" /></p> -->
-              <p class="wxl"><image :src="img9" class="slide-image" mode="scaleToFill" @click="chatClick(index,$event)" /></p>
+              <!-- <p class="wxl"><image :src="img9" class="slide-image" mode="scaleToFill" @click="chatClick(index,$event)" /></p> -->
+              <p class="wxl"><image :src="img9" class="slide-image" mode="scaleToFill" :data-hxid="item.hxid" :data-src="domain+item.imghead_url" @click="chatClick(index,$event)" /></p>
               <p class="dhr"><image :src="img10s" class="slide-image" mode="scaleToFill" :data-telphone="item.telphone" @click="telphoneClick(index,$event)" /></p>
             </div>
           </div>
@@ -446,7 +445,7 @@ export default {
     that.domain=app.globalData.domain;
     that.houserid=option.id;
     that.movies="";
-      that.newInfo="",
+      that.newInfo=null,
       that.location={};
       that.imgArr=[];
       that.houseArr=[];
@@ -1020,6 +1019,8 @@ export default {
     //置业顾问点击在线咨询进入聊天
     chatClick:function(index,e){
       const that = this;
+      console.log("即时通讯id",e.mp.target.dataset.hxid)
+      console.log("头像",e.mp.target.dataset.src)
       wx.request({
           url:app.globalData.url +"WxLogin/CheckLogin" +"?sessionKey=" +app.globalData.sessionKey,
           success: function (data) {
@@ -1027,7 +1028,9 @@ export default {
             if(data.data==true){
               that.telHid=false;
               that.maskHid=false;
-              wx.navigateTo({ url: "/pages/chatNew/main?hxid=" + that.hxid + "&headpic=" + that.headpic + "&projectInfo=" + that.projectInfo});
+              wx.navigateTo({ url: "/pages/chatNew/main?hxid=" + e.mp.target.dataset.hxid + "&headpic=" + e.mp.target.dataset.src + "&projectInfo=" + that.projectInfo + "&chatType=2"});
+
+              // wx.navigateTo({ url: "/pages/chatNew/main?hxid=" + that.hxid + "&headpic=" + that.headpic + "&projectInfo=" + that.projectInfo+ "&chatType=2"});
             }else{
               that.telHid=true;
               that.maskHid=true;

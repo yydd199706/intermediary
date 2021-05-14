@@ -2,17 +2,17 @@
   <div class="indexstyle">
     
     <div class="newschat" v-if="newsHid">
-      <div class="chatlist" v-for="(item, index) in chatlistarr" :key="index">
+      <div class="chatlist" v-for="(item, index) in chatlistarr" :key="index" @click="messageBox(item.type)">
         <div class="chat_lelf">
           <div class="num">{{item.num}}</div>
-          <image :src="item.img1" />
+          <image v-if="domain" :src="item.headpic =='' ? magImgurl : domain+item.headpic" class="slide-image" />
         </div>
         <div class="chat_right">
           <div>
-            <div class="title_bt">{{item.title}}</div>
+            <div class="title_bt">{{item.nickname==""||item.nickname==null ? item.realname: item.nickname}}</div>
             <div class="time">{{item.time}}</div>
           </div>
-          <div class="content_nr">{{item.content}}</div>
+          <div class="content_nr">{{item.msg}}</div>
         </div>
       </div>
     </div>
@@ -51,16 +51,15 @@ const common = require("@/utils/index");
 export default {
   data () {
     return {
-      chatlistarr:[
-        {img1:app.globalData.imgurl +"meimg.png",num:2,title:"杨女士",time:"2021-4-27",content:"您好"},
-        {img1:app.globalData.imgurl +"meimg.png",num:2,title:"杨女士",time:"2021-4-27",content:"您好"},
-        {img1:app.globalData.imgurl +"meimg.png",num:2,title:"杨女士",time:"2021-4-27",content:"您好"}
-      ],
+      chatlistarr:[],
+      magImgurl:app.globalData.imgurl +"meimg.png",
       // telHid:false, 
       maskHid:false,
       newsHid:false,
       LoggedHid:true,
       zanwu:app.globalData.imgurl +"zaw.png",
+      domain:null,
+      member: null,
 
      
 
@@ -70,17 +69,7 @@ export default {
   onLoad(option) {
     const that = this;
     that.domain=app.globalData.domain;
-    //调用聊天列表
-    that.MailingList();
-    
-    
-    
-    
-
-
-
-
-
+ 
 
   }, 
   onShow(){
@@ -92,6 +81,7 @@ export default {
           that.maskHid=false;
           that.newsHid=true;
           that.LoggedHid=false;
+          that.MailingList();
         }else{
           that.maskHid=false;
           that.newsHid=false;
@@ -100,6 +90,7 @@ export default {
 
       }
     })
+    
 
  
 
@@ -138,12 +129,14 @@ export default {
                   'content-type': 'application/json' // 默认值
                 },
                 success (data) {
-                  console.log("deng",data)
+                  console.log("dengll",data)
                   if(data.data.Code==0){
                     that.maskHid=false;
                     wx.setStorageSync('member',data.data.Context.member);
                     that.openType="";
                     app.globalData.member=data.data.Context.member; 
+                    console.log("app.globalData.member",app.globalData.member)
+                    
                     that.newsHid=true;
                     that.LoggedHid=false;
                     //调用聊天列表
@@ -170,14 +163,31 @@ export default {
 
     // 获取即时通讯列表接口
     MailingList(){
+      const that = this;
       //获取聊天列表
       wx.request({
         url:app.globalData.url +"Msn/BandHouseEntrusList" +"?sessionKey=" +app.globalData.sessionKey,
         success: function (res) {
           console.log("聊天列表",res)
+          that.chatlistarr = res.data.Context.msnList;
+          for(var i = 0;i<that.chatlistarr.length;i++){
+              that.chatlistarr[i].time = that.chatlistarr[i].time.substring(0, 10);;
+            }
         }
       })
 
+    },
+
+    // 点击聊天消息进入聊天消息框
+    messageBox:function(type){
+      if(type==1){
+        wx.navigateTo({ url: "/pages/chatOld/main"});
+      } else if(type==2){
+        wx.navigateTo({ url: "/pages/chatNew/main"});
+      } else if(type==3){
+        wx.navigateTo({ url: "/pages/chatRental/main"});
+      }
+      
     }
 
 

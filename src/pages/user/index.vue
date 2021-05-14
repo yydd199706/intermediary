@@ -159,6 +159,7 @@ export default {
       //获取手机号时点击允许
       if (e.mp.detail.errMsg == "getPhoneNumber:ok") {
         //调用获取手机号接口传参
+
         wx.request({
           url:
             app.globalData.url +

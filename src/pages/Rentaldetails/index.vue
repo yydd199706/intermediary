@@ -131,9 +131,8 @@
               </div>
             </div>
             <div class="right_g">
-              <!-- <p class="wxl"><image :src="img9" class="slide-image" mode="scaleToFill" :data-wxid="item.wxid==''?item.mobile:item.wxid"
-                  @click="wxhcopy(index,$event)" /></p> -->
-              <p class="wxl"><image :src="img9" class="slide-image" mode="scaleToFill" @click="chatClick(index,$event)" /></p>
+              <!-- <p class="wxl"><image :src="img9" class="slide-image" mode="scaleToFill" @click="chatClick(index,$event)" /></p> -->
+              <p class="wxl"><image :src="img9" class="slide-image" mode="scaleToFill" :data-hxid="item.hxid" :data-src="domain+item.headpic" @click="chatClick(index,$event)" /></p>
               <p class="dhr"><image :src="img10s" class="slide-image" mode="scaleToFill" :data-telphone="item.mobile" @click="telphoneClick(index,$event)" /></p>
             </div>
           </div>
@@ -411,7 +410,7 @@ export default {
   onLoad(option) {
     const that = this;
     that.movies = [];
-    that.houseInfo = "";
+    that.houseInfo = null;
     that.fangyuanlist = [
         {img1:app.globalData.imgurl + "f1.png",img2:app.globalData.imgurl + "f1s.png",name:'电视',isshow:0},
         {img1:app.globalData.imgurl + "f2.png",img2:app.globalData.imgurl + "f2s.png",name:'冰箱',isshow:0},
@@ -700,6 +699,8 @@ export default {
     //点击在线咨询进入聊天
     chatClick:function(index,e){
       const that = this;
+      console.log("即时通讯id",e.mp.target.dataset.hxid)
+      console.log("头像",e.mp.target.dataset.src)
       wx.request({
           url:app.globalData.url +"WxLogin/CheckLogin" +"?sessionKey=" +app.globalData.sessionKey,
           success: function (data) {
@@ -707,7 +708,7 @@ export default {
             if(data.data==true){
               that.telHid=false;
               that.maskHid=false;
-              wx.navigateTo({ url: "/pages/chatRental/main?hxid=" + that.hxid + "&headpic=" + that.headpic + "&projectInfo=" + that.projectInfo});
+              wx.navigateTo({ url: "/pages/chatRental/main?hxid=" + e.mp.target.dataset.hxid + "&headpic=" + e.mp.target.dataset.src + "&projectInfo=" + that.projectInfo + "&chatType=3"});
             }else{
               that.telHid=true;
               that.maskHid=true;

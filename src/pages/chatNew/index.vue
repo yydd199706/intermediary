@@ -81,13 +81,15 @@ export default {
       domain: null,
       hxid: "",
       headpic: "",
+      chatType:"",
+      projectInfo: null,
       socketMsgQueue: [],
       Message: "",
       isshow: true,
-      projectInfo: null,
       showCard :false,
       msg: null,
       time:"",
+      
     };
   },
 
@@ -97,7 +99,10 @@ export default {
     that.Message = "";
     that.socketMsgQueue = [];
     that.hxid = option.hxid;
+    that.chatType = option.chatType;
+    console.log("that.chatType",that.chatType)
     that.projectInfo = wx.getStorageSync("projectInfo");
+    console.log("that.projectInfo",that.projectInfo)
     // that.headpic = "";
     // that.time = "";
     that.msg = null;
@@ -213,10 +218,37 @@ export default {
         });
 
         wx.sendSocketMessage({
-          data: that.msg
+          data: that.msg,
+          success(){
+            wx.request({
+              url:app.globalData.url +"Msn/AddMsgRecord" +"?sessionKey=" +app.globalData.sessionKey,
+              method:"POST",
+              data: {
+                msg:that.Message,
+                type:that.chatType,
+                userid:app.globalData.member.hxid,
+                aimid:that.hxid,
+                houseid:that.projectInfo.id,
+              },
+              header: {
+                'content-type': 'application/json' // 默认值
+              },
+              success: function (res) {
+                console.log("消息记录",res)
+                
+              }
+            })
+
+          }
         });
         that.Message = "";
       }
+      console.log("that.hxid",that.hxid)
+      
+
+
+
+
     },
 
     // 点击卡片跳转到详情页
@@ -301,8 +333,28 @@ export default {
   margin-left: 20rpx; */
   float: left;
 }
+.lelftype .me_text {
+  max-width:100%;
+  background: #fff;
+  padding: 20rpx;
+  border-radius: 10rpx;
+  /* margin-right: 20rpx;
+  margin-left: 20rpx; */
+  float: left;
+}
+.righttype .me_text {
+  max-width:100%;
+  background: #9eea6a;
+  padding: 20rpx;
+  border-radius: 10rpx;
+  /* margin-right: 20rpx;
+  margin-left: 20rpx; */
+  float: left;
+}
+
+
 .chat_list{
-  max-width: 80%; background: #fff; border-radius:4rpx; margin-right:4%; margin-left:4%; float: left;
+   max-width: 80%; /*background: #fff;*/ border-radius:4rpx; margin-right:4%; margin-left:4%; float: left; 
 }
 
 /* 底部按钮 */

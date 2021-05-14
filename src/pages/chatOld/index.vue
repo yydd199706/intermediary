@@ -85,10 +85,11 @@ export default {
       domain: null,
       hxid: "",
       headpic: "",
+      chatType:"",
+      projectInfo: null,
       socketMsgQueue: [],
       Message: "",
       isshow: true,
-      projectInfo: null,
       showCard :false,
       msg: null,
       time:"",
@@ -101,7 +102,10 @@ export default {
     that.Message = "";
     that.socketMsgQueue = [];
     that.hxid = option.hxid;
+    that.chatType = option.chatType;
+    console.log("that.chatType",that.chatType)
     that.projectInfo = wx.getStorageSync("projectInfo");
+    console.log("that.projectInfo",that.projectInfo)
     // that.headpic = "";
     // that.time = "";
     that.msg = null;

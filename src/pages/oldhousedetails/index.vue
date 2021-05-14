@@ -473,28 +473,6 @@ export default {
       yuyue_yc:false,
       domain:null,
       projectname:"",
-      // Decorationname:"",
-      // looktime:"",
-      // title:"",
-      // price:"",
-      // averageprice:"",
-      // area:"",
-      // projectname:"",
-      // buildyear:"",
-      // apirlroom:"",
-      // apirloffice:"",
-      // apirltoilet:"",
-      // floor:"",
-      // floorcount:"",
-      // address:"",
-      // Termname:"",
-      // Towardname:"",
-      // Propertyname:"",
-      // Zonename:"",
-      // Rightnaturename:"",
-      // Supportingname:"",
-      // companyname:"",
-      // Specialname:"",
       reservedtelphone:"",
       wechat_num:"",
       companyname:"",
@@ -606,7 +584,7 @@ export default {
     clearInterval(that.timer);
     that.movies=[];
       that.projectname = "";
-      that.newInfo="",
+      that.houseInfo=null,
       that.location=null;
       that.name="";
       that.tel="";
@@ -681,17 +659,17 @@ export default {
         let val={
           time:common.ConvertTimestamp(new Date()),
 					id:option.id,
-					title:that.title,
+					title:that.houseInfo.title,
 					Imgurl:res.data.Context.houseInfo.Imgurl,
-					apirlroom:that.apirlroom,
-          apirloffice:that.apirloffice,
-          apirltoilet:that.apirltoilet,
-          area:that.area,
-          Towardname:that.Towardname,
-          Decorationname:that.Decorationname,
-          Propertyname:that.Propertyname,
-          price:that.price,
-          averageprice:that.averageprice
+					apirlroom:that.houseInfo.apirlroom,
+          apirloffice:that.houseInfo.apirloffice,
+          apirltoilet:that.houseInfo.apirltoilet,
+          area:that.houseInfo.area,
+          Towardname:that.houseInfo.Towardname,
+          Decorationname:that.houseInfo.Decorationname,
+          Propertyname:that.houseInfo.Propertyname,
+          price:that.houseInfo.price,
+          averageprice:that.houseInfo.averageprice
         };
         that.array.push(val);
         var regionValueArray = [];
@@ -976,8 +954,8 @@ clickService:function(){
 //点击在线咨询进入聊天
   chatClick:function(index,e){
     const that = this;
-    console.log("idddd",e.mp.target.dataset.hxid)
-    console.log("wwwwww",e.mp.target.dataset.src)
+    console.log("即时通讯id",e.mp.target.dataset.hxid)
+    console.log("头像",e.mp.target.dataset.src)
     wx.request({
         url:app.globalData.url +"WxLogin/CheckLogin" +"?sessionKey=" +app.globalData.sessionKey,
         success: function (data) {
@@ -985,7 +963,7 @@ clickService:function(){
           if(data.data==true){
             that.telHid=false;
             that.maskHid=false;
-            wx.navigateTo({ url: "/pages/chatOld/main?hxid=" + e.mp.target.dataset.hxid + "&headpic=" + e.mp.target.dataset.src + "&projectInfo=" + that.projectInfo});
+            wx.navigateTo({ url: "/pages/chatOld/main?hxid=" + e.mp.target.dataset.hxid + "&headpic=" + e.mp.target.dataset.src + "&projectInfo=" + that.projectInfo + "&chatType=1"});
           }else{
             that.telHid=true;
             that.maskHid=true;
