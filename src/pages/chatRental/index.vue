@@ -121,6 +121,7 @@ export default {
 
   onShow(){
     const that = this;
+    
     common.initApp(function(userInfo) {
       that.connectSocket();
     });
@@ -133,6 +134,7 @@ export default {
 
 
   onUnload() {
+    const that = this;
     console.log("dddd")
     wx.closeSocket({
       
@@ -142,7 +144,7 @@ export default {
   methods: {
     // 滚动到页面底部
     pageScrollToBottom: function() {
-      let that = this;
+      const that = this;
       wx.createSelectorQuery().select('#x_chat').boundingClientRect(function(rect) {
         console.log("rect",rect)
         wx.pageScrollTo({
@@ -174,7 +176,7 @@ export default {
         return MM + "-" + d + " " + h + ":" + m;
     },
     connectSocket: function() {
-      var that = this;
+      const that = this;
       //注册信息
       var data = { user: app.globalData.member.hxid };
 
@@ -216,7 +218,7 @@ export default {
 
     //发送的
     sendSocketMessage: function() {
-      var that = this;
+      const that = this;
       //判断是否为空
       if (that.Message == "") {
         wx.showToast({

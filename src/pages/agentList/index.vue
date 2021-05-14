@@ -167,24 +167,24 @@ export default {
     },
     //点击在线咨询进入聊天
     chatClick:function(index,e){
-    const that = this;
-    console.log("即时通讯id",e.mp.target.dataset.hxid)
-    console.log("头像",e.mp.target.dataset.src)
-    wx.request({
-        url:app.globalData.url +"WxLogin/CheckLogin" +"?sessionKey=" +app.globalData.sessionKey,
-        success: function (data) {
-          console.log("data",data)
-          if(data.data==true){
-            that.telHid=false;
-            that.maskHid=false;
-            wx.navigateTo({ url: "/pages/chatOld/main?hxid=" + e.mp.target.dataset.hxid + "&headpic=" + e.mp.target.dataset.src + "&projectInfo=" + that.projectInfo + "&chatType=1"});
-          }else{
-            that.telHid=true;
-            that.maskHid=true;
+      const that = this;
+      console.log("即时通讯id",e.mp.target.dataset.hxid)
+      console.log("头像",e.mp.target.dataset.src)
+      wx.request({
+          url:app.globalData.url +"WxLogin/CheckLogin" +"?sessionKey=" +app.globalData.sessionKey,
+          success: function (data) {
+            console.log("data",data)
+            if(data.data==true){
+              that.telHid=false;
+              that.maskHid=false;
+              wx.navigateTo({ url: "/pages/chatOld/main?hxid=" + e.mp.target.dataset.hxid + "&headpic=" + e.mp.target.dataset.src + "&projectInfo=" + that.projectInfo + "&chatType=1"});
+            }else{
+              that.telHid=true;
+              that.maskHid=true;
+            }
           }
-        }
-    })
-  },
+      })
+    },
     //点击复制微信号
     copy: function(index, e) {
       const that = this;

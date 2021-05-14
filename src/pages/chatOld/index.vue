@@ -120,6 +120,7 @@ export default {
 
   onShow(){
     const that = this;
+    
     common.initApp(function(userInfo) {
       that.connectSocket();
     });

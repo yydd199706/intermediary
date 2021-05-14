@@ -5,8 +5,12 @@
       <div class="chatlist" v-for="(item, index) in chatlistarr" :key="index" @click="messageBox(item.type)">
         <div class="chat_lelf">
           <div class="num" v-if="item.userid==member.hxid ? false : true">{{item.replynum}}</div>
-          <div v-if="item.userid==member.hxid ? true : false"><image v-if="domain" :src="item.headpic =='' ? magImgurl : domain+item.headpic" class="slide-image" /></div>
-          <div v-if="item.userid!=member.hxid ? true : false"><image v-if="domain" :src="member.headpic =='' ? magImgurl : domain+member.headpic" class="slide-image" /></div>
+          <!-- <div v-if="item.userid==member.hxid ? true : false"><image v-if="domain" :src="item.headpic =='' ? magImgurl : domain+item.headpic" class="slide-image" /></div> -->
+          
+          <div><image v-if="domain" :src="item.userid==member.hxid ? domain+item.headpic : domain+item.u_headpic" class="slide-image" /></div>
+
+
+          <!-- <div v-if="item.userid!=member.hxid ? true : false"><image v-if="domain" :src="member.headpic =='' ? magImgurl : domain+member.headpic" class="slide-image" /></div> -->
         </div>
         <div class="chat_right">
           <div>
