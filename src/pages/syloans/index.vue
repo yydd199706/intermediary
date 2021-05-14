@@ -35,8 +35,14 @@
                   <input :value="downText" @click="downPicker" disabled="disabled" placeholder="请选择" />                  
                   <mpvue-picker ref="mpvuedownPicker" :pickerValueDefault='pickerValueDefault' @onConfirm="ondownCancel"
                    :pickerValueArray="downValueArray"></mpvue-picker> 
-
                   <span><image :src="img1" /></span></div>
+              </div>
+              <div class="sdjine" v-if="antab===2">
+                <h1>首付金额</h1>
+                <div class="shuru1">
+                  <input :value="downPay" @click="downPicker" disabled="disabled" placeholder="请选择" />  
+                  <span>万</span> 
+              </div>
               </div>
               <div class="sdjine">
                 <h1>贷款总额</h1>
@@ -83,7 +89,7 @@
             <div class="biaots">计算方式</div>
             <radio-group class="radio-group" >
               <radio class="radio" :value="1"  @click="anniua(1)" color="#348cf0" checked>按贷款总额</radio>
-              <radio class="radio1" :value="2"  @click="anniua(2)" color="#348cf0">按房屋总价</radio>
+              <radio class="radio" :value="2"  @click="anniua(2)" color="#348cf0">按房屋总价</radio>
             </radio-group>
           </div>
           <!-- 计算方式切换结束 -->
@@ -95,12 +101,20 @@
               <!--房屋总价 -->
               <div class="sdjine" v-if="antaba===2">
                 <h1>房价总额</h1>
-                <div class="shuru"><input value="0" /><span>万</span></div>
+                <div class="shuru"><input :value="housePrice" placeholder="输入金额"  @input="houseVal" /><span>万</span></div>
               </div>
               <!--贷款比例 -->
               <div class="sdjine" v-if="antaba===2">
                 <h1>首付比例</h1>
-                <div class="shuru"><input value="6.5" /><span>成</span></div>
+                <div class="shuru1">
+                  <input :value="downText" @click="downPicker" disabled="disabled" placeholder="请选择" />                  
+                  <mpvue-picker ref="mpvuedownPicker" :pickerValueDefault='pickerValueDefault' @onConfirm="ondownCancel"
+                   :pickerValueArray="downValueArray"></mpvue-picker> 
+                  <span><image :src="img1" /></span></div>
+              </div>
+               <div class="sdjine" v-if="antaba===2">
+                <h1>首付金额</h1>
+                <div class="shuru"><input :value="downPay" @click="downPicker" placeholder="输入金额"/><span>万</span></div>
               </div>
               <!--贷款总额 -->
               <div class="sdjine">
@@ -168,7 +182,7 @@
             <div class="biaots">计算方式</div>
             <radio-group class="radio-group" >
               <radio class="radio" :value="1"  @click="anniub(1)" color="#348cf0" checked>按贷款总额</radio>
-              <radio class="radio1" :value="2"  @click="anniub(2)" color="#348cf0">按房屋总价</radio>
+              <radio class="radio" :value="2"  @click="anniub(2)" color="#348cf0">按房屋总价</radio>
             </radio-group>
           </div>
           <!-- 计算方式切换结束 -->
@@ -176,7 +190,26 @@
           <!-- 计算方式内容开始 -->
           <div class="anniunr">
             <!-- 按贷款总额开始 -->
-            <div class="daikuan" v-if="antabb===1">
+            <div class="daikuan">
+               <!--房屋总价 -->
+              <div class="sdjine" v-if="antabb===2">
+                <h1>房屋总价</h1>
+                <div class="shuru"><input :value="housePrice" placeholder="输入金额"  @input="houseVal" /><span>万</span></div>
+              </div>
+              <!--贷款比例 -->
+              <div class="sdjine" v-if="antabb===2">
+                <h1>首付比例</h1>
+                <div class="shuru1">
+                  <input :value="downText" @click="downPicker" disabled="disabled" placeholder="请选择" />                  
+                  <mpvue-picker ref="mpvuedownPicker" :pickerValueDefault='pickerValueDefault' @onConfirm="ondownCancel"
+                   :pickerValueArray="downValueArray"></mpvue-picker> 
+                  <span><image :src="img1" /></span></div>
+              </div>
+              <!--公积金金额 -->
+              <div class="sdjine" v-if="antabb===2">
+                <h1>首付金额</h1>
+                <div class="shuru"><input :value="downPay" @click="downPicker" placeholder="输入金额" /><span>万</span></div>
+              </div>
               <!--公积金金额 -->
               <div class="sdjine">
                 <h1>贷款总额</h1>
@@ -213,32 +246,22 @@
             <!-- 按贷款总额结束 -->
 
             <!-- 按房屋总价开始 -->
-            <div class="fangwu" v-else>
-              <!--房屋总价 -->
+            <!-- <div class="fangwu" v-else>
+             
               <div class="sdjine">
-                <h1>房屋总价</h1>
-                <div class="shuru"><input value="0" /><span>万</span></div>
-              </div>
-              <!--贷款比例 -->
-              <div class="sdjine">
-                <h1>贷款比例</h1>
-                <div class="shuru"><input value="6.5" /><span>成</span></div>
-              </div>
-              <!--公积金金额 -->
-              <div class="sdjine">
-                <h1>公积金金额</h1>
-                <div class="shuru"><input value="0" /><span>万</span></div>
+                <h1>贷款总额</h1>
+                <div class="shuru"><input @input="monInp" :value="monVal" placeholder="输入金额" /><span>万</span></div>
               </div>
               <!--公积金年限-->
-              <div class="sdjine">
-                <h1>公积金年限</h1>
+              <!-- <div class="sdjine">
+                <h1>贷款年限</h1>
                 <div class="shuru1">
                   <input :value="sexText" @click="fundyears4Picker" placeholder="25年" />                  
                   <mpvue-picker ref="fundyearsnx4Picker" :pickerValueArray="fundyears4ValueArray" :pickerValueDefault='pickerValueDefault' @onConfirm="onConfirm"></mpvue-picker>
                   <span><image :src="img1" /></span></div>
-              </div>
+              </div> -->
               <!--公积金利率-->
-              <div class="sdjine">
+              <!-- <div class="sdjine">
                 <h1>公积金利率</h1>
                 <div class="shuru1">
                   <input :value="sexText" @click="fundgjj4Picker" placeholder="最新基准利率（3.25%）" />                  
@@ -246,9 +269,17 @@
                   <span><image :src="img1" /></span>
                 </div>
               </div>
+              <div class="sdjine">
+                <h1>还款方式</h1>
+                <div class="shuru1">
+                  <input :value="repaymentText"  @click="lilvPicker" placeholder="请选择" :disabled="true"/>                  
+                  <mpvue-picker ref="mpvue20Picker" :pickerValueDefault="pickerValueDefault" @onConfirm="onrepaymentConfirm"  :pickerValueArray="sourceValueArray" ></mpvue-picker>
+                  <span><image :src="img1" /></span>
+                </div>
+              </div> -->
               <!--开始计算 -->
-              <button class="kaishi">开始计算</button>
-            </div>
+              <!-- <button class="kaishi">开始计算</button>
+            </div> -->
             <!-- 按房屋总价结束 -->
           </div>
           <!-- 计算方式内容结束 -->
@@ -423,6 +454,7 @@ import mpvuedownPicker from "@/../static/components/mpvue-picker/mpvuePicker.vue
         fundVal:"",  //组合贷款-公积金贷款
         busVal:"",  //组合贷款爬-商业贷款
         accText:"",  //组合贷款-公基金利率
+        downPay:"", //首付金额
         arrayObj:[],
         hide:false
        }
@@ -431,6 +463,10 @@ import mpvuedownPicker from "@/../static/components/mpvue-picker/mpvuePicker.vue
       const that = this;
       that.hide=false;
       that.monVal="";
+      that.housePrice="";
+      that.downPay="";
+      that.fundVal="";
+      that.busVal="";
       var val=that.shangdaiValueArray[0].value;
       var value = that.fundValueArray[0].value;
       that.yearText=that.sexValueArray[0].value;
@@ -469,7 +505,7 @@ import mpvuedownPicker from "@/../static/components/mpvue-picker/mpvuePicker.vue
       houseVal:function(e){
         const that = this;
         that.housePrice=e.mp.detail.value;
-        that.setloanMoney(that.housePrice);
+        that.setloanMoney(parseFloat(that.housePrice),parseFloat(that.downText) / 100);
       },
       // 商业贷款——按贷款总额——商贷年限
       showPicker() {
@@ -496,6 +532,7 @@ import mpvuedownPicker from "@/../static/components/mpvue-picker/mpvuePicker.vue
         const that = this;
         var val = e.value;
         that.arrayObj=[];
+       
         that.rateText = (val * llsd).toFixed(3)+"%";
       },
       //选择还款方式
@@ -512,6 +549,9 @@ import mpvuedownPicker from "@/../static/components/mpvue-picker/mpvuePicker.vue
       ondownCancel(e){
         const that = this;
         that.downText=e.value;
+        that.setloanMoney(parseFloat(that.housePrice),parseFloat(that.downText) / 100);
+        // that.setloanMoney(parseInt(that.downText) / 100);
+        console.log('that.downText',that.downText);
       },
       // 商业贷款——按房屋总价——商贷年限
 
@@ -869,12 +909,14 @@ var apr1="";
 //     D.interest = interest;
 //     D.surplus = surplus;
 // },
-//计算贷款总额
-setloanMoney(obj) {
+//计算首付金额
+setloanMoney(obj,attr) {
   const that = this;
     var money = obj;
-    var ratio = parseInt(that.downText) / 100;
-    that.monVal=money * ratio;
+    var ratio = attr;
+    that.downPay=(money * ratio).toFixed(2);
+    that.monVal=money-that.downPay;
+    console.log('that.monVal',that.monVal);
 }
       
       
