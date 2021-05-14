@@ -21,8 +21,9 @@
               </div>
             </div>
             <div class="right_g">
-              <!-- <p class="wxl"><image :src="img9" class="slide-image" mode="scaleToFill" :data-wxid="item.wxid==''?item.mobile:item.wxid" @click="copy(index,$event)" /></p> -->
-              <p class="wxl"><image :src="img9" class="slide-image" mode="scaleToFill" :data-hxid="item.hxid" @click="chatClick(index,$event)" /></p>
+              <!-- <p class="wxl"><image :src="img9" class="slide-image" mode="scaleToFill" :data-hxid="item.hxid" @click="chatClick(index,$event)" /></p> -->
+              <p class="wxl"><image :src="img9" class="slide-image" mode="scaleToFill" :data-hxid="item.hxid" :data-src="domain+item.headpic" @click="chatClick(index,$event)" /></p>
+              
               <p class="dhr">
                 <image
                   :src="img10s"
@@ -166,22 +167,24 @@ export default {
     },
     //点击在线咨询进入聊天
     chatClick:function(index,e){
-      const that = this;
-      wx.request({
-          url:app.globalData.url +"WxLogin/CheckLogin" +"?sessionKey=" +app.globalData.sessionKey,
-          success: function (data) {
-            console.log("data",data)
-            if(data.data==true){
-              that.telHid=false;
-              that.maskHid=false;
-              wx.navigateTo({ url: "/pages/chatOld/main?hxid=" + e.mp.target.dataset.hxid + "&headpic=" + that.headpic + "&projectInfo=" + that.projectInfo});
-            }else{
-              that.telHid=true;
-              that.maskHid=true;
-            }
+    const that = this;
+    console.log("即时通讯id",e.mp.target.dataset.hxid)
+    console.log("头像",e.mp.target.dataset.src)
+    wx.request({
+        url:app.globalData.url +"WxLogin/CheckLogin" +"?sessionKey=" +app.globalData.sessionKey,
+        success: function (data) {
+          console.log("data",data)
+          if(data.data==true){
+            that.telHid=false;
+            that.maskHid=false;
+            wx.navigateTo({ url: "/pages/chatOld/main?hxid=" + e.mp.target.dataset.hxid + "&headpic=" + e.mp.target.dataset.src + "&projectInfo=" + that.projectInfo + "&chatType=1"});
+          }else{
+            that.telHid=true;
+            that.maskHid=true;
           }
-      })
-    },
+        }
+    })
+  },
     //点击复制微信号
     copy: function(index, e) {
       const that = this;

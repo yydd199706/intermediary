@@ -81,11 +81,10 @@ export default {
     return {
       domain: null,
       clientHeight: 0,
-
       domain: null,
       hxid: "",
       headpic: "",
-      chatType:"",
+      chatType: "",
       projectInfo: null,
       socketMsgQueue: [],
       Message: "",
@@ -93,8 +92,10 @@ export default {
       showCard :false,
       msg: null,
       time:"",
+      
     };
   },
+
 
   onLoad(option) {
     const that = this;
@@ -109,27 +110,14 @@ export default {
     // that.headpic = "";
     // that.time = "";
     that.msg = null;
+
     //获取动态高度
     that.clientHeight = wx.getSystemInfoSync().windowHeight-100;
     console.log("that.clientHeight",that.clientHeight)
-    
-    
-    var inputVal = '';
-    var msgList = [];
-    var windowWidth = wx.getSystemInfoSync().windowWidth;
-    var windowHeight = wx.getSystemInfoSync().windowHeight;
-    var keyHeight = 0;
- 
 
-
-    
-
-
-    
-
-
-    
+  
   },
+
   onShow(){
     const that = this;
     common.initApp(function(userInfo) {
@@ -139,9 +127,8 @@ export default {
 
   onReady(){
     const that = this;
-    // that.pageScrollToBottom();
+    that.pageScrollToBottom();
   },
-
 
 
   onUnload() {
@@ -150,27 +137,25 @@ export default {
       
     })
   },
-  
 
   methods: {
-  
     // 滚动到页面底部
     pageScrollToBottom: function() {
       let that = this;
       wx.createSelectorQuery().select('#x_chat').boundingClientRect(function(rect) {
         console.log("rect",rect)
         wx.pageScrollTo({
-          scrollTop: rect.height,
+          scrollTop: rect.bottom,
           duration: 100
         })
       }).exec()
       
     },
-     
     
 
 
-     // 获取输入内容
+
+    // 获取输入内容
     sendinput: function(e) {
       const that = this;
       that.Message = e.mp.detail.value;
@@ -194,15 +179,16 @@ export default {
 
       //建立连接
       wx.connectSocket({
-        url:"wss://wss.e-fangtong.com/Message.ashx?code=Iamfromchina&user=" + data.user
+        url:
+          "wss://wss.e-fangtong.com/Message.ashx?code=Iamfromchina&user=" +
+          data.user
       });
-      console.log("自己",data.user)
+
       wx.onSocketOpen(function(res) {
         console.log("WebSocket连接已打开！");
         that.socketOpen = true;
         that.time = that.formatDate(new Date());
         that.headpic = app.globalData.member.headpic;
-        
         that.msg = JSON.stringify({
           user: that.hxid,
           msg: that.projectInfo
@@ -221,15 +207,9 @@ export default {
       //接收的
       wx.onSocketMessage(function(res) {
         var info = JSON.parse(res.data);
-        console.log("that.hxid",that.hxid)
-        console.log("info.aimid",info.aimid)
-        if(that.hxid==info.aimid){
-          info.type = "friend";
-          that.socketMsgQueue.push(info);
-          that.hxid = info.aimid;
-        }
-        
-        
+        info.type = "friend";
+        that.socketMsgQueue.push(info);
+        that.hxid = info.aimid;
       });
     },
 
@@ -245,7 +225,6 @@ export default {
         });
         return false;
       }
-
 
       if (that.socketOpen) {
         var temptime = new Date();
@@ -270,13 +249,36 @@ export default {
           user: that.hxid,
           msg: info
         });
-        console.log("that.hxid",that.hxid)
 
         wx.sendSocketMessage({
-          data: that.msg
+          data: that.msg,
+          success(){
+            wx.request({
+              url:app.globalData.url +"Msn/AddMsgRecord" +"?sessionKey=" +app.globalData.sessionKey,
+              method:"POST",
+              data: {
+                msg:that.Message,
+                type:that.chatType,
+                userid:app.globalData.member.hxid,
+                aimid:that.hxid,
+                houseid:that.projectInfo.id,
+              },
+              header: {
+                'content-type': 'application/json' // 默认值
+              },
+              success: function (res) {
+                console.log("消息记录",res)
+                
+              }
+            })
+
+          }
         });
         that.Message = "";
       }
+      console.log("that.hxid",that.hxid)
+      
+
 
 
 

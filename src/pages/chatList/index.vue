@@ -4,8 +4,9 @@
     <div class="newschat" v-if="newsHid">
       <div class="chatlist" v-for="(item, index) in chatlistarr" :key="index" @click="messageBox(item.type)">
         <div class="chat_lelf">
-          <div class="num">{{item.num}}</div>
-          <image v-if="domain" :src="item.headpic =='' ? magImgurl : domain+item.headpic" class="slide-image" />
+          <div class="num" v-if="item.userid==member.hxid ? false : true">{{item.replynum}}</div>
+          <div v-if="item.userid==member.hxid ? true : false"><image v-if="domain" :src="item.headpic =='' ? magImgurl : domain+item.headpic" class="slide-image" /></div>
+          <div v-if="item.userid!=member.hxid ? true : false"><image v-if="domain" :src="member.headpic =='' ? magImgurl : domain+member.headpic" class="slide-image" /></div>
         </div>
         <div class="chat_right">
           <div>
@@ -68,12 +69,12 @@ export default {
   },
   onLoad(option) {
     const that = this;
-    that.domain=app.globalData.domain;
- 
-
+    
   }, 
   onShow(){
     const that = this;
+    that.domain=app.globalData.domain;
+    that.member=app.globalData.member;
     wx.request({
       url:app.globalData.url +"WxLogin/CheckLogin" +"?sessionKey=" +app.globalData.sessionKey,
       success: function (data) {
@@ -135,8 +136,7 @@ export default {
                     wx.setStorageSync('member',data.data.Context.member);
                     that.openType="";
                     app.globalData.member=data.data.Context.member; 
-                    console.log("app.globalData.member",app.globalData.member)
-                    
+                    that.member = data.data.Context.member; 
                     that.newsHid=true;
                     that.LoggedHid=false;
                     //调用聊天列表
@@ -222,7 +222,7 @@ export default {
  .chat_right>div{ overflow: hidden;}
  .title_bt{ float: left; font-size: 34rpx; font-weight: bold;}
  .time{ float: right; font-size: 24rpx; color: #b7b9bb;}
- .content_nr{ margin-top: 15rpx; margin-bottom:15rpx; font-size: 30rpx; color: #b3b3b3;}
+ .content_nr{ margin-top: 15rpx; margin-bottom:15rpx; font-size: 30rpx; height: 40rpx; line-height: 40rpx; color: #b3b3b3;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;}
 
 /* 暂无登录 */
 .notLogged{ width: 100%;}
