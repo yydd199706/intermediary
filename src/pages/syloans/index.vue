@@ -666,7 +666,7 @@ import mpvuedownPicker from "@/../static/components/mpvue-picker/mpvuePicker.vue
       });
       return false;
     }
-    I.hide=true;
+    // I.hide=true;
     // that.arrayObj=[];
     var money1 = I.monVal == "" ? 0 : parseFloat(I.monVal) * 10000;
     var month1 = parseInt(I.yearText);
@@ -683,6 +683,11 @@ import mpvuedownPicker from "@/../static/components/mpvue-picker/mpvuePicker.vue
     } else if (I.repaymentText == '等额本金') {
         I.PrintType2(money1, 0, month1, apr1, 0);
     }
+     var arrayObj= JSON.stringify(I.arrayObj);
+  wx.navigateTo({url:"/pages/table/main?arrayObj="+arrayObj + "&monVal=" + I.monVal +
+   "&payInterest=" + I.payInterest+"&repayment=" + I.repayment+"&yearText=" + I.yearText+
+   "&repaymentText=" + I.repaymentText+"&rateText="+I.rateText+"&accText="+I.accText+
+   "&busVal="+I.busVal+"&fundVal="+I.fundVal+"&tab="+I.tab});
   },
   //按组合贷款计算
   combinationClick:function() {
@@ -696,7 +701,7 @@ import mpvuedownPicker from "@/../static/components/mpvue-picker/mpvuePicker.vue
       });
       return false;
     }
-    I.hide=true;
+    // I.hide=true;
     var month1 = parseInt(I.yearText);
   var money1 = I.busVal == "" ? 0 : parseFloat(I.busVal) * 10000;
         var money2 = I.fundVal == "" ? 0 : parseFloat(I.fundVal) * 10000;
@@ -709,6 +714,11 @@ import mpvuedownPicker from "@/../static/components/mpvue-picker/mpvuePicker.vue
         } else if (I.repaymentText == '等额本金') {
             I.PrintType2(money1, money2, month1, apr1, apr2);
         }
+         var arrayObj= JSON.stringify(I.arrayObj);
+  wx.navigateTo({url:"/pages/table/main?arrayObj="+arrayObj + "&monVal=" + I.monVal +
+   "&payInterest=" + I.payInterest+"&repayment=" + I.repayment+"&yearText=" + I.yearText+
+   "&repaymentText=" + I.repaymentText+"&rateText="+I.rateText+"&accText="+I.accText+
+   "&busVal="+I.busVal+"&fundVal="+I.fundVal+"&tab="+I.tab});
   },
 PrintType1(money1, money2, month1, apr1, apr2) { //等额本息
 const that = this;
@@ -849,17 +859,7 @@ PrintType2(money1, money2, month1, apr1, apr2) { //等额本金
 lookMore:function() {
   const that = this;
 var apr1="";
-  // if(that.tab==1){
-  //    apr1=parseFloat(that.rateText) / 100;
-  //   }else if(that.tab==3){
-  //     apr1=parseFloat(that.accText) / 100;
-  //      console.log('公积金贷款',apr1);
-  //   }
-  var arrayObj= JSON.stringify(that.arrayObj);
-  wx.navigateTo({url:"/pages/table/main?arrayObj="+arrayObj + "&monVal=" + that.monVal +
-   "&payInterest=" + that.payInterest+"&repayment=" + that.repayment+"&yearText=" + that.yearText+
-   "&repaymentText=" + that.repaymentText+"&rateText="+that.rateText+"&accText="+that.accText+
-   "&busVal="+that.busVal+"&fundVal="+that.fundVal+"&tab="+that.tab});
+ 
 },
 // Detail(periods, supply, principal, interest, surplus) {
 //     var D = this;

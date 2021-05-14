@@ -88,13 +88,13 @@
           <div class="xmmc">带看时间</div>
           <picker
             mode="date"
-            :value="item.lookDate"
+            :value="item.looktime"
             :start="pickerStart"
             end="endDate"
             @change="bindDateChangeStart($event,index)"
             class="lookClass"
           >
-            <div id="birthday" :style="color">{{ item.lookDate }}</div>
+            <div id="birthday" :style="color">{{ item.looktime }}</div>
           </picker>
         </div>
 
@@ -139,7 +139,7 @@ export default {
           state: 0,
           cname: "",
           telphone: "",
-          lookDate: "请选择",
+          looktime: "请选择",
           remarks: ""
         }
       ],
@@ -161,7 +161,7 @@ export default {
             state: 0,
             cname: "",
             telphone: "",
-            lookDate: "请选择",
+            looktime: "请选择",
             remarks: ""
           }
         ];
@@ -172,18 +172,21 @@ export default {
       that.bbList[0].mid=that.mid;
       that.bbList[0].cname="";
       that.bbList[0].telphone="";
-      that.bbList[0].lookDate="请选择";
+      that.bbList[0].looktime="请选择";
       that.bbList[0].remarks="";
   },
   methods: {
     dj_tj: function(index) {
       const that = this;
       var reg = /(1[3-9]\d{9}$)/;
+      console.log('that.bbList[index].cname',index);
       //姓名是否为空
       if (that.bbList[index].cname == "") {
+        
         Toast("姓名不能为空");
         return false;
       }
+      
       //手机号码是否为空并且格式无误
       if (that.bbList[index].telphone == "") {
         Toast("电话不能为空");
@@ -193,7 +196,7 @@ export default {
         return false;
       }
       //带看时间是否为空
-      if (that.bbList[index].lookDate == "" || that.bbList[index].lookDate == "请选择") {
+      if (that.bbList[index].looktime == "" || that.bbList[index].looktime == "请选择") {
         Toast("看房时间不能为空");
         return false;
       }
@@ -203,11 +206,11 @@ export default {
         state: 0,
         cname: "",
         telphone: "",
-        lookDate: "请选择",
+        looktime: "请选择",
         remarks: ""
       };
       that.bbList.push(newData);//实质是添加lists数组内容，使for循环多一次
-      that.index = that.bbList.length -1 ;
+      // that.index = that.bbList.length -1 ;
     },
 
     //获取姓名
@@ -224,7 +227,7 @@ export default {
     bindDateChangeStart: function(e, index) {
       const that = this;
       that.color = "color:#333";
-      that.bbList[index].lookDate = e.mp.detail.value;
+      that.bbList[index].looktime = e.mp.detail.value;
     },
     //获取备注
     remarksVal: function(e, index) {
@@ -249,7 +252,7 @@ export default {
         return false;
       }
       //带看时间是否为空
-      if (that.bbList[index].lookDate == "" || that.bbList[index].lookDate == "请选择") {
+      if (that.bbList[index].looktime == "" || that.bbList[index].looktime == "请选择") {
         Toast("看房时间不能为空");
         return false;
       }
