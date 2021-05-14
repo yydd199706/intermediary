@@ -196,7 +196,7 @@ interestClick:function(index,e){
     var month1 = parseInt(that.yearText);
     var money1 = that.busVal == "" ? 0 : parseFloat(that.busVal) * 10000;
     var money2 = that.fundVal == "" ? 0 : parseFloat(that.fundVal) * 10000;
-     I.PrintType2(money1, money2, month1, apr1, apr2);
+     that.PrintType2(money1, money2, month1, apr1, apr2);
   }else if(that.tab==3){
     var apr2 = that.accText == "3.250%" ? (3.25 / 100) : parseFloat(that.accText) / 100;
    var money1 = that.monVal == "" ? 0 : parseFloat(that.monVal) * 10000;

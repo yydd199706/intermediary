@@ -67,7 +67,14 @@
         </div>
         <div class="jt_right"><image :src="img6" /></div>
       </button>
-
+      <button class="liulan1" @click="takeLookList" v-if="member != null&&member.type == 2 ? true : false" 
+      :open-type="openType" @getphonenumber="getPhoneNumber">
+        <div class="wzan_lelf">
+          <image :src="img11" />
+          <span>带看报备</span>
+        </div>
+        <div class="jt_right"><image :src="img6" /></div>
+      </button>
       <button class="liulan1" @click="serviceNoList">
         <div class="wzan_lelf">
           <image :src="img7" />
@@ -116,6 +123,7 @@ export default {
       img8:app.globalData.imgurl + "l4.png",
       img9:app.globalData.imgurl + "l5.png",
       img10:app.globalData.imgurl + "l2.png",
+      img11:app.globalData.imgurl + "eys.png",
       beijing:app.globalData.imgurl +"grbj.jpg",
       openType: "getPhoneNumber",
       member: null,
@@ -251,6 +259,10 @@ export default {
     //点击跳转发布记录列表页面
     releaseList:function(){
       wx.navigateTo({ url: "/pages/userRelease/main"});
+    },
+     //点击跳转带看报备列表页面
+    takeLookList:function(){
+      wx.navigateTo({ url: "/pages/takeLook/main"});
     },
     //点击跳转关注服务号页面
     serviceNoList:function(){
