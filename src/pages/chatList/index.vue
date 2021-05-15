@@ -10,7 +10,7 @@
         <div class="chat_right">
           <div>
             <!-- <div class="title_bt">{{item.nickname==""||item.nickname==null ? item.realname: item.nickname}}</div> -->
-            <div class="title_bt">{{item.userid==member.hxid ? item.realname  : item.u_nickname }}</div>
+            <div class="title_bt">{{item.userid==member.hxid ? item.realname  : item.u_realname}}</div>
             <div class="time">{{item.time}}</div>
           </div>
           <div class="content_nr">{{item.msg}}</div>
