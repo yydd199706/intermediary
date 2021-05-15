@@ -2,19 +2,15 @@
   <div class="indexstyle">
     
     <div class="newschat" v-if="newsHid">
-      <div class="chatlist" v-for="(item, index) in chatlistarr" :key="index" @click="messageBox(item.type)">
+      <div class="chatlist" v-for="(item, index) in chatlistarr" :key="index" @click="messageBox(index,$event)" :data-type="item.type" :data-hxid="item.hxid" :data-src="domain+item.headpic">
         <div class="chat_lelf">
           <div class="num" v-if="item.userid==member.hxid ? false : true">{{item.replynum}}</div>
-          <!-- <div v-if="item.userid==member.hxid ? true : false"><image v-if="domain" :src="item.headpic =='' ? magImgurl : domain+item.headpic" class="slide-image" /></div> -->
-          
-          <div><image v-if="domain" :src="item.userid==member.hxid ? domain+item.headpic : domain+item.u_headpic" class="slide-image" /></div>
-
-
-          <!-- <div v-if="item.userid!=member.hxid ? true : false"><image v-if="domain" :src="member.headpic =='' ? magImgurl : domain+member.headpic" class="slide-image" /></div> -->
+          <image v-if="domain" :src="item.userid==member.hxid ? domain+item.headpic : domain+item.u_headpic" class="slide-image" />
         </div>
         <div class="chat_right">
           <div>
-            <div class="title_bt">{{item.nickname==""||item.nickname==null ? item.realname: item.nickname}}</div>
+            <!-- <div class="title_bt">{{item.nickname==""||item.nickname==null ? item.realname: item.nickname}}</div> -->
+            <div class="title_bt">{{item.userid==member.hxid ? item.realname  : item.u_nickname }}</div>
             <div class="time">{{item.time}}</div>
           </div>
           <div class="content_nr">{{item.msg}}</div>
@@ -64,7 +60,7 @@ export default {
       LoggedHid:true,
       zanwu:app.globalData.imgurl +"zaw.png",
       domain:null,
-      member: null,
+      member: null, 
 
      
 
@@ -73,6 +69,7 @@ export default {
   },
   onLoad(option) {
     const that = this;
+    that.domain = app.globalData.domain;
     
   }, 
   onShow(){
@@ -176,20 +173,26 @@ export default {
           that.chatlistarr = res.data.Context.msnList;
           for(var i = 0;i<that.chatlistarr.length;i++){
               that.chatlistarr[i].time = that.chatlistarr[i].time.substring(0, 10);;
-            }
+          }
+
+
         }
       })
 
     },
 
     // 点击聊天消息进入聊天消息框
-    messageBox:function(type){
-      if(type==1){
-        wx.navigateTo({ url: "/pages/chatOld/main"});
-      } else if(type==2){
-        wx.navigateTo({ url: "/pages/chatNew/main"});
-      } else if(type==3){
-        wx.navigateTo({ url: "/pages/chatRental/main"});
+    messageBox:function(index,e){
+      const that = this;
+      console.log("type",e.mp.currentTarget.dataset.type)
+      console.log("hxid",e.mp.currentTarget.dataset.hxid)
+      console.log("type",e.mp.currentTarget.dataset.src)
+      if(e.mp.currentTarget.dataset.type==1){
+        wx.navigateTo({ url: "/pages/chatOld/main?hxid=" + e.mp.currentTarget.dataset.hxid + "&headpic=" + e.mp.currentTarget.dataset.src + "&projectInfo=" + that.projectInfo + "&chatType=1"});
+      } else if(e.mp.currentTarget.dataset.type==2){
+        wx.navigateTo({ url: "/pages/chatNew/main?hxid=" + e.mp.currentTarget.dataset.hxid + "&headpic=" + e.mp.currentTarget.dataset.src + "&projectInfo=" + that.projectInfo + "&chatType=2"});
+      } else if(e.mp.currentTarget.dataset.type==3){
+        wx.navigateTo({ url: "/pages/chatRental/main?hxid=" + e.mp.currentTarget.dataset.hxid + "&headpic=" + e.mp.currentTarget.dataset.src + "&projectInfo=" + that.projectInfo + "&chatType=3"});
       }
       
     }
