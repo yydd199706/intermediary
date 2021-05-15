@@ -92,6 +92,7 @@ export default {
       showCard :false,
       msg: null,
       time:"",
+      houseid:"",
       
     };
   },
@@ -105,8 +106,10 @@ export default {
     that.hxid = option.hxid;
     that.chatType = option.chatType;
     console.log("that.chatType",that.chatType)
-    that.projectInfo = wx.getStorageSync("projectInfo");
-    console.log("that.projectInfo",that.projectInfo)
+    // that.projectInfo = wx.getStorageSync("projectInfo");
+    // console.log("that.projectInfo",that.projectInfo)
+    that.houserid = option.houserid;
+    console.log("that.houserid",that.houserid)
     // that.headpic = "";
     // that.time = "";
     that.msg = null;
@@ -114,6 +117,20 @@ export default {
     //获取动态高度
     that.clientHeight = wx.getSystemInfoSync().windowHeight-100;
     console.log("that.clientHeight",that.clientHeight)
+
+    // 二手房详情
+    wx.request({
+        url:app.globalData.url +"OldHouse/BandEsfInfo" +"?sessionKey=" +app.globalData.sessionKey+'&houseid=' + that.houserid,
+        success: function (res) {
+          console.log("详情",res)
+          that.projectInfo = res.data.Context.houseInfo;
+          console.log("that.projectInfo",that.projectInfo)
+        }
+    })
+
+
+
+
 
   
   },

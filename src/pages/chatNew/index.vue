@@ -12,14 +12,14 @@
             <!-- 我发出的卡片 -->
             <div class="meIssue righttype">
               <div class="meIssueCard_list" @click="likeDetail(index,$event)" :data-id="projectInfo.id">
-                <image :src="domain+projectInfo.Imgurl" class="me_img" />
-                <div class="title_c">{{projectInfo.title}}</div>
+                <image :src="domain+projectInfo.ImgUrl" class="me_img" />
+                <div class="title_c">{{projectInfo.name}}</div>
                 <div class="labels">
                   <span>{{projectInfo.Decorationname}}</span>/
                   <span>{{projectInfo.salestatename}}</span>/
                   <span>{{projectInfo.zonename}}</span>
                 </div>
-                <div class="price">{{projectInfo.price==""||projectInfo.price==null?'价格待定':'均价'+projectInfo.price+'元/m²'}}</div>
+                <div class="price">{{projectInfo.averageprice==""||projectInfo.averageprice==null?'价格待定':'均价'+projectInfo.averageprice+'元/m²'}}</div>
               </div>
               <image :src="domain+headpic" class="tx" />
             </div>          
@@ -101,24 +101,55 @@ export default {
     that.hxid = option.hxid;
     that.chatType = option.chatType;
     console.log("that.chatType",that.chatType)
-    that.projectInfo = wx.getStorageSync("projectInfo");
-    console.log("that.projectInfo",that.projectInfo)
+    // that.projectInfo = wx.getStorageSync("projectInfo");
+    // console.log("that.projectInfo",that.projectInfo)
+    that.houserid = option.houserid;
+    console.log("that.houserid",that.houserid)
     // that.headpic = "";
     // that.time = "";
     that.msg = null;
-    //获取动态高度
-    wx.getSystemInfo({
-      success: function(res) {
-        // 获取可使用窗口宽度
-        that.clientHeight = res.windowHeight;
-        console.log("that.clientHeight", that.clientHeight);
-      }
-    });
 
+    //获取动态高度
+    that.clientHeight = wx.getSystemInfoSync().windowHeight-100;
+    console.log("that.clientHeight",that.clientHeight)
+
+    
+    // 新房详情
+    wx.request({
+          url:app.globalData.url +"Project/BandProjectInfo" +"?sessionKey=" +app.globalData.sessionKey+'&projectId=' + that.houserid,
+          success: function (res) {
+            console.log('详情',res)
+            that.projectInfo = res.data.Context.projectInfo;
+            console.log("that.projectInfo",that.projectInfo)
+          }
+    })
+
+
+
+
+
+  
+  },
+
+  onShow(){
+    const that = this;
+    
     common.initApp(function(userInfo) {
       that.connectSocket();
     });
-    console.log("socketMsgQueue", that.socketMsgQueue);
+  },
+
+  onReady(){
+    const that = this;
+    // that.pageScrollToBottom();
+  },
+
+
+  onUnload() {
+    console.log("dddd")
+    wx.closeSocket({
+      
+    })
   },
 
   methods: {

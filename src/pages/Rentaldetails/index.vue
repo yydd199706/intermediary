@@ -708,7 +708,7 @@ export default {
             if(data.data==true){
               that.telHid=false;
               that.maskHid=false;
-              wx.navigateTo({ url: "/pages/chatRental/main?hxid=" + e.mp.target.dataset.hxid + "&headpic=" + e.mp.target.dataset.src + "&projectInfo=" + that.projectInfo + "&chatType=3"});
+              wx.navigateTo({ url: "/pages/chatRental/main?hxid=" + e.mp.target.dataset.hxid + "&headpic=" + e.mp.target.dataset.src + "&houserid=" + that.houserid + "&chatType=3"});
             }else{
               that.telHid=true;
               that.maskHid=true;

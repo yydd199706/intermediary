@@ -2,7 +2,7 @@
   <div class="indexstyle">
     
     <div class="newschat" v-if="newsHid">
-      <div class="chatlist" v-for="(item, index) in chatlistarr" :key="index" @click="messageBox(index,$event)" :data-type="item.type" :data-hxid="item.hxid" :data-src="domain+item.headpic">
+      <div class="chatlist" v-for="(item, index) in chatlistarr" :key="index" @click="messageBox(index,$event)" :data-type="item.type" :data-hxid="item.userid==member.hxid ? item.hxid : item.u_hxid" :data-src="domain+item.headpic" :data-houserid ="item.houseid ">
         <div class="chat_lelf">
           <div class="num" v-if="item.userid==member.hxid ? false : true">{{item.replynum}}</div>
           <image v-if="domain" :src="item.userid==member.hxid ? domain+item.headpic : domain+item.u_headpic" class="slide-image" />
@@ -187,12 +187,13 @@ export default {
       console.log("type",e.mp.currentTarget.dataset.type)
       console.log("hxid",e.mp.currentTarget.dataset.hxid)
       console.log("type",e.mp.currentTarget.dataset.src)
+      // console.log("houseid",e.mp.currentTarget.dataset.houserid)
       if(e.mp.currentTarget.dataset.type==1){
-        wx.navigateTo({ url: "/pages/chatOld/main?hxid=" + e.mp.currentTarget.dataset.hxid + "&headpic=" + e.mp.currentTarget.dataset.src + "&projectInfo=" + that.projectInfo + "&chatType=1"});
+        wx.navigateTo({ url: "/pages/chatOld/main?hxid=" + e.mp.currentTarget.dataset.hxid + "&headpic=" + e.mp.currentTarget.dataset.src + "&houserid=" + e.mp.currentTarget.dataset.houserid + "&chatType=1"});
       } else if(e.mp.currentTarget.dataset.type==2){
-        wx.navigateTo({ url: "/pages/chatNew/main?hxid=" + e.mp.currentTarget.dataset.hxid + "&headpic=" + e.mp.currentTarget.dataset.src + "&projectInfo=" + that.projectInfo + "&chatType=2"});
+        wx.navigateTo({ url: "/pages/chatNew/main?hxid=" + e.mp.currentTarget.dataset.hxid + "&headpic=" + e.mp.currentTarget.dataset.src + "&houserid=" + e.mp.currentTarget.dataset.houserid + "&chatType=2"});
       } else if(e.mp.currentTarget.dataset.type==3){
-        wx.navigateTo({ url: "/pages/chatRental/main?hxid=" + e.mp.currentTarget.dataset.hxid + "&headpic=" + e.mp.currentTarget.dataset.src + "&projectInfo=" + that.projectInfo + "&chatType=3"});
+        wx.navigateTo({ url: "/pages/chatRental/main?hxid=" + e.mp.currentTarget.dataset.hxid + "&headpic=" + e.mp.currentTarget.dataset.src + "&houserid=" + e.mp.currentTarget.dataset.houserid + "&chatType=3"});
       }
       
     }

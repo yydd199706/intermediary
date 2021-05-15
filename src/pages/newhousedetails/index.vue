@@ -1028,7 +1028,7 @@ export default {
             if(data.data==true){
               that.telHid=false;
               that.maskHid=false;
-              wx.navigateTo({ url: "/pages/chatNew/main?hxid=" + e.mp.target.dataset.hxid + "&headpic=" + e.mp.target.dataset.src + "&projectInfo=" + that.projectInfo + "&chatType=2"});
+              wx.navigateTo({ url: "/pages/chatNew/main?hxid=" + e.mp.target.dataset.hxid + "&headpic=" + e.mp.target.dataset.src + "&houserid=" + that.houserid + "&chatType=2"});
 
               // wx.navigateTo({ url: "/pages/chatNew/main?hxid=" + that.hxid + "&headpic=" + that.headpic + "&projectInfo=" + that.projectInfo+ "&chatType=2"});
             }else{
