@@ -913,7 +913,7 @@ onShareAppMessage: function(res) {
     //点击跳转经纪人列表
     agentlists:function (){
       const that = this;
-      wx.navigateTo({ url: "/pages/agentList/main?company=" + that.houseInfo.company + "&store=" + that.houseInfo.store});
+      wx.navigateTo({ url: "/pages/agentList/main?company=" + that.houseInfo.company + "&store=" + that.houseInfo.store + "&houserid=" + that.houserid});
     },
     //点击跳转经纪人名片
     agentlistJump:function(index,e){ 

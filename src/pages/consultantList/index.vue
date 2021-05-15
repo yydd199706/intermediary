@@ -22,7 +22,7 @@
               </div>
             </div>
             <div class="right_g">
-              <p class="wxl"><image :src="img9" class="slide-image" mode="scaleToFill" @click="chatClick(index,$event)" /></p>
+              <p class="wxl"><image :src="img9" class="slide-image" mode="scaleToFill" @click="chatClick(index,$event)" :data-hxid="item.hxid" :data-src="domain+item.headpic" /></p>
               <p class="dhr"><image :src="img10s" class="slide-image" mode="scaleToFill" :data-telphone="item.telphone" @click="telphoneClick(index,$event)" /></p>
             </div>
           </div>
@@ -72,6 +72,8 @@ export default {
     const that = this;
     that.domain = app.globalData.domain;
     that.loupanid = option.projectId;
+    that.houserid=option.houserid;
+    console.log("置业顾问列表页houserid",that.houserid)
     wx.request({
       url:app.globalData.url +"Project/BandProjectInfo" +"?sessionKey=" +app.globalData.sessionKey+'&projectId=' + option.projectId,
       success(res) {
@@ -146,7 +148,7 @@ export default {
             if(data.data==true){
               that.telHid=false;
               that.maskHid=false;
-              wx.navigateTo({ url: "/pages/chatNew/main?hxid=" + that.hxid + "&headpic=" + that.headpic + "&projectInfo=" + that.projectInfo});
+              wx.navigateTo({ url: "/pages/chatNew/main?hxid=" + e.mp.target.dataset.hxid + "&headpic=" + e.mp.target.dataset.src + "&houserid=" + that.houserid + "&chatType=2"});
             }else{
               that.telHid=true;
               that.maskHid=true;

@@ -86,6 +86,8 @@ export default {
     that.domain = app.globalData.domain;
     that.company = option.company;
     that.store = option.store;
+    that.houserid=option.houserid;
+    console.log("经纪人列表页houserid",that.houserid)
     wx.request({
       url:
         app.globalData.url +
@@ -177,7 +179,8 @@ export default {
             if(data.data==true){
               that.telHid=false;
               that.maskHid=false;
-              wx.navigateTo({ url: "/pages/chatOld/main?hxid=" + e.mp.target.dataset.hxid + "&headpic=" + e.mp.target.dataset.src + "&projectInfo=" + that.projectInfo + "&chatType=1"});
+              wx.navigateTo({ url: "/pages/chatOld/main?hxid=" + e.mp.target.dataset.hxid + "&headpic=" + e.mp.target.dataset.src + "&houserid=" + that.houserid + "&chatType=1"});
+              
             }else{
               that.telHid=true;
               that.maskHid=true;

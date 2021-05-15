@@ -114,7 +114,7 @@
     <div class="agent" v-if="agentlist.length > 0 ? true:false">
       <div class="hx_bt">
         <p>推荐经纪人</p>
-        <span @click="agentlists">查看更多</span>
+        <span @click="agentlists(index,$event)">查看更多</span>
       </div>
       
       <div class="guwen">
@@ -770,7 +770,8 @@ export default {
     // 点击跳转经纪人列表
     agentlists:function(){
       const that = this;
-      wx.navigateTo({ url: "/pages/rentAgentList/main?company=" + that.company + "&store=" + that.store});
+      wx.navigateTo({ url: "/pages/rentAgentList/main?company=" + that.company + "&store=" + that.store+ "&houserid=" + that.houserid});
+      
     },
     //点击跳转经纪人名片
     agentInfo: function(index, e) {
