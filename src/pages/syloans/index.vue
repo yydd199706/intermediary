@@ -51,7 +51,7 @@
               <div class="sdjine">
                 <h1>贷款年限</h1>
                 <div class="shuru1">
-                  <input :value="yearText" @click="showPicker" disabled="disabled" placeholder="请选择" />                  
+                  <input :value="yearText" @click="showyearPicker" disabled="disabled" placeholder="请选择" />                  
                   <mpvue-picker ref="mpvuePicker" :pickerValueDefault='pickerValueDefault' @onConfirm="onyearCancel" :pickerValueArray="sexValueArray"></mpvue-picker>
                   <span><image :src="img1" /></span></div>
               </div>
@@ -135,7 +135,7 @@
               <div class="sdjine">
                 <h1>贷款年限</h1>
                 <div class="shuru1">
-                  <input :value="yearText" @click="showPicker" disabled="disabled" placeholder="请选择" />                  
+                  <input :value="yearText" @click="showyearPicker" disabled="disabled" placeholder="请选择" />                  
                   <mpvue-picker ref="mpvuePicker" :pickerValueDefault='pickerValueDefault' @onConfirm="onyearCancel" :pickerValueArray="sexValueArray"></mpvue-picker>
                   <span><image :src="img1" /></span></div>
               </div>
@@ -219,7 +219,7 @@
               <div class="sdjine">
                 <h1>贷款年限</h1>
                 <div class="shuru1">
-                   <input :value="yearText" @click="showPicker" disabled="disabled" placeholder="请选择" />                  
+                   <input :value="yearText" @click="showyearPicker" disabled="disabled" placeholder="请选择" />                  
                   <mpvue-picker ref="mpvuePicker" :pickerValueDefault='pickerValueDefault' @onConfirm="onyearCancel" :pickerValueArray="sexValueArray"></mpvue-picker>
                   <span><image :src="img1" /></span></div>
               </div>
@@ -508,7 +508,7 @@ import mpvuedownPicker from "@/../static/components/mpvue-picker/mpvuePicker.vue
         that.setloanMoney(parseFloat(that.housePrice),parseFloat(that.downText) / 100);
       },
       // 商业贷款——按贷款总额——商贷年限
-      showPicker() {
+      showyearPicker() {
       this.$refs.mpvuePicker.show();
       this.arrayObj=[];
       },
@@ -543,7 +543,7 @@ import mpvuedownPicker from "@/../static/components/mpvue-picker/mpvuePicker.vue
       },
       //首付比例
       downPicker(){
-         this.$refs.mpvuedownPicker.show()
+         this.$refs.mpvuedownPicker.show();
       },
       //商贷-首付比例选择
       ondownCancel(e){
