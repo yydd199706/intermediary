@@ -595,6 +595,7 @@ export default {
       that.yuText="";
       that.domain=app.globalData.domain;
       that.houserid=option.id;
+      console.log("that.houserid",that.houserid)
       that.imgArr=[];
       that.current= 0;
       let today = that.getToday();
@@ -912,7 +913,7 @@ onShareAppMessage: function(res) {
     //点击跳转经纪人列表
     agentlists:function (){
       const that = this;
-      wx.navigateTo({ url: "/pages/agentList/main?company=" + that.houseInfo.company + "&store=" + that.houseInfo.store});
+      wx.navigateTo({ url: "/pages/agentList/main?company=" + that.houseInfo.company + "&store=" + that.houseInfo.store + "&houserid=" + that.houserid});
     },
     //点击跳转经纪人名片
     agentlistJump:function(index,e){ 
@@ -963,7 +964,7 @@ clickService:function(){
           if(data.data==true){
             that.telHid=false;
             that.maskHid=false;
-            wx.navigateTo({ url: "/pages/chatOld/main?hxid=" + e.mp.target.dataset.hxid + "&headpic=" + e.mp.target.dataset.src + "&projectInfo=" + that.projectInfo + "&chatType=1"});
+            wx.navigateTo({ url: "/pages/chatOld/main?hxid=" + e.mp.target.dataset.hxid + "&headpic=" + e.mp.target.dataset.src + "&houserid=" + that.houserid + "&chatType=1"});
           }else{
             that.telHid=true;
             that.maskHid=true;

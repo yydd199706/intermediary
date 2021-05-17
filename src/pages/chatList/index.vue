@@ -2,14 +2,15 @@
   <div class="indexstyle">
     
     <div class="newschat" v-if="newsHid">
-      <div class="chatlist" v-for="(item, index) in chatlistarr" :key="index" @click="messageBox(item.type)">
+      <div class="chatlist" v-for="(item, index) in chatlistarr" :key="index" @click="messageBox(index,$event)" :data-type="item.type" :data-hxid="item.userid==member.hxid ? item.hxid : item.u_hxid" :data-src="domain+item.headpic" :data-houserid ="item.houseid ">
         <div class="chat_lelf">
-          <div class="num">{{item.num}}</div>
-          <image v-if="domain" :src="item.headpic =='' ? magImgurl : domain+item.headpic" class="slide-image" />
+          <div class="num" v-if="item.userid==member.hxid ? false : true">{{item.replynum}}</div>
+          <image v-if="domain" :src="item.userid==member.hxid ? domain+item.headpic : domain+item.u_headpic" class="slide-image" />
         </div>
         <div class="chat_right">
           <div>
-            <div class="title_bt">{{item.nickname==""||item.nickname==null ? item.realname: item.nickname}}</div>
+            <!-- <div class="title_bt">{{item.nickname==""||item.nickname==null ? item.realname: item.nickname}}</div> -->
+            <div class="title_bt">{{item.userid==member.hxid ? item.realname  : item.u_realname}}</div>
             <div class="time">{{item.time}}</div>
           </div>
           <div class="content_nr">{{item.msg}}</div>
@@ -59,7 +60,7 @@ export default {
       LoggedHid:true,
       zanwu:app.globalData.imgurl +"zaw.png",
       domain:null,
-      member: null,
+      member: null, 
 
      
 
@@ -68,12 +69,13 @@ export default {
   },
   onLoad(option) {
     const that = this;
-    that.domain=app.globalData.domain;
- 
-
+    that.domain = app.globalData.domain;
+    
   }, 
   onShow(){
     const that = this;
+    that.domain=app.globalData.domain;
+    that.member=app.globalData.member;
     wx.request({
       url:app.globalData.url +"WxLogin/CheckLogin" +"?sessionKey=" +app.globalData.sessionKey,
       success: function (data) {
@@ -135,8 +137,7 @@ export default {
                     wx.setStorageSync('member',data.data.Context.member);
                     that.openType="";
                     app.globalData.member=data.data.Context.member; 
-                    console.log("app.globalData.member",app.globalData.member)
-                    
+                    that.member = data.data.Context.member; 
                     that.newsHid=true;
                     that.LoggedHid=false;
                     //调用聊天列表
@@ -172,20 +173,27 @@ export default {
           that.chatlistarr = res.data.Context.msnList;
           for(var i = 0;i<that.chatlistarr.length;i++){
               that.chatlistarr[i].time = that.chatlistarr[i].time.substring(0, 10);;
-            }
+          }
+
+
         }
       })
 
     },
 
     // 点击聊天消息进入聊天消息框
-    messageBox:function(type){
-      if(type==1){
-        wx.navigateTo({ url: "/pages/chatOld/main"});
-      } else if(type==2){
-        wx.navigateTo({ url: "/pages/chatNew/main"});
-      } else if(type==3){
-        wx.navigateTo({ url: "/pages/chatRental/main"});
+    messageBox:function(index,e){
+      const that = this;
+      console.log("type",e.mp.currentTarget.dataset.type)
+      console.log("hxid",e.mp.currentTarget.dataset.hxid)
+      console.log("type",e.mp.currentTarget.dataset.src)
+      // console.log("houseid",e.mp.currentTarget.dataset.houserid)
+      if(e.mp.currentTarget.dataset.type==1){
+        wx.navigateTo({ url: "/pages/chatOld/main?hxid=" + e.mp.currentTarget.dataset.hxid + "&headpic=" + e.mp.currentTarget.dataset.src + "&houserid=" + e.mp.currentTarget.dataset.houserid + "&chatType=1"});
+      } else if(e.mp.currentTarget.dataset.type==2){
+        wx.navigateTo({ url: "/pages/chatNew/main?hxid=" + e.mp.currentTarget.dataset.hxid + "&headpic=" + e.mp.currentTarget.dataset.src + "&houserid=" + e.mp.currentTarget.dataset.houserid + "&chatType=2"});
+      } else if(e.mp.currentTarget.dataset.type==3){
+        wx.navigateTo({ url: "/pages/chatRental/main?hxid=" + e.mp.currentTarget.dataset.hxid + "&headpic=" + e.mp.currentTarget.dataset.src + "&houserid=" + e.mp.currentTarget.dataset.houserid + "&chatType=3"});
       }
       
     }
@@ -222,7 +230,7 @@ export default {
  .chat_right>div{ overflow: hidden;}
  .title_bt{ float: left; font-size: 34rpx; font-weight: bold;}
  .time{ float: right; font-size: 24rpx; color: #b7b9bb;}
- .content_nr{ margin-top: 15rpx; margin-bottom:15rpx; font-size: 30rpx; color: #b3b3b3;}
+ .content_nr{ margin-top: 15rpx; margin-bottom:15rpx; font-size: 30rpx; height: 40rpx; line-height: 40rpx; color: #b3b3b3;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;}
 
 /* 暂无登录 */
 .notLogged{ width: 100%;}

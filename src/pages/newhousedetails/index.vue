@@ -191,7 +191,7 @@
       <div class="huxingda" v-if="guwenlists.length > 0 ? true : false">
         <div class="hx_bt">
           <p>置业顾问</p>
-          <span @click="consultant">更多顾问</span>
+          <span @click="consultant(index,$event)">更多顾问</span>
           <div class="clear"></div>
         </div>
         <div class="fuwu">
@@ -1028,7 +1028,7 @@ export default {
             if(data.data==true){
               that.telHid=false;
               that.maskHid=false;
-              wx.navigateTo({ url: "/pages/chatNew/main?hxid=" + e.mp.target.dataset.hxid + "&headpic=" + e.mp.target.dataset.src + "&projectInfo=" + that.projectInfo + "&chatType=2"});
+              wx.navigateTo({ url: "/pages/chatNew/main?hxid=" + e.mp.target.dataset.hxid + "&headpic=" + e.mp.target.dataset.src + "&houserid=" + that.houserid + "&chatType=2"});
 
               // wx.navigateTo({ url: "/pages/chatNew/main?hxid=" + that.hxid + "&headpic=" + that.headpic + "&projectInfo=" + that.projectInfo+ "&chatType=2"});
             }else{
@@ -1109,7 +1109,7 @@ export default {
     // 点击置业顾问跳转列表页
     consultant:function(index,e){
       const that = this;
-      wx.navigateTo({ url: "/pages/consultantList/main?projectId=" + that.loupanid});
+      wx.navigateTo({ url: "/pages/consultantList/main?projectId=" + that.loupanid+ "&houserid=" + that.houserid});
     },
     //点击置业顾问跳转置业顾问名片
     consultantClick:function(index,e){
