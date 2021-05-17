@@ -23,7 +23,7 @@
     </div>
     <div class="indexstyle_bot">
       <div class="indexstyle_bot_top">
-        <div>报备明细123</div>
+        <div>报备明细</div>
         <div>带看时间</div>
       </div>
       <div class="indexstyle_bot_list" v-for="(item ,index) in n_bfrList" :key="index">
