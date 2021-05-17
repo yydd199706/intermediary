@@ -713,7 +713,7 @@ export default {
               that.telHid=true;
               that.maskHid=true;
             }
-          }
+          }  
       })
     },
     //点击加微信
